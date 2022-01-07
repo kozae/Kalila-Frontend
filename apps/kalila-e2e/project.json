@@ -1,0 +1,28 @@
+{
+  "root": "apps/kalila-e2e",
+  "sourceRoot": "apps/kalila-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/kalila-e2e/cypress.json",
+        "devServerTarget": "kalila:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "kalila:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/kalila-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["kalila"]
+}
