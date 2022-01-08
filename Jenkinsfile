@@ -6,6 +6,7 @@ pipeline{
                 echo "========executing clean-up========"
                   script {
                       try {
+                          sh "docker container rm  kalila-frontend -f"
                           sh "docker-compose -f docker-compose.dev.yml down"
                           sh "docker-compose  down"
                       }

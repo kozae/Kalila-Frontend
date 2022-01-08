@@ -8,6 +8,7 @@ pipeline{
                 dir("/root/Kalila/next/frontend/") {
                     script {
                         try {
+                            sh "docker container rm  kalila-frontend -f"
                             sh "docker-compose -f docker-compose.dev.yml down"
                             sh "docker-compose down"
                         }
