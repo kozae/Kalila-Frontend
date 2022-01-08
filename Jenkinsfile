@@ -32,9 +32,7 @@ pipeline{
             steps{
                 echo "====++++executing build image, create and run container++++===="
                 sh "docker build -t docker.kozae.de/kalila-frontend:latest -f Dockerfile ."
-                dir("/root/Kalila/frontend/") {
-                    sh "docker-compose up --detach"
-                }
+                sh "docker-compose up --detach"
             }
         }
     }
