@@ -8,6 +8,8 @@ services:
     volumes:
       - /root/Kalila/next/frontend:/frontend
       - /frontend/node_modules
+    env_file:
+      - .env
     ports:
       - '6000:6000'
 

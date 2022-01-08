@@ -5,5 +5,7 @@ services:
     restart: unless-stopped
     container_name: kalila-frontend
     image: docker.kozae.de/kalila-frontend:latest
+    env_file:
+      - .env
     ports:
       - '6000:6000'
