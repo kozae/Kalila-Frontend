@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:16-slim
 
 RUN apt-get update
 RUN mkdir /frontend
