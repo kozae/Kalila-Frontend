@@ -22,28 +22,11 @@ WORKDIR /app
 
 ENV NODE_ENV production
 
-RUN addgroup --gid 1001 --system nodejs
-RUN adduser --system nextjs --uid 1001
-
-# You only need to copy next.config.js if you are NOT using the default configuration
-COPY --from=builder /app/dist/apps/kalila/next.config.js ./
-COPY --from=builder /app/dist/apps/kalila ./public
-COPY --from=builder /app/dist/apps/kalila/package.json ./package.json
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/dist/apps/kalila/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/dist/apps/kalila/.next/static ./.next/static
-
-USER nextjs
-
+COPY --from=builder /app/dist/apps/kalila ./
+COPY --from=builder /app/node_modules ./node_modules
 EXPOSE 6000
 
 ENV PORT 6000
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry.
-# ENV NEXT_TELEMETRY_DISABLED 1
 
-CMD ["node", "server.js"]
+CMD ["yarn", "start"]
