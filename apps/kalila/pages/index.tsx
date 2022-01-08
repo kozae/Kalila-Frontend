@@ -2,8 +2,9 @@ import styles from './index.module.scss';
 import {useSession, signIn, signOut} from "next-auth/react"
 
 export function Index() {
-  const {data: session} = useSession()
+  const {data: session, ...remaining} = useSession()
   console.log(session)
+  console.log(remaining)
   if (session) {
     return (
       <>
