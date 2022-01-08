@@ -5,7 +5,7 @@ pipeline{
             steps{
                 echo "========executing clean-up========"
 
-                dir("/root/Kalila/next/frontend") {
+                dir("/root/Kalila/next/frontend/") {
                     script {
                         try {
                             sh "docker-compose -f docker-compose.dev.yml down"
@@ -32,7 +32,7 @@ pipeline{
             steps{
                 echo "====++++executing build image, create and run container++++===="
                 sh "docker build -t docker.kozae.de/kalila-frontend:latest -f Dockerfile ."
-                dir("/root/Kalila/frontend") {
+                dir("/root/Kalila/frontend/") {
                     sh "docker-compose up --detach"
                 }
             }
