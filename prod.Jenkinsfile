@@ -9,7 +9,7 @@ pipeline{
                     script {
                         try {
                             sh "docker-compose -f dev.Dockerfile down"
-                            sh "docker-compose  down"
+                            sh "docker-compose down"
                         }
                         catch (exception) {
                             echo "containers are not running or configuration has changed"
@@ -19,10 +19,10 @@ pipeline{
 
                     script {
                     try {
-                        sh "docker image rmi docker.kozae.de/kalila-frontend:dev -f"
+                        sh "docker image rmi docker.kozae.de/kalila-frontend:latest -f"
                     }
                     catch (exception) {
-                        echo "docker.kozae.de/kalila-frontend:dev image was not present"
+                        echo "docker.kozae.de/kalila-frontend:latest image was not present"
                     }
                 }
             }
@@ -31,9 +31,9 @@ pipeline{
         stage("build image, create and run container"){
             steps{
                 echo "====++++executing build image, create and run container++++===="
-                sh "docker build -t docker.kozae.de/kalila-frontend:dev -f dev.Dockerfile ."
+                sh "docker build -t docker.kozae.de/kalila-frontend:latest -f Dockerfile ."
                 dir("/root/Kalila/frontend") {
-                    sh "docker-compose -f dev.Dockerfile up --detach"
+                    sh "docker-compose up --detach"
                 }
             }
         }
