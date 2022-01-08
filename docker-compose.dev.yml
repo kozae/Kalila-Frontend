@@ -7,5 +7,6 @@ services:
     image: docker.kozae.de/kalila-frontend:dev
     volumes:
       - /root/Kalila/next/frontend:/frontend
+      - /frontend/node_modules
     ports:
       - '6000:6000'
