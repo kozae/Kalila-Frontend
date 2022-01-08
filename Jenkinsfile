@@ -4,18 +4,16 @@ pipeline{
         stage("clean-up"){
             steps{
                 echo "========executing clean-up========"
+                  script {
+                      try {
+                          sh "docker-compose -f docker-compose.dev.yml down"
+                          sh "docker-compose  down"
+                      }
+                      catch (exception) {
+                          echo "containers are not running or configuration has changed"
+                      }
+                  }
 
-                dir("/root/Kalila/next/frontend/") {
-                    script {
-                        try {
-                            sh "docker-compose -f docker-compose.dev.yml down"
-                            sh "docker-compose  down"
-                        }
-                        catch (exception) {
-                            echo "containers are not running or configuration has changed"
-                        }
-                    }
-                }
 
                 script {
                     try {
@@ -32,9 +30,7 @@ pipeline{
             steps{
                 echo "====++++executing build image, create and run container++++===="
                 sh "docker build -t docker.kozae.de/kalila-frontend:dev -f dev.Dockerfile ."
-                dir("/root/Kalila/next/frontend/") {
-                    sh "docker-compose -f docker-compose.dev.yml up --detach"
-                }
+                sh "docker-compose -f docker-compose.dev.yml up --detach"
             }
         }
     }
