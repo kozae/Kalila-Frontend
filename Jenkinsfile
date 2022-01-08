@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage("clean-up"){
             steps{
-                sh "========executing clean-up========"
+                echo "========executing clean-up========"
 
                 dir("/root/Kalila/next/frontend") {
                     script {
@@ -17,7 +17,7 @@ pipeline{
                     }
                 }
 
-                    script {
+                script {
                     try {
                         sh "docker image rmi docker.kozae.de/kalila-frontend:dev -f"
                     }

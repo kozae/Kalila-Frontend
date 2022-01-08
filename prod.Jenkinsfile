@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage("clean-up"){
             steps{
-                sh "========executing clean-up========"
+                echo "========executing clean-up========"
 
                 dir("/root/Kalila/next/frontend") {
                     script {
