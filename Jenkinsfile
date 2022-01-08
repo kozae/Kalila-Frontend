@@ -4,23 +4,25 @@ pipeline{
         stage("clean-up"){
             steps{
                 echo "========executing clean-up========"
-                  script {
-                      try {
-                          sh "docker-compose -f docker-compose.dev.yml down"
-                          sh "docker-compose  down"
-                      }
-                      catch (exception) {
-                          echo "containers are not running or configuration has changed"
-                      }
-                  }
 
+                dir("/root/Kalila/next/frontend/") {
+                    script {
+                        try {
+                            sh "docker-compose -f docker-compose.dev.yml down"
+                            sh "docker-compose down"
+                        }
+                        catch (exception) {
+                            echo "containers are not running or configuration has changed"
+                        }
+                    }
+                }
 
-                script {
+                    script {
                     try {
-                        sh "docker image rmi docker.kozae.de/kalila-frontend:dev -f"
+                        sh "docker image rmi docker.kozae.de/kalila-frontend:latest -f"
                     }
                     catch (exception) {
-                        echo "docker.kozae.de/kalila-frontend:dev image was not present"
+                        echo "docker.kozae.de/kalila-frontend:latest image was not present"
                     }
                 }
             }
@@ -29,8 +31,10 @@ pipeline{
         stage("build image, create and run container"){
             steps{
                 echo "====++++executing build image, create and run container++++===="
-                sh "docker build -t docker.kozae.de/kalila-frontend:dev -f dev.Dockerfile ."
-                sh "docker-compose -f docker-compose.dev.yml up --detach"
+                sh "docker build -t docker.kozae.de/kalila-frontend:latest -f Dockerfile ."
+                dir("/root/Kalila/frontend/") {
+                    sh "docker-compose up --detach"
+                }
             }
         }
     }
