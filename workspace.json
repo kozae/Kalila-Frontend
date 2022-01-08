@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "kalila": "apps/kalila",
-    "kalila-e2e": "apps/kalila-e2e"
+    "kalila-e2e": "apps/kalila-e2e",
+    "shared-ui-layout": "libs/shared-ui-layout"
   }
 }

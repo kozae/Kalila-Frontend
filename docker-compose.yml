@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  kalila-frontend:
+    restart: unless-stopped
+    container_name: kalila-frontend
+    image: docker.kozae.de/kalila-frontend:latest
+    ports:
+      - '6000:6000'
