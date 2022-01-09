@@ -1,0 +1,19 @@
+@import "normalize.css";
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@font-face {
+  font-family: NexusSansPro;
+  font-weight: normal;
+  src: url(../public/NexusSansPro/NexusSansPro.otf) format('opentype');
+}
+
+@font-face {
+  font-family: NexusSansPro;
+  font-weight: bold;
+  src: url(../public/NexusSansPro/NexusSansPro-Bold.otf) format('opentype');
+}
+
+@font-face {
+  font-family: NexusSansPro;
+  font-style: italic;
+  src: url(../public/NexusSansPro/NexusSansPro-Italic.otf) format('opentype');
+}

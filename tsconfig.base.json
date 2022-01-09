@@ -15,7 +15,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@frontend/shared-ui-layout": ["libs/shared-ui-layout/src/index.ts"]
+      "@frontend/domain": ["libs/domain/src/index.ts"],
+      "@frontend/server-side-queries": [
+        "libs/server-side-queries/src/index.ts"
+      ],
+      "@frontend/shared-ui-layout": ["libs/ui/shared-ui-layout/src/index.ts"],
+      "@frontend/util": ["libs/util/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
