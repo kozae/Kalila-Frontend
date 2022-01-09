@@ -9,7 +9,7 @@ export interface KalilaSession extends Record<string, unknown> {
     email?: string | null;
     image?: string | null;
     token?: string | null;
-    roles?: string[] | null;
+    roles?: Set<string> | null;
   };
   expires: ISODateString;
 }
@@ -24,7 +24,7 @@ export function useKalilaSession<R extends boolean>(options?: UseSessionOptions<
   if (data) {
     const {user, expires} = data as { user: any, expires: ISODateString }
     if (user) {
-      const roles = stringHasValue(user.roles) ? user.roles.split(',').map((r: string) => r.trim()) : null;
+      const roles = stringHasValue(user.roles) ? new Set<string>(user.roles.split(',').map((r: string) => r.trim())) : null;
       return {
         session: {
           user: {
@@ -32,7 +32,7 @@ export function useKalilaSession<R extends boolean>(options?: UseSessionOptions<
             email: user.email as string | null,
             image: user.image as string | null,
             token: user.token as string | null,
-            roles: roles as string[] | null,
+            roles: roles as Set<string> | null,
           },
           expires
         },
