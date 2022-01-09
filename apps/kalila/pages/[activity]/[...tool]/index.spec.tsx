@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import EditDescription from './index';
+import Tool from './index';
 
-describe('EditDescription', () => {
+describe('Tool', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<EditDescription />);
+    const { baseElement } = render(<Tool />);
     expect(baseElement).toBeTruthy();
   });
 });

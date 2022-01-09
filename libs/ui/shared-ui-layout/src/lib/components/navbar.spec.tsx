@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import ViewDescription from './index';
+import {Navbar} from './navbar';
 
-describe('ViewDescription', () => {
+describe('Navbar', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<ViewDescription />);
+    const { baseElement } = render(<Navbar />);
     expect(baseElement).toBeTruthy();
   });
 });

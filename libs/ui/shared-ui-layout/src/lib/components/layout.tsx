@@ -1,14 +1,15 @@
-import './layout.module.scss';
+import styles from './layout.module.scss';
+import React from "react";
+import {Navbar} from "./navbar";
 
-/* eslint-disable-next-line */
-export interface LayoutProps {}
 
-export function Layout(props: LayoutProps) {
+
+export const Layout: React.FC = ({children })=> {
   return (
-    <div>
-      <h1>Welcome to SharedUiLayout!</h1>
-    </div>
+    <>
+      <Navbar />
+      <main className={styles['main']}>{children}</main>
+    </>
   );
 }
 
-export default Layout;

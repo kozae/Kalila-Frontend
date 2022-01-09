@@ -7,7 +7,7 @@ const stylesheet = Stylesheet.getInstance();
 
 export default class MyDocument extends Document {
   static getInitialProps({renderPage}) {
-    resetIds();
+    // resetIds(0);
 
     // eslint-disable-next-line react/display-name
     const page = renderPage(App => props => <App {...props} />);

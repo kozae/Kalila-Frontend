@@ -5,11 +5,7 @@ import {queryServerSide, sigla} from "@frontend/server-side-queries";
 
 
 export function Index({sigla}) {
-  const {session} = useKalilaSession()
-
-  console.log({session})
-  console.log({sigla})
-
+  const {session, status} = useKalilaSession();
 
   if (session) {
     return (

@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import Pages from './index';
+import Visualizations from './index';
 
-describe('Pages', () => {
+describe('Visualizations', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Pages />);
+    const { baseElement } = render(<Visualizations />);
     expect(baseElement).toBeTruthy();
   });
 });

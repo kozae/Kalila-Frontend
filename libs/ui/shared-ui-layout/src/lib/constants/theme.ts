@@ -1,7 +1,7 @@
 import {createTheme} from "@fluentui/react";
 
 export const kalilaTheme = createTheme({
-  defaultFontStyle: { fontFamily: 'NexusSansPro', fontWeight: 'normal' },
+  defaultFontStyle: { fontFamily: '\'Roboto\', sans-serif' , fontWeight: '100' },
   palette: {
     themePrimary: '#6b9e1f',
     themeLighterAlt: '#f8fbf3',
