@@ -32,7 +32,7 @@ pipeline{
         stage("build image, create and run container"){
             steps{
                 echo "====++++executing build image, create and run container++++===="
-                sh "docker build -t docker.kozae.de/kalila-frontend:latest -f Dockerfile ."
+                sh "docker build -t docker.kozae.de/kalila-frontend:latest -f Dockerfile --network kalila_kalilanet ."
                 sh "docker-compose up --detach"
             }
         }
