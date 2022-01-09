@@ -3,14 +3,20 @@ import Head from 'next/head';
 import {SessionProvider} from "next-auth/react"
 import {initializeIcons, ThemeProvider} from '@fluentui/react';
 import './styles.css';
-import {kalilaTheme} from "@frontend/shared-ui-layout";
+import {kalilaTheme, useKalilaMediaQuery} from "@frontend/shared-ui-layout";
+import React from "react";
+import {IKalilaMediaQuery} from "@frontend/shared-ui-layout";
 
 initializeIcons();
 
+const MediaQueryContext = React.createContext<IKalilaMediaQuery>({});
+
 function KalilaApp({Component, pageProps}: AppProps) {
   const {session} = pageProps;
+  const breakpoints = useKalilaMediaQuery();
   return (
     <ThemeProvider theme={kalilaTheme}>
+      <MediaQueryContext.Provider value={breakpoints}>
       <SessionProvider session={session}>
         <Head>
           <link rel="shortcut icon" href={"/favicon.ico"}/>
@@ -20,6 +26,7 @@ function KalilaApp({Component, pageProps}: AppProps) {
           <Component {...pageProps} />
         </main>
       </SessionProvider>
+      </MediaQueryContext.Provider>
     </ThemeProvider>
   );
 }
