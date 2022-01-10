@@ -1,13 +1,10 @@
 import styles from './index.module.scss';
 import {signIn, signOut} from "next-auth/react"
 import {useKalilaSession} from "@frontend/shared-ui";
-import {queryServerSide, sigla} from "@frontend/server-side-queries";
-import {useEffect} from "react";
 
 
-export function Index({sigla}) {
+export function Index() {
   const {session, status} = useKalilaSession();
-  useEffect(() => console.log(sigla), [status])
   if (session) {
     return (
       <>
@@ -28,9 +25,3 @@ export function Index({sigla}) {
 }
 
 export default Index;
-
-export async function getServerSideProps(context) {
-  return {
-    props: await queryServerSide({sigla})
-  }
-}
