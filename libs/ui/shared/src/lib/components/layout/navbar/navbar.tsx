@@ -1,14 +1,47 @@
 import styles from './navbar.module.scss';
 import React, {useContext, useEffect, useState} from "react";
-import {useKalilaSession} from "../util/kalila-session-hook";
-import {MediaQueryContext} from "../util/media-query-context";
-import {INavbarLink, NavbarState} from "../constants/navbar-state";
-import {verifyAdmin} from "../util/verify-admin";
 import {useRouter} from "next/router";
-import {determinePathParameters} from "../util/determine-path-parameters";
-import {KalilaLogo} from "./kalila-logo";
-import {DefaultButton, Persona, PersonaInitialsColor, PersonaSize, PrimaryButton} from "@fluentui/react";
+import {
+  DefaultButton, HighContrastSelector, IButtonStyles,
+  IconButton,
+  IContextualMenuProps,
+  Persona,
+  PersonaInitialsColor,
+  PersonaSize,
+  PrimaryButton
+} from "@fluentui/react";
 import {signIn, signOut} from "next-auth/react";
+import {KalilaLogo} from "../../kalila-logo";
+import {MediaQueryContext, useKalilaSession} from "../../../util";
+import {INavbarLink, NavbarState} from "../../../constants";
+import {determinePathParameters} from "../../../util/determine-path-parameters";
+import {verifyAdmin} from "../../../util/verify-admin";
+
+const menuProps: IContextualMenuProps = {
+  items: [
+    {
+      key: 'signOut',
+      text: 'Sign Out',
+      iconProps: { iconName: 'UserRemove' },
+    },
+    {
+      key: 'accountSettings',
+      text: 'Account Settings',
+      iconProps: { iconName: 'Settings' },
+    },
+  ],
+};
+
+const customSplitButtonStyles: IButtonStyles = {
+  splitButtonMenuButton: { backgroundColor: 'white', width: 28, border: 'none' },
+  splitButtonMenuIcon: { fontSize: '10px' },
+  splitButtonDivider: { backgroundColor: '#c8c8c8', width: 2, right: 26, position: 'absolute', top: 4, bottom: 4 },
+  splitButtonContainer: {
+    selectors: {
+      [HighContrastSelector]: { border: 'none' },
+    },
+  },
+};
 
 const logOutButton = (loggedUser: string) => (
   <div className={styles['nav__top-row__user-controls']}>
@@ -17,7 +50,16 @@ const logOutButton = (loggedUser: string) => (
               initialsColor={PersonaInitialsColor.green}
               text={loggedUser}
               size={PersonaSize.size40}/>
-    <DefaultButton onClick={() => signOut()} iconProps={{iconName: 'UserRemove'}} text="Sign Out"/>
+    <IconButton
+      split
+      iconProps={{iconName: 'Settings'}}
+      splitButtonAriaLabel="See 2 options"
+      aria-roledescription="split button"
+      styles={customSplitButtonStyles}
+      menuProps={menuProps}
+      ariaLabel="New item"
+      onClick={() => signOut()}
+    />
   </div>
 );
 

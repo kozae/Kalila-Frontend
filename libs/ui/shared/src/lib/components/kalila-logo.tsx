@@ -6,7 +6,7 @@ export interface IKalilaLogoProps {
 
 export const KalilaLogo: React.FC<IKalilaLogoProps> = ({color}) => {
   const defaultColor = "#003366";
-  return (<svg height="100%" width="100%" x="0px" y="0px" viewBox="0 0 2000 720">
+  return (<svg height="100%" width="100%" x="0px" y="0px" viewBox="0 0 2100 720">
 
     <svg x="0" y="0">
       <g>
@@ -28,8 +28,9 @@ export const KalilaLogo: React.FC<IKalilaLogoProps> = ({color}) => {
       </g>
       <text transform="matrix(1 0 0 1 750 550)"
             letterSpacing={20}
-            fontSize={450}
-            fontWeight={'bold'}
+            fontSize={500}
+            fontWeight={'900'}
+            fontFamily={'Roboto'}
             fill={color ?? defaultColor}>Kalila</text>
     </svg>
   </svg>);

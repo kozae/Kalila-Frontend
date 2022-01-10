@@ -5,7 +5,7 @@
     "kalila": "apps/kalila",
     "kalila-e2e": "apps/kalila-e2e",
     "server-side-queries": "libs/server-side-queries",
-    "shared-ui-layout": "libs/ui/shared-ui-layout",
+    "shared-ui": "libs/ui/shared",
     "util": "libs/util"
   }
 }

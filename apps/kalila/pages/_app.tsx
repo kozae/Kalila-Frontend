@@ -3,7 +3,7 @@ import Head from 'next/head';
 import {SessionProvider} from "next-auth/react"
 import {initializeIcons, ThemeProvider} from '@fluentui/react';
 import './styles.css';
-import {kalilaTheme, Layout, MediaQueryContext, useKalilaMediaQuery} from "@frontend/shared-ui-layout";
+import {kalilaTheme, Layout, MediaQueryContext, useKalilaMediaQuery} from "@frontend/shared-ui";
 import React from "react";
 
 initializeIcons();
@@ -32,4 +32,4 @@ function KalilaApp({Component, pageProps}: AppProps) {
 
 export default KalilaApp;
 
-// nx g page visualizations --project=kalila --withTests=true --style=scss
+// nx g page book-analysis --project=kalila --withTests=true --style=scss
