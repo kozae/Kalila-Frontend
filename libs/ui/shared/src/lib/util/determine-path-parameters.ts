@@ -8,7 +8,7 @@ export interface IPathParameters {
 export const determinePathParameters = (router: NextRouter): IPathParameters => {
   switch (router.pathname) {
     case '/':
-      return {activeLink: '', banner: ['']};
+      return {activeLink: '', banner: ['Home']};
     case '/account':
       return {activeLink: '/account', banner: ['Account Settings']};
     case '/administration':

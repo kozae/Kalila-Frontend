@@ -1,6 +1,6 @@
 export interface INavbarLink {
   Name: string,
-  Link: string
+  Ref: string
 }
 
 export interface INavbarLinksConfiguration {
@@ -12,41 +12,33 @@ export const NavbarLinksConfiguration: INavbarLinksConfiguration = {
   "UserLinks": [
     {
       "Name": "Editions",
-      "Link": "editions"
+      "Ref": "editions"
     },
     {
       "Name": "Manuscript Description",
-      "Link": "activity/ManuscriptDescription"
+      "Ref": "manuscript-description"
     },
     {
-      "Name": "Page Description",
-      "Link": "activity/PageDescription"
+      "Name": "Text Editing",
+      "Ref": "text-editing"
     },
     {
-      "Name": "Text Analysis",
-      "Link": "activity/TextAnalysis"
+      "Name": "Book Analysis",
+      "Ref": "book-analysis"
     },
     {
       "Name": "Image Cycle Analysis",
-      "Link": "activity/ImageCycleAnalysis"
-    },
-    {
-      "Name": "Intertextuality Analysis",
-      "Link": "activity/IntertextualityAnalysis"
+      "Ref": "image-cycle-analysis"
     },
     {
       "Name": "Visualizations",
-      "Link": "visualizations"
-    },
-    {
-      "Name": "Account settings",
-      "Link": "account"
+      "Ref": "visualizations"
     }
   ],
   "AdminLinks": [
     {
       "Name": "Administration",
-      "Link": "administration"
+      "Ref": "administration"
     }
   ]
 }

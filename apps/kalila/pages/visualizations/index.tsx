@@ -1,4 +1,5 @@
 import './index.module.scss';
+import {withTransition} from "@frontend/shared-ui";
 
 /* eslint-disable-next-line */
 export interface VisualizationsProps {}
@@ -11,4 +12,4 @@ export function Visualizations(props: VisualizationsProps) {
   );
 }
 
-export default Visualizations;
+export default withTransition(Visualizations);

@@ -1,12 +1,10 @@
 import styles from './navbar.module.scss';
 import React, {useContext, useEffect, useState} from "react";
 import {useRouter} from "next/router";
-import {KalilaLogo} from "../../kalila-logo";
 import {MediaQueryContext, useKalilaSession} from "../../../util";
 import {INavbarLink, NavbarLinksConfiguration} from "../../../constants";
 import {determinePathParameters} from "../../../util";
 import {verifyAdmin} from "../../../util";
-import {NavUserControls} from "./user-controls";
 import {NavControlBar} from "./nav-control-bar";
 import {NavMessageBar} from "./nav-message-bar";
 
@@ -14,17 +12,17 @@ export interface INavbarState {
   loggedUser?: string | null,
   isAdmin: boolean,
   activeLink: string,
-  showSidePan: boolean,
+  isSmallScreen: boolean,
   links: INavbarLink[],
-  banner: string[],
+  messages: string[],
 }
 
 export const navbarInitialState: INavbarState = {
   isAdmin: false,
   activeLink: '/',
-  showSidePan: false,
+  isSmallScreen: false,
   links: [],
-  banner: [],
+  messages: ['Home'],
 }
 
 export const NavbarContext = React.createContext<INavbarState>(navbarInitialState)
@@ -34,9 +32,9 @@ export const Navbar: React.FC = () => {
   const [links, setLinks] = useState<INavbarLink[]>(navbarInitialState.links);
   const [loggedUser, setLoggedUser] = useState<string | undefined | null>(navbarInitialState.loggedUser);
   const [isAdmin, setIsAdmin] = useState<boolean>(navbarInitialState.isAdmin);
-  const [showSidePan, setShowSidePan] = useState<boolean>(navbarInitialState.showSidePan);
+  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(navbarInitialState.isSmallScreen);
   const [activeLink, setActiveLink] = useState<string>(navbarInitialState.activeLink);
-  const [banner, setBanner] = useState<string[]>(navbarInitialState.banner);
+  const [messages, setMessages] = useState<string[]>(navbarInitialState.messages);
   const router = useRouter()
 
   const breakpoints = useContext(MediaQueryContext);
@@ -44,10 +42,10 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     if (router.isReady) {
       const pathParams = determinePathParameters(router);
-      setBanner(pathParams.banner);
+      setMessages(pathParams.banner);
       setActiveLink(pathParams.activeLink);
     }
-  }, [router.isReady])
+  }, [router.isReady, router.pathname])
 
 
   useEffect(() => {
@@ -70,20 +68,22 @@ export const Navbar: React.FC = () => {
   }, [status]);
 
 
-  useEffect(() => setShowSidePan(
-    breakpoints.s as boolean
-    || breakpoints.m as boolean
-    || breakpoints.l as boolean
-  ), [breakpoints.s, breakpoints.m, breakpoints.l]);
+  useEffect(() => {
+    setIsSmallScreen(
+      breakpoints.s as boolean
+      || breakpoints.m as boolean
+      || breakpoints.l as boolean
+    )
+  }, [breakpoints.s, breakpoints.m, breakpoints.l]);
 
   return (
     <NavbarContext.Provider value={{
       loggedUser,
       isAdmin,
       links,
-      showSidePan,
+      isSmallScreen,
       activeLink,
-      banner
+      messages
     }}>
       <nav className={styles['nav']}>
         <NavControlBar/>

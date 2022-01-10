@@ -1,4 +1,5 @@
 import './index.module.scss';
+import {withTransition} from "@frontend/shared-ui";
 
 /* eslint-disable-next-line */
 export interface ManuscriptDescriptionProps {}
@@ -11,4 +12,4 @@ export function ManuscriptDescription(props: ManuscriptDescriptionProps) {
   );
 }
 
-export default ManuscriptDescription;
+export default withTransition(ManuscriptDescription);
