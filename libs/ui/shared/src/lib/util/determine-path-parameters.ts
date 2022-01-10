@@ -20,5 +20,4 @@ export const determinePathParameters = (router: NextRouter): IPathParameters => 
     default:
       return {activeLink: '', banner: ['']};
   }
-  return {activeLink: '', banner: ['']};
 }

@@ -8,14 +8,13 @@ import {
   Persona,
   PersonaInitialsColor,
   PersonaSize,
-  PrimaryButton
 } from "@fluentui/react";
 import {signIn, signOut} from "next-auth/react";
 import {KalilaLogo} from "../../kalila-logo";
 import {MediaQueryContext, useKalilaSession} from "../../../util";
 import {INavbarLink, NavbarState} from "../../../constants";
-import {determinePathParameters} from "../../../util/determine-path-parameters";
-import {verifyAdmin} from "../../../util/verify-admin";
+import {determinePathParameters} from "../../../util";
+import {verifyAdmin} from "../../../util";
 
 const menuProps: IContextualMenuProps = {
   items: [

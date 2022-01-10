@@ -1,4 +1,4 @@
-import {KalilaSession} from "@frontend/shared-ui-layout";
+import {KalilaSession} from "@frontend/shared-ui";
 
 
 export const verifyAdmin = (session: KalilaSession | null): boolean => {

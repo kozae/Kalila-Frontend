@@ -1,6 +1,6 @@
 import styles from './index.module.scss';
 import {signIn, signOut} from "next-auth/react"
-import {useKalilaSession} from "@frontend/shared-ui-layout";
+import {useKalilaSession} from "@frontend/shared-ui";
 import {queryServerSide, sigla} from "@frontend/server-side-queries";
 import {useEffect} from "react";
 
