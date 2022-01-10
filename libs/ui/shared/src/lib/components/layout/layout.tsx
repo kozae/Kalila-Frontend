@@ -1,14 +1,16 @@
 import styles from './layout.module.scss';
 import React from "react";
 import {Navbar} from "./navbar";
+import {AnimatePresence} from "framer-motion";
 
 
-
-export const Layout: React.FC = ({children })=> {
+export const Layout: React.FC = ({children}) => {
   return (
     <>
-      <Navbar />
-      <main className={styles['main']}>{children}</main>
+      <Navbar/>
+      <AnimatePresence exitBeforeEnter>
+        <main className={styles['main']}>{children}</main>
+      </AnimatePresence>
     </>
   );
 }

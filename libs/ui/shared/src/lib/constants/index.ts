@@ -1,2 +1,2 @@
 export * from './theme'
-export * from './navbar-state'
+export * from './navbar-links-configuration'

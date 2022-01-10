@@ -3,12 +3,12 @@ export interface INavbarLink {
   Link: string
 }
 
-export interface INavbarState {
+export interface INavbarLinksConfiguration {
   UserLinks: INavbarLink[],
   AdminLinks: INavbarLink[],
 }
 
-export const NavbarState: INavbarState = {
+export const NavbarLinksConfiguration: INavbarLinksConfiguration = {
   "UserLinks": [
     {
       "Name": "Editions",

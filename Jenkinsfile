@@ -23,6 +23,7 @@ pipeline{
                     catch (exception) {
                         echo "docker.kozae.de/kalila-frontend:dev image was not present"
                     }
+                    sh "docker system prune"
                 }
             }
         }
