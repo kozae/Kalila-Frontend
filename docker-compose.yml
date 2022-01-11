@@ -1,5 +1,6 @@
 version: '3.7'
 
+# todo scale and use a load balancer
 services:
   kalila-frontend:
     restart: unless-stopped

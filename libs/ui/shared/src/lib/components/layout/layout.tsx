@@ -1,6 +1,6 @@
 import styles from './layout.module.scss';
 import React from "react";
-import {Navbar} from "./navbar";
+import {Navbar} from "./nav";
 import {AnimatePresence, motion} from "framer-motion";
 
 export const withTransition = (OriginalComponent: React.JSXElementConstructor<any>) => {
