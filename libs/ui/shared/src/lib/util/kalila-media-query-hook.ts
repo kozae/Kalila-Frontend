@@ -7,6 +7,7 @@ export interface IKalilaMediaQuery {
   isSmallScreen?: boolean,
   xl?: boolean,
   xxl?: boolean,
+  isNotXLScreen?: boolean,
   xxxl?: boolean
 }
 
@@ -17,6 +18,7 @@ export function useKalilaMediaQuery(): IKalilaMediaQuery {
     l: useMediaQuery('(min-width: 640px) and (max-width: 1023px)'),
     isSmallScreen:  useMediaQuery('(max-width: 1023px)'),
     xl: useMediaQuery('(min-width: 1024px) and (max-width: 1365px)'),
+    isNotXLScreen:  useMediaQuery('(max-width: 1365px)'),
     xxl: useMediaQuery('(min-width: 1366px) and (max-width: 1919px)'),
     xxxl: useMediaQuery('(min-width: 1920px)'),
   };

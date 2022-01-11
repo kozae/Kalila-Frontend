@@ -1,4 +1,3 @@
-import './index.module.scss';
 import {withTransition} from "@frontend/shared-ui";
 
 /* eslint-disable-next-line */

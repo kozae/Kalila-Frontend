@@ -1,6 +1,6 @@
 import styles from './layout.module.scss';
 import React from "react";
-import {Navbar} from "./nav";
+import {Nav} from "./nav";
 import {AnimatePresence, motion} from "framer-motion";
 
 export const withTransition = (OriginalComponent: React.JSXElementConstructor<any>) => {
@@ -28,7 +28,7 @@ export const withTransition = (OriginalComponent: React.JSXElementConstructor<an
 export const Layout: React.FC = ({children}) => {
   return (
     <>
-      <Navbar/>
+      <Nav/>
       <main className={styles['main']}>{children}</main>
     </>
   );

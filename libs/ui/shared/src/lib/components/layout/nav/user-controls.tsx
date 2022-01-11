@@ -1,4 +1,4 @@
-import styles from "./navbar.module.scss";
+import styles from "./nav.module.scss";
 import {
   DefaultButton,
   HighContrastSelector,
@@ -10,7 +10,7 @@ import {
 import {signIn, signOut} from "next-auth/react";
 import React, {useContext, useEffect, useState} from "react";
 import {stringHasValue} from "@frontend/util";
-import {NavbarContext} from "@frontend/shared-ui";
+import {MediaQueryContext, NavbarContext} from "@frontend/shared-ui";
 import {useRouter} from "next/router";
 
 
@@ -26,10 +26,12 @@ const customSplitButtonStyles: IButtonStyles = {
 };
 
 
-export const NavUserControls: React.FC = () => {
-  const {loggedUser} = useContext(NavbarContext);
-  const [element, setElement] = useState<JSX.Element>(<></>)
+const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
+  const {isNotXLScreen} = useContext(MediaQueryContext);
+
   const {push} = useRouter();
+
+  // todo determine initials and secondary text
 
   const menuProps: IContextualMenuProps = {
     items: [
@@ -52,12 +54,13 @@ export const NavUserControls: React.FC = () => {
     ],
   };
 
-  const logOutButton = (loggedUser: string) => (
+  return (
     <div className={styles['nav__control-bar__user-controls']}>
       <Persona imageInitials={'MK'}
                secondaryText={'Admin'}
                initialsColor={PersonaInitialsColor.green}
                text={loggedUser}
+               hidePersonaDetails={isNotXLScreen}
                size={PersonaSize.size40}/>
       <IconButton
         split
@@ -72,6 +75,12 @@ export const NavUserControls: React.FC = () => {
     </div>
   );
 
+}
+
+export const NavUserControls: React.FC = () => {
+  const {loggedUser} = useContext(NavbarContext);
+  const [element, setElement] = useState<JSX.Element>(<></>)
+
   const logInButton = () => (
     <div className={styles['nav__control-bar__user-controls']}>
       <DefaultButton onClick={() => signIn()} iconProps={{iconName: 'AddFriend'}} text="Sign In"/>
@@ -80,7 +89,7 @@ export const NavUserControls: React.FC = () => {
 
 
   useEffect(() =>
-      setElement(stringHasValue(loggedUser) ? logOutButton(loggedUser as string) : logInButton)
+      setElement(stringHasValue(loggedUser) ? <LogOutButton loggedUser={loggedUser as string}/> : logInButton())
     , [loggedUser]);
 
   return element
