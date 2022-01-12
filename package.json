@@ -10,6 +10,7 @@
   "private": true,
   "dependencies": {
     "@fluentui/react": "^8.49.1",
+    "@microsoft/signalr": "^6.0.1",
     "@nrwl/next": "13.4.3",
     "@react-hook/media-query": "^1.1.1",
     "axios": "^0.24.0",
