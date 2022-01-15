@@ -12,19 +12,23 @@ export interface IKalilaSession extends Record<string, unknown> {
 }
 
 export type KalilaSessionContextValue =
-  { session: null; status: "authenticated" | "loading" | "unauthenticated" }
+  { session: null; status: "loading" | "unauthenticated" }
   |
   { session: IKalilaSession; status: "authenticated" | "loading" | "unauthenticated" }
 
 export function useKalilaSession<R extends boolean>(): KalilaSessionContextValue {
+  // return {
+  //   session: {
+  //     user: {
+  //       name: 'Mahmoud Kozae',
+  //       roles: new Set<string>(['admin']),
+  //     },
+  //     expires: ''
+  //   },
+  //   status: "authenticated"
+  // }
   return {
-    session: {
-      user: {
-        name: 'Mahmoud Kozae',
-        roles: new Set<string>(['admin']),
-      },
-      expires: ''
-    },
-    status: "authenticated"
+    session: null,
+    status: "unauthenticated"
   }
 }
