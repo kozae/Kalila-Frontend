@@ -1,7 +1,7 @@
-import {KalilaSession} from "@frontend/shared-ui";
+import {IKalilaSession} from "@frontend/shared-ui";
 
 
-export const verifyAdmin = (session: KalilaSession | null): boolean => {
+export const verifyAdmin = (session: IKalilaSession | null): boolean => {
   if (session && session.user && session.user.roles) {
     return session.user.roles.has("admin");
   }

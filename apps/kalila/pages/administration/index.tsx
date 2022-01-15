@@ -1,16 +1,15 @@
-import './index.module.scss';
-import {withTransition} from "@frontend/shared-ui";
-import {Account} from "../account";
+import styles from './index.module.scss';
+import {NextPage} from "next";
+import {withAdminLayout} from "./_layout";
+import {MessageBar} from "@fluentui/react";
+import {useRegisteredEditors} from "@frontend/shared-ui";
 
-/* eslint-disable-next-line */
-export interface AdministrationProps {}
 
-export function Administration(props: AdministrationProps) {
-  return (
-    <div>
-      <h1>Welcome to Administration!</h1>
-    </div>
-  );
+const Administration: NextPage = () => {
+  useRegisteredEditors();
+  return (<MessageBar className={styles['info']}>
+    Select one of the activities above to do administrative tasks
+  </MessageBar>);
 }
 
-export default withTransition(Administration);;
+export default withAdminLayout(Administration, undefined)

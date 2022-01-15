@@ -1,14 +1,15 @@
 import {useRouter} from "next/router";
 import React, {useContext, useEffect, useState} from "react";
-import {MediaQueryContext, NavbarContext} from "@frontend/shared-ui";
+import {MediaQueryWrapper} from "@frontend/shared-ui";
 import styles from "../nav.module.scss";
 import {NavLinks} from "../nav-links";
 import {SidePanToggle} from "../nav-control-bar";
+import {NavbarStore} from "../store";
 
 export function useNavControlBarState() {
   const {push} = useRouter();
-  const {openPanel} = useContext(NavbarContext);
-  const {isSmallScreen} = useContext(MediaQueryContext);
+  const {openPanel} = useContext(NavbarStore).dispatchers;
+  const {isSmallScreen} = useContext(MediaQueryWrapper);
   const [sidePanToggle, setSidePanToggle] = useState(<></>)
   const [navLinks, setNavLinks] = useState(<></>)
   const [classes, setClasses] = useState({

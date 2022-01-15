@@ -6,6 +6,7 @@
     "kalila-e2e": "apps/kalila-e2e",
     "server-side-queries": "libs/server-side-queries",
     "shared-ui": "libs/ui/shared",
+    "ui-administration": "libs/ui/administration",
     "util": "libs/util"
   }
 }

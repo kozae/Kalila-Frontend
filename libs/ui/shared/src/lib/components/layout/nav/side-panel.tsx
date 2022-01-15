@@ -1,12 +1,14 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Panel, PanelType} from "@fluentui/react";
-import {NavbarContext} from "@frontend/shared-ui";
 import styles from "./nav.module.scss";
 import Link from "next/link";
+import {NavbarStore} from "./store";
 
 
-export const SidePanel: React.FC = ()=> {
-  const {isPanelOpen, dismissPanel, links, activeLink} = useContext(NavbarContext);
+export const SidePanel: React.FC = () => {
+  const {state, dispatchers} = useContext(NavbarStore);
+  const {isPanelOpen, links, activeLink} = state;
+  const {dismissPanel} = dispatchers;
   const [classes, setClassesState] = useState<string[]>([])
 
   useEffect(() => setClassesState(
@@ -24,7 +26,7 @@ export const SidePanel: React.FC = ()=> {
         {
           links.map((link, i) => (
             <Link href={link.Ref} key={i}>
-              <a  className={classes[i]}> {link.Name} </a>
+              <a className={classes[i]}> {link.Name} </a>
             </Link>
           ))
         }

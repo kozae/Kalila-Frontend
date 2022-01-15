@@ -5,10 +5,19 @@
   @include ms-depth-64;
   padding: .5rem;
   width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+@mixin control-bar-contents {
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
-  height: 60px;
-  z-index: 10;
+  max-width: $siteMaxWidth;
+  padding: $sitePadding;
 }
 
 @mixin logo {
@@ -56,6 +65,7 @@
       &__item {
         @include inactive-nav-link;
       }
+
       &__active-item {
         @include active-nav-link;
       }
@@ -64,6 +74,10 @@
 
   &__control-bar {
     @include control-bar;
+
+    &__contents {
+      @include control-bar-contents;
+    }
 
     &__logo {
       @include logo
@@ -113,9 +127,24 @@
     width: 100%;
     height: 50px;
     background-color: $themePrimary;
-    color: white;
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    &__contents {
+      width: 100%;
+      height: 100%;
+      color: white;
+      display: flex;
+      align-items: center;
+      max-width: $siteMaxWidth;
+      padding: $sitePadding;
+    }
+
+    &__progress-indicator {
+      padding: .5rem;
+      width: 25%;
+    }
 
     &__main {
       padding: .5rem;

@@ -1,11 +1,11 @@
 import styles from "./nav.module.scss";
 import React, {useContext, useEffect, useState} from "react";
-import {NavbarContext} from "@frontend/shared-ui";
 import Link from "next/link";
+import {NavbarStore} from "./store";
 
 
 export const NavLinks: React.FC = () => {
-  const {links, activeLink} = useContext(NavbarContext);
+  const {links, activeLink} = useContext(NavbarStore).state;
   const [classes, setClassesState] = useState<string[]>([])
 
   useEffect(() => setClassesState(
@@ -16,7 +16,7 @@ export const NavLinks: React.FC = () => {
   return <div className={styles['nav__control-bar__links']}>
     {
       links.map((link, i) => (
-        <Link href={link.Ref} key={i}>
+        <Link href={'/' + link.Ref} key={i}>
           <a className={classes[i]}> {link.Name} </a>
         </Link>
       ))

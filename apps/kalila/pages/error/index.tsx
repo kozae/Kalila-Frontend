@@ -1,7 +1,7 @@
 export function Error() {
   return (
     <div>
-      <h1>Welcome to Editions!</h1>
+      <h1>Welcome to error page!</h1>
     </div>
   );
 }

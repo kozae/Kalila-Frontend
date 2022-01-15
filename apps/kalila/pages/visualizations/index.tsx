@@ -12,4 +12,5 @@ export function Visualizations(props: VisualizationsProps) {
   );
 }
 
-export default withTransition(Visualizations);
+export default withTransition(Visualizations, {});
+

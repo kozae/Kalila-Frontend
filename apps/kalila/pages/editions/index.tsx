@@ -1,7 +1,8 @@
 import {withTransition} from "@frontend/shared-ui";
 
 /* eslint-disable-next-line */
-export interface EditionsProps {}
+export interface EditionsProps {
+}
 
 export function Editions(props: EditionsProps) {
   return (
@@ -11,4 +12,4 @@ export function Editions(props: EditionsProps) {
   );
 }
 
-export default withTransition(Editions);
+export default withTransition(Editions, {});

@@ -12,5 +12,5 @@ export function BookAnalysis(props: BookAnalysisProps) {
   );
 }
 
-export default withTransition(BookAnalysis);
+export default withTransition(BookAnalysis, {});
 

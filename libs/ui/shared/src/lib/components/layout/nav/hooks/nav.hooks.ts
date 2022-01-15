@@ -3,21 +3,25 @@ import {useEffect, useState} from "react";
 import {
   determinePathParameters,
   INavbarLink,
-  INavbarState,
-  navbarInitialState, NavbarLinksConfiguration,
+  NavbarLinksConfiguration,
   useKalilaSession, verifyAdmin
 } from "@frontend/shared-ui";
+import {INavbarState} from "../store";
 
 export function useRouteState(init: INavbarState, sideEffects: Array<() => void>) {
-  const [activeLink, setActiveLink] = useState<string>(navbarInitialState.activeLink);
-  const [messages, setMessages] = useState<[string | undefined, string | undefined]>(navbarInitialState.messages);
+  const [activeLink, setActiveLink] = useState<string>(init.activeLink);
+  const [messages, setMessages] = useState<[string | undefined, string | undefined]>(init.messages);
 
   const router = useRouter()
 
   useEffect(() => {
     if (router.isReady) {
-      setMessages([undefined, undefined]);
       const pathParams = determinePathParameters(router);
+      if (pathParams.messages[0] === messages[0]) {
+        setMessages([messages[0], undefined]);
+      } else {
+        setMessages([undefined, undefined]);
+      }
       setTimeout(() => {
         setMessages(pathParams.messages);
         setActiveLink(pathParams.activeLink);
@@ -30,9 +34,9 @@ export function useRouteState(init: INavbarState, sideEffects: Array<() => void>
 
 export function useSessionState(init: INavbarState) {
   const {session, status} = useKalilaSession();
-  const [links, setLinks] = useState<INavbarLink[]>(navbarInitialState.links);
-  const [loggedUser, setLoggedUser] = useState<string | undefined | null>(navbarInitialState.loggedUser);
-  const [isAdmin, setIsAdmin] = useState<boolean>(navbarInitialState.isAdmin);
+  const [links, setLinks] = useState<INavbarLink[]>(init.links);
+  const [loggedUser, setLoggedUser] = useState<string | undefined | null>(init.loggedUser);
+  const [isAdmin, setIsAdmin] = useState<boolean>(init.isAdmin);
   useEffect(() => {
     switch (status) {
       case "authenticated":

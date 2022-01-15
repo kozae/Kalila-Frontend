@@ -2,7 +2,8 @@ import './index.module.scss';
 import {withTransition} from "@frontend/shared-ui";
 
 /* eslint-disable-next-line */
-export interface AccountProps {}
+export interface AccountProps {
+}
 
 export function Account(props: AccountProps) {
   return (
@@ -12,4 +13,4 @@ export function Account(props: AccountProps) {
   );
 }
 
-export default withTransition(Account);;
+export default withTransition(Account, {});

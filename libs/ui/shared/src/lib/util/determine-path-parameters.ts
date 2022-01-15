@@ -13,6 +13,12 @@ export const determinePathParameters = ({pathname}: NextRouter): IPathParameters
       return {activeLink: 'account', messages: ['Account Settings', undefined]};
     case '/administration':
       return {activeLink: 'administration', messages: ['Administration', undefined]};
+    case '/administration/manuscript-description':
+      return {activeLink: 'administration', messages: ['Administration:', 'Manuscript Description']};
+    case '/administration/pages':
+      return {activeLink: 'administration', messages: ['Administration:', 'Pages']};
+    case '/administration/categorical-attributes':
+      return {activeLink: 'administration', messages: ['Administration:', 'Categorical Attributes']};
     case '/manuscript-description':
       return {activeLink: 'manuscript-description', messages: ['Manuscript Description:', 'View Documents']};
     case '/text-editing':

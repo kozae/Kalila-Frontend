@@ -1,5 +1,6 @@
 import './index.module.scss';
 import {withTransition} from "@frontend/shared-ui";
+import ManuscriptDescription from "../manuscript-description";
 
 
 export function TextEditing() {
@@ -10,4 +11,5 @@ export function TextEditing() {
   );
 }
 
-export default withTransition(TextEditing);
+export default withTransition(TextEditing, {});
+

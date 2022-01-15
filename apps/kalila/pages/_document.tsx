@@ -2,16 +2,13 @@ import * as React from 'react';
 import Document, {Head, Html, Main, NextScript} from 'next/document';
 import {Stylesheet, resetIds} from '@fluentui/react';
 
-
 const stylesheet = Stylesheet.getInstance();
 
-export default class MyDocument extends Document {
-  static getInitialProps({renderPage}) {
-    // resetIds(0);
 
-    // eslint-disable-next-line react/display-name
-    const page = renderPage(App => props => <App {...props} />);
-
+export default class MyDocument extends Document<{ styleTags: any, serializedStylesheet: any }> {
+  static async getInitialProps(ctx) {
+    resetIds();
+    const page = ctx.renderPage(App => props => <App {...props} />);
     return {...page, styleTags: stylesheet.getRules(true), serializedStylesheet: stylesheet.serialize()};
   }
 

@@ -10,8 +10,9 @@ import {
 import {signIn, signOut} from "next-auth/react";
 import React, {useContext, useEffect, useState} from "react";
 import {stringHasValue} from "@frontend/util";
-import {MediaQueryContext, NavbarContext} from "@frontend/shared-ui";
+import {MediaQueryWrapper} from "@frontend/shared-ui";
 import {useRouter} from "next/router";
+import {NavbarStore} from "./store";
 
 
 const customSplitButtonStyles: IButtonStyles = {
@@ -27,7 +28,7 @@ const customSplitButtonStyles: IButtonStyles = {
 
 
 const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
-  const {isNotXLScreen} = useContext(MediaQueryContext);
+  const {isNotXXLScreen} = useContext(MediaQueryWrapper);
 
   const {push} = useRouter();
 
@@ -60,7 +61,7 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
                secondaryText={'Admin'}
                initialsColor={PersonaInitialsColor.green}
                text={loggedUser}
-               hidePersonaDetails={isNotXLScreen}
+               hidePersonaDetails={isNotXXLScreen}
                size={PersonaSize.size40}/>
       <IconButton
         split
@@ -78,8 +79,7 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
 }
 
 export const NavUserControls: React.FC = () => {
-  const {loggedUser} = useContext(NavbarContext);
-  const [element, setElement] = useState<JSX.Element>(<></>)
+  const {loggedUser} = useContext(NavbarStore).state;
 
   const logInButton = () => (
     <div className={styles['nav__control-bar__user-controls']}>
@@ -87,11 +87,6 @@ export const NavUserControls: React.FC = () => {
     </div>
   )
 
-
-  useEffect(() =>
-      setElement(stringHasValue(loggedUser) ? <LogOutButton loggedUser={loggedUser as string}/> : logInButton())
-    , [loggedUser]);
-
-  return element
+  return stringHasValue(loggedUser) ? <LogOutButton loggedUser={loggedUser as string}/> : logInButton()
 
 }

@@ -2,7 +2,8 @@ import './index.module.scss';
 import {withTransition} from "@frontend/shared-ui";
 
 /* eslint-disable-next-line */
-export interface ImageCycleAnalysisProps {}
+export interface ImageCycleAnalysisProps {
+}
 
 export function ImageCycleAnalysis(props: ImageCycleAnalysisProps) {
   return (
@@ -12,4 +13,4 @@ export function ImageCycleAnalysis(props: ImageCycleAnalysisProps) {
   );
 }
 
-export default withTransition(ImageCycleAnalysis);
+export default withTransition(ImageCycleAnalysis, {});

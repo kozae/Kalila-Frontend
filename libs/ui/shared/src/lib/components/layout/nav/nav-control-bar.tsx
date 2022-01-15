@@ -27,12 +27,15 @@ export const NavControlBar: React.FC = () => {
   const {push, classes, sidePanToggle, navLinks} = useNavControlBarState();
   return (
     <div className={classes.controlBar}>
-      {sidePanToggle}
-      <div className={classes.logo} onClick={() => push('/')}>
-        <KalilaLogo/>
+      <div className={styles['nav__control-bar__contents']}>
+        {sidePanToggle}
+        <div className={classes.logo} onClick={() => push('/')}>
+          <KalilaLogo/>
+        </div>
+        {navLinks}
+        <NavUserControls/>
       </div>
-      {navLinks}
-      <NavUserControls/>
+
     </div>
   )
 }
