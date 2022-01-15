@@ -18,7 +18,6 @@ import {
 import {AnimatePresence} from "framer-motion";
 import {useSignalr} from "@frontend/shared-ui";
 
-
 initializeIcons()
 
 loadTheme(kalilaTheme);
@@ -27,6 +26,8 @@ function KalilaApp({Component, pageProps, router}: AppProps) {
   const breakpoints = useKalilaMediaQuery();
   const signalrState = useSignalr();
   useNavigationEventHandling(signalrState);
+
+
   return (
     <MediaQueryWrapper.Provider value={breakpoints}>
       <SignalrStore.Provider value={{...signalrState}}>
@@ -34,11 +35,11 @@ function KalilaApp({Component, pageProps, router}: AppProps) {
           <link rel="shortcut icon" href={"/favicon.ico"}/>
           <title>Kalila</title>
         </Head>
-            <Layout>
-              <AnimatePresence exitBeforeEnter>
-                <Component {...pageProps} key={router.route}/>
-              </AnimatePresence>
-            </Layout>
+        <Layout>
+          <AnimatePresence exitBeforeEnter>
+            <Component {...pageProps} key={router.route}/>
+          </AnimatePresence>
+        </Layout>
       </SignalrStore.Provider>
     </MediaQueryWrapper.Provider>
   );
