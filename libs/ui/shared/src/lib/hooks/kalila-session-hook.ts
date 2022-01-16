@@ -3,7 +3,7 @@ import {UseSessionOptions} from "next-auth/react/types";
 import {ISODateString} from "next-auth/core/types";
 import {stringHasValue} from "@frontend/util";
 
-export interface KalilaSession extends Record<string, unknown> {
+export interface IKalilaSession extends Record<string, unknown> {
   user?: {
     name?: string | null;
     email?: string | null;
@@ -17,7 +17,7 @@ export interface KalilaSession extends Record<string, unknown> {
 export type KalilaSessionContextValue =
   { session: null; status: "authenticated" | "loading" | "unauthenticated", accessToken: null }
   |
-  { session: KalilaSession; status: "authenticated" | "loading" | "unauthenticated"; accessToken: string }
+  { session: IKalilaSession; status: "authenticated" | "loading" | "unauthenticated"; accessToken: string }
 
 export function useKalilaSession<R extends boolean>(options?: UseSessionOptions<R>): KalilaSessionContextValue {
   const {data, status} = useSession(options)

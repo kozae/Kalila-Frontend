@@ -1,4 +1,4 @@
-import {IKalilaSession} from "@frontend/shared-ui";
+import {IKalilaSession} from "../hooks";
 
 
 export const verifyAdmin = (session: IKalilaSession | null): boolean => {
