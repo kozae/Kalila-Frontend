@@ -1,1 +1,1 @@
-export * from './lib/ui-administration';
+export * from './lib/store';

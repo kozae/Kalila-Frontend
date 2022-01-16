@@ -1,0 +1,18 @@
+export enum InputMode {
+  InputOne,
+  InputMultiple,
+  Boolean,
+  SelectOne,
+  SelectOrCreateOne,
+  SelectMultiple,
+  SelectOrCreateMultiple,
+  ImageField,
+  FileField,
+  RichText,
+  Table,
+  Date,
+  AudioField,
+  VideoField,
+  ExternalCreation,
+  Administrative,
+}

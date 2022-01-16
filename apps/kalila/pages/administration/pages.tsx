@@ -1,4 +1,4 @@
-import {  withAdminLayout} from "./_layout";
+import {withAdminLayout} from "./_layout";
 
 export function PagesAdministration() {
   return (

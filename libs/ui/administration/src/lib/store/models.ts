@@ -1,12 +1,12 @@
 import {IEditor} from "@frontend/shared-ui";
+import {ActivitySchema, IPagination} from "@frontend/util";
 
 export interface IAdministrationState {
-  loggedUser: string,
+  loggedUser?: string | null,
   editors: IEditor[],
   documents: { [key: string]: any }[],
-  totalCount: string,
-  pageSize: number,
-  currentPage: number
+  schema?: ActivitySchema
+  pagination: IPagination,
 }
 
 export interface IAdministrationDispatchers {

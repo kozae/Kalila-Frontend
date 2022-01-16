@@ -33,7 +33,7 @@ export interface IDeleteAction {
   payload: { id: string }
 }
 
-export type AdminDocumentActions =
+export type AdminDocumentAction =
   ILoadAction
   | ICreateAction
   | IUserUpdateAction

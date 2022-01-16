@@ -12,6 +12,7 @@ import {stringHasValue} from "@frontend/util";
 import {MediaQueryWrapper} from "@frontend/shared-ui";
 import {useRouter} from "next/router";
 import {NavbarStore} from "./store";
+import {signIn, signOut} from "next-auth/react";
 
 const customSplitButtonStyles: IButtonStyles = {
   splitButtonMenuButton: {backgroundColor: 'white', width: 28, border: 'none'},
@@ -39,7 +40,7 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
         text: 'Sign Out',
         iconProps: {iconName: 'UserRemove'},
         onClick: () => {
-
+          signOut().catch()
         }
       },
       {
@@ -80,7 +81,7 @@ export const NavUserControls: React.FC = () => {
   const {loggedUser} = useContext(NavbarStore).state;
   const logInButton = () => (
     <div className={styles['nav__control-bar__user-controls']}>
-      <DefaultButton iconProps={{iconName: 'AddFriend'}} text="Sign In"/>
+      <DefaultButton onClick={() => signIn()} iconProps={{iconName: 'AddFriend'}} text="Sign In"/>
     </div>
   )
 

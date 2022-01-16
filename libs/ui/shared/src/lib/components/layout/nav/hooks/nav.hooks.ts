@@ -32,7 +32,7 @@ export function useRouteState(init: INavbarState, sideEffects: Array<() => void>
   return {activeLink, messages}
 }
 
-export function useSessionState(init: INavbarState) {
+export function useNavSessionState(init: INavbarState) {
   const {session, status} = useKalilaSession();
   const [links, setLinks] = useState<INavbarLink[]>(init.links);
   const [loggedUser, setLoggedUser] = useState<string | undefined | null>(init.loggedUser);

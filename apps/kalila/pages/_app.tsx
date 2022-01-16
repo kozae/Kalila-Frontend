@@ -7,7 +7,6 @@ import {
 import './styles.css';
 import React from "react";
 import {
-  ApiClientWrapper,
   kalilaTheme,
   Layout,
   MediaQueryWrapper,
@@ -17,6 +16,7 @@ import {
 } from "@frontend/shared-ui";
 import {AnimatePresence} from "framer-motion";
 import {useSignalr} from "@frontend/shared-ui";
+import {SessionProvider} from 'next-auth/react';
 
 initializeIcons()
 
@@ -26,20 +26,21 @@ function KalilaApp({Component, pageProps, router}: AppProps) {
   const breakpoints = useKalilaMediaQuery();
   const signalrState = useSignalr();
   useNavigationEventHandling(signalrState);
-
-
+  const {session} = pageProps;
   return (
     <MediaQueryWrapper.Provider value={breakpoints}>
       <SignalrStore.Provider value={{...signalrState}}>
-        <Head>
-          <link rel="shortcut icon" href={"/favicon.ico"}/>
-          <title>Kalila</title>
-        </Head>
-        <Layout>
-          <AnimatePresence exitBeforeEnter>
-            <Component {...pageProps} key={router.route}/>
-          </AnimatePresence>
-        </Layout>
+        <SessionProvider session={session}>
+          <Head>
+            <link rel="shortcut icon" href={"/favicon.ico"}/>
+            <title>Kalila</title>
+          </Head>
+          <Layout>
+            <AnimatePresence exitBeforeEnter>
+              <Component {...pageProps} key={router.route}/>
+            </AnimatePresence>
+          </Layout>
+        </SessionProvider>
       </SignalrStore.Provider>
     </MediaQueryWrapper.Provider>
   );
