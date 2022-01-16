@@ -1,0 +1,161 @@
+@import "@fluentui/react/dist/sass/References";
+@import "sass/variables";
+
+@mixin control-bar {
+  @include ms-depth-64;
+  padding: .5rem;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+@mixin control-bar-contents {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  max-width: $siteMaxWidth;
+  padding: $sitePadding;
+}
+
+@mixin logo {
+  cursor: pointer;
+  min-width: 130px;
+  margin-right: .5rem;
+}
+
+@mixin user-controls {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+@mixin nav-link {
+  text-decoration: none;
+  padding: .5rem;
+  font-size: 1rem;
+}
+
+@mixin inactive-nav-link {
+  @include nav-link;
+  color: $neutralPrimary;
+  font-weight: 500;
+}
+
+@mixin active-nav-link {
+  @include nav-link;
+  color: $themePrimary;
+  font-weight: 600;
+  border-bottom: $themePrimary solid .2rem;
+  transition: color .5s linear;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &__side-panel {
+    &__links {
+      display: flex;
+      flex-direction: column;
+
+      &__item {
+        @include inactive-nav-link;
+      }
+
+      &__active-item {
+        @include active-nav-link;
+      }
+    }
+  }
+
+  &__control-bar {
+    @include control-bar;
+
+    &__contents {
+      @include control-bar-contents;
+    }
+
+    &__logo {
+      @include logo
+    }
+
+    &__links {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      justify-content: space-around;
+      flex-grow: 1;
+
+      &__item {
+        @include inactive-nav-link;
+      }
+
+      &__active-item {
+        @include active-nav-link;
+      }
+    }
+
+    &__user-controls {
+      @include user-controls;
+    }
+  }
+
+  &__control-bar-small-screen {
+    @include control-bar;
+
+    &__pan-toggle {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      margin-right: .5rem;
+    }
+
+    &__logo {
+      @include logo;
+    }
+
+    &__user-controls {
+      @include user-controls;
+    }
+  }
+
+  &__message-bar {
+    width: 100%;
+    height: 50px;
+    background-color: $themePrimary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__contents {
+      width: 100%;
+      height: 100%;
+      color: white;
+      display: flex;
+      align-items: center;
+      max-width: $siteMaxWidth;
+      padding: $sitePadding;
+    }
+
+    &__progress-indicator {
+      padding: .5rem;
+      width: 25%;
+    }
+
+    &__main {
+      padding: .5rem;
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
+
+    &__secondary {
+      padding: .5rem;
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
+  }
+}

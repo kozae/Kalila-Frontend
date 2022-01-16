@@ -1,8 +1,12 @@
 {
   "version": 2,
   "projects": {
+    "domain": "libs/domain",
     "kalila": "apps/kalila",
     "kalila-e2e": "apps/kalila-e2e",
-    "shared-ui-layout": "libs/shared-ui-layout"
+    "server-side-queries": "libs/server-side-queries",
+    "shared-ui": "libs/ui/shared",
+    "ui-administration": "libs/ui/administration",
+    "util": "libs/util"
   }
 }
