@@ -6,7 +6,7 @@ export interface IAdministrationState {
   editors: IEditor[],
   documents: { [key: string]: any }[],
   schema?: ActivitySchema
-  pagination: IPagination,
+  pagination?: IPagination,
 }
 
 export interface IAdministrationDispatchers {

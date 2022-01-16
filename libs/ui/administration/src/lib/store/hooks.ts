@@ -17,8 +17,8 @@ export function useAdminPageStore(
 ): IStore<IAdministrationState, IAdministrationDispatchers> {
   const {loggedUser, accessToken} = useSessionState();
   const {data, error} = useSWR([activityName, accessToken, router.query, MediaTypes.AdminDocument], fetcher)
-  const documents = data?.content ?? {};
-  const pagination = data?.pagination as IPagination ?? {};
+  const documents = data?.content ?? [];
+  const pagination = data?.pagination as IPagination ?? undefined;
 
   return {
     state: {
