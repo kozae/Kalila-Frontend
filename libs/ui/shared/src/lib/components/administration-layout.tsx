@@ -1,6 +1,6 @@
 import React from "react";
 import {IPivotItemProps, Pivot, PivotItem} from "@fluentui/react";
-import styles from './index.module.scss';
+import styles from './administration-layout.module.scss';
 import {IRenderFunction} from "@fluentui/react/lib/Utilities";
 import Link from "next/link";
 import {withTransition} from "@frontend/shared-ui";
@@ -32,8 +32,9 @@ const pivotLinks = [
 
 const AdminNav: React.FC<{ selectedKey: string }> = ({selectedKey}) => {
   const renderLink: IRenderFunction<IPivotItemProps> = (link, defaultRenderer) => {
-    const el = defaultRenderer(link)
+    const el = defaultRenderer && defaultRenderer(link as IPivotItemProps)
     return (
+      // @ts-ignore
       <Link href={link.headerButtonProps['url']}>
         {el}
       </Link>
@@ -72,7 +73,7 @@ export const withAdminLayout = (OriginalComponent: React.JSXElementConstructor<a
   return () => {
 
     return (
-      <div className={styles.page}>
+      <div className={styles['page']}>
         <AdminNav selectedKey={selectedKey}/>
         <div>
           {withTransition(OriginalComponent, {})()}

@@ -1,8 +1,7 @@
-import {withAdminLayout} from "./_layout";
 import {useRouter} from "next/router";
 import {useAdminPageStore} from "@frontend/ui/administration";
 import {useContext, useEffect} from "react";
-import {SignalrStore} from "@frontend/shared-ui";
+import {SignalrStore, withAdminLayout} from "@frontend/shared-ui";
 
 export function MSDAdministration() {
   const router = useRouter();

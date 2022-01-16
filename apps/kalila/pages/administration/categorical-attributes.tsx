@@ -1,4 +1,4 @@
-import { withAdminLayout} from "./_layout";
+import {withAdminLayout} from "@frontend/shared-ui";
 
 export function CategoricalAttributesAdministration() {
   return (
