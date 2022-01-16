@@ -1,10 +1,8 @@
 import useSWR from "swr";
 import {getSession} from "next-auth/react";
+import {transformSession} from "./transform-session";
 
-export function getAccessToken() {
+export function getSessionSWR() {
   const {data} = useSWR('accessToken', getSession)
-  if (data) {
-    return data['access'] as string
-  }
-  return undefined
+  return transformSession(data);
 }
