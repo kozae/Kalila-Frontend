@@ -1,5 +1,4 @@
-import {adminPageTransitionProps, withAdminLayout} from "./_layout";
-import {withTransition} from "@frontend/shared-ui";
+import { withAdminLayout} from "./_layout";
 
 export function CategoricalAttributesAdministration() {
   return (
