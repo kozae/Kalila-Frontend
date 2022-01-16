@@ -17,6 +17,7 @@ import {
 import {AnimatePresence} from "framer-motion";
 import {useSignalr} from "@frontend/shared-ui";
 import {SessionProvider} from 'next-auth/react';
+import {SWRConfig} from 'swr';
 
 initializeIcons()
 
@@ -27,6 +28,7 @@ function KalilaApp({Component, pageProps, router}: AppProps) {
   const signalrState = useSignalr();
   useNavigationEventHandling(signalrState);
   const {session} = pageProps;
+  console.log({session})
   return (
     <MediaQueryWrapper.Provider value={breakpoints}>
       <SignalrStore.Provider value={{...signalrState}}>

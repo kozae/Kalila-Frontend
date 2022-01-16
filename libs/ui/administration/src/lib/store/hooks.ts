@@ -1,23 +1,21 @@
-import {IRealTimeUpdate, useKalilaSession, useRegisteredEditors} from "@frontend/shared-ui";
-import axios from "axios";
-import {useEffect, useReducer, useState} from "react";
-import {getPagination, IPagination, IStore, MediaTypes} from "@frontend/util";
+import {IRealTimeUpdate, useKalilaSession} from "@frontend/shared-ui";
+import {useState} from "react";
+import {createFetcher, IPagination, IStore} from "@frontend/util";
 import {NextRouter} from "next/router";
-import {AdminDocumentsReducer} from "./reducer";
-import {AdminDocumentActionType} from "./actions";
+
 import {IAdministrationDispatchers, IAdministrationState} from "./models";
+import useSWR from "swr";
 
 function useSessionState() {
   const {session, accessToken} = useKalilaSession();
   return {loggedUser: session?.user?.name, accessToken}
 }
 
-function useAdminDocumentsState() {
-  const [documents, documentsDispatcher] = useReducer(AdminDocumentsReducer, [])
-  const loadDocuments = (data: any) => documentsDispatcher({
-    type: AdminDocumentActionType.Load,
-    payload: {documents: data}
-  })
+function useAdminDocumentsState(
+  activityName: string,
+  fetcher: (url: string, query?: Record<string, any>, accept?: string) => Promise<{ content: any, pagination: {} }>) {
+  const {data, error} = useSWR(`/server/api/v1/${activityName}`, fetcher)
+  const documents = data?.content ?? {};
   const processSignalRUpdate = (update: IRealTimeUpdate) => {
   }
   const createDocument = (doc: { [key: string]: any }) => {
@@ -27,7 +25,7 @@ function useAdminDocumentsState() {
   const deleteDocument = (id: string) => {
   }
 
-  return {documents, loadDocuments, processSignalRUpdate, createDocument, updateDocument, deleteDocument}
+  return {documents, processSignalRUpdate, createDocument, updateDocument, deleteDocument}
 }
 
 
@@ -49,24 +47,10 @@ export function useAdminPageStore(
   update: IRealTimeUpdate
 ): IStore<IAdministrationState, IAdministrationDispatchers> {
   const {loggedUser, accessToken} = useSessionState();
+  const fetcher = createFetcher(accessToken as string)
   const {pagination, setPagination} = usePaginationState(router);
-  const {documents, loadDocuments} = useAdminDocumentsState()
-  useEffect(() => {
-    if (accessToken !== null) {
-      axios.get(`/server/api/v1/${activityName}`, {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Accept': MediaTypes.AdminDocument
-        },
-        params: router.query
-      })
-        .then(({data, headers}) => {
-          loadDocuments(data);
-          setPagination(getPagination(headers))
-        })
-    }
+  const {documents} = useAdminDocumentsState(activityName, fetcher)
 
-  }, [activityName, accessToken, router.query])
 
   return {
     state: {
