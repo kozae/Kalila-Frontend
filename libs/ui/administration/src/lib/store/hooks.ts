@@ -15,8 +15,8 @@ export function useAdminPageStore(
   router: NextRouter,
   update: IRealTimeUpdate
 ): IStore<IAdministrationState, IAdministrationDispatchers> {
-  const {loggedUser, accessToken} = useSessionState();
-  const {data, error} = useSWR([activityName, accessToken, router.query, MediaTypes.AdminDocument], fetcher)
+  const {loggedUser} = useSessionState();
+  const {data, error} = useSWR([activityName, router.query, MediaTypes.AdminDocument], fetcher)
   const documents = data?.content ?? [];
   const pagination = data?.pagination as IPagination ?? undefined;
 

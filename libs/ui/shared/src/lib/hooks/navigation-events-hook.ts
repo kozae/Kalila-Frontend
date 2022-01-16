@@ -12,10 +12,14 @@ export function useNavigationEventHandling({
 
   useEffect(() => {
     const previousRoute = router.pathname;
-    const handleRouteChange = (newRoute: string, {shallow}: any) => {
+    const handleRouteChange = (newRoute: string, {shallow}: { shallow: boolean }) => {
+      console.log({previousRoute})
+      console.log({newRoute})
+      console.log({shallow})
       switch (previousRoute) {
         case  '/manuscript-description':
-          if (connection && isConnected) {
+        case  '/administration/manuscript-description':
+          if (!shallow && !newRoute.startsWith(previousRoute) && connection && isConnected) {
             leaveGroup('ManuscriptDescription', connection)
               .then(() => console.log('ManuscriptDescription group left'))
           }
