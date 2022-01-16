@@ -1,7 +1,8 @@
 import styles from './index.module.scss';
 import {NextPage} from "next";
 import {MessageBar} from "@fluentui/react";
-import {useRegisteredEditors, withAdminLayout} from "@frontend/shared-ui";
+import {useRegisteredEditors} from "@frontend/shared-ui";
+import {withAdminLayout} from "@frontend/ui/administration";
 
 
 const Administration: NextPage = () => {

@@ -1,4 +1,4 @@
-import {withAdminLayout} from "@frontend/shared-ui";
+import {withAdminLayout} from "@frontend/ui/administration";
 
 export function PagesAdministration() {
   return (
