@@ -10,12 +10,21 @@ export function MSDAdministration() {
   const store = useAdminPageStore('ManuscriptDescription', router, update)
 
   useEffect(() => {
+    console.log(store.state.documents)
+    console.log(store.state.pagination)
+  }, [store.state.documents])
+
+  useEffect(() => {
     if (connection && isConnected) {
       joinGroup('ManuscriptDescription', connection)
         .then(() => console.log('ManuscriptDescription group joined'))
     }
   }, [isConnected, connection])
 
+
+  useEffect(()=> {
+    setTimeout(()=> router.push({pathname: router.pathname, query: {PageSize: 20}}) , 4000)
+  } , [])
 
   return (
     <>

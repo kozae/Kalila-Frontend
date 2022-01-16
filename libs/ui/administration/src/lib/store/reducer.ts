@@ -1,20 +1,10 @@
-import {Reducer} from "react";
-import {AdminDocumentAction, AdminDocumentActionType} from "./actions";
+import {IRealTimeUpdate} from "@frontend/shared-ui";
 
-
-export const AdminDocumentsReducer: Reducer<{ [key: string]: any }[], AdminDocumentAction> = (state, action) => {
-  switch (action.type) {
-    case AdminDocumentActionType.Load:
-      return action.payload.documents
-    case AdminDocumentActionType.Create:
-      break;
-    case AdminDocumentActionType.UserUpdate:
-      break;
-    case AdminDocumentActionType.SignalRUpdate:
-      break;
-    case AdminDocumentActionType.Delete:
-      break;
-
-  }
-  return state
+const processSignalRUpdate = (update: IRealTimeUpdate) => {
+}
+const createDocument = (doc: { [key: string]: any }) => {
+}
+const updateDocument = (update: { [key: string]: any }, params: { [key: string]: any }) => {
+}
+const deleteDocument = (id: string) => {
 }

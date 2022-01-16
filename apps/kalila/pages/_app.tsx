@@ -28,7 +28,6 @@ function KalilaApp({Component, pageProps, router}: AppProps) {
   const signalrState = useSignalr();
   useNavigationEventHandling(signalrState);
   const {session} = pageProps;
-  console.log({session})
   return (
     <MediaQueryWrapper.Provider value={breakpoints}>
       <SignalrStore.Provider value={{...signalrState}}>

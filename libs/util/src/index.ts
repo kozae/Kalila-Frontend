@@ -1,4 +1,4 @@
-export * from './lib/createFetcher'
+export * from './lib/fetcher'
 export * from './lib/media-types'
 export * from './lib/has-value'
 export * from './lib/i-store'

@@ -2,9 +2,9 @@ import axios from "axios";
 import {MediaTypes} from "./media-types";
 import {getPagination} from "./pagination-header";
 
-export function createFetcher(accessToken: string) {
-  return (url: string, query: Record<string, any> = {}, accept: string | MediaTypes = "application/json") =>
-    axios.get(url, {
+export function fetcher(controller: string, accessToken: string, query: Record<string, any> = {}, accept: string | MediaTypes = "application/json") {
+  if (accessToken) {
+    return axios.get(`/server/api/v1/${controller}`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Accept': accept
@@ -15,5 +15,8 @@ export function createFetcher(accessToken: string) {
         content: data,
         pagination: getPagination(headers)
       }))
+  }
 
+  return Promise.resolve({content: {}, pagination: {}});
 }
+
