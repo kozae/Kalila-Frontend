@@ -14,7 +14,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "typeRoots" : ["src", "node_modules/@types"],
+    "typeRoots": ["src", "node_modules/@types"],
     "paths": {
       "@frontend/domain": ["libs/domain/src/index.ts"],
       "@frontend/server-side-queries": [
@@ -22,7 +22,8 @@
       ],
       "@frontend/shared-ui": ["libs/ui/shared/src/index.ts"],
       "@frontend/ui/administration": ["libs/ui/administration/src/index.ts"],
-      "@frontend/util": ["libs/util/src/index.ts"]
+      "@frontend/util": ["libs/util/src/index.ts"],
+      "@kalila/table": ["libs/ui/table/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
