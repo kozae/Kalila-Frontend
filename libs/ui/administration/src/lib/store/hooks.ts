@@ -1,41 +1,46 @@
-import {IRealTimeUpdate, useKalilaSession} from "@frontend/shared-ui";
-import {fetcher, IPagination, IStore, MediaTypes} from "@frontend/util";
+import {useRegisteredEditors} from "@frontend/shared-ui";
+import {getSessionSWR, IPagination} from "@frontend/util";
 import {NextRouter} from "next/router";
+import { IAdminPageStore} from "./models";
+import {
+  createDocumentFactory,
+  deleteDocumentFactory,
+  processSignalRUpdateFactory,
+  updateDocumentFactory
+} from "./reducers";
+import {getDocuments, getSchema} from "./queries";
 
-import {IAdministrationDispatchers, IAdministrationState} from "./models";
-import useSWR from "swr";
-
-function useSessionState() {
-  const {session, accessToken} = useKalilaSession();
-  return {loggedUser: session?.user?.name, accessToken}
-}
 
 export function useAdminPageStore(
   activityName: string,
-  router: NextRouter,
-  update: IRealTimeUpdate
-): IStore<IAdministrationState, IAdministrationDispatchers> {
-  const {loggedUser} = useSessionState();
-  const {data, error} = useSWR([activityName, router.query, MediaTypes.AdminDocument], fetcher)
-  const documents = data?.content ?? [];
-  const pagination = data?.pagination as IPagination ?? undefined;
+  router: NextRouter
+): IAdminPageStore {
+  const editors = useRegisteredEditors()
+  const session = getSessionSWR();
+  const accessToken = session?.accessToken;
+  const loggedUser = session?.session?.user?.username;
+  const {data: schema, mutate: mutateSchema} = getSchema(accessToken, activityName);
+  const {data, isValidating, mutate: mutateDocs} = getDocuments(accessToken, activityName, schema, router);
 
-  return {
-    state: {
-      documents,
-      pagination,
-      loggedUser,
-      editors: [
-        {
-          username: 'mk',
-          name: 'Mahmoud Kozae'
-        },
-        {
-          username: 'ds',
-          name: 'Dima Sakran'
-        }
-      ]
-    },
-    dispatchers: {}
-  };
+
+  if (!isValidating && data) {
+    return {
+      state: {
+        documents: data.content,
+        pagination: data.pagination as IPagination,
+        schema: schema?.content,
+        loggedUser: loggedUser as string,
+        editors
+      },
+      dispatchers: {
+        createDocument: createDocumentFactory(accessToken as string, activityName),
+        processSignalRUpdate: processSignalRUpdateFactory(mutateDocs, mutateSchema, activityName),
+        updateDocument: updateDocumentFactory(accessToken as string, activityName),
+        deleteDocument: deleteDocumentFactory(accessToken as string, activityName),
+      }
+    };
+  }
+
+  return {state: undefined, dispatchers: undefined}
+
 }

@@ -1,25 +1,14 @@
 import React from "react";
-import {IAdministrationDispatchers, IAdministrationState} from "./models";
-import {IStore} from "@frontend/util";
+import {IAdminPageStore} from "./models";
 
 
-const initialAdminContextValues: IStore<IAdministrationState, IAdministrationDispatchers> = {
-  state: {
-    loggedUser: '',
-    editors: [],
-    documents: [],
-    pagination: {
-      currentPage: 0,
-      itemsPerPage: 0,
-      totalItems: 0,
-      totalPages: 0,
-    }
 
-  },
-  dispatchers: {},
+const initialAdminPageStore: IAdminPageStore = {
+  state: undefined,
+  dispatchers: undefined,
 }
 
 
-export const AdminPageStore = React.createContext(initialAdminContextValues)
+export const AdminPageStore = React.createContext(initialAdminPageStore)
 
 export * from './hooks'
