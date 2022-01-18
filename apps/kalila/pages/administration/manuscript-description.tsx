@@ -2,11 +2,8 @@ import {useRouter} from "next/router";
 import {AdministrationCommandBar, useAdminPageStore, withAdminLayout} from "@frontend/ui/administration";
 import React, {useContext, useEffect} from "react";
 import {SignalrStore} from "@frontend/shared-ui";
-import {
-  Spinner,
-  SpinnerSize
-} from "@fluentui/react";
 import {IPagination} from "@frontend/util";
+import {Table} from "@kalila/table";
 
 
 export function MSDAdministration() {
@@ -50,7 +47,7 @@ export function MSDAdministration() {
       <AdministrationCommandBar
         pagination={state?.pagination ?? defaultPagination}
         handlePagination={handlePagination}/>
-      {state?.documents === undefined ? <Spinner size={SpinnerSize.large}/> : null}
+      <Table data={state?.documents} schema={state?.schema}/>
     </>
   );
 }

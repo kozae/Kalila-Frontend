@@ -1,12 +1,19 @@
 import './table.module.scss';
-import {DataEntrySchema} from "@frontend/util";
+import {ActivitySchema} from "@frontend/util";
+import React, {useEffect} from "react";
 
 export interface ITableProps {
   data?: { [key: string]: any },
-  schema: Partial<DataEntrySchema>[]
+  schema?: ActivitySchema
 }
 
-export function Table(props: ITableProps) {
+export const Table: React.FC<ITableProps> = ({data, schema}) => {
+  useEffect(() => {
+    console.log({data})
+  }, [data])
+  useEffect(() => {
+    console.log({schema})
+  }, [schema])
   return (
     <div>
       <h1>Welcome to UiTable!</h1>

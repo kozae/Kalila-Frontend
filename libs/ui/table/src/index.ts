@@ -1,1 +1,1 @@
-export * from './lib/ui-table';
+export * from './lib/table';
