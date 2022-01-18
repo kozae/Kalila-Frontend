@@ -32,7 +32,7 @@ pipeline{
             steps{
                 echo "====++++executing build image, create and run container++++===="
                 sh "docker build -t docker.kozae.de/kalila-frontend:dev -f dev.Dockerfile ."
-                sh "docker-compose -f docker-compose.dev.yml up --detach"
+                sh "COMPOSE_HTTP_TIMEOUT=2000 docker-compose -f docker-compose.dev.yml up --detach"
             }
         }
     }
