@@ -5,21 +5,23 @@ import {IPagination} from "@frontend/util";
 
 
 export interface IAdministrationCommandBarProps {
-  enableEdit?: boolean,
+  enableEditSelection?: boolean,
+  enableEditByFilter?: boolean,
   enableDelete?: boolean,
   pagination: IPagination,
-  handlePagination: (pagination: IPagination) => void
+  onPaginationChange: (pagination: IPagination) => void
 }
 
 export const AdministrationCommandBar: React.FC<IAdministrationCommandBarProps> = (
   {
-    enableEdit,
+    enableEditSelection,
+    enableEditByFilter,
     enableDelete,
     pagination,
-    handlePagination
+    onPaginationChange
   }) => {
   const pageSizes = [5, 10, 20];
-  const _items: ICommandBarItemProps[] = [
+  const _items = useMemo<ICommandBarItemProps[]>(() => [
     {
       key: 'Create',
       text: 'Create',
@@ -28,10 +30,10 @@ export const AdministrationCommandBar: React.FC<IAdministrationCommandBarProps> 
     },
     {
       key: 'Edit',
-      text: 'Edit',
+      text: enableEditSelection ? 'Edit selected' : enableEditByFilter ? 'Edit filtered' : 'Edit',
       iconProps: {iconName: 'Edit'},
       ariaLabel: 'Edit',
-      disabled: false,
+      disabled: !enableEditByFilter && !enableEditSelection,
     },
     {
       key: 'delete',
@@ -39,9 +41,9 @@ export const AdministrationCommandBar: React.FC<IAdministrationCommandBarProps> 
       iconProps: {iconName: 'Delete'},
       buttonStyles: {icon: {color: 'red'}},
       ariaLabel: 'Delete',
-      disabled: false,
+      disabled: !enableDelete,
     }
-  ];
+  ], [enableEditByFilter, enableEditSelection, enableDelete])
 
   const _farItems = useMemo<ICommandBarItemProps[]>(() => {
     let {itemsPerPage: pageSize} = pagination;
@@ -54,7 +56,7 @@ export const AdministrationCommandBar: React.FC<IAdministrationCommandBarProps> 
         disabled: currentPage === 1,
         iconOnly: true,
         iconProps: {iconName: 'ChevronLeftEnd6'},
-        onClick: () => handlePagination({...pagination, currentPage: 1})
+        onClick: () => onPaginationChange({...pagination, currentPage: 1})
       },
       {
         key: 'previous',
@@ -63,7 +65,7 @@ export const AdministrationCommandBar: React.FC<IAdministrationCommandBarProps> 
         disabled: currentPage === 1,
         iconOnly: true,
         iconProps: {iconName: 'ChevronLeftSmall'},
-        onClick: () => handlePagination({...pagination, currentPage: currentPage - 1})
+        onClick: () => onPaginationChange({...pagination, currentPage: currentPage - 1})
       },
       {
         key: 'currentPage',
@@ -84,7 +86,7 @@ export const AdministrationCommandBar: React.FC<IAdministrationCommandBarProps> 
               pageSize = size;
               const lastPage = Math.ceil(totalItems / size);
               const newCurrentPage = currentPage > lastPage ? lastPage : currentPage;
-              return handlePagination({...pagination, itemsPerPage: size, currentPage: newCurrentPage})
+              return onPaginationChange({...pagination, itemsPerPage: size, currentPage: newCurrentPage})
             },
           })),
         },
@@ -96,7 +98,7 @@ export const AdministrationCommandBar: React.FC<IAdministrationCommandBarProps> 
         iconOnly: true,
         disabled: currentPage === totalPages,
         iconProps: {iconName: 'ChevronRightSmall'},
-        onClick: () => handlePagination({...pagination, currentPage: currentPage + 1})
+        onClick: () => onPaginationChange({...pagination, currentPage: currentPage + 1})
       },
       {
         key: 'last',
@@ -105,7 +107,7 @@ export const AdministrationCommandBar: React.FC<IAdministrationCommandBarProps> 
         iconOnly: true,
         disabled: currentPage === totalPages,
         iconProps: {iconName: 'ChevronRightEnd6'},
-        onClick: () => handlePagination({...pagination, currentPage: totalPages})
+        onClick: () => onPaginationChange({...pagination, currentPage: totalPages})
       },
     ]
   }, [pagination])

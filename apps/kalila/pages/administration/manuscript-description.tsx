@@ -1,6 +1,6 @@
 import {useRouter} from "next/router";
 import {AdministrationCommandBar, useAdminPageStore, withAdminLayout} from "@frontend/ui/administration";
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {SignalrStore} from "@frontend/shared-ui";
 import {IPagination} from "@frontend/util";
 import {Table} from "@frontend/ui/table";
@@ -9,7 +9,9 @@ import {Table} from "@frontend/ui/table";
 export function MSDAdministration() {
   const router = useRouter();
   const {state: {update, connection, isConnected}, dispatchers: {joinGroup}} = useContext(SignalrStore);
-  const {state, dispatchers} = useAdminPageStore('ManuscriptDescription', router)
+  const {state, dispatchers} = useAdminPageStore('ManuscriptDescription', router);
+  const [selection, setSelection] = useState<string[]>([]);
+  const [filter, setFilter] = useState<{ [key: string]: any }>({});
 
   useEffect(() => {
     if (connection && isConnected) {
@@ -19,12 +21,17 @@ export function MSDAdministration() {
   }, [isConnected, connection])
 
   useEffect(() => {
+    const {PageSize, PageNumber, OrderBy, SortDirection, ...rest} = router.query;
+    setFilter(rest);
+  }, [router.query])
+
+  useEffect(() => {
     if (update && dispatchers && dispatchers.processSignalRUpdate) {
       dispatchers.processSignalRUpdate(update).catch()
     }
   }, [update])
 
-  const handlePagination = (pagination: IPagination) => {
+  const handlePaginationChange = (pagination: IPagination) => {
     return router.push({
       pathname: router.pathname,
       query: {
@@ -46,7 +53,10 @@ export function MSDAdministration() {
     <>
       <AdministrationCommandBar
         pagination={state?.pagination ?? defaultPagination}
-        handlePagination={handlePagination}/>
+        enableDelete={selection.length === 1 && Object.keys(filter).length === 0}
+        enableEditSelection={selection.length > 1}
+        enableEditByFilter={Object.keys(filter).length > 0}
+        onPaginationChange={handlePaginationChange}/>
       <Table data={state?.documents} schema={state?.schema}/>
     </>
   );
