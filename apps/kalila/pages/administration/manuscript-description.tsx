@@ -3,7 +3,7 @@ import {AdministrationCommandBar, useAdminPageStore, withAdminLayout} from "@fro
 import React, {useContext, useEffect} from "react";
 import {SignalrStore} from "@frontend/shared-ui";
 import {IPagination} from "@frontend/util";
-import {Table} from "@kalila/table";
+import {Table} from "@frontend/ui/table";
 
 
 export function MSDAdministration() {

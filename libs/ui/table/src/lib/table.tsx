@@ -21,4 +21,3 @@ export const Table: React.FC<ITableProps> = ({data, schema}) => {
   );
 }
 
-export default Table;
