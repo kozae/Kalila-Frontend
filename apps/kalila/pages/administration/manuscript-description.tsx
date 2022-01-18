@@ -31,6 +31,7 @@ export function MSDAdministration() {
 
   return (
     <>
+      <h1>Test</h1>
       <AdministrationCommandBar/>
       {state?.documents === undefined ? <Spinner size={SpinnerSize.large}/> : null}
     </>
