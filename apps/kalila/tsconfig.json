@@ -15,9 +15,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
-    "paths": {
-      "@kalila/table": ["../../libs/ui/table/src/index.ts"]
-    }
   },
   "include": [
     "**/*.ts",

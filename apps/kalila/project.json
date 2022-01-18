@@ -19,12 +19,14 @@
       "executor": "@nrwl/next:server",
       "options": {
         "buildTarget": "kalila:build",
-        "dev": true
+        "dev": true,
+        "buildLibsFromSource": true
       },
       "configurations": {
         "production": {
           "buildTarget": "kalila:build:production",
-          "dev": false
+          "dev": false,
+          "buildLibsFromSource": true
         }
       }
     },
