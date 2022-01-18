@@ -75,7 +75,7 @@ export const withAdminLayout = (OriginalComponent: React.JSXElementConstructor<a
     return (
       <div className={styles['page']}>
         <AdminNav selectedKey={selectedKey}/>
-        <div>
+        <div className={styles['content']}>
           {withTransition(OriginalComponent, {})()}
         </div>
       </div>

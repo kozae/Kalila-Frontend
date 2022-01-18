@@ -6,7 +6,7 @@ import {
   Spinner,
   SpinnerSize
 } from "@fluentui/react";
-
+import {IPagination} from "@frontend/util";
 
 
 export function MSDAdministration() {
@@ -22,17 +22,34 @@ export function MSDAdministration() {
   }, [isConnected, connection])
 
   useEffect(() => {
-    if (update && dispatchers && dispatchers.processSignalRUpdate)  {
+    if (update && dispatchers && dispatchers.processSignalRUpdate) {
       dispatchers.processSignalRUpdate(update).catch()
     }
   }, [update])
 
+  const handlePagination = (pagination: IPagination) => {
+    return router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        PageSize: pagination.itemsPerPage,
+        PageNumber: pagination.currentPage
+      }
+    })
+  }
 
+  const defaultPagination: IPagination = {
+    itemsPerPage: 10,
+    currentPage: 0,
+    totalItems: 0,
+    totalPages: 0
+  };
 
   return (
     <>
-      <h1>Test</h1>
-      <AdministrationCommandBar/>
+      <AdministrationCommandBar
+        pagination={state?.pagination ?? defaultPagination}
+        handlePagination={handlePagination}/>
       {state?.documents === undefined ? <Spinner size={SpinnerSize.large}/> : null}
     </>
   );
