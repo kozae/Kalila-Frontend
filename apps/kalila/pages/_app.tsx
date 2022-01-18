@@ -17,7 +17,6 @@ import {
 import {AnimatePresence} from "framer-motion";
 import {useSignalr} from "@frontend/shared-ui";
 import {SessionProvider} from 'next-auth/react';
-import {SWRConfig} from 'swr';
 
 initializeIcons()
 

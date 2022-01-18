@@ -1,17 +1,18 @@
 import {useRouter} from "next/router";
-import {useAdminPageStore, withAdminLayout} from "@frontend/ui/administration";
-import {useContext, useEffect} from "react";
+import {AdministrationCommandBar, useAdminPageStore, withAdminLayout} from "@frontend/ui/administration";
+import React, {useContext, useEffect} from "react";
 import {SignalrStore} from "@frontend/shared-ui";
+import {
+  Spinner,
+  SpinnerSize
+} from "@fluentui/react";
+
+
 
 export function MSDAdministration() {
   const router = useRouter();
   const {state: {update, connection, isConnected}, dispatchers: {joinGroup}} = useContext(SignalrStore);
-  const store = useAdminPageStore('ManuscriptDescription', router, update)
-
-  useEffect(() => {
-    console.log({docs: store.state.documents})
-    console.log({pagination: store.state.pagination})
-  }, [store.state.documents])
+  const {state, dispatchers} = useAdminPageStore('ManuscriptDescription', router)
 
   useEffect(() => {
     if (connection && isConnected) {
@@ -20,9 +21,18 @@ export function MSDAdministration() {
     }
   }, [isConnected, connection])
 
+  useEffect(() => {
+    if (update && dispatchers && dispatchers.processSignalRUpdate)  {
+      dispatchers.processSignalRUpdate(update).catch()
+    }
+  }, [update])
+
+
+
   return (
     <>
-      <h1>Welcome to MSD Administration!</h1>
+      <AdministrationCommandBar/>
+      {state?.documents === undefined ? <Spinner size={SpinnerSize.large}/> : null}
     </>
   );
 }
