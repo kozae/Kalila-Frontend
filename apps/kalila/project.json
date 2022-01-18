@@ -19,7 +19,7 @@
       "executor": "@nrwl/next:server",
       "options": {
         "buildTarget": "kalila:build",
-        "dev": true
+        "dev": false
       },
       "configurations": {
         "production": {
