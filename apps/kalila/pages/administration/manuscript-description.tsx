@@ -9,7 +9,6 @@ import styles from './index.module.scss';
 import {plainToInstance} from "class-transformer";
 import {ManuscriptDescriptionAdmin, withAdministrativeColumns} from "@frontend/domain";
 import {Column} from "react-table";
-import {AgGridColumn, AgGridReact} from "ag-grid-react";
 
 
 export function MSDAdministration() {
@@ -70,7 +69,6 @@ export function MSDAdministration() {
     table: {
       width: '100%',
       maxHeight: '400px',
-      height: 'fit-content',
       overflow: 'auto'
     },
     thead: {}
@@ -86,12 +84,9 @@ export function MSDAdministration() {
         <Paginator pagination={state?.pagination ?? defaultPagination}
                    onPaginationChange={handlePaginationChange}/>
       </div>
-      {documents && columns ? (
-        <AgGridReact
-          rowData={documents}>
-          {columns.map( cl=> <AgGridColumn key={cl.accessor as string} field={cl.accessor as string}/> )}
-        </AgGridReact>
-      ) : <h1>Loading...</h1>}
+      {documents && columns ? <Table data={documents}
+                                     columns={withAdministrativeColumns(columns)}
+                                     tableStyles={tableStyles}/> : <h1>Loading...</h1>}
     </>
   );
 }
