@@ -9,6 +9,7 @@ import styles from './index.module.scss';
 import {plainToInstance} from "class-transformer";
 import {ManuscriptDescriptionAdmin, withAdministrativeColumns} from "@frontend/domain";
 import {Column} from "react-table";
+import {AgGridColumn, AgGridReact} from "ag-grid-react";
 
 
 export function MSDAdministration() {
@@ -74,6 +75,12 @@ export function MSDAdministration() {
     thead: {}
   }
 
+  const rowData = [
+    {make: "Toyota", model: "Celica", price: 35000},
+    {make: "Ford", model: "Mondeo", price: 32000},
+    {make: "Porsche", model: "Boxter", price: 72000}
+  ];
+
   return (
     <>
       <div className={styles['commands']}>
@@ -84,9 +91,14 @@ export function MSDAdministration() {
         <Paginator pagination={state?.pagination ?? defaultPagination}
                    onPaginationChange={handlePaginationChange}/>
       </div>
-      {documents && columns ? <Table data={documents}
-                                     columns={withAdministrativeColumns(columns)}
-                                     tableStyles={tableStyles}/> : <h1>Loading...</h1>}
+      <div className="ag-theme-alpine" style={{height: 400, width: 600}}>
+        <AgGridReact
+          rowData={rowData}>
+          <AgGridColumn field="make"/>
+          <AgGridColumn field="model"/>
+          <AgGridColumn field="price"/>
+        </AgGridReact>
+      </div>
     </>
   );
 }
