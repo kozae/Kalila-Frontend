@@ -16,7 +16,7 @@ export function getSchema(accessToken: string | undefined | null, activityName: 
     fetcher);
 }
 
-export function getDocuments(accessToken: string | undefined | null, activityName: string, schema: any, {query}: NextRouter) {
+export function getDocuments<T extends object>(accessToken: string | undefined | null, activityName: string, schema: any, {query}: NextRouter) {
   return useSWR(
     schema && accessToken ? [ // only fetch if access token is present, after the schema is fetched
       activityName,

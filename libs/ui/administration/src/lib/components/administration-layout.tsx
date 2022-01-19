@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {IPivotItemProps, Pivot, PivotItem} from "@fluentui/react";
 import styles from './administration-layout.module.scss';
 import {IRenderFunction} from "@fluentui/react/lib/Utilities";
@@ -71,10 +71,17 @@ const AdminNav: React.FC<{ selectedKey: string }> = ({selectedKey}) => {
 
 export const withAdminLayout = (OriginalComponent: React.JSXElementConstructor<any>, selectedKey: string) => {
   return () => {
+    const [showNav, setShowNav] = useState(false);
 
+    // Wait until after client-side hydration to show
+    // The fluent ui pivot container uses 'LayoutEffect'
+    // which gives a warning with ssr
+    useEffect(() => {
+      setShowNav(true);
+    }, []);
     return (
       <div className={styles['page']}>
-        <AdminNav selectedKey={selectedKey}/>
+        {showNav ? <AdminNav selectedKey={selectedKey}/> : null}
         <div className={styles['content']}>
           {withTransition(OriginalComponent, {})()}
         </div>

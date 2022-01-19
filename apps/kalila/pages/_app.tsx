@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+import 'es6-shim';
 import {AppProps} from 'next/app';
 import Head from 'next/head';
 import {

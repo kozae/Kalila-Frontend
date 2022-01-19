@@ -1,3 +1,4 @@
+
 .info {
   margin-top: 1rem;
 
@@ -5,4 +6,11 @@
     font-size: 1.1rem;
   }
 
+}
+
+.commands {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }

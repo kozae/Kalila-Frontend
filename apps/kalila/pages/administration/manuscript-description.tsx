@@ -1,9 +1,12 @@
 import {useRouter} from "next/router";
 import {AdministrationCommandBar, useAdminPageStore, withAdminLayout} from "@frontend/ui/administration";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {SignalrStore} from "@frontend/shared-ui";
 import {IPagination} from "@frontend/util";
 import {Table} from "@frontend/ui/table";
+import {Paginator} from "@frontend/ui/table";
+import styles from './index.module.scss';
+
 
 
 export function MSDAdministration() {
@@ -11,7 +14,6 @@ export function MSDAdministration() {
   const {state: {update, connection, isConnected}, dispatchers: {joinGroup}} = useContext(SignalrStore);
   const {state, dispatchers} = useAdminPageStore('ManuscriptDescription', router);
   const [selection, setSelection] = useState<string[]>([]);
-  const [filter, setFilter] = useState<{ [key: string]: any }>({});
 
   useEffect(() => {
     if (connection && isConnected) {
@@ -20,9 +22,9 @@ export function MSDAdministration() {
     }
   }, [isConnected, connection])
 
-  useEffect(() => {
+  const filter = useMemo(()=> {
     const {PageSize, PageNumber, OrderBy, SortDirection, ...rest} = router.query;
-    setFilter(rest);
+    return rest;
   }, [router.query])
 
   useEffect(() => {
@@ -51,13 +53,15 @@ export function MSDAdministration() {
 
   return (
     <>
-      <AdministrationCommandBar
-        pagination={state?.pagination ?? defaultPagination}
-        enableDelete={selection.length === 1 && Object.keys(filter).length === 0}
-        enableEditSelection={selection.length > 1}
-        enableEditByFilter={Object.keys(filter).length > 0}
-        onPaginationChange={handlePaginationChange}/>
-      <Table data={state?.documents} schema={state?.schema}/>
+      <div className={styles['commands']}>
+        <AdministrationCommandBar
+          enableDelete={selection.length === 1 && Object.keys(filter).length === 0}
+          enableEditSelection={selection.length > 1}
+          enableEditByFilter={Object.keys(filter).length > 0}/>
+        <Paginator pagination={state?.pagination ?? defaultPagination}
+                   onPaginationChange={handlePaginationChange}/>
+      </div>
+
     </>
   );
 }
