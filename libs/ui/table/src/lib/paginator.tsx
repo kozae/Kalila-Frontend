@@ -34,7 +34,7 @@ export const Paginator: React.FC<IPaginatorProps> = ({pagination, onPaginationCh
       },
       {
         key: 'currentPage',
-        text: `${(currentPage * pageSize) - pageSize + 1} to ${currentPage * pageSize} of ${totalItems}`,
+        text: totalItems > 0 ? `${(currentPage * pageSize) - pageSize + 1} to ${currentPage * pageSize} of ${totalItems}`: 'no items',
         ariaLabel: 'Current page',
         disabled: true,
       },

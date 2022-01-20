@@ -6,7 +6,7 @@ import {
   initializeIcons,
   loadTheme
 } from '@fluentui/react';
-import './styles.css';
+import './styles.scss';
 import React from "react";
 import {
   kalilaTheme,

@@ -66,7 +66,7 @@ export function MSDAdministration() {
     totalPages: 0
   };
 
-  const  tableStyles: Record<'table' | 'thead', CSSProperties> = {
+  const tableStyles: Record<'table' | 'thead', CSSProperties> = {
     table: {
       width: '100%',
       maxHeight: '400px',
@@ -75,28 +75,30 @@ export function MSDAdministration() {
     thead: {}
   }
 
-  const rowData = [
-    {make: "Toyota", model: "Celica", price: 35000},
-    {make: "Ford", model: "Mondeo", price: 32000},
-    {make: "Porsche", model: "Boxter", price: 72000}
-  ];
-
   return (
     <>
       <div className={styles['commands']}>
         <AdministrationCommandBar
           enableDelete={selection.length === 1 && Object.keys(filter).length === 0}
-          enableEditSelection={selection.length > 1}
+          enableEditSelection={selection.length > 0}
           enableEditByFilter={Object.keys(filter).length > 0}/>
         <Paginator pagination={state?.pagination ?? defaultPagination}
                    onPaginationChange={handlePaginationChange}/>
       </div>
-      <div className="ag-theme-alpine" style={{height: 400, width: 600}}>
+      <div className="ag-theme-kalila" style={{height: "fit-content", width: '100%'}}>
         <AgGridReact
-          rowData={rowData}>
-          <AgGridColumn field="make"/>
-          <AgGridColumn field="model"/>
-          <AgGridColumn field="price"/>
+          onSelectionChanged={(event) => setSelection(event.api.getSelectedRows())}
+          enableCellTextSelection={true}
+          reactUi={true}
+          domLayout='autoHeight'
+          onGridReady={(event) => event.api.sizeColumnsToFit()}
+          rowSelection={'multiple'}
+          rowData={documents ?? []}>
+          <AgGridColumn resizable pinned={'left'} lockPosition={true} field="Siglum"/>
+          <AgGridColumn resizable field="Editor"/>
+          <AgGridColumn resizable field="EditionProgress"/>
+          <AgGridColumn resizable field="CreatedAt"/>
+          <AgGridColumn resizable field="Version"/>
         </AgGridReact>
       </div>
     </>

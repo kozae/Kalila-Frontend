@@ -1,2 +1,2 @@
-export * from './lib/table';
+export * from './lib/headers';
 export * from './lib/paginator';
