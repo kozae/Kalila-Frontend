@@ -1,14 +1,12 @@
 import {useRouter} from "next/router";
 import {AdministrationCommandBar, useAdminPageStore, withAdminLayout} from "@frontend/ui/administration";
-import React, {CSSProperties, useContext, useEffect, useMemo, useState} from "react";
+import React, {CSSProperties, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {SignalrStore} from "@frontend/shared-ui";
 import {IPagination} from "@frontend/util";
-import {Table} from "@frontend/ui/table";
-import {Paginator} from "@frontend/ui/table";
+import {Paginator, StringValueHeader} from "@frontend/ui/table";
 import styles from './index.module.scss';
 import {plainToInstance} from "class-transformer";
-import {ManuscriptDescriptionAdmin, withAdministrativeColumns} from "@frontend/domain";
-import {Column} from "react-table";
+import {ManuscriptDescriptionAdmin} from "@frontend/domain";
 import {AgGridColumn, AgGridReact} from "ag-grid-react";
 
 
@@ -25,10 +23,11 @@ export function MSDAdministration() {
     }
   }, [isConnected, connection])
 
-  const filter = useMemo(() => {
+  const {filter, sort} = useMemo(() => {
     const {PageSize, PageNumber, OrderBy, SortDirection, ...rest} = router.query;
-    return rest;
+    return {filter: rest, sort: {OrderBy, SortDirection}};
   }, [router.query])
+
 
   useEffect(() => {
     if (update && dispatchers && dispatchers.processSignalRUpdate) {
@@ -41,14 +40,8 @@ export function MSDAdministration() {
     [state]
   )
 
-  const columns = useMemo<Column<ManuscriptDescriptionAdmin>[]>(() =>
-      state ? state.schema.Fields.map(f => ({
-        Header: f.FieldName,
-        accessor: f.FieldNamePascalCase
-      } as Column<ManuscriptDescriptionAdmin>)) : null
-    , [state]);
 
-  const handlePaginationChange = (pagination: IPagination) => {
+  const handlePaginationChange = useCallback((pagination: IPagination) => {
     return router.push({
       pathname: router.pathname,
       query: {
@@ -57,7 +50,19 @@ export function MSDAdministration() {
         PageNumber: pagination.currentPage
       }
     })
-  }
+  }, [router.query])
+
+  const handleSortChange = useCallback(async (sort: { OrderBy?: string, SortDirection?: 'asc' | 'desc' }) => {
+    console.log(router.query)
+    await router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        OrderBy: sort.OrderBy,
+        SortDirection: sort.SortDirection
+      }
+    })
+  }, [router.query])
 
   const defaultPagination: IPagination = {
     itemsPerPage: 10,
@@ -66,15 +71,11 @@ export function MSDAdministration() {
     totalPages: 0
   };
 
-  const tableStyles: Record<'table' | 'thead', CSSProperties> = {
-    table: {
-      width: '100%',
-      maxHeight: '400px',
-      overflow: 'auto'
-    },
-    thead: {}
-  }
-
+  const headerComponentParams = {
+    activeSort: {...sort},
+    onSort: handleSortChange,
+    onFilter: (filter: any)=> console.log(filter)
+  };
   return (
     <>
       <div className={styles['commands']}>
@@ -93,12 +94,28 @@ export function MSDAdministration() {
           domLayout='autoHeight'
           onGridReady={(event) => event.api.sizeColumnsToFit()}
           rowSelection={'multiple'}
+          frameworkComponents={{stringValueHeader: StringValueHeader}}
+          defaultColDef={{
+            resizable: true,
+            flex: 1,
+            minWidth: 100,
+            headerComponentParams: {
+              onFilter: () => console.log('filter called'),
+            }
+          }}
+          headerHeight={120}
           rowData={documents ?? []}>
-          <AgGridColumn resizable pinned={'left'} lockPosition={true} field="Siglum"/>
-          <AgGridColumn resizable field="Editor"/>
-          <AgGridColumn resizable field="EditionProgress"/>
-          <AgGridColumn resizable field="CreatedAt"/>
-          <AgGridColumn resizable field="Version"/>
+          <AgGridColumn headerComponent={'stringValueHeader'}
+                        pinned={'left'}
+                        headerComponentParams={headerComponentParams}
+                        lockPosition={true}
+                        field="Siglum"/>
+          <AgGridColumn headerComponent={'stringValueHeader'}
+                        headerComponentParams={headerComponentParams}
+                        field="Editor"/>
+          <AgGridColumn headerComponent={'stringValueHeader'}
+                        headerComponentParams={headerComponentParams}
+                        field="EditionProgress"/>
         </AgGridReact>
       </div>
     </>

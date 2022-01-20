@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.label-sort {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
+}
+.label {
+  padding: 5px;
+  font-size: 1.1rem;
+}
+
+.sort {
+
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+}

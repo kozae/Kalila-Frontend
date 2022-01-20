@@ -13,9 +13,9 @@ export function useNavigationEventHandling({
   useEffect(() => {
     const previousRoute = router.pathname;
     const handleRouteChange = (newRoute: string, {shallow}: { shallow: boolean }) => {
-      console.log({previousRoute})
-      console.log({newRoute})
-      console.log({shallow})
+      // console.log({previousRoute})
+      // console.log({newRoute})
+      // console.log({shallow})
       switch (previousRoute) {
         case  '/manuscript-description':
         case  '/administration/manuscript-description':

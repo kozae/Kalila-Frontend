@@ -1,64 +1,77 @@
-import {useEffect, useRef, useState} from "react";
+import styles from './header.module.scss'
+import {IconButton, ITooltipHostStyles, TextField, TooltipHost} from "@fluentui/react";
+import {useId} from '@fluentui/react-hooks';
+
+
+const calloutProps = {gapSpace: 0};
+const hostStyles: Partial<ITooltipHostStyles> = {root: {display: 'inline-block'}};
 
 export const StringValueHeader = (props: any) => {
-  const [ascSort, setAscSort] = useState('inactive');
-  const [descSort, setDescSort] = useState('inactive');
-  const [noSort, setNoSort] = useState('inactive');
-  const refButton = useRef(null);
-
-  const onMenuClicked = () => {
-    props.showColumnMenu(refButton.current);
-  }
-
-  const onSortChanged = () => {
-    setAscSort(props.column.isSortAscending() ? 'active' : 'inactive');
-    setDescSort(props.column.isSortDescending() ? 'active' : 'inactive');
-    setNoSort(!props.column.isSortAscending() && !props.column.isSortDescending() ? 'active' : 'inactive');
-  }
-
-  const onSortRequested = (order: any, event: any) => {
-    props.setSort(order, event.shiftKey);
-  }
-
-  useEffect(() => {
-    props.column.addEventListener('sortChanged', onSortChanged);
-    onSortChanged()
-  }, []);
-
-  let menu = null;
-  if (props.enableMenu) {
-    menu =
-      <div ref={refButton}
-           className="customHeaderMenuButton"
-           onClick={() => onMenuClicked()}>
-        <i className={`fa ${props.menuIcon}`}></i>
-      </div>;
-  }
-
-  let sort = null;
-  if (props.enableSorting) {
-    sort =
-      <div style={{display: "inline-block"}}>
-        <div onClick={event => onSortRequested('asc', event)} onTouchEnd={event => onSortRequested('asc', event)}
-             className={`customSortDownLabel ${ascSort}`}>
-          <i className="fa fa-long-arrow-alt-down"></i>
-        </div>
-        <div onClick={event => onSortRequested('desc', event)} onTouchEnd={event => onSortRequested('desc', event)}
-             className={`customSortUpLabel ${descSort}`}>
-          <i className="fa fa-long-arrow-alt-up"></i>
-        </div>
-        <div onClick={event => onSortRequested('', event)} onTouchEnd={event => onSortRequested('', event)}
-             className={`customSortRemoveLabel ${noSort}`}>
-          <i className="fa fa-times"></i>
-        </div>
-      </div>;
-  }
-
+  const tooltip1Id = useId('tooltip1');
+  const tooltip2Id = useId('tooltip2');
+  const tooltip3Id = useId('tooltip3');
   return (
-    <div>
-      {menu}
-      <div className="customHeaderLabel">{props.displayName}</div>
-      {sort}
+    <div className={styles['container']}>
+      <div className={styles['label-sort']}>
+        <div className={styles['label']}>{props.displayName}</div>
+        <div className={styles['sort']}>
+          <TooltipHost
+            content="Sort ascending"
+            id={tooltip1Id}
+            calloutProps={calloutProps}
+            styles={hostStyles}
+          >
+            <IconButton
+              iconProps={{iconName: 'Ascending'}}
+              title="Ascending"
+              ariaLabel="Ascending"
+              onClick={() => props.onSort({OrderBy: props.column.colId})}
+              checked={props.activeSort?.OrderBy === props.column.colId && props.activeSort?.SortDirection !== 'desc'}/>
+          </TooltipHost>
+          <TooltipHost
+            content="Sort descending"
+            id={tooltip2Id}
+            calloutProps={calloutProps}
+            styles={hostStyles}
+          >
+            <IconButton
+              iconProps={{iconName: 'Descending'}}
+              title="Descending"
+              ariaLabel="Descending"
+              onClick={() => props.onSort({OrderBy: props.column.colId, SortDirection: 'desc'})}
+              checked={props.activeSort?.OrderBy === props.column.colId && props.activeSort?.SortDirection === 'desc'}/>
+          </TooltipHost>
+          <TooltipHost
+            content="No sort"
+            id={tooltip3Id}
+            calloutProps={calloutProps}
+            styles={hostStyles}
+          >
+            <IconButton iconProps={{iconName: 'StatusCircleBlock2'}}
+                        onClick={() => props.onSort({})}
+                        disabled={!(props.activeSort?.OrderBy === props.column.colId)}
+                        title="ClearSort"
+                        ariaLabel="No sort"/>
+          </TooltipHost>
+        </div>
+      </div>
+      <div className={styles['filter']}>
+        <TextField
+          prefix={'sw'}
+          placeholder="Starts with"
+          ariaLabel="Example text field with https:// prefix"
+        />
+        <TextField
+          prefix={'cn'}
+          placeholder="Contains"
+          ariaLabel="Example text field with https:// prefix"
+        />
+        <TextField
+          prefix={'ew'}
+          placeholder="Ends with"
+          ariaLabel="Example text field with https:// prefix"
+        />
+      </div>
     </div>
   );
 };
