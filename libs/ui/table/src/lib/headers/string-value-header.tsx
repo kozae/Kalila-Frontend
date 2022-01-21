@@ -1,6 +1,7 @@
 import styles from './header.module.scss'
-import {IconButton, ITooltipHostStyles, TextField, TooltipHost} from "@fluentui/react";
+import {IconButton, ITextField, ITooltipHostStyles, TextField, TooltipHost} from "@fluentui/react";
 import {useId} from '@fluentui/react-hooks';
+import {useRef} from "react";
 
 
 const calloutProps = {gapSpace: 0};
@@ -10,6 +11,13 @@ export const StringValueHeader = (props: any) => {
   const tooltip1Id = useId('tooltip1');
   const tooltip2Id = useId('tooltip2');
   const tooltip3Id = useId('tooltip3');
+  const refs = {
+    sw: useRef<ITextField>(null),
+    cn: useRef<ITextField>(null),
+    ew: useRef<ITextField>(null)
+  };
+
+
   return (
     <div className={styles['container']}>
       <div className={styles['label-sort']}>
@@ -59,17 +67,32 @@ export const StringValueHeader = (props: any) => {
         <TextField
           prefix={'sw'}
           placeholder="Starts with"
-          ariaLabel="Example text field with https:// prefix"
+          componentRef={refs.sw}
+          onChange={
+            (e) =>
+              props.onFilter({...props.activeFilter, [`${props.column.colId}Sw`]: e.currentTarget.value})
+          }
+          ariaLabel={`${props.displayName} starts with`}
         />
         <TextField
           prefix={'cn'}
           placeholder="Contains"
-          ariaLabel="Example text field with https:// prefix"
+          componentRef={refs.cn}
+          onChange={
+            (e) =>
+              props.onFilter({...props.activeFilter, [`${props.column.colId}Cn`]: e.currentTarget.value})
+          }
+          ariaLabel={`${props.displayName} contains`}
         />
         <TextField
           prefix={'ew'}
           placeholder="Ends with"
-          ariaLabel="Example text field with https:// prefix"
+          componentRef={refs.ew}
+          onChange={
+            (e) =>
+              props.onFilter({...props.activeFilter, [`${props.column.colId}Ew`]: e.currentTarget.value})
+          }
+          ariaLabel={`${props.displayName} ends with`}
         />
       </div>
     </div>

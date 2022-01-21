@@ -20,6 +20,8 @@
     "class-transformer": "^0.5.1",
     "core-js": "^3.6.5",
     "es6-shim": "^0.35.6",
+    "formik": "^2.2.9",
+    "formik-fluent-ui-react": "^1.1.0",
     "framer-motion": "^5.5.6",
     "lodash": "^4.17.21",
     "mongodb": "^4.3.0",

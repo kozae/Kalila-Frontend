@@ -1,6 +1,6 @@
 import {useRouter} from "next/router";
 import {AdministrationCommandBar, useAdminPageStore, withAdminLayout} from "@frontend/ui/administration";
-import React, {CSSProperties, useCallback, useContext, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {SignalrStore} from "@frontend/shared-ui";
 import {IPagination} from "@frontend/util";
 import {Paginator, StringValueHeader} from "@frontend/ui/table";
@@ -8,6 +8,7 @@ import styles from './index.module.scss';
 import {plainToInstance} from "class-transformer";
 import {ManuscriptDescriptionAdmin} from "@frontend/domain";
 import {AgGridColumn, AgGridReact} from "ag-grid-react";
+import {debounce} from 'lodash';
 
 
 export function MSDAdministration() {
@@ -53,7 +54,6 @@ export function MSDAdministration() {
   }, [router.query])
 
   const handleSortChange = useCallback(async (sort: { OrderBy?: string, SortDirection?: 'asc' | 'desc' }) => {
-    console.log(router.query)
     await router.push({
       pathname: router.pathname,
       query: {
@@ -64,6 +64,16 @@ export function MSDAdministration() {
     })
   }, [router.query])
 
+  const handleFilterChange = useCallback(debounce(async (filter: any) => {
+    await router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        ...filter,
+      }
+    })
+  }, 1000), [router.query])
+
   const defaultPagination: IPagination = {
     itemsPerPage: 10,
     currentPage: 0,
@@ -73,8 +83,9 @@ export function MSDAdministration() {
 
   const headerComponentParams = {
     activeSort: {...sort},
+    activeFilter: {...filter},
     onSort: handleSortChange,
-    onFilter: (filter: any)=> console.log(filter)
+    onFilter: handleFilterChange
   };
   return (
     <>
