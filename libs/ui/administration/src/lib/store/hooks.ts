@@ -10,7 +10,7 @@ import {
 } from "./reducers";
 import {getDocuments, getSchema} from "./queries";
 
-
+// todo refactor to useKalilaDocumentStore in the shared package, move use registered editors out
 export function useAdminPageStore(
   activityName: string,
   router: NextRouter

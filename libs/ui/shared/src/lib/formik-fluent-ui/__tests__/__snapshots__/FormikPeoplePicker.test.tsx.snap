@@ -1,0 +1,521 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FormikCompactPeoplePicker /> renders correctly as a field component 1`] = `
+<form
+  action="#"
+  onReset={[Function]}
+  onSubmit={[Function]}
+>
+  <div
+    className="ms-BasePicker"
+    onBlur={[Function]}
+    onKeyDown={[Function]}
+  >
+    <div
+      className="ms-FocusZone css-57"
+      data-focuszone-id="FocusZone28"
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onMouseDownCapture={[Function]}
+    >
+      <div
+        className="ms-SelectionZone"
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onDoubleClick={[Function]}
+        onFocusCapture={[Function]}
+        onKeyDown={[Function]}
+        onKeyDownCapture={[Function]}
+        onMouseDown={[Function]}
+        onMouseDownCapture={[Function]}
+        role="presentation"
+      >
+        <div
+          className="ms-BasePicker-text text-53"
+        >
+          <span
+            className="ms-BasePicker-itemsWrapper itemsWrapper-54"
+            id="selected-items-id__27"
+            role="list"
+          >
+            <div
+              aria-labelledby="selectedItemPersona-id__35"
+              className="ms-PickerPersona-container root-58"
+              data-is-focusable={true}
+              data-is-sub-focuszone={true}
+              data-selection-index={0}
+              role="listitem"
+            >
+              <div
+                className="ms-PickerItem-content itemContent-59"
+                id="selectedItemPersona-id__35"
+              >
+                <div
+                  className="ms-Persona ms-Persona--size24 root-61"
+                >
+                  <div
+                    className="ms-Persona-coin ms-Persona--size24 coin-68"
+                    role="presentation"
+                  >
+                    <div
+                      className="ms-Persona-imageArea imageArea-70"
+                      role="presentation"
+                    >
+                      <div
+                        aria-hidden="true"
+                        className="ms-Persona-initials initials-73"
+                      >
+                        <span>
+                          FB
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="ms-Persona-details details-62"
+                  >
+                    <div
+                      className="ms-Persona-primaryText primaryText-63"
+                      dir="auto"
+                    >
+                      <div
+                        className="ms-TooltipHost root-76"
+                        onBlurCapture={[Function]}
+                        onFocusCapture={[Function]}
+                        onKeyDown={[Function]}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                      >
+                        Foo Bar
+                      </div>
+                    </div>
+                    <div
+                      className="ms-Persona-secondaryText secondaryText-64"
+                      dir="auto"
+                    >
+                      <div
+                        className="ms-TooltipHost root-76"
+                        onBlurCapture={[Function]}
+                        onFocusCapture={[Function]}
+                        onKeyDown={[Function]}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                      >
+                        foo@bar.com
+                      </div>
+                    </div>
+                    <div
+                      className="ms-Persona-tertiaryText tertiaryText-65"
+                      dir="auto"
+                    />
+                    <div
+                      className="ms-Persona-optionalText optionalText-66"
+                      dir="auto"
+                    />
+                  </div>
+                </div>
+              </div>
+              <button
+                className="ms-Button ms-Button--icon ms-PickerItem-removeButton removeButton-77"
+                data-is-focusable={true}
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                onKeyPress={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseUp={[Function]}
+                type="button"
+              >
+                <span
+                  className="ms-Button-flexContainer flexContainer-78"
+                  data-automationid="splitbuttonprimary"
+                >
+                  <i
+                    aria-hidden={true}
+                    className="ms-Button-icon icon-84"
+                    data-icon-name="Cancel"
+                  />
+                </span>
+              </button>
+            </div>
+          </span>
+          <input
+            aria-autocomplete="both"
+            aria-controls=""
+            aria-describedby="selected-items-id__27"
+            aria-expanded={false}
+            aria-haspopup="listbox"
+            autoCapitalize="off"
+            autoComplete="off"
+            className="ms-BasePicker-input input-55"
+            data-lpignore={true}
+            id="combobox-id__27"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onClick={[Function]}
+            onCompositionEnd={[Function]}
+            onCompositionStart={[Function]}
+            onCompositionUpdate={[Function]}
+            onFocus={[Function]}
+            onInput={[Function]}
+            onKeyDown={[Function]}
+            role="combobox"
+            spellCheck={false}
+            style={
+              Object {
+                "fontFamily": "inherit",
+              }
+            }
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+`;
+
+exports[`<FormikListPeoplePicker /> renders correctly as a field component 1`] = `
+<form
+  action="#"
+  onReset={[Function]}
+  onSubmit={[Function]}
+>
+  <div
+    onBlur={[Function]}
+  >
+    <div
+      className="ms-BasePicker"
+      onKeyDown={[Function]}
+    >
+      <div
+        className="ms-BasePicker-text text-53"
+      >
+        <input
+          aria-autocomplete="both"
+          aria-expanded={false}
+          aria-haspopup="listbox"
+          autoCapitalize="off"
+          autoComplete="off"
+          className="ms-BasePicker-input input-55"
+          data-lpignore={true}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onClick={[Function]}
+          onCompositionEnd={[Function]}
+          onCompositionStart={[Function]}
+          onCompositionUpdate={[Function]}
+          onFocus={[Function]}
+          onInput={[Function]}
+          onKeyDown={[Function]}
+          role="combobox"
+          style={
+            Object {
+              "fontFamily": "inherit",
+            }
+          }
+          value=""
+        />
+      </div>
+    </div>
+    <div
+      className="ms-SelectionZone"
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDoubleClick={[Function]}
+      onFocusCapture={[Function]}
+      onKeyDown={[Function]}
+      onKeyDownCapture={[Function]}
+      onMouseDown={[Function]}
+      onMouseDownCapture={[Function]}
+      role="presentation"
+    >
+      <div
+        className="ms-FocusZone css-57 ms-BasePicker-selectedItems"
+        data-focuszone-id="FocusZone55"
+        id="selected-items-id__54"
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onMouseDownCapture={[Function]}
+        role="list"
+      >
+        <div
+          aria-labelledby="selectedItemPersona-id__62"
+          className="ms-PickerPersona-container root-58"
+          data-is-focusable={true}
+          data-is-sub-focuszone={true}
+          data-selection-index={0}
+          role="listitem"
+        >
+          <div
+            className="ms-PickerItem-content itemContent-59"
+            id="selectedItemPersona-id__62"
+          >
+            <div
+              className="ms-Persona ms-Persona--size24 root-61"
+            >
+              <div
+                className="ms-Persona-coin ms-Persona--size24 coin-68"
+                role="presentation"
+              >
+                <div
+                  className="ms-Persona-imageArea imageArea-70"
+                  role="presentation"
+                >
+                  <div
+                    aria-hidden="true"
+                    className="ms-Persona-initials initials-73"
+                  >
+                    <span>
+                      FB
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="ms-Persona-details details-62"
+              >
+                <div
+                  className="ms-Persona-primaryText primaryText-63"
+                  dir="auto"
+                >
+                  <div
+                    className="ms-TooltipHost root-76"
+                    onBlurCapture={[Function]}
+                    onFocusCapture={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
+                  >
+                    Foo Bar
+                  </div>
+                </div>
+                <div
+                  className="ms-Persona-secondaryText secondaryText-64"
+                  dir="auto"
+                >
+                  <div
+                    className="ms-TooltipHost root-76"
+                    onBlurCapture={[Function]}
+                    onFocusCapture={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
+                  >
+                    foo@bar.com
+                  </div>
+                </div>
+                <div
+                  className="ms-Persona-tertiaryText tertiaryText-65"
+                  dir="auto"
+                />
+                <div
+                  className="ms-Persona-optionalText optionalText-66"
+                  dir="auto"
+                />
+              </div>
+            </div>
+          </div>
+          <button
+            className="ms-Button ms-Button--icon ms-PickerItem-removeButton removeButton-77"
+            data-is-focusable={true}
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            onKeyPress={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseUp={[Function]}
+            type="button"
+          >
+            <span
+              className="ms-Button-flexContainer flexContainer-78"
+              data-automationid="splitbuttonprimary"
+            >
+              <i
+                aria-hidden={true}
+                className="ms-Button-icon icon-84"
+                data-icon-name="Cancel"
+              />
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+`;
+
+exports[`<FormikNormalPeoplePicker /> renders correctly as a field component 1`] = `
+<form
+  action="#"
+  onReset={[Function]}
+  onSubmit={[Function]}
+>
+  <div
+    className="ms-BasePicker"
+    onBlur={[Function]}
+    onKeyDown={[Function]}
+  >
+    <div
+      className="ms-FocusZone css-57"
+      data-focuszone-id="FocusZone1"
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onMouseDownCapture={[Function]}
+    >
+      <div
+        className="ms-SelectionZone"
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onDoubleClick={[Function]}
+        onFocusCapture={[Function]}
+        onKeyDown={[Function]}
+        onKeyDownCapture={[Function]}
+        onMouseDown={[Function]}
+        onMouseDownCapture={[Function]}
+        role="presentation"
+      >
+        <div
+          className="ms-BasePicker-text text-53"
+        >
+          <span
+            className="ms-BasePicker-itemsWrapper itemsWrapper-54"
+            id="selected-items-id__0"
+            role="list"
+          >
+            <div
+              aria-labelledby="selectedItemPersona-id__8"
+              className="ms-PickerPersona-container root-58"
+              data-is-focusable={true}
+              data-is-sub-focuszone={true}
+              data-selection-index={0}
+              role="listitem"
+            >
+              <div
+                className="ms-PickerItem-content itemContent-59"
+                id="selectedItemPersona-id__8"
+              >
+                <div
+                  className="ms-Persona ms-Persona--size24 root-61"
+                >
+                  <div
+                    className="ms-Persona-coin ms-Persona--size24 coin-68"
+                    role="presentation"
+                  >
+                    <div
+                      className="ms-Persona-imageArea imageArea-70"
+                      role="presentation"
+                    >
+                      <div
+                        aria-hidden="true"
+                        className="ms-Persona-initials initials-73"
+                      >
+                        <span>
+                          FB
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="ms-Persona-details details-62"
+                  >
+                    <div
+                      className="ms-Persona-primaryText primaryText-63"
+                      dir="auto"
+                    >
+                      <div
+                        className="ms-TooltipHost root-76"
+                        onBlurCapture={[Function]}
+                        onFocusCapture={[Function]}
+                        onKeyDown={[Function]}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                      >
+                        Foo Bar
+                      </div>
+                    </div>
+                    <div
+                      className="ms-Persona-secondaryText secondaryText-64"
+                      dir="auto"
+                    >
+                      <div
+                        className="ms-TooltipHost root-76"
+                        onBlurCapture={[Function]}
+                        onFocusCapture={[Function]}
+                        onKeyDown={[Function]}
+                        onMouseEnter={[Function]}
+                        onMouseLeave={[Function]}
+                      >
+                        foo@bar.com
+                      </div>
+                    </div>
+                    <div
+                      className="ms-Persona-tertiaryText tertiaryText-65"
+                      dir="auto"
+                    />
+                    <div
+                      className="ms-Persona-optionalText optionalText-66"
+                      dir="auto"
+                    />
+                  </div>
+                </div>
+              </div>
+              <button
+                className="ms-Button ms-Button--icon ms-PickerItem-removeButton removeButton-77"
+                data-is-focusable={true}
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                onKeyPress={[Function]}
+                onKeyUp={[Function]}
+                onMouseDown={[Function]}
+                onMouseUp={[Function]}
+                type="button"
+              >
+                <span
+                  className="ms-Button-flexContainer flexContainer-78"
+                  data-automationid="splitbuttonprimary"
+                >
+                  <i
+                    aria-hidden={true}
+                    className="ms-Button-icon icon-84"
+                    data-icon-name="Cancel"
+                  />
+                </span>
+              </button>
+            </div>
+          </span>
+          <input
+            aria-autocomplete="both"
+            aria-controls=""
+            aria-describedby="selected-items-id__0"
+            aria-expanded={false}
+            aria-haspopup="listbox"
+            autoCapitalize="off"
+            autoComplete="off"
+            className="ms-BasePicker-input input-55"
+            data-lpignore={true}
+            id="combobox-id__0"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onClick={[Function]}
+            onCompositionEnd={[Function]}
+            onCompositionStart={[Function]}
+            onCompositionUpdate={[Function]}
+            onFocus={[Function]}
+            onInput={[Function]}
+            onKeyDown={[Function]}
+            role="combobox"
+            spellCheck={false}
+            style={
+              Object {
+                "fontFamily": "inherit",
+              }
+            }
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+`;

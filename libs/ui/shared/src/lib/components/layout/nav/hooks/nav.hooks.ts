@@ -33,6 +33,7 @@ export function useRouteState(init: INavbarState, sideEffects: Array<() => void>
 }
 
 export function useNavSessionState(init: INavbarState) {
+  // todo replace with getSessionSWR
   const {session, status} = useKalilaSession();
   const [links, setLinks] = useState<INavbarLink[]>(init.links);
   const [loggedUser, setLoggedUser] = useState<string | undefined | null>(init.loggedUser);

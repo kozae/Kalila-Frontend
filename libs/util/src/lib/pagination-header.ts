@@ -7,6 +7,12 @@ export interface IPagination {
   totalPages: number;
 }
 
+export const defaultPagination: IPagination = {
+  itemsPerPage: 10,
+  currentPage: 0,
+  totalItems: 0,
+  totalPages: 0
+};
 
 export function getPagination(headers: AxiosResponseHeaders) {
   if (headers['pagination']) {

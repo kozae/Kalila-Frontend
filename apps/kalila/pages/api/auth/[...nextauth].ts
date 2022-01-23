@@ -3,7 +3,7 @@ import KeycloakProvider from "next-auth/providers/keycloak";
 
 
 export default NextAuth({
-  secret: "revjZSuOKv8Q5Q1xRTZM4etElUcNVlXpgBwzUkT6tJE=",
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     jwt: async ({token, user, account}) => {
       if (user && account) {
