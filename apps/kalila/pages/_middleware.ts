@@ -1,6 +1,7 @@
 import {NextFetchEvent, NextRequest, NextResponse} from "next/server";
 import {NextMiddlewareResult} from "next/dist/server/web/types";
 import {getToken} from "next-auth/jwt";
+import jwt_decode from "jwt-decode";
 
 
 export async function middleware(req: NextRequest, event: NextFetchEvent): Promise<NextMiddlewareResult> {
@@ -13,7 +14,6 @@ export async function middleware(req: NextRequest, event: NextFetchEvent): Promi
 }
 
 async function isAuthenticated(req: NextRequest): Promise<boolean> {
-  console.log(req.nextUrl)
   switch (req.nextUrl.pathname) {
     case '/': // unprotected paths
       return true;
@@ -24,13 +24,16 @@ async function isAuthenticated(req: NextRequest): Promise<boolean> {
         secret: process.env.NEXTAUTH_SECRET,
         secureCookie: true
       })
-      console.log({session})
-      console.log(isTokenExpired(session?.exp as number))
-      return !!session;
+      if (!!session) {
+        return !isApiAccessTokenExpired(session.access as string)
+      }
+
+      return false
   }
 }
 
-function isTokenExpired(exp: number) {
+function isApiAccessTokenExpired(token: string) {
+  const decoded = jwt_decode(token) as any;
   const currentTime = new Date().getTime() / 1000;
-  return currentTime > exp
+  return currentTime > decoded.exp
 }

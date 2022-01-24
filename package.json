@@ -34,7 +34,8 @@
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
     "swr": "^1.1.2",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@nrwl/cli": "13.4.3",

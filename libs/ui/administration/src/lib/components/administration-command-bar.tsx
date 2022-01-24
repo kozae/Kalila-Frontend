@@ -6,13 +6,19 @@ export interface IAdministrationCommandBarProps {
   enableEditSelection?: boolean,
   enableEditByFilter?: boolean,
   enableDelete?: boolean,
+  onCreate: ()=> void,
+  onEdit: ()=> void,
+  onDelete: ()=> void,
 }
 
 export const AdministrationCommandBar: React.FC<IAdministrationCommandBarProps> = (
   {
     enableEditSelection,
     enableEditByFilter,
-    enableDelete
+    enableDelete,
+    onCreate,
+    onEdit,
+    onDelete
   }) => {
   const _items = useMemo<ICommandBarItemProps[]>(() => [
     {
@@ -20,6 +26,7 @@ export const AdministrationCommandBar: React.FC<IAdministrationCommandBarProps> 
       text: 'Create',
       iconProps: {iconName: 'Add'},
       ariaLabel: 'Create',
+      onClick: onCreate
     },
     {
       key: 'Edit',
@@ -27,6 +34,7 @@ export const AdministrationCommandBar: React.FC<IAdministrationCommandBarProps> 
       iconProps: {iconName: 'Edit'},
       ariaLabel: 'Edit',
       disabled: !enableEditByFilter && !enableEditSelection,
+      onClick: onEdit
     },
     {
       key: 'delete',
@@ -35,6 +43,7 @@ export const AdministrationCommandBar: React.FC<IAdministrationCommandBarProps> 
       buttonStyles: {icon: {color: 'red'}},
       ariaLabel: 'Delete',
       disabled: !enableDelete,
+      onClick: onDelete
     }
   ], [enableEditByFilter, enableEditSelection, enableDelete])
 

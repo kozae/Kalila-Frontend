@@ -5,10 +5,11 @@ import {CommandBar, ICommandBarItemProps} from "@fluentui/react";
 export interface IPaginatorProps {
   pagination: IPagination,
   onPaginationChange: (pagination: IPagination) => void,
-  pageSizes?: number[]
+  pageSizes?: number[],
+  loading: boolean
 }
 
-export const Paginator: React.FC<IPaginatorProps> = ({pagination, onPaginationChange, pageSizes}) => {
+export const Paginator: React.FC<IPaginatorProps> = ({pagination, onPaginationChange, pageSizes, loading}) => {
   const _items = useMemo<ICommandBarItemProps[]>(() => {
     let {itemsPerPage: pageSize} = pagination;
     const {totalItems, totalPages, currentPage} = pagination;
@@ -34,7 +35,7 @@ export const Paginator: React.FC<IPaginatorProps> = ({pagination, onPaginationCh
       },
       {
         key: 'currentPage',
-        text: totalItems > 0 ? `${(currentPage * pageSize) - pageSize + 1} to ${currentPage * pageSize} of ${totalItems}`: 'no items',
+        text: loading ? 'loading...' : totalItems > 0 ? `${(currentPage * pageSize) - pageSize + 1} to ${currentPage * pageSize} of ${totalItems}`: 'no data',
         ariaLabel: 'Current page',
         disabled: true,
       },
@@ -75,7 +76,7 @@ export const Paginator: React.FC<IPaginatorProps> = ({pagination, onPaginationCh
         onClick: () => onPaginationChange({...pagination, currentPage: totalPages})
       },
     ]
-  }, [pagination, pageSizes, onPaginationChange])
+  }, [pagination, pageSizes, onPaginationChange, loading])
 
   return (
     <CommandBar

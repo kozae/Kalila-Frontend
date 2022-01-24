@@ -1,34 +1,48 @@
-import {useAdminPageStore} from "./store";
-import {useEffect, useMemo, useState} from "react";
-import {plainToInstance} from "class-transformer";
-import {useRouter} from "next/router";
+import {Dispatch, SetStateAction, useEffect,  useState} from "react";
+import {NextRouter, useRouter} from "next/router";
 import {ClassConstructor} from "class-transformer/types/interfaces";
-import {subscribeToSignalrUpdates, useParamsFromRouteQuery} from "@frontend/shared-ui";
+import {
+  subscribeToSignalrUpdates,
+  usePaginatedDocuments,
+  useParamsFromRouteQuery,
+  useRegisteredEditors, useSignalRUpdateProcessing
+} from "@frontend/shared-ui";
+
+function resetSelectionOnQueryChange(setter:  Dispatch<SetStateAction<string[]>>, {query}: NextRouter) {
+  useEffect(() => {
+    setter([])
+  }, [query])
+}
 
 
 export function useAdminPage<T extends object>(activityName: string, cls: ClassConstructor<T>) {
   const router = useRouter();
   const update = subscribeToSignalrUpdates(activityName)
-  const {state, dispatchers} = useAdminPageStore(activityName, router);
-  const documents = useMemo(() => state ? plainToInstance(cls, state.documents) : null, [state])
-  const pagination = useMemo(() => state?.pagination, [state])
+  const {state, dispatchers, loading} = usePaginatedDocuments<T>(activityName, router, cls);
+  const editors = useRegisteredEditors()
   const [selection, setSelection] = useState<string[]>([]);
 
+  resetSelectionOnQueryChange(setSelection, router);
+  useSignalRUpdateProcessing(update, dispatchers);
 
-  useEffect(() => {
-    if (update && dispatchers && dispatchers.processSignalRUpdate) {
-      dispatchers.processSignalRUpdate(update).catch()
+
+  if (!loading && state) {
+    return {
+      ...state,
+      loading: false,
+      selection,
+      editors,
+      setSelection,
+      ...useParamsFromRouteQuery(router)
     }
-  }, [update])
+  }
 
-  useEffect(() => {
-    setSelection([])
-  }, [router.query])
-
-  return {
-    documents,
-    pagination,
+  return  {
+    documents: null,
+    pagination: null,
+    loading: true,
     selection,
+    editors,
     setSelection,
     ...useParamsFromRouteQuery(router)
   }

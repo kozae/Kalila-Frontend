@@ -1,7 +1,6 @@
-import {useRegisteredEditors} from "@frontend/shared-ui";
 import {getSessionSWR, IPagination} from "@frontend/util";
 import {NextRouter} from "next/router";
-import { IAdminPageStore} from "./models";
+import { IPaginatedDocuments} from "./models";
 import {
   createDocumentFactory,
   deleteDocumentFactory,
@@ -9,13 +8,14 @@ import {
   updateDocumentFactory
 } from "./reducers";
 import {getDocuments, getSchema} from "./queries";
+import {ClassConstructor} from "class-transformer/types/interfaces";
+import {plainToInstance} from "class-transformer";
 
-// todo refactor to useKalilaDocumentStore in the shared package, move use registered editors out
-export function useAdminPageStore(
+export function usePaginatedDocuments<T extends  object>(
   activityName: string,
-  router: NextRouter
-): IAdminPageStore {
-  const editors = useRegisteredEditors()
+  router: NextRouter,
+  cls: ClassConstructor<T>
+): IPaginatedDocuments<T> {
   const session = getSessionSWR();
   const accessToken = session?.accessToken;
   const loggedUser = session?.session?.user?.username;
@@ -26,11 +26,10 @@ export function useAdminPageStore(
   if (!isValidating && data) {
     return {
       state: {
-        documents: data.content,
+        documents: plainToInstance(cls, data.content as any[]),
         pagination: data.pagination as IPagination,
         schema: schema?.content,
         loggedUser: loggedUser as string,
-        editors
       },
       dispatchers: {
         createDocument: createDocumentFactory(accessToken as string, activityName),
@@ -41,6 +40,6 @@ export function useAdminPageStore(
     };
   }
 
-  return {state: undefined, dispatchers: undefined}
+  return {state: undefined, dispatchers: undefined, loading: true}
 
 }

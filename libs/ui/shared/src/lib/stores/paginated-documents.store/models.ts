@@ -1,20 +1,19 @@
-import {IEditor, IRealTimeUpdate} from "@frontend/shared-ui";
+import {IRealTimeUpdate} from "@frontend/shared-ui";
 import {ActivitySchema, IPagination, IStore} from "@frontend/util";
 
 
-export interface IAdministrationState {
+export interface IPaginatedDocumentsState<T extends object> {
   loggedUser: string | null,
-  editors: IEditor[],
-  documents: { [key: string]: any }[],
+  documents: T[],
   schema: ActivitySchema
   pagination: IPagination
 }
 
-export interface IAdministrationDispatchers {
+export interface IPaginatedDocumentsDispatchers {
   createDocument: (doc: { [p: string]: any }) => Promise<void>,
   processSignalRUpdate: (update: IRealTimeUpdate) => Promise<void>,
   updateDocument: (update: {[p: string]: any}, params: {[p: string]: any}) => Promise<void>,
   deleteDocument: (id: string) => Promise<void>
 }
 
-export type IAdminPageStore = IStore<IAdministrationState | undefined, IAdministrationDispatchers | undefined>;
+export type IPaginatedDocuments<T extends object> = IStore<IPaginatedDocumentsState<T> | undefined, IPaginatedDocumentsDispatchers | undefined>;
