@@ -1,4 +1,4 @@
-export enum KalilaValueType {
+export enum KalilaValueTypes {
   String,
   Int,
   Float,

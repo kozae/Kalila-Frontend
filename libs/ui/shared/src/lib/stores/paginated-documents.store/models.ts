@@ -9,11 +9,11 @@ export interface IPaginatedDocumentsState<T extends object> {
   pagination: IPagination
 }
 
-export interface IPaginatedDocumentsDispatchers {
-  createDocument: (doc: { [p: string]: any }) => Promise<void>,
+export interface IPaginatedDocumentsDispatchers<T extends object> {
+  createDocument: (doc: T) => Promise<void>,
   processSignalRUpdate: (update: IRealTimeUpdate) => Promise<void>,
   updateDocument: (update: {[p: string]: any}, params: {[p: string]: any}) => Promise<void>,
   deleteDocument: (id: string) => Promise<void>
 }
 
-export type IPaginatedDocuments<T extends object> = IStore<IPaginatedDocumentsState<T> | undefined, IPaginatedDocumentsDispatchers | undefined>;
+export type IPaginatedDocuments<T extends object> = IStore<IPaginatedDocumentsState<T> | undefined, IPaginatedDocumentsDispatchers<T> | undefined>;

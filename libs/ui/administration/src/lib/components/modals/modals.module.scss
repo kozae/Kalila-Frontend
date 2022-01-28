@@ -1,0 +1,14 @@
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-direction: column;
+  & > * {
+    margin: 1rem;
+  }
+}
+
+.form-actions {
+  align-self: center;
+}

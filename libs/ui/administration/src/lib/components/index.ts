@@ -1,3 +1,4 @@
-export * from './forms'
+export * from './modals'
 export * from './administration-command-bar'
 export * from './administration-layout'
+export * from './administration-page'

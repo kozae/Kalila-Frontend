@@ -1,2 +1,4 @@
 export * from './lib/components';
-export * from './lib/use-admin-page.hook';
+export * from './lib/admin-page.context';
+export * from './lib/init-admin-page.hook';
+

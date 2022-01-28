@@ -5,8 +5,8 @@ import {IRealTimeUpdate} from "@frontend/shared-ui";
 
 type Mutator = KeyedMutator<{ content: any[], pagination: IPagination | undefined }>
 
-export function createDocumentFactory(accessToken: string, activityName: string) {
-  return async (doc: { [key: string]: any }) => {
+export function createDocumentFactory<T extends object>(accessToken: string, activityName: string) {
+  return async (doc: T) => {
     await axios.post(`/server/api/v1/${activityName}`, doc,
       {
         headers: {

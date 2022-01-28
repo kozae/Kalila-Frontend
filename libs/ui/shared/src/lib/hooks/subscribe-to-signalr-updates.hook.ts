@@ -1,8 +1,9 @@
 import {useContext, useEffect} from "react";
-import {SignalrStore} from "../stores";
+import {IRealTimeUpdate, SignalrStore} from "../stores";
 
-export function subscribeToSignalrUpdates(group: string) {
+export function useSignalrUpdates<TDispatchers extends { processSignalRUpdate: (update: IRealTimeUpdate) => Promise<void> }>(group: string, dispatchers?: TDispatchers) {
   const {state: {update, connection, isConnected}, dispatchers: {joinGroup}} = useContext(SignalrStore);
+
   useEffect(() => {
     if (connection && isConnected) {
       joinGroup(group, connection)
@@ -10,5 +11,9 @@ export function subscribeToSignalrUpdates(group: string) {
     }
   }, [isConnected, connection])
 
-  return update
+  useEffect(() => {
+    if (update && dispatchers && dispatchers.processSignalRUpdate) {
+      dispatchers.processSignalRUpdate(update).catch()
+    }
+  }, [update])
 }

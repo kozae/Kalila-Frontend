@@ -1,5 +1,5 @@
-import { InputMode } from './input-mode';
-import { KalilaValueType } from './value-type';
+import { InputModes } from './input-modes';
+import { KalilaValueTypes } from './value-type';
 import { KalilaRelationType } from './relation-type';
 
 export interface DataEntrySchema {
@@ -17,11 +17,11 @@ export interface DataEntrySchema {
   TopField?: boolean;
   Searchable?: boolean;
   EditableInBulk?: boolean;
-  KalilaValueType: KalilaValueType;
+  KalilaValueType: KalilaValueTypes;
   RelationType?: KalilaRelationType;
   ValueProperties?: string[];
   ConnectsToEntity?: string;
   ConnectsToField?: string;
-  InputMode: InputMode;
+  InputMode: InputModes;
   CategoricalAttributeType: string;
 }

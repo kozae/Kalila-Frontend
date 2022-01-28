@@ -32,11 +32,12 @@ export function usePaginatedDocuments<T extends  object>(
         loggedUser: loggedUser as string,
       },
       dispatchers: {
-        createDocument: createDocumentFactory(accessToken as string, activityName),
+        createDocument: createDocumentFactory<T>(accessToken as string, activityName),
         processSignalRUpdate: processSignalRUpdateFactory(mutateDocs, mutateSchema, activityName),
         updateDocument: updateDocumentFactory(accessToken as string, activityName),
         deleteDocument: deleteDocumentFactory(accessToken as string, activityName),
-      }
+      },
+      loading: false
     };
   }
 

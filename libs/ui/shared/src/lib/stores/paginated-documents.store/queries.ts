@@ -30,13 +30,3 @@ export function getDocuments<T extends object>(accessToken: string | undefined |
       revalidateOnReconnect: true
     })
 }
-
-export async function  documentExists(accessToken: string | undefined | null, activityName: string, params: {[key: string]: any}) {
-  await axios.get(`/server/api/v1/${activityName}/Check`,
-    {
-      params,
-      headers: {
-        'Authorization': `Bearer ${accessToken}`
-      }
-    })
-}
