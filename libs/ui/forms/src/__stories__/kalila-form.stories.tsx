@@ -1,10 +1,9 @@
 import React from 'react';
 import {initializeIcons, loadTheme} from "@fluentui/react";
-import withMock from "storybook-addon-mock";
 import {IEditor, kalilaTheme} from "@frontend/shared-ui";
 import {KalilaForm} from "../lib/kalila-form";
-import { editorEntrySchema } from '@frontend/util';
-import { ManuscriptDescriptionAdmin } from '@frontend/domain';
+import {editorEntrySchema} from '@frontend/util';
+import {ManuscriptDescriptionAdmin} from '@frontend/domain';
 
 initializeIcons()
 
@@ -13,7 +12,6 @@ export default {
   title: 'KalilaForm',
   component: KalilaForm,
   argTypes: {onSubmit: {action: 'submitted'}, onCanSubmit: {action: 'can submit'}},
-  decorators: [withMock],
 };
 
 const editors: IEditor[] = [
@@ -28,23 +26,11 @@ const editors: IEditor[] = [
 ]
 
 const Template = (args: any) => <div style={{width: '300px'}}><KalilaForm {...args}>
-  <button type="submit">Create</button>
+  <button type="submit">Submit</button>
 </KalilaForm></div>;
 
 export const CreateManuscript = Template.bind({});
-// @ts-ignore
-CreateManuscript.parameters = {
-  mockData: [
-    {
-      url: '/server/api/v1/ManuscriptDescription/Check',
-      method: 'GET',
-      status: 200,
-      response: {
-        data: true,
-      },
-    },
-  ],
-}
+
 // @ts-ignore
 CreateManuscript.args = {
   fields: [
@@ -70,6 +56,8 @@ CreateManuscript.args = {
   editors,
   categoricalAttributes: {},
   initialValues: new ManuscriptDescriptionAdmin(),
-  validationSchema: ManuscriptDescriptionAdmin.getValidationSchema(['mk', 'ds'])
+  validationSchema: ManuscriptDescriptionAdmin
+    .validationSchemaFactory(
+      ['mk', 'ds'], {'Siglum': async value => value !== 'P5881'})
 }
 

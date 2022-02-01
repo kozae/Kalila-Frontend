@@ -6,7 +6,7 @@ import {ClassConstructor} from "class-transformer/types/interfaces";
 
 export interface IAdministrationCommandBarProps<T extends object> {
   cls: ClassConstructor<T> // just for type inference
-  selection: string[],
+  selection: T[],
   onCreate: () => void,
   onEdit: () => void,
   onDelete: () => void,

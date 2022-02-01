@@ -5,7 +5,7 @@ import {useBoolean} from "@fluentui/react-hooks";
 import {AgGridReactProps, AgReactUiProps} from "ag-grid-react/lib/shared/interfaces";
 
 
-export function resetSelectionOnQueryChange(setter: Dispatch<SetStateAction<string[]>>, {query}: NextRouter) {
+export function resetSelectionOnQueryChange(setter: Dispatch<SetStateAction<any[]>>, {query}: NextRouter) {
   useEffect(() => {
     setter([])
   }, [query])

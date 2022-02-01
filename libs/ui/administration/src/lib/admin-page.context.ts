@@ -5,22 +5,24 @@ import {AnySchema} from "yup/lib/schema";
 import { IPagination} from "@frontend/util";
 import {IEditor} from "@frontend/shared-ui";
 import {ClassConstructor} from "class-transformer/types/interfaces";
+import {KalilaDocument} from "@frontend/domain";
 
 
-export interface IAdminPageContext<T extends object> {
+export interface IAdminPageContext<T extends KalilaDocument> {
   activityName: string,
   initialValues: T,
-  validationSchema: ObjectSchema<Record<keyof T, AnySchema>>,
+  validationSchemaFactory: (config: {mode?: 'edit' | 'create' ,skip: Record<any, any>}) => ObjectSchema<Record<any, AnySchema>>,
   cls: ClassConstructor<T>,
   createModalTitle: string,
+  editModalTitle: Record<'one' | 'many' | 'filtered', string>,
   filter: Record<string, any> ,
   editors: IEditor[],
   onPaginationChange: (pagination: IPagination) => Promise<boolean>,
 }
 
 
-export const createAdminPageContext = once(<T extends object>() => {
+export const createAdminPageContext = once(<T extends KalilaDocument>() => {
   return React.createContext<IAdminPageContext<T> | null>(null)
 })
 
-export const useAdminPageContext = <T extends object>() => React.useContext(createAdminPageContext<T>());
+export const useAdminPageContext = <T extends KalilaDocument>() => React.useContext(createAdminPageContext<T>());

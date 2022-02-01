@@ -1,66 +1,16 @@
 import React, {useState} from "react";
 import styles from './modals.module.scss'
-import {
-  FontWeights,
-  getTheme,
-  IButtonStyles,
-  IconButton,
-  mergeStyleSets,
-  Modal,
-  PrimaryButton
-} from "@fluentui/react";
-import { KalilaForm} from "@frontend/ui/forms";
+import {IconButton, Modal, PrimaryButton} from "@fluentui/react";
 import {ActivitySchema, editorEntrySchema} from "@frontend/util";
 import {useId} from "@fluentui/react-hooks";
 import {IAdminPageContext, useAdminPageContext} from "../../admin-page.context";
 import {ClassConstructor} from "class-transformer/types/interfaces";
-
-const theme = getTheme();
-const modalStyles = mergeStyleSets({
-  container: {
-    display: 'flex',
-    flexFlow: 'column nowrap',
-    alignItems: 'stretch',
-  },
-  header: [
-    // eslint-disable-next-line deprecation/deprecation
-    theme.fonts.xLargePlus,
-    {
-      flex: '1 1 auto',
-      borderTop: `4px solid ${theme.palette.themePrimary}`,
-      color: theme.palette.neutralPrimary,
-      display: 'flex',
-      alignItems: 'center',
-      fontWeight: FontWeights.semibold,
-      padding: '12px 12px 14px 24px',
-    },
-  ],
-  body: {
-    flex: '4 4 auto',
-    padding: '0 24px 24px 24px',
-    overflowY: 'hidden',
-    selectors: {
-      p: {margin: '14px 0'},
-      'p:first-child': {marginTop: 0},
-      'p:last-child': {marginBottom: 0},
-    },
-  },
-});
-
-const iconButtonStyles: Partial<IButtonStyles> = {
-  root: {
-    color: theme.palette.neutralPrimary,
-    marginLeft: 'auto',
-    marginTop: '4px',
-    marginRight: '2px',
-  },
-  rootHovered: {
-    color: theme.palette.neutralDark,
-  },
-};
+import {KalilaForm} from "@frontend/ui/forms";
+import {iconButtonStyles, modalStyles} from "./fluent-ui.styles";
+import {KalilaDocument} from "@frontend/domain";
 
 
-export interface ICreateModalProps<T extends object> {
+export interface ICreateModalProps<T extends KalilaDocument> {
   cls: ClassConstructor<T> // just for type inference
   isOpen: boolean,
   schema?: ActivitySchema,
@@ -68,7 +18,7 @@ export interface ICreateModalProps<T extends object> {
   onSubmit: ((doc: T) => void) | ((doc: T) => Promise<void>)
 }
 
-export const CreateDocumentModal = <T extends object>(
+export const CreateDocumentModal = <T extends KalilaDocument>(
   {
     isOpen,
     schema,
@@ -78,7 +28,7 @@ export const CreateDocumentModal = <T extends object>(
 
   const {
     initialValues,
-    validationSchema,
+    validationSchemaFactory,
     editors,
     createModalTitle: title
   } = useAdminPageContext<T>() as IAdminPageContext<T>;
@@ -110,7 +60,7 @@ export const CreateDocumentModal = <T extends object>(
                                          editors={editors}
                                          formClass={styles['form']}
                                          onCanSubmit={(v) => setCanCreate(v)}
-                                         validationSchema={validationSchema}
+                                         validationSchema={validationSchemaFactory({skip: {}})}
                                          onSubmit={onSubmit}>
             <div className={styles['form-actions']}>
               <PrimaryButton iconProps={{iconName: 'Add'}} styles={{label: {fontWeight: 'normal'}}} text="Create"

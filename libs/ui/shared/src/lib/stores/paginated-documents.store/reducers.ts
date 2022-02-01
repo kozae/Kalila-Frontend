@@ -2,10 +2,12 @@ import {KeyedMutator} from "swr";
 import {IPagination} from "@frontend/util";
 import axios from "axios";
 import {IRealTimeUpdate} from "@frontend/shared-ui";
+import {KalilaDocument} from "@frontend/domain";
+import {paramsSerializer} from "@frontend/util";
 
 type Mutator = KeyedMutator<{ content: any[], pagination: IPagination | undefined }>
 
-export function createDocumentFactory<T extends object>(accessToken: string, activityName: string) {
+export function createDocumentFactory<T extends KalilaDocument>(accessToken: string, activityName: string) {
   return async (doc: T) => {
     await axios.post(`/server/api/v1/${activityName}`, doc,
       {
@@ -37,7 +39,7 @@ export function processSignalRUpdateFactory(mutateDocs: Mutator, mutateSchema: M
 
 export function updateDocumentFactory(accessToken: string, activityName: string) {
   return async (update: { [key: string]: any }, params: { [key: string]: any }) => {
-    await axios.patch(`/server/api/v1/${activityName}/Admin`, update,
+    await axios.patch(`/server/api/v1/${activityName}`, update,
       {
         params,
         headers: {
@@ -46,6 +48,32 @@ export function updateDocumentFactory(accessToken: string, activityName: string)
       })
   }
 }
+
+export function updateOneDocumentFactory(accessToken: string, activityName: string) {
+  return async (update: { [key: string]: any }, params: { [key: string]: any }) => {
+    await axios.patch(`/server/api/v1/${activityName}/One`, update,
+      {
+        params,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      })
+  }
+}
+
+export function adminUpdateDocumentFactory(accessToken: string, activityName: string) {
+  return async (update: { [key: string]: any }, params: { [key: string]: any }) => {
+    await axios.patch(`/server/api/v1/${activityName}/Admin`, update,
+      {
+        params,
+        paramsSerializer,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      })
+  }
+}
+
 
 export function deleteDocumentFactory(accessToken: string, activityName: string) {
   return async (id: string) => {

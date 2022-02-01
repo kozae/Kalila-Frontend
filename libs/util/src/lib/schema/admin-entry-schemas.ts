@@ -1,4 +1,4 @@
-import {DataEntrySchema, InputModes, KalilaValueTypes} from "@frontend/util";
+import {DataEntrySchema} from "@frontend/util";
 
 export const editorEntrySchema: DataEntrySchema = {
   DocumentName: "",
@@ -8,5 +8,14 @@ export const editorEntrySchema: DataEntrySchema = {
   InputMode: 3,
   KalilaValueType: 0,
   CategoricalAttributeType: "Editors",
+}
 
+export const editionProgressEntrySchema: DataEntrySchema = {
+  DocumentName: "",
+  FieldDisplay: "Edition Progress",
+  FieldName: "edition progress",
+  FieldNamePascalCase: "EditionProgress",
+  InputMode: 3,
+  KalilaValueType: 0,
+  CategoricalAttributeType: "EditionProgress",
 }

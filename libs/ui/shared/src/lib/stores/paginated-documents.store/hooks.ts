@@ -2,6 +2,7 @@ import {getSessionSWR, IPagination} from "@frontend/util";
 import {NextRouter} from "next/router";
 import { IPaginatedDocuments} from "./models";
 import {
+  adminUpdateDocumentFactory,
   createDocumentFactory,
   deleteDocumentFactory,
   processSignalRUpdateFactory,
@@ -10,8 +11,9 @@ import {
 import {getDocuments, getSchema} from "./queries";
 import {ClassConstructor} from "class-transformer/types/interfaces";
 import {plainToInstance} from "class-transformer";
+import {KalilaDocument} from "@frontend/domain";
 
-export function usePaginatedDocuments<T extends  object>(
+export function usePaginatedDocuments<T extends  KalilaDocument>(
   activityName: string,
   router: NextRouter,
   cls: ClassConstructor<T>
@@ -35,6 +37,7 @@ export function usePaginatedDocuments<T extends  object>(
         createDocument: createDocumentFactory<T>(accessToken as string, activityName),
         processSignalRUpdate: processSignalRUpdateFactory(mutateDocs, mutateSchema, activityName),
         updateDocument: updateDocumentFactory(accessToken as string, activityName),
+        adminUpdateDocument: adminUpdateDocumentFactory(accessToken as string, activityName),
         deleteDocument: deleteDocumentFactory(accessToken as string, activityName),
       },
       loading: false

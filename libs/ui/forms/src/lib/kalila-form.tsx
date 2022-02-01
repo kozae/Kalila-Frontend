@@ -1,13 +1,14 @@
-import {DataEntrySchema, InputModes, KalilaValueTypes} from "@frontend/util";
+import {DataEntrySchema, editionProgressOptions, InputModes, KalilaValueTypes} from "@frontend/util";
 import {AnySchema} from "yup/lib/schema";
 import {ObjectSchema} from "yup";
 import {useFormik} from "formik";
 import {Dropdown, IDropdownOption, TextField} from "@fluentui/react";
 import React, {ReactNode, useEffect} from "react";
 import {IEditor} from "@frontend/shared-ui";
+import {KalilaDocument} from "@frontend/domain";
 
 
-export interface IKalilaFormProps<T extends object> {
+export interface IKalilaFormProps<T extends KalilaDocument> {
   initialValues: T,
   fields: DataEntrySchema[],
   categoricalAttributes: Record<string, string[]>,
@@ -19,7 +20,7 @@ export interface IKalilaFormProps<T extends object> {
   children?: ReactNode,
 }
 
-export const KalilaForm = <T extends object>(
+export const KalilaForm = <T extends KalilaDocument>(
   {
     initialValues,
     validationSchema,
@@ -37,13 +38,13 @@ export const KalilaForm = <T extends object>(
     validationSchema,
     validateOnBlur: true,
     validateOnChange: false,
-    validateOnMount: true,
+    validateOnMount: false,
     onSubmit
   });
 
   useEffect(() => {
-    onCanSubmit(formik.isValid)
-  }, [formik.isValid])
+    onCanSubmit(formik.isValid && Object.values(formik.touched).length !== 0)
+  }, [formik.isValid, Object.values(formik.touched).length])
 
   const formFields = fields.map(f => createFormField(f, categoricalAttributes, editors, formik))
 
@@ -85,7 +86,9 @@ function createFormField(field: DataEntrySchema, categoricalAttributes: Record<s
   const selectFieldProps = {
     ...commonProps,
     placeholder: field.FieldName,
-    options: field.FieldNamePascalCase === 'Editor' ? editorOptions : options,
+    options: field.FieldNamePascalCase === 'Editor' ? editorOptions
+      : field.FieldNamePascalCase === 'EditionProgress' ? editionProgressOptions.map(v => ({key: v, text: v}))
+        : options,
     selectedKey: values[field.FieldNamePascalCase],
     onChange: (_: any, option: any) => {
       setFieldValue(field.FieldNamePascalCase, option!.key)

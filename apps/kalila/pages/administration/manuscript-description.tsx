@@ -2,19 +2,27 @@ import {AdministrationPage, createAdminPageContext, initAdminPage, withAdminLayo
 import React from "react";
 import {AgGridColumn} from "ag-grid-react";
 import {ManuscriptDescriptionAdmin} from "@frontend/domain";
+import {checkStringValueFactory} from "@frontend/util";
 
 
 export function MSDAdministration() {
   const {editors, filter, handlePaginationChange, headerComponentParams} = initAdminPage()
   const AdminPageContext = createAdminPageContext<ManuscriptDescriptionAdmin>();
+  const initialValues = new ManuscriptDescriptionAdmin()
   return (
     <AdminPageContext.Provider
       value={{
         activityName: "ManuscriptDescription",
-        initialValues: new ManuscriptDescriptionAdmin(),
-        validationSchema: ManuscriptDescriptionAdmin.getValidationSchema(editors.map(v => v.username)),
+        initialValues,
+        validationSchemaFactory: initialValues
+          .validationSchemaFactory(editors.map(v => v.username), {"Siglum": checkStringValueFactory('ManuscriptDescription', 'Siglum')}),
         cls: ManuscriptDescriptionAdmin,
         createModalTitle: "Create a Manuscript Description Documents",
+        editModalTitle: {
+          one: 'Edit selected Manuscript Description Document',
+          many: 'Edit selected Manuscript Description Documents',
+          filtered: 'Edit filtered Manuscript Description Document'
+        },
         filter,
         editors,
         onPaginationChange: handlePaginationChange,
