@@ -3,8 +3,10 @@ import {MessageBar} from "@fluentui/react";
 import styles from './pages.module.scss'
 import {SiglumSelection} from "@frontend/shared-ui";
 import {useRouter} from "next/router";
+import {queryServerSide, sigla} from "@frontend/server-side-queries";
 
-export function MSSelection() {
+export function MSSelection(props) {
+  console.log(props)
   const {push} = useRouter()
   const sigla = [
     {id: '1', Siglum: 'P5881'},
@@ -24,16 +26,17 @@ export function MSSelection() {
   );
 }
 
-// export async function getServerSideProps() {
-//
-//   const query = await queryServerSide({sigla})
-//
-//   return {
-//     props: {
-//       ...query
-//     },
-//   }
-// }
 
 export default withAdminLayout(MSSelection, 'key2');
-;
+
+export async function getServerSideProps() {
+
+  const query = await queryServerSide({sigla})
+
+  return {
+    props: {
+      ...query
+    },
+  }
+}
+
