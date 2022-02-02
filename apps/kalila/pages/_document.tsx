@@ -1,9 +1,11 @@
 import * as React from 'react';
 import Document, {Head, Html, Main, NextScript} from 'next/document';
-import {Stylesheet, resetIds} from '@fluentui/react';
+import {Stylesheet, resetIds, loadTheme} from '@fluentui/react';
+import {kalilaTheme} from "@frontend/shared-ui";
 
 const stylesheet = Stylesheet.getInstance();
 
+loadTheme(kalilaTheme);
 
 export default class KalilaAppDocument extends Document<{ styleTags: any, serializedStylesheet: any }> {
   static async getInitialProps(ctx) {
