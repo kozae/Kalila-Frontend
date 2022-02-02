@@ -3,7 +3,7 @@ import 'es6-shim';
 import {AppProps} from 'next/app';
 import Head from 'next/head';
 import {
-  initializeIcons, loadTheme
+  initializeIcons, loadTheme, ThemeProvider
 } from '@fluentui/react';
 import './styles.scss';
 import React from "react";
@@ -20,6 +20,7 @@ import {useSignalr} from "@frontend/shared-ui";
 import {SessionProvider} from 'next-auth/react';
 
 initializeIcons()
+
 function KalilaApp(appProps: AppProps) {
   loadTheme(kalilaTheme);
   const {Component, pageProps, router} = appProps;
@@ -28,21 +29,23 @@ function KalilaApp(appProps: AppProps) {
   useNavigationEventHandling(signalrState);
   const {session} = pageProps;
   return (
-    <MediaQueryWrapper.Provider value={breakpoints}>
-      <SignalrStore.Provider value={{...signalrState}}>
-        <SessionProvider session={session}>
-          <Head>
-            <link rel="shortcut icon" href={"/favicon.ico"}/>
-            <title>Kalila</title>
-          </Head>
-          <Layout>
-            <AnimatePresence exitBeforeEnter>
-              <Component {...pageProps} key={router.route}/>
-            </AnimatePresence>
-          </Layout>
-        </SessionProvider>
-      </SignalrStore.Provider>
-    </MediaQueryWrapper.Provider>
+    <ThemeProvider theme={kalilaTheme}>
+      <MediaQueryWrapper.Provider value={breakpoints}>
+        <SignalrStore.Provider value={{...signalrState}}>
+          <SessionProvider session={session}>
+            <Head>
+              <link rel="shortcut icon" href={"/favicon.ico"}/>
+              <title>Kalila</title>
+            </Head>
+            <Layout>
+              <AnimatePresence exitBeforeEnter>
+                <Component {...pageProps} key={router.route}/>
+              </AnimatePresence>
+            </Layout>
+          </SessionProvider>
+        </SignalrStore.Provider>
+      </MediaQueryWrapper.Provider>
+    </ThemeProvider>
   );
 }
 
