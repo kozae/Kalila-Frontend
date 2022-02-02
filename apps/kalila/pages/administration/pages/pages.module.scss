@@ -1,0 +1,24 @@
+
+.info {
+  width: fit-content;
+  margin-top: 1rem;
+
+  & * {
+    font-size: 1.1rem;
+  }
+
+}
+
+.sigla {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.siglum {
+  min-width: 200px;
+  display: flex;
+  justify-content: flex-start;
+  margin: .5rem;
+}

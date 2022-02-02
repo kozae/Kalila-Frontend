@@ -12,7 +12,6 @@ export function useSignalrUpdates<TDispatchers extends { processSignalRUpdate: (
   }, [isConnected, connection])
 
   useEffect(() => {
-    console.log(update)
     if (update && dispatchers && dispatchers.processSignalRUpdate) {
       dispatchers.processSignalRUpdate(update).catch()
     }

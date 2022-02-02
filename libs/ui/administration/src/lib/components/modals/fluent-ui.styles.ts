@@ -1,6 +1,7 @@
 import {FontWeights, getTheme, IButtonStyles, mergeStyleSets} from "@fluentui/react";
 
 const theme = getTheme();
+export const redColor = theme.palette.redDark;
 export const modalStyles = mergeStyleSets({
   container: {
     display: 'flex',

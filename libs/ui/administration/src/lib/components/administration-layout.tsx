@@ -70,7 +70,7 @@ const AdminNav: React.FC<{ selectedKey: string }> = ({selectedKey}) => {
 }
 
 export const withAdminLayout = (OriginalComponent: React.JSXElementConstructor<any>, selectedKey: string) => {
-  return () => {
+  return (props: any) => {
     const [showNav, setShowNav] = useState(false);
 
     // Wait until after client-side hydration to show
@@ -83,7 +83,7 @@ export const withAdminLayout = (OriginalComponent: React.JSXElementConstructor<a
       <div className={styles['page']}>
         {showNav ? <AdminNav selectedKey={selectedKey}/> : null}
         <div className={styles['content']}>
-          {withTransition(OriginalComponent, {})()}
+          {withTransition(OriginalComponent, props)()}
         </div>
       </div>
     )

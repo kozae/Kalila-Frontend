@@ -23,6 +23,7 @@ export function MSDAdministration() {
           many: 'Edit selected Manuscript Description Documents',
           filtered: 'Edit filtered Manuscript Description Document'
         },
+        deleteModalMessage: 'Deletion can be executed, only if the manuscript does not have any pages assigned.',
         filter,
         editors,
         onPaginationChange: handlePaginationChange,

@@ -15,6 +15,7 @@ export interface IAdminPageContext<T extends KalilaDocument> {
   cls: ClassConstructor<T>,
   createModalTitle: string,
   editModalTitle: Record<'one' | 'many' | 'filtered', string>,
+  deleteModalMessage: string,
   filter: Record<string, any> ,
   editors: IEditor[],
   onPaginationChange: (pagination: IPagination) => Promise<boolean>,

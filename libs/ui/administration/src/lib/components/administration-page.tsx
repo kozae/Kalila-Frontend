@@ -1,8 +1,10 @@
-import React, {ReactNode, useCallback, useEffect, useState} from "react";
+import React, {ReactNode, useEffect, useState} from "react";
 import styles from './administration-page.module.scss'
 import {
   AdministrationCommandBar,
-  CreateDocumentModal, EditDocumentModal,
+  CreateDocumentModal,
+  DeleteDocumentModal,
+  EditDocumentModal,
   IAdminPageContext,
   useAdminPageContext
 } from "@frontend/ui/administration";
@@ -10,26 +12,17 @@ import {ClassConstructor} from "class-transformer/types/interfaces";
 import {Grid, Paginator} from "@frontend/ui/table";
 import {defaultPagination} from "@frontend/util";
 import {useRouter} from "next/router";
-import {useSignalrUpdates, usePaginatedDocuments} from "@frontend/shared-ui";
-import {resetSelectionOnQueryChange, useControls, useGrid} from "../admin-page.hooks";
+import {usePaginatedDocuments, useSignalrUpdates} from "@frontend/shared-ui";
+import {
+  resetSelectionOnQueryChange,
+  useControls, useCreateHandler,
+  useDeleteHandler,
+  useGrid, useMessageBar,
+  useUpdateHandler
+} from "../admin-page.hooks";
 import {KalilaDocument} from "@frontend/domain";
-import {IPaginatedDocumentsDispatchers} from "@frontend/shared-ui";
+import {MessageBar} from "@fluentui/react";
 
-
-function useUpdateHandler<T extends KalilaDocument>(selection: T[],
-                                                    filter: Record<string, any>,
-                                                    editMode: 'one' | 'many' | 'filtered',
-                                                    dispatchers: IPaginatedDocumentsDispatchers<T> | undefined
-) {
-  return useCallback(async (doc: T) => {
-    const update = doc.CreateAdminUpdate(selection[0], editMode);
-    const params = editMode === 'filtered' ? filter : {Ids: selection.map(d => d.Id)}
-    if (dispatchers?.updateDocument) {
-      await dispatchers.adminUpdateDocument(update, params)
-    }
-  }, [editMode, selection, dispatchers, filter])
-
-}
 
 export interface IAdministrationPageProps<T extends KalilaDocument> {
   cls: ClassConstructor<T> // just for type inference
@@ -49,14 +42,20 @@ export const AdministrationPage = <T extends KalilaDocument>({cls, children: col
   const {
     isCreateModalOpen,
     isEditModalOpen,
+    isDeleteModalOpen,
     onCreate,
     onEdit,
     onDelete,
     hideCreateModal,
-    hideEditModal
+    hideEditModal,
+    hideDeleteModal
   } = useControls();
   const [selection, setSelection] = useState<T[]>([]);
   const [editMode, setEditMode] = useState<'one' | 'many' | 'filtered'>('filtered');
+  const {message, messageBarType, isMessageVisible, hideMessage, notifyUser} = useMessageBar();
+  const handleUpdate = useUpdateHandler(selection, filter, editMode, notifyUser, dispatchers, hideEditModal)
+  const handleDelete = useDeleteHandler(notifyUser, dispatchers, hideDeleteModal)
+  const handleCreate = useCreateHandler(notifyUser, dispatchers, hideCreateModal)
 
   useEffect(() => {
     setEditMode(selection.length === 0 ? 'filtered' : selection.length === 1 ? 'one' : 'many');
@@ -64,12 +63,16 @@ export const AdministrationPage = <T extends KalilaDocument>({cls, children: col
 
   const gridParams = useGrid({state, setSelection});
 
-  const handleUpdate = useUpdateHandler(selection, filter, editMode, dispatchers)
 
   resetSelectionOnQueryChange(setSelection, router);
   useSignalrUpdates(activityName, dispatchers)
 
   return <>
+    {isMessageVisible && <MessageBar styles={{root: {width: 'fit-content', minWidth: '300px'}}}
+                                     className='animate__animated animate__heartBeat'
+                                     messageBarType={messageBarType} onDismiss={hideMessage}>
+      {message}
+    </MessageBar>}
     <div className={styles['commands']}>
       <AdministrationCommandBar
         cls={cls}
@@ -92,7 +95,7 @@ export const AdministrationPage = <T extends KalilaDocument>({cls, children: col
             isOpen={isCreateModalOpen}
             schema={state.schema}
             onDismiss={() => hideCreateModal()}
-            onSubmit={(doc) => dispatchers.createDocument(doc)}/>
+            onSubmit={handleCreate}/>
           <EditDocumentModal
             cls={cls}
             initialValues={editMode === 'one' ? selection[0] : initialValues}
@@ -104,5 +107,11 @@ export const AdministrationPage = <T extends KalilaDocument>({cls, children: col
         </>
       ) : null
     }
+    <DeleteDocumentModal
+      isOpen={isDeleteModalOpen}
+      onDismiss={() => hideDeleteModal()}
+      doc={selection[0]}
+      onConfirm={handleDelete}
+    />
   </>
 }
