@@ -19,9 +19,9 @@ import {AnimatePresence} from "framer-motion";
 import {useSignalr} from "@frontend/shared-ui";
 import {SessionProvider} from 'next-auth/react';
 
-loadTheme(kalilaTheme);
 initializeIcons()
 function KalilaApp(appProps: AppProps) {
+  loadTheme(kalilaTheme);
   const {Component, pageProps, router} = appProps;
   const breakpoints = useKalilaMediaQuery();
   const signalrState = useSignalr();
