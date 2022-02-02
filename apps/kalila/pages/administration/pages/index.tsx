@@ -4,15 +4,10 @@ import styles from './pages.module.scss'
 import {SiglumSelection} from "@frontend/shared-ui";
 import {useRouter} from "next/router";
 import {queryServerSide, sigla} from "@frontend/server-side-queries";
+import {GetServerSideProps} from "next";
 
-export function MSSelection(props) {
-  console.log(props)
+export function MSSelection({sigla}) {
   const {push} = useRouter()
-  const sigla = [
-    {id: '1', Siglum: 'P5881'},
-    {id: '2', Siglum: 'P3471'},
-    {id: '1', Siglum: 'M486'},
-  ]
   return (
     <>
       <MessageBar className={styles['info']}>
@@ -29,10 +24,8 @@ export function MSSelection(props) {
 
 export default withAdminLayout(MSSelection, 'key2');
 
-export async function getServerSideProps() {
-
+export  const getServerSideProps: GetServerSideProps  = async (context)=>{
   const query = await queryServerSide({sigla})
-
   return {
     props: {
       ...query

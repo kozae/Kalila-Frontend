@@ -71,6 +71,7 @@ const AdminNav: React.FC<{ selectedKey: string }> = ({selectedKey}) => {
 
 export const withAdminLayout = (OriginalComponent: React.JSXElementConstructor<any>, selectedKey: string) => {
   return (props: any) => {
+    console.log({props})
     const [showNav, setShowNav] = useState(false);
 
     // Wait until after client-side hydration to show
