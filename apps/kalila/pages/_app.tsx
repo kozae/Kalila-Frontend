@@ -25,7 +25,6 @@ initializeIcons()
 loadTheme(kalilaTheme);
 
 function KalilaApp(appProps: AppProps) {
-  console.log({appProps})
   const {Component, pageProps, router} = appProps;
   const breakpoints = useKalilaMediaQuery();
   const signalrState = useSignalr();

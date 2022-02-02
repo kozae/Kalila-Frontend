@@ -1,5 +1,6 @@
 import {withAdminLayout} from "@frontend/ui/administration";
 
+
 export function PagesAdministration() {
   return (
     <>
@@ -10,3 +11,4 @@ export function PagesAdministration() {
 
 
 export default withAdminLayout(PagesAdministration, 'key2')
+
