@@ -25,16 +25,16 @@ export function MSSelection() {
   );
 }
 
-export async function getServerSideProps() {
-
-  const query = await queryServerSide({sigla})
-
-  return {
-    props: {
-      ...query
-    },
-  }
-}
+// export async function getServerSideProps() {
+//
+//   const query = await queryServerSide({sigla})
+//
+//   return {
+//     props: {
+//       ...query
+//     },
+//   }
+// }
 
 export default withAdminLayout(MSSelection, 'key2');
 ;
