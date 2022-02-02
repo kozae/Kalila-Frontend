@@ -1,5 +1,4 @@
 import {withAdminLayout} from "@frontend/ui/administration";
-import {queryServerSide, sigla} from "@frontend/server-side-queries";
 import {MessageBar} from "@fluentui/react";
 import styles from './pages.module.scss'
 import {SiglumSelection} from "@frontend/shared-ui";
