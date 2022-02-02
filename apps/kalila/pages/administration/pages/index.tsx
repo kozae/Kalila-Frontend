@@ -5,8 +5,13 @@ import styles from './pages.module.scss'
 import {SiglumSelection} from "@frontend/shared-ui";
 import {useRouter} from "next/router";
 
-export function MSSelection({sigla}) {
+export function MSSelection() {
   const {push} = useRouter()
+  const sigla = [
+    {id: '1', Siglum: 'P5881'},
+    {id: '2', Siglum: 'P3471'},
+    {id: '1', Siglum: 'M486'},
+  ]
   return (
     <>
       <MessageBar className={styles['info']}>

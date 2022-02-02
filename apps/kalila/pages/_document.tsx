@@ -5,7 +5,7 @@ import {Stylesheet, resetIds} from '@fluentui/react';
 const stylesheet = Stylesheet.getInstance();
 
 
-export default class MyDocument extends Document<{ styleTags: any, serializedStylesheet: any }> {
+export default class KalilaAppDocument extends Document<{ styleTags: any, serializedStylesheet: any }> {
   static async getInitialProps(ctx) {
     resetIds();
     const page = ctx.renderPage(App => props => <App {...props} />);
