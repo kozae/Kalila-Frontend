@@ -21,8 +21,9 @@ import {SessionProvider} from 'next-auth/react';
 
 initializeIcons()
 
+loadTheme(kalilaTheme);
+
 function KalilaApp(appProps: AppProps) {
-  loadTheme(kalilaTheme);
   const {Component, pageProps, router} = appProps;
   const breakpoints = useKalilaMediaQuery();
   const signalrState = useSignalr();
