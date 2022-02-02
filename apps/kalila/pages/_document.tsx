@@ -13,7 +13,7 @@ export default class KalilaAppDocument extends Document<{ styleTags: any, serial
   static async getInitialProps(ctx) {
     stylesheet.reset()
     resetIds()
-    console.log({ctx: JSON.stringify(ctx, null, 2)})
+    console.log({ctx})
     const initialProps = await Document.getInitialProps(ctx)
     return {
       ...initialProps,
