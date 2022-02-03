@@ -19,7 +19,7 @@ export function transformSession(data: Session | null | undefined, status?: "aut
           },
           expires
         },
-        status,
+        status: status ?? 'unauthenticated',
         accessToken: access
       }
     }

@@ -46,4 +46,4 @@ export function MSDAdministration() {
 }
 
 
-export default withAdminLayout(MSDAdministration, 'key1')
+export default withAdminLayout(MSDAdministration, 0)

@@ -9,4 +9,4 @@ export function CategoricalAttributesAdministration() {
 }
 
 
-export default withAdminLayout(CategoricalAttributesAdministration, 'key3')
+export default withAdminLayout(CategoricalAttributesAdministration, 2)

@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import styles from "./nav.module.scss";
 import {motion} from "framer-motion";
-import {ProgressIndicator} from "@fluentui/react";
+import LinearProgress from '@mui/material/LinearProgress';
 import {NavbarStore} from "./store";
 
 export const NavMessageBar: React.FC = () => {
@@ -13,7 +13,7 @@ export const NavMessageBar: React.FC = () => {
         {
           !messages[0] && (
             <div className={styles['nav__message-bar__progress-indicator']}>
-              <ProgressIndicator barHeight={4}/>
+              <LinearProgress />
             </div>
           )
         }

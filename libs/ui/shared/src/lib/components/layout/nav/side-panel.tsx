@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Panel, PanelType} from "@fluentui/react";
 import styles from "./nav.module.scss";
 import Link from "next/link";
 import {NavbarStore} from "./store";
+import Drawer from '@mui/material/Drawer';
 
 
 export const SidePanel: React.FC = () => {
@@ -15,12 +15,10 @@ export const SidePanel: React.FC = () => {
     links.map(l => l.Ref === activeLink ? styles['nav__side-panel__links__active-item'] : styles['nav__side-panel__links__item'])
   ), [activeLink, links])
   return (
-    <Panel
-      isLightDismiss
-      type={PanelType.smallFixedNear}
-      isOpen={isPanelOpen}
-      onDismiss={dismissPanel}
-      closeButtonAriaLabel="Close"
+    <Drawer
+      anchor={'left'}
+      open={isPanelOpen}
+      onClose={dismissPanel}
     >
       <div className={styles['nav__side-panel__links']}>
         {
@@ -31,6 +29,6 @@ export const SidePanel: React.FC = () => {
           ))
         }
       </div>
-    </Panel>
+    </Drawer>
   )
 }

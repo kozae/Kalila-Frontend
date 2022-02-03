@@ -1,5 +1,5 @@
 import React from "react";
-import {DefaultButton, IconButton, Modal, PrimaryButton} from "@fluentui/react";
+import {DefaultButton, IconButton, Modal} from "@fluentui/react";
 import {useId} from "@fluentui/react-hooks";
 import {IAdminPageContext, useAdminPageContext} from "../../admin-page.context";
 import {iconButtonStyles, modalStyles, redColor} from "./fluent-ui.styles";

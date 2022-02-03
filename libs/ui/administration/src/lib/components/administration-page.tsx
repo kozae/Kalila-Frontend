@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect, useState} from "react";
+import React, {ReactNode, useCallback, useEffect, useState} from "react";
 import styles from './administration-page.module.scss'
 import {
   AdministrationCommandBar,
@@ -9,7 +9,8 @@ import {
   useAdminPageContext
 } from "@frontend/ui/administration";
 import {ClassConstructor} from "class-transformer/types/interfaces";
-import {Grid, Paginator} from "@frontend/ui/table";
+import {Grid} from "@frontend/ui/table";
+import Collapse from '@mui/material/Collapse';
 import {defaultPagination} from "@frontend/util";
 import {useRouter} from "next/router";
 import {usePaginatedDocuments, useSignalrUpdates} from "@frontend/shared-ui";
@@ -21,7 +22,10 @@ import {
   useUpdateHandler
 } from "../admin-page.hooks";
 import {KalilaDocument} from "@frontend/domain";
-import {MessageBar} from "@fluentui/react";
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import TablePagination from '@mui/material/TablePagination';
 
 
 export interface IAdministrationPageProps<T extends KalilaDocument> {
@@ -67,12 +71,41 @@ export const AdministrationPage = <T extends KalilaDocument>({cls, children: col
   resetSelectionOnQueryChange(setSelection, router);
   useSignalrUpdates(activityName, dispatchers)
 
+  const handleChangePage = useCallback(async (e: any, page: number) => {
+    if (state?.pagination) {
+      await onPaginationChange({...state.pagination, currentPage: page})
+    } else {
+      await onPaginationChange({...defaultPagination, currentPage: page})
+    }
+  }, [onPaginationChange, state?.pagination])
+
+
+  const handleChangeRowsPerPage = useCallback(async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (state?.pagination) {
+      await onPaginationChange({...state.pagination, itemsPerPage: parseInt(e.target.value, 10)})
+    } else {
+      await onPaginationChange({...defaultPagination, itemsPerPage: parseInt(e.target.value, 10)})
+    }
+  }, [onPaginationChange, state?.pagination])
+
   return <>
-    {isMessageVisible && <MessageBar styles={{root: {width: 'fit-content', minWidth: '300px'}}}
-                                     className='animate__animated animate__heartBeat'
-                                     messageBarType={messageBarType} onDismiss={hideMessage}>
-      {message}
-    </MessageBar>}
+    <Collapse in={isMessageVisible}>
+      <Alert
+        sx={{width: 'fit-content', minWidth: '300px', mb: 2}}
+        variant={messageBarType}
+        action={
+          <IconButton
+            aria-label="close"
+            color="inherit"
+            size="small"
+            onClick={hideMessage}
+          >
+            <CloseIcon fontSize="inherit"/>
+          </IconButton>
+        }>
+        {message}
+      </Alert>
+    </Collapse>
     <div className={styles['commands']}>
       <AdministrationCommandBar
         cls={cls}
@@ -80,11 +113,19 @@ export const AdministrationPage = <T extends KalilaDocument>({cls, children: col
         onCreate={onCreate}
         onEdit={onEdit}
         onDelete={onDelete}/>
-      <Paginator onPaginationChange={onPaginationChange}
-                 pagination={state?.pagination ?? defaultPagination}
-                 loading={loading}/>
+      {/*<Paginator onPaginationChange={onPaginationChange}*/}
+      {/*           pagination={state?.pagination ?? defaultPagination}*/}
+      {/*           loading={loading}/>*/}
+      <TablePagination
+        component="div"
+        count={state?.pagination?.totalItems ?? defaultPagination.totalItems}
+        page={state?.pagination?.currentPage ?? defaultPagination.currentPage}
+        onPageChange={handleChangePage}
+        rowsPerPage={state?.pagination?.itemsPerPage ?? defaultPagination.itemsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </div>
-    <Grid gridParams={gridParams} loading={loading}>
+    <Grid gridParams={gridParams} loading={loading ?? false}>
       {columns}
     </Grid>
     {

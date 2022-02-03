@@ -2,10 +2,10 @@ import styles from './nav.module.scss';
 import React from "react";
 import {NavControlBar} from "./nav-control-bar";
 import {NavMessageBar} from "./nav-message-bar";
-import {useBoolean} from "@fluentui/react-hooks";
 import {SidePanel} from "./side-panel";
 import {useNavSessionState, useRouteState} from "./hooks/nav.hooks";
 import {navbarInitialStore, NavbarStore} from "./store";
+import {useBoolean} from "../../../hooks";
 
 
 export const Nav: React.FC = () => {

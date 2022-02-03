@@ -1,18 +1,18 @@
 import {withAdminLayout} from "@frontend/ui/administration";
-import {MessageBar} from "@fluentui/react";
 import styles from './pages.module.scss'
 import {SiglumSelection} from "@frontend/shared-ui";
 import {useRouter} from "next/router";
 import {queryServerSide, sigla} from "@frontend/server-side-queries";
 import {GetServerSideProps} from "next";
+import Alert from '@mui/material/Alert';
 
 export function MSSelection({sigla}) {
   const {push} = useRouter()
   return (
     <>
-      <MessageBar className={styles['info']}>
+      <Alert severity="info" className={styles['info']}>
         Click on a manuscript on which to do administrative tasks
-      </MessageBar>
+      </Alert>
       <SiglumSelection sigla={sigla}
                        siglumClass={styles['siglum']}
                        siglaContainerClass={styles['sigla']}
@@ -22,7 +22,7 @@ export function MSSelection({sigla}) {
 }
 
 
-export default withAdminLayout(MSSelection, 'key2');
+export default withAdminLayout(MSSelection, 1);
 
 export  const getServerSideProps: GetServerSideProps  = async (context)=>{
   const query = await queryServerSide({sigla})

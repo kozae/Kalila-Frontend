@@ -10,5 +10,5 @@ export function PagesAdministration() {
 }
 
 
-export default withAdminLayout(PagesAdministration, 'key2')
+export default withAdminLayout(PagesAdministration, 1)
 
