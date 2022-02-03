@@ -1,5 +1,5 @@
 import React from "react";
-import {useMediaQuery} from "@react-hook/media-query";
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export interface IKalilaMediaQuery {
   s?: boolean,

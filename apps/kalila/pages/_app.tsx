@@ -8,7 +8,7 @@ import {
 import './styles.scss';
 import React from "react";
 import {
-  kalilaTheme,
+  kalilaThemeFluentUi,
   Layout,
   MediaQueryWrapper,
   SignalrStore,
@@ -21,7 +21,7 @@ import {SessionProvider} from 'next-auth/react';
 
 initializeIcons()
 
-loadTheme(kalilaTheme);
+loadTheme(kalilaThemeFluentUi);
 
 function KalilaApp(appProps: AppProps) {
   const {Component, pageProps, router} = appProps;
@@ -30,7 +30,7 @@ function KalilaApp(appProps: AppProps) {
   useNavigationEventHandling(signalrState);
   const {session} = pageProps;
   return (
-    <ThemeProvider theme={kalilaTheme}>
+    <ThemeProvider theme={kalilaThemeFluentUi}>
       <MediaQueryWrapper.Provider value={breakpoints}>
         <SignalrStore.Provider value={{...signalrState}}>
           <SessionProvider session={session}>

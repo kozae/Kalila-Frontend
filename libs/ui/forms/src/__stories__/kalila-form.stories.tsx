@@ -1,13 +1,13 @@
 import React from 'react';
 import {initializeIcons, loadTheme} from "@fluentui/react";
-import {IEditor, kalilaTheme} from "@frontend/shared-ui";
+import {IEditor, kalilaThemeFluentUi} from "@frontend/shared-ui";
 import {KalilaForm} from "../lib/kalila-form";
 import {editorEntrySchema} from '@frontend/util';
 import {ManuscriptDescriptionAdmin} from '@frontend/domain';
 
 initializeIcons()
 
-loadTheme(kalilaTheme);
+loadTheme(kalilaThemeFluentUi);
 export default {
   title: 'KalilaForm',
   component: KalilaForm,
