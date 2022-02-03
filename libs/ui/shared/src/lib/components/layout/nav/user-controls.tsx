@@ -6,7 +6,6 @@ import {signIn, signOut} from "next-auth/react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import LoginIcon from '@mui/icons-material/Login';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grow from '@mui/material/Grow';
@@ -15,26 +14,16 @@ import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import {useRouter} from "next/router";
-
+import IconButton from '@mui/material/IconButton';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import SettingsIcon from '@mui/icons-material/Settings';
+import {themeColors} from "@frontend/shared-ui";
 
 const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
   const {push} = useRouter();
-  const options = ['Sign out', 'Account settings'];
   const [open, setOpen] = React.useState(false);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
-  // const {isNotXXLScreen} = useContext(MediaQueryWrapper);
-  const anchorRef = React.useRef<HTMLDivElement>(null);
-  const handleClick = () => {
-    console.info(`You clicked ${options[selectedIndex]}`);
-  };
+  const anchorRef = React.useRef<HTMLButtonElement>(null);
 
-  const handleMenuItemClick = (
-    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    index: number,
-  ) => {
-    setSelectedIndex(index);
-    setOpen(false);
-  };
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -52,45 +41,23 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
   };
 
 
-  // todo determine initials and secondary text
-
-  // const menuProps: IContextualMenuProps = {
-  //   items: [
-  //     {
-  //       key: 'signOut',
-  //       text: 'Sign Out',
-  //       iconProps: {iconName: 'UserRemove'},
-  //       onClick: () => {
-  //         signOut().catch()
-  //       }
-  //     },
-  //     {
-  //       key: 'accountSettings',
-  //       text: 'Account Settings',
-  //       iconProps: {iconName: 'Settings'},
-  //       onClick: () => {
-  //         push('/account').catch()
-  //       }
-  //     },
-  //   ],
-  // };
+  // todo determine initials
 
   return (
     <div className={styles['nav__control-bar__user-controls']}>
-      <Avatar sx={{ bgcolor: 'primary' }}>MK</Avatar>
-      <ButtonGroup disableElevation variant="contained" ref={anchorRef} aria-label="split button">
-        <Button onClick={handleClick}>{options[selectedIndex]}</Button>
-        <Button
-          size="small"
-          aria-controls={open ? 'split-button-menu' : undefined}
-          aria-expanded={open ? 'true' : undefined}
-          aria-label="select merge strategy"
-          aria-haspopup="menu"
-          onClick={handleToggle}
-        >
-          <ArrowDropDownIcon />
-        </Button>
-      </ButtonGroup>
+      <Avatar sx={{bgcolor: themeColors.mainGreen}}>MK</Avatar>
+      <IconButton
+        size="small"
+        aria-controls={open ? 'split-button-menu' : undefined}
+        aria-expanded={open ? 'true' : undefined}
+        aria-label="select user action"
+        aria-haspopup="menu"
+        color="primary"
+        ref={anchorRef}
+        onClick={handleToggle}
+      >
+        <ArrowDropDownIcon/>
+      </IconButton>
       <Popper
         open={open}
         anchorEl={anchorRef.current}
@@ -98,7 +65,7 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
         transition
         disablePortal
       >
-        {({ TransitionProps, placement }) => (
+        {({TransitionProps, placement}) => (
           <Grow
             {...TransitionProps}
             style={{
@@ -109,22 +76,24 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu">
-                  {options.map((option, index) => (
-                    <MenuItem
-                      key={option}
-                      disabled={index === 2}
-                      selected={index === selectedIndex}
-                      onClick={(event) => handleMenuItemClick(event, index)}
-                    >
-                      {option}
-                    </MenuItem>
-                  ))}
+                  <MenuItem
+                    sx={{fontSize: '1rem'}}
+                    onClick={() => signOut().catch()}
+                  >
+                    <ExitToAppIcon color='warning'/> &nbsp; Sign out
+                  </MenuItem>
+                  <MenuItem
+                    sx={{fontSize: '1rem'}}
+                    onClick={() => push('/account').then(() => setOpen(false)).catch()}>
+                    <SettingsIcon color='primary'/>  &nbsp; Account Settings
+                  </MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>
           </Grow>
         )}
       </Popper>
+
     </div>
   );
 
@@ -134,7 +103,7 @@ export const NavUserControls: React.FC = () => {
   const {loggedUser} = useContext(NavbarStore).state;
   const logInButton = () => (
     <div className={styles['nav__control-bar__user-controls']}>
-      <Button  onClick={() => signIn()} variant="contained" disableElevation endIcon={<LoginIcon />}>
+      <Button onClick={() => signIn()} variant="contained" disableElevation endIcon={<LoginIcon/>}>
         Sign In"
       </Button>
     </div>

@@ -5,9 +5,9 @@ import {withAdminLayout} from "@frontend/ui/administration";
 
 
 const Administration: NextPage = () => {
-  return (<Alert severity="info" className={styles['info']}>
+  return (<Alert severity="info" sx={{typography: 'h3'}}>
     Select one of the activities above to do administrative tasks
   </Alert>);
 }
 
-export default withAdminLayout(Administration, undefined)
+export default withAdminLayout(Administration, false)

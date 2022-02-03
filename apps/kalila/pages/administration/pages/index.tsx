@@ -10,7 +10,7 @@ export function MSSelection({sigla}) {
   const {push} = useRouter()
   return (
     <>
-      <Alert severity="info" className={styles['info']}>
+      <Alert severity="info" sx={{typography: 'h3'}}>
         Click on a manuscript on which to do administrative tasks
       </Alert>
       <SiglumSelection sigla={sigla}

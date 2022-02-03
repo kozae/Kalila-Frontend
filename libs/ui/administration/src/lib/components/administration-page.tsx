@@ -2,9 +2,6 @@ import React, {ReactNode, useCallback, useEffect, useState} from "react";
 import styles from './administration-page.module.scss'
 import {
   AdministrationCommandBar,
-  CreateDocumentModal,
-  DeleteDocumentModal,
-  EditDocumentModal,
   IAdminPageContext,
   useAdminPageContext
 } from "@frontend/ui/administration";
@@ -26,6 +23,7 @@ import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import TablePagination from '@mui/material/TablePagination';
+import {AlertColor} from "@mui/material/Alert/Alert";
 
 
 export interface IAdministrationPageProps<T extends KalilaDocument> {
@@ -92,7 +90,7 @@ export const AdministrationPage = <T extends KalilaDocument>({cls, children: col
     <Collapse in={isMessageVisible}>
       <Alert
         sx={{width: 'fit-content', minWidth: '300px', mb: 2}}
-        variant={messageBarType}
+        severity={messageBarType as AlertColor}
         action={
           <IconButton
             aria-label="close"
@@ -113,10 +111,8 @@ export const AdministrationPage = <T extends KalilaDocument>({cls, children: col
         onCreate={onCreate}
         onEdit={onEdit}
         onDelete={onDelete}/>
-      {/*<Paginator onPaginationChange={onPaginationChange}*/}
-      {/*           pagination={state?.pagination ?? defaultPagination}*/}
-      {/*           loading={loading}/>*/}
       <TablePagination
+        sx={{typography: 'button'}}
         component="div"
         count={state?.pagination?.totalItems ?? defaultPagination.totalItems}
         page={state?.pagination?.currentPage ?? defaultPagination.currentPage}
@@ -128,31 +124,31 @@ export const AdministrationPage = <T extends KalilaDocument>({cls, children: col
     <Grid gridParams={gridParams} loading={loading ?? false}>
       {columns}
     </Grid>
-    {
-      state?.schema && dispatchers?.createDocument && editors ? (
-        <>
-          <CreateDocumentModal
-            cls={cls}
-            isOpen={isCreateModalOpen}
-            schema={state.schema}
-            onDismiss={() => hideCreateModal()}
-            onSubmit={handleCreate}/>
-          <EditDocumentModal
-            cls={cls}
-            initialValues={editMode === 'one' ? selection[0] : initialValues}
-            editMode={editMode}
-            isOpen={isEditModalOpen}
-            schema={state.schema}
-            onDismiss={() => hideEditModal()}
-            onSubmit={handleUpdate}/>
-        </>
-      ) : null
-    }
-    <DeleteDocumentModal
-      isOpen={isDeleteModalOpen}
-      onDismiss={() => hideDeleteModal()}
-      doc={selection[0]}
-      onConfirm={handleDelete}
-    />
+    {/*{*/}
+    {/*  state?.schema && dispatchers?.createDocument && editors ? (*/}
+    {/*    <>*/}
+    {/*      <CreateDocumentModal*/}
+    {/*        cls={cls}*/}
+    {/*        isOpen={isCreateModalOpen}*/}
+    {/*        schema={state.schema}*/}
+    {/*        onDismiss={() => hideCreateModal()}*/}
+    {/*        onSubmit={handleCreate}/>*/}
+    {/*      <EditDocumentModal*/}
+    {/*        cls={cls}*/}
+    {/*        initialValues={editMode === 'one' ? selection[0] : initialValues}*/}
+    {/*        editMode={editMode}*/}
+    {/*        isOpen={isEditModalOpen}*/}
+    {/*        schema={state.schema}*/}
+    {/*        onDismiss={() => hideEditModal()}*/}
+    {/*        onSubmit={handleUpdate}/>*/}
+    {/*    </>*/}
+    {/*  ) : null*/}
+    {/*}*/}
+    {/*<DeleteDocumentModal*/}
+    {/*  isOpen={isDeleteModalOpen}*/}
+    {/*  onDismiss={() => hideDeleteModal()}*/}
+    {/*  doc={selection[0]}*/}
+    {/*  onConfirm={handleDelete}*/}
+    {/*/>*/}
   </>
 }

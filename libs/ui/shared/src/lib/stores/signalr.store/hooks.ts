@@ -2,8 +2,8 @@ import {useEffect, useReducer, useState} from "react";
 import {GroupsActionType, groupsReducer} from "./reducer";
 import {HubConnectionBuilder, HubConnection, LogLevel} from "@microsoft/signalr";
 import {IRealTimeUpdate, ISignalrDispatchers, ISignalrState} from "./models";
-import {useBoolean} from "@fluentui/react-hooks";
 import {IStore} from "@frontend/util";
+import {useBoolean} from "../../hooks";
 
 function useGroupsState() {
   const [{groups}, dispatchGroupAction] = useReducer(groupsReducer, {groups: new Set<string>()})

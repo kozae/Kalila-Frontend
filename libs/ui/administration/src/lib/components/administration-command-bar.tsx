@@ -1,5 +1,4 @@
 import React, {useMemo} from "react";
-import {CommandBar, ICommandBarItemProps} from "@fluentui/react";
 import {IAdminPageContext, useAdminPageContext} from "../admin-page.context";
 import {ClassConstructor} from "class-transformer/types/interfaces";
 import {KalilaDocument} from "@frontend/domain";
@@ -23,7 +22,7 @@ export const AdministrationCommandBar = <T extends KalilaDocument>(
 
   const {filter} = useAdminPageContext<T>() as IAdminPageContext<T>;
 
-  const _items = useMemo<ICommandBarItemProps[]>(() => {
+  const _items = useMemo<any[]>(() => {
     const enableEditSelection = selection.length > 0,
       enableEditByFilter = Object.keys(filter).length > 0,
       enableDelete = selection.length === 1;
@@ -57,11 +56,12 @@ export const AdministrationCommandBar = <T extends KalilaDocument>(
 
 
   return (
-    <CommandBar
-      style={{width: 'fit-content'}}
-      onReduceData={() => undefined}
-      items={_items}
-      ariaLabel="Use left and right arrow keys to navigate between commands"
-    />
+    <></>
+    // <CommandBar
+    //   style={{width: 'fit-content'}}
+    //   onReduceData={() => undefined}
+    //   items={_items}
+    //   ariaLabel="Use left and right arrow keys to navigate between commands"
+    // />
   );
 }

@@ -1,5 +1,5 @@
-@import "@fluentui/react/dist/sass/References";
 @import "sass/variables";
+@import "sass/mixins";
 
 @mixin control-bar {
   @include ms-depth-64;
@@ -36,6 +36,7 @@
   text-decoration: none;
   padding: .5rem;
   font-size: 1rem;
+  margin-bottom: .5rem;
 }
 
 @mixin inactive-nav-link {
@@ -61,7 +62,7 @@
     &__links {
       display: flex;
       flex-direction: column;
-
+      padding: 1rem;
       &__item {
         @include inactive-nav-link;
       }

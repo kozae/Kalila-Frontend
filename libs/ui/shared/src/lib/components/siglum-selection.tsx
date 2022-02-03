@@ -3,7 +3,7 @@ import {stringHasValue} from "@frontend/util";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import FilterIcon from '@mui/icons-material/Filter';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Alert from '@mui/material/Alert';
 
 
@@ -20,7 +20,7 @@ export const SiglumSelection = ({sigla, siglumClass, siglaContainerClass, onSele
     return sigla
       .filter(s => !stringHasValue(filter) || s.Siglum.toLowerCase().startsWith(filter.toLowerCase()))
       .map((s, i) => <div key={i} className={siglumClass}>
-        <Button variant="outlined" onClick={() => onSelect(s)}>
+        <Button color='secondary' sx={{width: '100%'}} variant="outlined" onClick={() => onSelect(s)}>
           {s.Siglum}
         </Button>
       </div>)
@@ -29,13 +29,13 @@ export const SiglumSelection = ({sigla, siglumClass, siglaContainerClass, onSele
 
   return (
     <>
-      <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-        <FilterIcon sx={{color: 'action.active', mr: 1, my: 0.5}}/>
+      <Box sx={{display: 'flex', alignItems: 'flex-end', margin: '1rem'}}>
+        <FilterAltIcon color="primary" sx={{mr: 1, my: 1.5}}/>
         <TextField value={filter}
                    onChange={e => setFilter(e.currentTarget.value)}
                    id="siglum-filter"
                    label="Siglum starts with"
-                   variant="standard"/>
+                   variant="filled"/>
       </Box>
       <div className={siglaContainerClass}>
         {buttons}

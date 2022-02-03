@@ -1,7 +1,7 @@
 import styles from './header.module.scss'
 import {useRef, useEffect, useState, useMemo, useCallback} from "react";
 import Box from "@mui/material/Box";
-import FilterIcon from "@mui/icons-material/Filter";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import TextField from "@mui/material/TextField";
 import * as React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -37,14 +37,13 @@ function useStringFilterFieldState(accessor: string, activeFilter: Record<string
 const StringFilterField = ({placeholder, ariaLabel, accessor, activeFilter, onFilter}: any) => {
   const [value, ref, onChange] = useStringFilterFieldState(accessor, activeFilter, onFilter);
   return (
-    <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-      <FilterIcon sx={{color: 'action.active', mr: 1, my: 0.5}}/>
-      <TextField value={value}
-                 onChange={onChange}
-                 label={placeholder}
-                 aria-label={ariaLabel}
-                 variant="standard"/>
-    </Box>
+    <TextField value={value}
+               size='small'
+               onChange={onChange}
+               label={placeholder}
+               aria-label={ariaLabel}
+               variant="outlined"/>
+
   )
 
 }
@@ -88,16 +87,17 @@ export const StringValueHeader = (props: any) => {
         <div className={styles['label']}>{props.displayName}</div>
         <div className={styles['sort']}>
           <ToggleButtonGroup
+            size='small'
             value={sortValue}
             exclusive
             onChange={handleSort}
             aria-label="text alignment"
           >
             <ToggleButton value="asc" aria-label="sort-ascending">
-              <ArrowUpwardSharpIcon />
+              <ArrowUpwardSharpIcon/>
             </ToggleButton>
             <ToggleButton value="desc" aria-label="sort-descending">
-              <ArrowDownwardSharpIcon />
+              <ArrowDownwardSharpIcon/>
             </ToggleButton>
           </ToggleButtonGroup>
         </div>

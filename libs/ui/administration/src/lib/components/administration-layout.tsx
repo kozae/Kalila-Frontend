@@ -19,11 +19,11 @@ function LinkTab({label, href}: LinkTabProps) {
   );
 }
 
-const AdminNav: React.FC<{ selectedKey?: 0 | 1 | 2 }> = ({selectedKey}) => {
+const AdminNav: React.FC<{ selectedKey: false | 0 | 1 | 2 }> = ({selectedKey}) => {
 
   const [value, setValue] = React.useState(selectedKey);
 
-  const handleChange = (event: React.SyntheticEvent, newValue?:  0 | 1 | 2) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: false |  0 | 1 | 2) => {
     setValue(newValue);
   };
 
@@ -32,7 +32,7 @@ const AdminNav: React.FC<{ selectedKey?: 0 | 1 | 2 }> = ({selectedKey}) => {
     <LinkTab label="Pages" href="/administration/pages"/>
     <LinkTab label="Categorical Attributes" href="/administration/categorical-attributes"/>
   </Tabs>)
-  return selectedKey !== undefined ?
+  return !selectedKey  ?
     (<div className={styles['nav']}>
       {tabs}
     </div>) : (
@@ -46,7 +46,7 @@ const AdminNav: React.FC<{ selectedKey?: 0 | 1 | 2 }> = ({selectedKey}) => {
     )
 }
 
-export const withAdminLayout = (OriginalComponent: React.JSXElementConstructor<any>, selectedKey?: 0 | 1 | 2 ) => {
+export const withAdminLayout = (OriginalComponent: React.JSXElementConstructor<any>, selectedKey: false | 0 | 1 | 2 ) => {
   return (props: any) => {
     const [showNav, setShowNav] = useState(false);
     // Wait until after client-side hydration to show
