@@ -111,15 +111,15 @@ export const AdministrationPage = <T extends KalilaDocument>({cls, children: col
         onCreate={onCreate}
         onEdit={onEdit}
         onDelete={onDelete}/>
-      <TablePagination
-        sx={{typography: 'button'}}
-        component="div"
-        count={state?.pagination?.totalItems ?? defaultPagination.totalItems}
-        page={state?.pagination?.currentPage ?? defaultPagination.currentPage}
-        onPageChange={handleChangePage}
-        rowsPerPage={state?.pagination?.itemsPerPage ?? defaultPagination.itemsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      {/*<TablePagination*/}
+      {/*  sx={{typography: 'button'}}*/}
+      {/*  component="div"*/}
+      {/*  count={state?.pagination?.totalItems ?? defaultPagination.totalItems}*/}
+      {/*  page={state?.pagination?.currentPage ?? defaultPagination.currentPage}*/}
+      {/*  onPageChange={handleChangePage}*/}
+      {/*  rowsPerPage={state?.pagination?.itemsPerPage ?? defaultPagination.itemsPerPage}*/}
+      {/*  onRowsPerPageChange={handleChangeRowsPerPage}*/}
+      {/*/>*/}
     </div>
     <Grid gridParams={gridParams} loading={loading ?? false}>
       {columns}

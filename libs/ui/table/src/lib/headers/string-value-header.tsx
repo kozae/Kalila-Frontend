@@ -1,13 +1,12 @@
 import styles from './header.module.scss'
 import {useRef, useEffect, useState, useMemo, useCallback} from "react";
-import Box from "@mui/material/Box";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import TextField from "@mui/material/TextField";
 import * as React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import ArrowUpwardSharpIcon from '@mui/icons-material/ArrowUpwardSharp';
-import ArrowDownwardSharpIcon from '@mui/icons-material/ArrowDownwardSharp';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faSortAlphaDown, faSortAlphaDownAlt} from '@fortawesome/free-solid-svg-icons'
+
 
 function useStringFilterFieldState(accessor: string, activeFilter: Record<string, any>, onFilter: (newFilter: Record<string, any>) => void) {
 
@@ -38,6 +37,7 @@ const StringFilterField = ({placeholder, ariaLabel, accessor, activeFilter, onFi
   const [value, ref, onChange] = useStringFilterFieldState(accessor, activeFilter, onFilter);
   return (
     <TextField value={value}
+               inputRef={ref}
                size='small'
                onChange={onChange}
                label={placeholder}
@@ -90,14 +90,15 @@ export const StringValueHeader = (props: any) => {
             size='small'
             value={sortValue}
             exclusive
+            color='primary'
             onChange={handleSort}
             aria-label="text alignment"
           >
             <ToggleButton value="asc" aria-label="sort-ascending">
-              <ArrowUpwardSharpIcon/>
+              <FontAwesomeIcon size='lg' icon={faSortAlphaDown} />
             </ToggleButton>
             <ToggleButton value="desc" aria-label="sort-descending">
-              <ArrowDownwardSharpIcon/>
+              <FontAwesomeIcon size='lg' icon={faSortAlphaDownAlt} />
             </ToggleButton>
           </ToggleButtonGroup>
         </div>
