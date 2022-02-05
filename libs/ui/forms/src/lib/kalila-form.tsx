@@ -1,104 +1,140 @@
-import {DataEntrySchema, editionProgressOptions, InputModes, KalilaValueTypes} from "@frontend/util";
-import {AnySchema} from "yup/lib/schema";
-import {ObjectSchema} from "yup";
-import {useFormik} from "formik";
-import {Dropdown, IDropdownOption, TextField} from "@fluentui/react";
-import React, {ReactNode, useEffect} from "react";
-import {IEditor} from "@frontend/shared-ui";
-import {KalilaDocument} from "@frontend/domain";
-
+import {
+  DataEntrySchema,
+  editionProgressOptions,
+  InputModes,
+  KalilaValueTypes,
+} from '@frontend/util';
+import { AnySchema } from 'yup/lib/schema';
+import { ObjectSchema } from 'yup';
+import { useFormik } from 'formik';
+import React, { ReactNode, useEffect } from 'react';
+import { IEditor } from '@frontend/shared-ui';
+import { KalilaDocument } from '@frontend/domain';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
 
 export interface IKalilaFormProps<T extends KalilaDocument> {
-  initialValues: T,
-  fields: DataEntrySchema[],
-  categoricalAttributes: Record<string, string[]>,
-  editors: IEditor[],
-  formClass: string,
-  onCanSubmit: (v: boolean) => void,
-  validationSchema: ObjectSchema<Record<keyof T, AnySchema>>,
-  onSubmit: ((value: T) => void) | ((value: T) => Promise<void>)
-  children?: ReactNode,
+  initialValues: T;
+  fields: DataEntrySchema[];
+  categoricalAttributes: Record<string, string[]>;
+  editors: IEditor[];
+  formClass: string;
+  onCanSubmit: (v: boolean) => void;
+  validationSchema: ObjectSchema<Record<keyof T, AnySchema>>;
+  onSubmit: ((value: T) => void) | ((value: T) => Promise<void>);
+  children?: ReactNode;
 }
 
-export const KalilaForm = <T extends KalilaDocument>(
-  {
-    initialValues,
-    validationSchema,
-    onSubmit,
-    fields,
-    onCanSubmit,
-    categoricalAttributes,
-    editors,
-    formClass,
-    children
-  }: IKalilaFormProps<T>) => {
-
+export const KalilaForm = <T extends KalilaDocument>({
+  initialValues,
+  validationSchema,
+  onSubmit,
+  fields,
+  onCanSubmit,
+  categoricalAttributes,
+  editors,
+  formClass,
+  children,
+}: IKalilaFormProps<T>) => {
   const formik = useFormik<T>({
     initialValues,
     validationSchema,
     validateOnBlur: true,
     validateOnChange: false,
     validateOnMount: false,
-    onSubmit
+    onSubmit,
   });
 
   useEffect(() => {
-    onCanSubmit(formik.isValid && Object.values(formik.touched).length !== 0)
-  }, [formik.isValid, Object.values(formik.touched).length])
+    onCanSubmit(formik.isValid && Object.values(formik.touched).length !== 0);
+  }, [formik.isValid, Object.values(formik.touched).length]);
 
-  const formFields = fields.map(f => createFormField(f, categoricalAttributes, editors, formik))
+  const formFields = fields.map((f) =>
+    createFormField(f, categoricalAttributes, editors, formik)
+  );
 
   return (
-    <form className={formClass}
-          autoComplete='off'
-          onSubmit={formik.handleSubmit}>
+    <form
+      className={formClass}
+      autoComplete="off"
+      onSubmit={formik.handleSubmit}
+    >
       {formFields}
       {children}
     </form>
-  )
-}
+  );
+};
 
-function createFormField(field: DataEntrySchema, categoricalAttributes: Record<string, string[]>, editors: IEditor[], {
-  errors,
-  handleChange,
-  handleBlur,
-  setFieldValue,
-  values
-}: any): JSX.Element {
-  const commonProps = {
-    key: field.FieldNamePascalCase,
+function createFormField(
+  field: DataEntrySchema,
+  categoricalAttributes: Record<string, string[]>,
+  editors: IEditor[],
+  { errors, handleChange, handleBlur, setFieldValue, values }: any
+): JSX.Element {
+  const formControlProps = {
+    key: `${field.FieldNamePascalCase}_key`,
+    sx: { m: '1rem', width: '100%', typography: 'body1' },
+    error: errors[field.FieldNamePascalCase] !== undefined,
+  };
+  const labelId = `${field.FieldNamePascalCase}-label`;
+  const commonInputProps = {
     name: field.FieldNamePascalCase,
-    label: `${field.FieldDisplay}:`,
-    errorMessage: errors[field.FieldNamePascalCase],
-    onBlur: handleBlur
-  }
-  const inputFieldProps = {
-    ...commonProps,
+    label: field.FieldDisplay,
+    onBlur: handleBlur,
+  };
+  const textInputProps = {
+    ...commonInputProps,
     value: values[field.FieldNamePascalCase],
     onChange: handleChange,
-  }
+  };
 
-  const options: IDropdownOption[] = categoricalAttributes[field.CategoricalAttributeType ?? '___']?.map((v: string) => ({
-    key: v.replace(/\s/g, ''),
-    text: v
-  })) ?? [];
-  const editorOptions: IDropdownOption[] = editors.map(v => ({key: v.username, text: v.name}))
+  const editorOptions: any[] = editors.map((v) => ({
+    key: v.username,
+    text: v.name,
+  }));
+
+  const selectFieldOptions: { key: any; text: any }[] =
+    field.FieldNamePascalCase === 'Editor'
+      ? editorOptions
+      : field.FieldNamePascalCase === 'EditionProgress'
+      ? editionProgressOptions.map((v) => ({ key: v, text: v }))
+      : categoricalAttributes[field.CategoricalAttributeType ?? '___']?.map(
+          (v: string) => ({
+            key: v.replace(/\s/g, ''),
+            text: v,
+          })
+        ) ?? [];
   const selectFieldProps = {
-    ...commonProps,
-    placeholder: field.FieldName,
-    options: field.FieldNamePascalCase === 'Editor' ? editorOptions
-      : field.FieldNamePascalCase === 'EditionProgress' ? editionProgressOptions.map(v => ({key: v, text: v}))
-        : options,
-    selectedKey: values[field.FieldNamePascalCase],
-    onChange: (_: any, option: any) => {
-      setFieldValue(field.FieldNamePascalCase, option!.key)
+    ...commonInputProps,
+    labelId,
+    value: values[field.FieldNamePascalCase],
+    onChange: (event: SelectChangeEvent) => {
+      setFieldValue(field.FieldNamePascalCase, event.target.value);
     },
-  }
+  };
 
+  const inputLabel = (
+    <InputLabel id={labelId}>{field.FieldNamePascalCase}</InputLabel>
+  );
+  const helperText = (
+    <FormHelperText sx={{ height: '.8rem' }}>
+      {errors[field.FieldNamePascalCase] ?? '  '}
+    </FormHelperText>
+  );
   switch (field.InputMode) {
     case InputModes.InputOne:
       if (field.KalilaValueType === KalilaValueTypes.String) {
-        return <TextField  {...inputFieldProps} />;
+        return (
+          <FormControl {...formControlProps}>
+            {inputLabel}
+            <OutlinedInput {...textInputProps} />
+            {helperText}
+          </FormControl>
+        );
       }
       break;
     case InputModes.InputMultiple:
@@ -106,7 +142,19 @@ function createFormField(field: DataEntrySchema, categoricalAttributes: Record<s
     case InputModes.Boolean:
       break;
     case InputModes.SelectOne:
-      return <Dropdown {...selectFieldProps} />
+      return (
+        <FormControl {...formControlProps}>
+          {inputLabel}
+          <Select {...selectFieldProps}>
+            {selectFieldOptions.map(({ key, text }, i) => (
+              <MenuItem key={i} value={key}>
+                {text}
+              </MenuItem>
+            ))}
+          </Select>
+          {helperText}
+        </FormControl>
+      );
     case InputModes.SelectOrCreateOne:
       break;
     case InputModes.SelectMultiple:
@@ -131,7 +179,6 @@ function createFormField(field: DataEntrySchema, categoricalAttributes: Record<s
       break;
     case InputModes.Administrative:
       break;
-
   }
-  return <h2>Input mode not configured for {field.FieldName}</h2>
+  return <h2>Input mode not configured for {field.FieldName}</h2>;
 }

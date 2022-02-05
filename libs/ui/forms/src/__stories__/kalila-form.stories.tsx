@@ -1,13 +1,10 @@
 import React from 'react';
-import {initializeIcons, loadTheme} from "@fluentui/react";
-import {IEditor, kalilaThemeFluentUi} from "@frontend/shared-ui";
+import {IEditor} from "@frontend/shared-ui";
 import {KalilaForm} from "../lib/kalila-form";
 import {editorEntrySchema} from '@frontend/util';
 import {ManuscriptDescriptionAdmin} from '@frontend/domain';
 
-initializeIcons()
 
-loadTheme(kalilaThemeFluentUi);
 export default {
   title: 'KalilaForm',
   component: KalilaForm,
@@ -25,9 +22,11 @@ const editors: IEditor[] = [
   }
 ]
 
-const Template = (args: any) => <div style={{width: '300px'}}><KalilaForm {...args}>
-  <button type="submit">Submit</button>
-</KalilaForm></div>;
+const Template = (args: any) =>
+  <div style={{width: '300px'}}><KalilaForm {...args}>
+    <button type="submit">Submit</button>
+  </KalilaForm></div>
+;
 
 export const CreateManuscript = Template.bind({});
 
@@ -56,8 +55,8 @@ CreateManuscript.args = {
   editors,
   categoricalAttributes: {},
   initialValues: new ManuscriptDescriptionAdmin(),
-  validationSchema: ManuscriptDescriptionAdmin
+  validationSchema: new ManuscriptDescriptionAdmin()
     .validationSchemaFactory(
-      ['mk', 'ds'], {'Siglum': async value => value !== 'P5881'})
+      ['mk', 'ds'], {'Siglum': async value => value !== 'P5881'})({mode: "create", skip: {}})
 }
 

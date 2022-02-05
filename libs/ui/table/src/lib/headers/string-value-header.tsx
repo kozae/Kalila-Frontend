@@ -5,7 +5,7 @@ import * as React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faSortAlphaDown, faSortAlphaDownAlt} from '@fortawesome/free-solid-svg-icons'
+import {faSortAmountUpAlt, faSortAmountDown} from '@fortawesome/free-solid-svg-icons'
 
 
 function useStringFilterFieldState(accessor: string, activeFilter: Record<string, any>, onFilter: (newFilter: Record<string, any>) => void) {
@@ -95,10 +95,10 @@ export const StringValueHeader = (props: any) => {
             aria-label="text alignment"
           >
             <ToggleButton value="asc" aria-label="sort-ascending">
-              <FontAwesomeIcon size='lg' icon={faSortAlphaDown} />
+              <FontAwesomeIcon size='lg' icon={faSortAmountUpAlt} />
             </ToggleButton>
             <ToggleButton value="desc" aria-label="sort-descending">
-              <FontAwesomeIcon size='lg' icon={faSortAlphaDownAlt} />
+              <FontAwesomeIcon size='lg' icon={faSortAmountDown} />
             </ToggleButton>
           </ToggleButtonGroup>
         </div>
