@@ -1,12 +1,13 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import {
   AdministrationCommandBar,
+  DeleteDocumentModal,
   IAdminPageContext,
   useAdminPageContext,
 } from '@frontend/ui/administration';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
 import { Grid, TablePaginator } from '@frontend/ui/table';
-import { defaultPagination } from '@frontend/util';
+import { defaultPagination, MediaTypes } from '@frontend/util';
 import { useRouter } from 'next/router';
 import {
   NotificationBar,
@@ -24,11 +25,7 @@ import {
 } from '../shared/admin-page.hooks';
 import { KalilaDocument } from '@frontend/domain';
 import Stack from '@mui/material/Stack';
-import {
-  CreateDocumentModal,
-  DeleteDocumentModal,
-  EditDocumentModal,
-} from './modals';
+import { CreateDocumentModal, EditDocumentModal } from './modals';
 import { AlertColor } from '@mui/material/Alert/Alert';
 
 export interface IAdministrationPageProps<T extends KalilaDocument> {
@@ -43,7 +40,6 @@ export const AdministrationPage = <T extends KalilaDocument>({
   const router = useRouter();
   const {
     activityName,
-    editors,
     initialValues,
     filter,
     additionalParams,
@@ -53,6 +49,8 @@ export const AdministrationPage = <T extends KalilaDocument>({
     activityName,
     router,
     cls,
+    MediaTypes.AdminDocument,
+    { KeyField: true },
     additionalParams
   );
   const {

@@ -2,7 +2,7 @@ import React from 'react';
 import {
   IAdminPageContext,
   useAdminPageContext,
-} from '../../../admin-page.context';
+} from '../../admin-page.context';
 import { KalilaDocument } from '@frontend/domain';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';

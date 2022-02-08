@@ -1,4 +1,4 @@
-import { getSessionSWR, IPagination } from '@frontend/util';
+import { getSessionSWR, IPagination, MediaTypes } from '@frontend/util';
 import { NextRouter } from 'next/router';
 import { IPaginatedDocuments } from './models';
 import {
@@ -6,7 +6,8 @@ import {
   createDocumentFactory,
   deleteDocumentFactory,
   processSignalRUpdateFactory,
-  updateDocumentFactory,
+  updateDocumentsFactory,
+  updateOneDocumentFactory,
 } from './reducers';
 import { getDocuments, getSchema } from './queries';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
@@ -17,6 +18,8 @@ export function usePaginatedDocuments<T extends KalilaDocument>(
   activityName: string,
   router: NextRouter,
   cls: ClassConstructor<T>,
+  mediaType: MediaTypes,
+  schemaFilter: any = {},
   additionalParams = {}
 ): IPaginatedDocuments<T> {
   const session = getSessionSWR();
@@ -24,13 +27,21 @@ export function usePaginatedDocuments<T extends KalilaDocument>(
   const loggedUser = session?.session?.user?.username;
   const { data: schema, mutate: mutateSchema } = getSchema(
     accessToken,
-    activityName
+    activityName,
+    schemaFilter
   );
   const {
     data,
     isValidating,
     mutate: mutateDocs,
-  } = getDocuments(accessToken, activityName, schema, router, additionalParams);
+  } = getDocuments(
+    accessToken,
+    activityName,
+    schema,
+    router,
+    mediaType,
+    additionalParams
+  );
 
   if (!isValidating && data) {
     return {
@@ -50,7 +61,11 @@ export function usePaginatedDocuments<T extends KalilaDocument>(
           mutateSchema,
           activityName
         ),
-        updateDocument: updateDocumentFactory(
+        updateDocuments: updateDocumentsFactory(
+          accessToken as string,
+          activityName
+        ),
+        updateOneDocument: updateOneDocumentFactory(
           accessToken as string,
           activityName
         ),

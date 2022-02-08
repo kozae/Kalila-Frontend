@@ -9,6 +9,7 @@ import React from 'react';
 import { CategoricalAttribute } from '@frontend/domain';
 import { AdministrationPageCategoricalAttributes } from '@frontend/ui/administration';
 import { checkOptionDuplication } from '@frontend/util';
+import Head from 'next/head';
 
 export function CategoricalAttributesAdministration() {
   useNavbarMessage(['Administration:', 'Categorical Attributes']);
@@ -21,48 +22,53 @@ export function CategoricalAttributesAdministration() {
   const AdminPageContext = createAdminPageContext<CategoricalAttribute>();
   const initialValues = new CategoricalAttribute();
   return (
-    <AdminPageContext.Provider
-      value={{
-        activityName: 'CategoricalAttribute',
-        additionalParams: {},
-        initialValues,
-        validationSchemaFactory: initialValues.validationSchemaFactory([], {
-          Option: checkOptionDuplication,
-        }),
-        cls: CategoricalAttribute,
-        createModalTitle: 'Create a Categorical Attribute',
-        editModalTitle: {
-          one: 'Edit selected Categorical Attribute',
-          many: '',
-          filtered: '',
-        },
-        deleteModalMessage:
-          'Deletion can be executed, only if the attribute is unused.',
-        filter,
-        editors: [],
-        onPaginationChange: handlePaginationChange,
-      }}
-    >
-      <AdministrationPageCategoricalAttributes>
-        <AgGridColumn
-          headerComponent={'stringValueHeader'}
-          pinned={'left'}
-          headerComponentParams={headerComponentParams}
-          lockPosition={true}
-          field="EntityName"
-        />
-        <AgGridColumn
-          headerComponent={'stringValueHeader'}
-          headerComponentParams={headerComponentParams}
-          field="FieldName"
-        />
-        <AgGridColumn
-          headerComponent={'stringValueHeader'}
-          headerComponentParams={headerComponentParams}
-          field="Option"
-        />
-      </AdministrationPageCategoricalAttributes>
-    </AdminPageContext.Provider>
+    <>
+      <Head>
+        <title>Administration: Categorical Attributes</title>
+      </Head>
+      <AdminPageContext.Provider
+        value={{
+          activityName: 'CategoricalAttribute',
+          additionalParams: {},
+          initialValues,
+          validationSchemaFactory: initialValues.validationSchemaFactory([], {
+            Option: checkOptionDuplication,
+          }),
+          cls: CategoricalAttribute,
+          createModalTitle: 'Create a Categorical Attribute',
+          editModalTitle: {
+            one: 'Edit selected Categorical Attribute',
+            many: '',
+            filtered: '',
+          },
+          deleteModalMessage:
+            'Deletion can be executed, only if the attribute is unused.',
+          filter,
+          editors: [],
+          onPaginationChange: handlePaginationChange,
+        }}
+      >
+        <AdministrationPageCategoricalAttributes>
+          <AgGridColumn
+            headerComponent={'stringValueHeader'}
+            pinned={'left'}
+            headerComponentParams={headerComponentParams}
+            lockPosition={true}
+            field="EntityName"
+          />
+          <AgGridColumn
+            headerComponent={'stringValueHeader'}
+            headerComponentParams={headerComponentParams}
+            field="FieldName"
+          />
+          <AgGridColumn
+            headerComponent={'stringValueHeader'}
+            headerComponentParams={headerComponentParams}
+            field="Option"
+          />
+        </AdministrationPageCategoricalAttributes>
+      </AdminPageContext.Provider>
+    </>
   );
 }
 

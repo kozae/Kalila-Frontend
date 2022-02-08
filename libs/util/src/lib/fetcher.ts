@@ -11,7 +11,7 @@ export async function fetcher(
 ) {
   const { data, headers } = await axios.get(`/server/api/v1/${controller}`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
       Accept: accept,
     },
     params: { ...query, ...additionalParams },

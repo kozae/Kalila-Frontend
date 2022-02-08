@@ -3,6 +3,7 @@ import { Grid, TablePaginator } from '@frontend/ui/table';
 import { useRouter } from 'next/router';
 import {
   AdministrationCommandBar,
+  DeleteDocumentModal,
   IAdminPageContext,
   useAdminPageContext,
 } from '@frontend/ui/administration';
@@ -16,7 +17,10 @@ import { CategoricalAttribute } from '@frontend/domain';
 import {
   resetSelectionOnQueryChange,
   useControls,
+  useCreateHandler,
+  useDeleteHandler,
   useGrid,
+  useUpdateHandler,
 } from '../shared/admin-page.hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { AlertColor } from '@mui/material/Alert/Alert';
@@ -27,6 +31,7 @@ import {
   defaultPagination,
   InputModes,
   KalilaValueTypes,
+  MediaTypes,
 } from '@frontend/util';
 import { CreateAttributeModal } from './modals';
 import { EditAttributeModal } from './modals/edit-attribute-modal';
@@ -48,14 +53,8 @@ export const AdministrationPageCategoricalAttributes: React.FC = ({
     hideEditModal,
     hideDeleteModal,
   } = useControls();
-  const {
-    activityName,
-    editors,
-    initialValues,
-    filter,
-    additionalParams,
-    onPaginationChange,
-  } = useAdminPageContext<CategoricalAttribute>() as IAdminPageContext<CategoricalAttribute>;
+  const { activityName, filter, additionalParams, onPaginationChange } =
+    useAdminPageContext<CategoricalAttribute>() as IAdminPageContext<CategoricalAttribute>;
   const [selection, setSelection] = useState<CategoricalAttribute[]>([]);
   const clearSelection = () => setSelection([]);
   const { state, dispatchers, loading } =
@@ -63,6 +62,8 @@ export const AdministrationPageCategoricalAttributes: React.FC = ({
       activityName,
       router,
       CategoricalAttribute,
+      MediaTypes.AdminDocument,
+      { KeyField: true },
       additionalParams
     );
   const gridParams = useGrid(
@@ -81,8 +82,31 @@ export const AdministrationPageCategoricalAttributes: React.FC = ({
     }
     return undefined;
   }, [state?.schema]);
-  const handleCreate = (att: CategoricalAttribute) => console.log(att);
-  const handleUpdate = (att: CategoricalAttribute) => console.log(att);
+  const handleCreate = useCreateHandler(
+    additionalParams,
+    notifyUser,
+    dispatchers,
+    hideCreateModal,
+    clearSelection
+  );
+  const handleUpdate = useUpdateHandler(
+    selection,
+    filter,
+    additionalParams,
+    'one',
+    notifyUser,
+    dispatchers,
+    hideEditModal,
+    clearSelection,
+    'updateOne'
+  );
+  const handleDelete = useDeleteHandler(
+    additionalParams,
+    notifyUser,
+    dispatchers,
+    hideDeleteModal,
+    clearSelection
+  );
   resetSelectionOnQueryChange(setSelection, router);
   useSignalrUpdates(activityName, dispatchers);
   return (
@@ -135,6 +159,12 @@ export const AdministrationPageCategoricalAttributes: React.FC = ({
             }
             onDismiss={() => hideEditModal()}
             onSubmit={handleUpdate}
+          />
+          <DeleteDocumentModal
+            isOpen={isDeleteModalOpen}
+            onDismiss={() => hideDeleteModal()}
+            doc={selection[0]}
+            onConfirm={handleDelete}
           />
         </>
       ) : null}

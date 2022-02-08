@@ -16,7 +16,7 @@ export function useNavigationEventHandling({
       // console.log({ previousRoute });
       // console.log(router.pathname);
       // console.log({ newRoute });
-      const canLeaveMSDescriptionGroup = () =>
+      const canLeaveGroup = () =>
         !newRoute.startsWith(previousRoute) && connection && isConnected;
 
       const canLeavePagesGroup = () =>
@@ -25,11 +25,19 @@ export function useNavigationEventHandling({
       switch (previousRoute) {
         case '/manuscript-description':
         case '/administration/manuscript-description':
-          if (canLeaveMSDescriptionGroup()) {
+          if (canLeaveGroup()) {
             leaveGroup(
               'ManuscriptDescription',
               connection as HubConnection
             ).then(() => console.log('ManuscriptDescription group left'));
+          }
+          break;
+        case '/administration/categorical-attributes':
+          if (canLeaveGroup()) {
+            leaveGroup(
+              'CategoricalAttribute',
+              connection as HubConnection
+            ).then(() => console.log('CategoricalAttribute group left'));
           }
           break;
         case '/administration/pages/[manuscript]':

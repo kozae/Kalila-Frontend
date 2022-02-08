@@ -12,7 +12,11 @@ export interface IPaginatedDocumentsState<T extends KalilaDocument> {
 export interface IPaginatedDocumentsDispatchers<T extends KalilaDocument> {
   createDocument: (doc: T) => Promise<void>;
   processSignalRUpdate: (update: IRealTimeUpdate) => Promise<void>;
-  updateDocument: (
+  updateDocuments: (
+    update: { [p: string]: any },
+    params: { [p: string]: any }
+  ) => Promise<void>;
+  updateOneDocument: (
     update: { [p: string]: any },
     params: { [p: string]: any }
   ) => Promise<void>;

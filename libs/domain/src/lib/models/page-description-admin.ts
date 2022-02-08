@@ -20,10 +20,10 @@ export class PageDescriptionAdmin extends KalilaDocument {
     super();
   }
 
-  CreateAdminUpdate(
+  public async CreateAdminUpdate(
     oldValue: PageDescriptionAdmin,
     mode: 'one' | 'many' | 'filtered'
-  ): any {
+  ) {
     if (mode === 'one' && this.Number !== oldValue.Number) {
       return {
         Number: this.Number,

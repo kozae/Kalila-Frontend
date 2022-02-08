@@ -51,7 +51,7 @@ export function processSignalRUpdateFactory(
   };
 }
 
-export function updateDocumentFactory(
+export function updateDocumentsFactory(
   accessToken: string,
   activityName: string
 ) {

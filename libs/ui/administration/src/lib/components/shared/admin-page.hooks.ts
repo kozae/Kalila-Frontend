@@ -79,21 +79,39 @@ export function useUpdateHandler<T extends KalilaDocument>(
   notifyUser: (text: string, type: string) => void,
   dispatchers: IPaginatedDocumentsDispatchers<T> | undefined,
   hideEditModal: () => void,
-  clearSelection: () => void
+  clearSelection: () => void,
+  handler: 'admin' | 'updateOne' = 'admin'
 ) {
   return useCallback(
     async (doc: T) => {
-      const update = doc.CreateAdminUpdate(selection[0], editMode);
-      const params =
-        editMode === 'filtered' ? filter : { Ids: selection.map((d) => d.Id) };
+      const update = await doc.CreateAdminUpdate(selection[0], editMode);
+      let params;
       try {
-        if (dispatchers?.updateDocument) {
-          await dispatchers.adminUpdateDocument(update, {
-            ...params,
-            ...additionalParams,
-          });
-          notifyUser('updated successfully', 'success');
+        switch (handler) {
+          case 'admin':
+            params =
+              editMode === 'filtered'
+                ? filter
+                : { Ids: selection.map((d) => d.Id) };
+            if (dispatchers?.adminUpdateDocument) {
+              await dispatchers.adminUpdateDocument(update, {
+                ...params,
+                ...additionalParams,
+              });
+            }
+            break;
+          case 'updateOne':
+            if (dispatchers?.updateOneDocument) {
+              params = { Id: selection[0].Id };
+              await dispatchers.updateOneDocument(update, {
+                ...params,
+                ...additionalParams,
+              });
+            }
+            break;
         }
+
+        notifyUser('updated successfully', 'success');
       } catch {
         notifyUser('could not update', 'error');
       } finally {

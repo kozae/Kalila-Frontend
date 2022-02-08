@@ -19,7 +19,7 @@ export abstract class KalilaDocument {
   abstract CreateAdminUpdate(
     oldValue: any,
     mode: 'one' | 'many' | 'filtered'
-  ): any;
+  ): Promise<any>;
 
   protected CommonAdminUpdate() {
     return {

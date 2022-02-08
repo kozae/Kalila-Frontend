@@ -71,7 +71,7 @@ export class ManuscriptDescriptionAdmin extends KalilaDocument {
     };
   }
 
-  public CreateAdminUpdate(oldValue: ManuscriptDescriptionAdmin, mode) {
+  public async CreateAdminUpdate(oldValue: ManuscriptDescriptionAdmin, mode) {
     if (mode === 'one' && this.Siglum !== oldValue.Siglum) {
       return {
         Siglum: this.Siglum,

@@ -1,6 +1,8 @@
 import { KalilaDocument, validationWithParentFn } from './kalila-document';
 import { AnySchema } from 'yup/lib/schema';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { ActivitySchema, InputModes } from '@frontend/util';
 
 export class CategoricalAttribute extends KalilaDocument {
   constructor(
@@ -12,7 +14,29 @@ export class CategoricalAttribute extends KalilaDocument {
     super();
   }
 
-  CreateAdminUpdate(oldValue: any, mode: 'one' | 'many' | 'filtered'): any {}
+  public async CreateAdminUpdate(
+    { EntityName, FieldName, Option }: any,
+    mode: 'one' | 'many' | 'filtered' = 'one'
+  ) {
+    const { data: entitySchema } = await axios.get<ActivitySchema>(
+      `/server/api/v1/EntrySchema/${EntityName}`,
+      {
+        headers: {
+          Accept: 'application/json',
+        },
+        params: {
+          CategoricalAttributeType: FieldName,
+        },
+      }
+    );
+    return {
+      EntityName,
+      FieldName,
+      OldValue: Option,
+      NewValue: this.Option,
+      IsArray: entitySchema.Fields[0].InputMode === InputModes.SelectMultiple,
+    };
+  }
 
   validationSchemaFactory(
     editors: string[],

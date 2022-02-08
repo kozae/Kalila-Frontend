@@ -16,19 +16,15 @@ function transformSchemaName(activityName: string) {
 
 export function getSchema(
   accessToken: string | undefined | null,
-  activityName: string
+  activityName: string,
+  schemaFilter: any
 ) {
   return useSWRImmutable(
-    accessToken
-      ? [
-          // only fetch if access token is present
-          `EntrySchema/${transformSchemaName(activityName)}`,
-          accessToken,
-          {
-            KeyField: true,
-          },
-        ]
-      : null,
+    [
+      `EntrySchema/${transformSchemaName(activityName)}`,
+      undefined, // no accessToken needed
+      schemaFilter,
+    ],
     fetcher
   );
 }
@@ -38,6 +34,7 @@ export function getDocuments<T extends KalilaDocument>(
   activityName: string,
   schema: any,
   { query }: NextRouter,
+  mediaType: MediaTypes,
   additionalParams = {}
 ) {
   return useSWR(
@@ -47,7 +44,7 @@ export function getDocuments<T extends KalilaDocument>(
           activityName,
           accessToken,
           query,
-          MediaTypes.AdminDocument,
+          mediaType,
           additionalParams,
         ]
       : null,

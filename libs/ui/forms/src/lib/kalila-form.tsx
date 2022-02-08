@@ -40,8 +40,16 @@ export const KalilaForm = <T extends KalilaDocument>({
   });
 
   useEffect(() => {
-    onCanSubmit(formik.isValid && Object.values(formik.touched).length !== 0);
-  }, [formik.isValid, Object.values(formik.touched).length]);
+    onCanSubmit(
+      formik.isValid &&
+        Object.values(formik.touched).length !== 0 &&
+        !formik.isValidating
+    );
+  }, [
+    formik.isValid,
+    Object.values(formik.touched).length,
+    formik.isValidating,
+  ]);
 
   const formFields = fields.map((f) =>
     createFormField(f, categoricalAttributes, editors, formik)
