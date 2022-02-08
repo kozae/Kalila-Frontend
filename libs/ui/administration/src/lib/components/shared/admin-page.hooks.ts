@@ -4,7 +4,6 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useState,
 } from 'react';
 import { NextRouter } from 'next/router';
 
@@ -56,11 +55,15 @@ export function useControls() {
   };
 }
 
-export function useGrid({ state, setSelection }: any) {
+export function useGrid(
+  { state, setSelection }: any,
+  additionalParams: AgGridReactProps | AgReactUiProps = {}
+) {
   const gridParams: AgGridReactProps | AgReactUiProps = useMemo(
     () => ({
       onSelectionChanged: (event) => setSelection(event.api.getSelectedRows()),
       rowData: state?.documents ?? [],
+      ...additionalParams,
     }),
     [state, setSelection]
   );
@@ -71,6 +74,7 @@ export function useGrid({ state, setSelection }: any) {
 export function useUpdateHandler<T extends KalilaDocument>(
   selection: T[],
   filter: Record<string, any>,
+  additionalParams: any,
   editMode: 'one' | 'many' | 'filtered',
   notifyUser: (text: string, type: string) => void,
   dispatchers: IPaginatedDocumentsDispatchers<T> | undefined,
@@ -84,7 +88,10 @@ export function useUpdateHandler<T extends KalilaDocument>(
         editMode === 'filtered' ? filter : { Ids: selection.map((d) => d.Id) };
       try {
         if (dispatchers?.updateDocument) {
-          await dispatchers.adminUpdateDocument(update, params);
+          await dispatchers.adminUpdateDocument(update, {
+            ...params,
+            ...additionalParams,
+          });
           notifyUser('updated successfully', 'success');
         }
       } catch {
@@ -99,6 +106,7 @@ export function useUpdateHandler<T extends KalilaDocument>(
 }
 
 export function useDeleteHandler<T extends KalilaDocument>(
+  additionalParams: any,
   notifyUser: (text: string, type: string) => void,
   dispatchers: IPaginatedDocumentsDispatchers<T> | undefined,
   hideDeleteModal: () => void,
@@ -108,7 +116,7 @@ export function useDeleteHandler<T extends KalilaDocument>(
     async (doc: T) => {
       try {
         if (dispatchers?.deleteDocument) {
-          await dispatchers.deleteDocument(doc.Id as string);
+          await dispatchers.deleteDocument(doc.Id as string, additionalParams);
         }
         notifyUser('deleted successfully', 'success');
       } catch {
@@ -123,6 +131,7 @@ export function useDeleteHandler<T extends KalilaDocument>(
 }
 
 export function useCreateHandler<T extends KalilaDocument>(
+  additionalParams: any,
   notifyUser: (text: string, type: string) => void,
   dispatchers: IPaginatedDocumentsDispatchers<T> | undefined,
   hideCreateModal: () => void,
@@ -132,7 +141,7 @@ export function useCreateHandler<T extends KalilaDocument>(
     async (doc: T) => {
       try {
         if (dispatchers?.createDocument) {
-          await dispatchers.createDocument(doc);
+          await dispatchers.createDocument({ ...doc, ...additionalParams });
         }
         notifyUser('created successfully', 'success');
       } catch {
@@ -144,21 +153,4 @@ export function useCreateHandler<T extends KalilaDocument>(
     },
     [dispatchers]
   );
-}
-
-export function useMessageBar() {
-  const [isMessageVisible, { setTrue: showMessage, setFalse: hideMessage }] =
-    useBoolean(false);
-  const [message, setMessage] = useState('');
-  const [messageBarType, setMessageBarType] = useState('info');
-
-  const notifyUser = (text: string, type: string) => {
-    hideMessage();
-    setMessage(text);
-    setMessageBarType(type);
-    showMessage();
-    setTimeout(() => hideMessage(), 3000);
-  };
-
-  return { message, messageBarType, isMessageVisible, hideMessage, notifyUser };
 }

@@ -1,0 +1,25 @@
+{
+  "root": "libs/ui/documents-detailed-view",
+  "sourceRoot": "libs/ui/documents-detailed-view/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui/documents-detailed-view/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ui/documents-detailed-view"],
+      "options": {
+        "jestConfig": "libs/ui/documents-detailed-view/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

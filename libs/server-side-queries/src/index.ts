@@ -1,3 +1,4 @@
-export * from './lib/connection'
-export * from './lib/queries/sigla'
-export * from './lib/util/query-server-side'
+export * from './lib/connection';
+export * from './lib/queries/sigla';
+export * from './lib/queries/siglum';
+export * from './lib/util/query-server-side';

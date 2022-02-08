@@ -1,108 +1,56 @@
-import styles from './header.module.scss'
-import {useRef, useEffect, useState, useMemo, useCallback} from "react";
-import TextField from "@mui/material/TextField";
+import styles from './header.module.scss';
+import TextField from '@mui/material/TextField';
 import * as React from 'react';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faSortAmountUpAlt, faSortAmountDown} from '@fortawesome/free-solid-svg-icons'
+import { SortHeader } from './sort-header';
+import { useFilterFieldState } from './filter-field-state.hook';
 
-
-function useStringFilterFieldState(accessor: string, activeFilter: Record<string, any>, onFilter: (newFilter: Record<string, any>) => void) {
-
-  const [value, setValue] = useState(activeFilter[accessor] ?? '');
-  const ref = useRef<HTMLInputElement>(null)
-  useEffect(() => {
-    setValue(activeFilter[accessor] ?? '')
-    if (ref.current) {
-      ref.current.focus()
-    }
-  }, [activeFilter[accessor]])
-
-  useEffect(() => {
-    const active = activeFilter[accessor] ?? '';
-    if (value !== active) {
-      onFilter({...activeFilter, [accessor]: value})
-    }
-  }, [value])
-
-  const onChange = (e: any) => setValue(e.currentTarget.value)
-
-  return [value, ref, onChange]
-
-}
-
-
-const StringFilterField = ({placeholder, ariaLabel, accessor, activeFilter, onFilter}: any) => {
-  const [value, ref, onChange] = useStringFilterFieldState(accessor, activeFilter, onFilter);
+const StringFilterField = ({
+  placeholder,
+  ariaLabel,
+  accessor,
+  activeFilter,
+  onFilter,
+}: any) => {
+  const [value, ref, onChange] = useFilterFieldState(
+    accessor,
+    activeFilter,
+    onFilter
+  );
   return (
-    <TextField value={value}
-               inputRef={ref}
-               size='small'
-               onChange={onChange}
-               label={placeholder}
-               aria-label={ariaLabel}
-               variant="outlined"/>
-
-  )
-
-}
+    <TextField
+      value={value}
+      inputRef={ref}
+      size="small"
+      onChange={onChange}
+      label={placeholder}
+      aria-label={ariaLabel}
+      variant="outlined"
+    />
+  );
+};
 
 export const StringValueHeader = (props: any) => {
+  const filterProps = {
+    accessor: props.exactMatch
+      ? `${props.column.colId}Eq`
+      : `${props.column.colId}Cn`,
+    placeholder: props.exactMatch ? 'Find exact match' : 'Filter',
+    ariaLabel: `${props.displayName} filter`,
+    activeFilter: props.activeFilter,
+    onFilter: props.onFilter,
+  };
 
-  const filterProps =
-    {
-      accessor: `${props.column.colId}Cn`,
-      placeholder: 'Filter',
-      ariaLabel: `${props.displayName} contains`,
-      activeFilter: props.activeFilter,
-      onFilter: props.onFilter
-    }
-
-  const sortValue = useMemo(() => {
-    if (props.activeSort?.OrderBy === props.column.colId && props.activeSort?.SortDirection !== 'desc') {
-      return 'asc'
-    }
-    if (props.activeSort?.OrderBy === props.column.colId && props.activeSort?.SortDirection === 'desc') {
-      return 'desc'
-    }
-    return null
-  }, [props.activeSort, props.column])
-
-  const handleSort = useCallback((
-    event: React.MouseEvent<HTMLElement>,
-    newSort: string | null,
-  ) => {
-    if (newSort === 'asc') {
-      props.onSort({OrderBy: props.column.colId})
-    }
-    if (newSort === 'desc') {
-      props.onSort({OrderBy: props.column.colId, SortDirection: 'desc'})
-    }
-  }, [props.onSort])
+  const sortProps = {
+    activeSort: props.activeSort,
+    onSort: props.onSort,
+    colId: props.column.colId,
+  };
 
   return (
     <div className={styles['container']}>
-      <div className={styles['label-sort']}>
+      <SortHeader {...sortProps}>
         <div className={styles['label']}>{props.displayName}</div>
-        <div className={styles['sort']}>
-          <ToggleButtonGroup
-            size='small'
-            value={sortValue}
-            exclusive
-            color='primary'
-            onChange={handleSort}
-            aria-label="text alignment"
-          >
-            <ToggleButton value="asc" aria-label="sort-ascending">
-              <FontAwesomeIcon size='lg' icon={faSortAmountUpAlt} />
-            </ToggleButton>
-            <ToggleButton value="desc" aria-label="sort-descending">
-              <FontAwesomeIcon size='lg' icon={faSortAmountDown} />
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </div>
-      </div>
+      </SortHeader>
       <StringFilterField {...filterProps} />
     </div>
   );

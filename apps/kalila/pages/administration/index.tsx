@@ -1,9 +1,14 @@
 import { NextPage } from 'next';
 import Alert from '@mui/material/Alert';
 import { withAdminLayout } from '@frontend/ui/administration';
-import { themeColors, UndrawChoiceSVG } from '@frontend/shared-ui';
+import {
+  themeColors,
+  UndrawChoiceSVG,
+  useNavbarMessage,
+} from '@frontend/shared-ui';
 
 const Administration: NextPage = () => {
+  useNavbarMessage(['Administration:', 'Select Activity']);
   return (
     <>
       <UndrawChoiceSVG width={'300px'} color={themeColors.mainGreen} />

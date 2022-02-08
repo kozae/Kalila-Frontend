@@ -1,40 +1,43 @@
 import styles from './nav.module.scss';
-import React from "react";
-import {NavControlBar} from "./nav-control-bar";
-import {NavMessageBar} from "./nav-message-bar";
-import {SidePanel} from "./side-panel";
-import {useNavSessionState, useRouteState} from "./hooks/nav.hooks";
-import {navbarInitialStore, NavbarStore} from "./store";
-import {useBoolean} from "../../../hooks";
-
+import React from 'react';
+import { NavControlBar } from './nav-control-bar';
+import { NavMessageBar } from './nav-message-bar';
+import { SidePanel } from './side-panel';
+import { useNavSessionState, useRouteState } from './hooks/nav.hooks';
+import { navbarInitialStore, NavbarStore } from './store';
+import { useBoolean } from '../../../hooks';
 
 export const Nav: React.FC = () => {
-  const [isPanelOpen, {setTrue: openPanel, setFalse: dismissPanel}] = useBoolean(navbarInitialStore.state.isPanelOpen);
-  const {activeLink, messages} = useRouteState(navbarInitialStore.state, [dismissPanel])
-  const {links, loggedUser, isAdmin} = useNavSessionState(navbarInitialStore.state)
+  const [isPanelOpen, { setTrue: openPanel, setFalse: dismissPanel }] =
+    useBoolean(navbarInitialStore.state.isPanelOpen);
+  const { activeLink } = useRouteState(navbarInitialStore.state, [
+    dismissPanel,
+  ]);
+  const { links, loggedUser, isAdmin } = useNavSessionState(
+    navbarInitialStore.state
+  );
 
   return (
-    <NavbarStore.Provider value={{
-      state: {
-        loggedUser,
-        isAdmin,
-        links,
-        activeLink,
-        messages,
-        isPanelOpen,
-      },
-      dispatchers: {
-        openPanel,
-        dismissPanel
-      }
-    }}>
+    <NavbarStore.Provider
+      value={{
+        state: {
+          loggedUser,
+          isAdmin,
+          links,
+          activeLink,
+          isPanelOpen,
+        },
+        dispatchers: {
+          openPanel,
+          dismissPanel,
+        },
+      }}
+    >
       <nav className={styles['nav']}>
-        <NavControlBar/>
-        <NavMessageBar/>
-        <SidePanel/>
+        <NavControlBar />
+        <NavMessageBar />
+        <SidePanel />
       </nav>
     </NavbarStore.Provider>
   );
-}
-
-
+};

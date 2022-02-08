@@ -1,25 +1,29 @@
 import './index.module.scss';
-import {SignalrStore, withTransition} from "@frontend/shared-ui";
-import {useContext, useEffect} from "react";
+import {
+  SignalrStore,
+  useNavbarMessage,
+  withTransition,
+} from '@frontend/shared-ui';
+import { useContext, useEffect } from 'react';
 
 /* eslint-disable-next-line */
-export interface ManuscriptDescriptionProps {
-}
+export interface ManuscriptDescriptionProps {}
 
 export function ManuscriptDescription(props: ManuscriptDescriptionProps) {
-  const {state: {update, connection, isConnected}, dispatchers: {joinGroup}} = useContext(SignalrStore);
+  const {
+    state: { update, connection, isConnected },
+    dispatchers: { joinGroup },
+  } = useContext(SignalrStore);
 
-  useEffect(() => {
-    console.log(update)
-  }, [update])
-
+  useNavbarMessage(['Manuscript Description:', 'View Documents']);
 
   useEffect(() => {
     if (connection && isConnected) {
-      joinGroup('ManuscriptDescription', connection)
-        .then(() => console.log('ManuscriptDescription group joined'))
+      joinGroup('ManuscriptDescription', connection).then(() =>
+        console.log('ManuscriptDescription group joined')
+      );
     }
-  }, [isConnected, connection])
+  }, [isConnected, connection]);
 
   return (
     <div>
@@ -29,4 +33,3 @@ export function ManuscriptDescription(props: ManuscriptDescriptionProps) {
 }
 
 export default withTransition(ManuscriptDescription, {});
-

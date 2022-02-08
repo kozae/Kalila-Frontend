@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import {
   AdministrationCommandBar,
   IAdminPageContext,
@@ -6,30 +6,30 @@ import {
 } from '@frontend/ui/administration';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
 import { Grid, TablePaginator } from '@frontend/ui/table';
-import Collapse from '@mui/material/Collapse';
 import { defaultPagination } from '@frontend/util';
 import { useRouter } from 'next/router';
-import { usePaginatedDocuments, useSignalrUpdates } from '@frontend/shared-ui';
+import {
+  NotificationBar,
+  useNotificationBar,
+  usePaginatedDocuments,
+  useSignalrUpdates,
+} from '@frontend/shared-ui';
 import {
   resetSelectionOnQueryChange,
   useControls,
   useCreateHandler,
   useDeleteHandler,
   useGrid,
-  useMessageBar,
   useUpdateHandler,
-} from '../admin-page.hooks';
+} from '../shared/admin-page.hooks';
 import { KalilaDocument } from '@frontend/domain';
-import Alert from '@mui/material/Alert';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import Stack from '@mui/material/Stack';
-import { AlertColor } from '@mui/material/Alert/Alert';
 import {
   CreateDocumentModal,
   DeleteDocumentModal,
   EditDocumentModal,
 } from './modals';
+import { AlertColor } from '@mui/material/Alert/Alert';
 
 export interface IAdministrationPageProps<T extends KalilaDocument> {
   cls: ClassConstructor<T>; // just for type inference
@@ -41,12 +41,19 @@ export const AdministrationPage = <T extends KalilaDocument>({
   children: columns,
 }: IAdministrationPageProps<T>) => {
   const router = useRouter();
-  const { activityName, editors, initialValues, filter, onPaginationChange } =
-    useAdminPageContext<T>() as IAdminPageContext<T>;
+  const {
+    activityName,
+    editors,
+    initialValues,
+    filter,
+    additionalParams,
+    onPaginationChange,
+  } = useAdminPageContext<T>() as IAdminPageContext<T>;
   const { state, dispatchers, loading } = usePaginatedDocuments<T>(
     activityName,
     router,
-    cls
+    cls,
+    additionalParams
   );
   const {
     isCreateModalOpen,
@@ -65,10 +72,11 @@ export const AdministrationPage = <T extends KalilaDocument>({
     'filtered'
   );
   const { message, messageBarType, isMessageVisible, hideMessage, notifyUser } =
-    useMessageBar();
+    useNotificationBar();
   const handleUpdate = useUpdateHandler(
     selection,
     filter,
+    additionalParams,
     editMode,
     notifyUser,
     dispatchers,
@@ -76,12 +84,14 @@ export const AdministrationPage = <T extends KalilaDocument>({
     clearSelection
   );
   const handleDelete = useDeleteHandler(
+    additionalParams,
     notifyUser,
     dispatchers,
     hideDeleteModal,
     clearSelection
   );
   const handleCreate = useCreateHandler(
+    additionalParams,
     notifyUser,
     dispatchers,
     hideCreateModal,
@@ -103,77 +113,32 @@ export const AdministrationPage = <T extends KalilaDocument>({
   resetSelectionOnQueryChange(setSelection, router);
   useSignalrUpdates(activityName, dispatchers);
 
-  const handleChangePage = useCallback(
-    async (e: any, page: number) => {
-      if (state?.pagination) {
-        await onPaginationChange({ ...state.pagination, currentPage: page });
-      } else {
-        await onPaginationChange({ ...defaultPagination, currentPage: page });
-      }
-    },
-    [onPaginationChange, state?.pagination]
-  );
-
-  const handleChangeRowsPerPage = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      if (state?.pagination) {
-        await onPaginationChange({
-          ...state.pagination,
-          itemsPerPage: parseInt(e.target.value, 10),
-        });
-      } else {
-        await onPaginationChange({
-          ...defaultPagination,
-          itemsPerPage: parseInt(e.target.value, 10),
-        });
-      }
-    },
-    [onPaginationChange, state?.pagination]
-  );
-
   return (
     <>
-      <Collapse in={isMessageVisible}>
-        <Alert
-          sx={{
-            width: 'fit-content',
-            minWidth: '300px',
-            mb: 2,
-            typography: 'body1',
-          }}
-          severity={messageBarType as AlertColor}
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={hideMessage}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }
-        >
-          {message}
-        </Alert>
-      </Collapse>
-      <Stack direction="row" spacing={1}>
-        <AdministrationCommandBar
-          cls={cls}
-          selection={selection}
-          onCreate={onCreate}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
-        <TablePaginator
-          loading={loading}
-          pagination={state?.pagination ?? defaultPagination}
-          onPaginationChange={onPaginationChange}
-        />
-      </Stack>
+      <NotificationBar
+        {...{
+          message,
+          messageBarType: messageBarType as AlertColor,
+          isMessageVisible,
+          hideMessage,
+        }}
+      />
+      {!isMessageVisible ? (
+        <Stack direction="row" spacing={1}>
+          <AdministrationCommandBar
+            {...{ cls, selection, onCreate, onEdit, onDelete }}
+          />
+          <TablePaginator
+            loading={loading}
+            pagination={state?.pagination ?? defaultPagination}
+            onPaginationChange={onPaginationChange}
+          />
+        </Stack>
+      ) : null}
       <Grid gridParams={gridParams} loading={loading ?? false}>
         {columns}
       </Grid>
-      {state?.schema && dispatchers?.createDocument && editors ? (
+      {state?.schema ? (
         <>
           <CreateDocumentModal
             cls={cls}

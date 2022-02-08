@@ -1,24 +1,30 @@
-import {useRouter} from "next/router";
-import {useParamsFromRouteQuery, useRegisteredEditors} from "@frontend/shared-ui";
-import {useMemo} from "react";
+import { useRouter } from 'next/router';
+import {
+  useParamsFromRouteQuery,
+  useRegisteredEditors,
+} from '@frontend/shared-ui';
+import { useMemo } from 'react';
 
-export function initAdminPage() {
+export function initAdminPage(excludeFromFilter: string[] = []) {
   const router = useRouter();
-  const editors = useRegisteredEditors()
+  const editors = useRegisteredEditors();
   const {
     filter,
     sort,
     handleFilterChange,
     handleSortChange,
-    handlePaginationChange
-  } = useParamsFromRouteQuery(router);
+    handlePaginationChange,
+  } = useParamsFromRouteQuery(router, excludeFromFilter);
 
-  const headerComponentParams = useMemo(() => ({
-    activeSort: {...sort},
-    activeFilter: {...filter},
-    onSort: handleSortChange,
-    onFilter: handleFilterChange
-  }), [sort, filter, handleSortChange, handleFilterChange])
+  const headerComponentParams = useMemo(
+    () => ({
+      activeSort: { ...sort },
+      activeFilter: { ...filter },
+      onSort: handleSortChange,
+      onFilter: handleFilterChange,
+    }),
+    [sort, filter, handleSortChange, handleFilterChange]
+  );
 
-  return {editors, filter, handlePaginationChange, headerComponentParams}
+  return { editors, filter, handlePaginationChange, headerComponentParams };
 }

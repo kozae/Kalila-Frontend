@@ -1,29 +1,36 @@
-import {getSessionSWR, IPagination} from "@frontend/util";
-import {NextRouter} from "next/router";
-import { IPaginatedDocuments} from "./models";
+import { getSessionSWR, IPagination } from '@frontend/util';
+import { NextRouter } from 'next/router';
+import { IPaginatedDocuments } from './models';
 import {
   adminUpdateDocumentFactory,
   createDocumentFactory,
   deleteDocumentFactory,
   processSignalRUpdateFactory,
-  updateDocumentFactory
-} from "./reducers";
-import {getDocuments, getSchema} from "./queries";
-import {ClassConstructor} from "class-transformer/types/interfaces";
-import {plainToInstance} from "class-transformer";
-import {KalilaDocument} from "@frontend/domain";
+  updateDocumentFactory,
+} from './reducers';
+import { getDocuments, getSchema } from './queries';
+import { ClassConstructor } from 'class-transformer/types/interfaces';
+import { plainToInstance } from 'class-transformer';
+import { KalilaDocument } from '@frontend/domain';
 
-export function usePaginatedDocuments<T extends  KalilaDocument>(
+export function usePaginatedDocuments<T extends KalilaDocument>(
   activityName: string,
   router: NextRouter,
-  cls: ClassConstructor<T>
+  cls: ClassConstructor<T>,
+  additionalParams = {}
 ): IPaginatedDocuments<T> {
   const session = getSessionSWR();
   const accessToken = session?.accessToken;
   const loggedUser = session?.session?.user?.username;
-  const {data: schema, mutate: mutateSchema} = getSchema(accessToken, activityName);
-  const {data, isValidating, mutate: mutateDocs} = getDocuments(accessToken, activityName, schema, router);
-
+  const { data: schema, mutate: mutateSchema } = getSchema(
+    accessToken,
+    activityName
+  );
+  const {
+    data,
+    isValidating,
+    mutate: mutateDocs,
+  } = getDocuments(accessToken, activityName, schema, router, additionalParams);
 
   if (!isValidating && data) {
     return {
@@ -34,16 +41,31 @@ export function usePaginatedDocuments<T extends  KalilaDocument>(
         loggedUser: loggedUser as string,
       },
       dispatchers: {
-        createDocument: createDocumentFactory<T>(accessToken as string, activityName),
-        processSignalRUpdate: processSignalRUpdateFactory(mutateDocs, mutateSchema, activityName),
-        updateDocument: updateDocumentFactory(accessToken as string, activityName),
-        adminUpdateDocument: adminUpdateDocumentFactory(accessToken as string, activityName),
-        deleteDocument: deleteDocumentFactory(accessToken as string, activityName),
+        createDocument: createDocumentFactory<T>(
+          accessToken as string,
+          activityName
+        ),
+        processSignalRUpdate: processSignalRUpdateFactory(
+          mutateDocs,
+          mutateSchema,
+          activityName
+        ),
+        updateDocument: updateDocumentFactory(
+          accessToken as string,
+          activityName
+        ),
+        adminUpdateDocument: adminUpdateDocumentFactory(
+          accessToken as string,
+          activityName
+        ),
+        deleteDocument: deleteDocumentFactory(
+          accessToken as string,
+          activityName
+        ),
       },
-      loading: false
+      loading: false,
     };
   }
 
-  return {state: undefined, dispatchers: undefined, loading: true}
-
+  return { state: undefined, dispatchers: undefined, loading: true };
 }

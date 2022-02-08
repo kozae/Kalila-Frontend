@@ -4,7 +4,7 @@ import { ActivitySchema, editorEntrySchema } from '@frontend/util';
 import {
   IAdminPageContext,
   useAdminPageContext,
-} from '../../admin-page.context';
+} from '../../../admin-page.context';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
 import { KalilaForm } from '@frontend/ui/forms';
 import { KalilaDocument } from '@frontend/domain';

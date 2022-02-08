@@ -1,6 +1,6 @@
-export * from './dialog-heading'
-export * from './kalila-logo'
-export * from './layout'
-export * from './siglum-selection'
-export * from './undraw'
-
+export * from './dialog-heading';
+export * from './kalila-logo';
+export * from './notification-bar';
+export * from './layout';
+export * from './siglum-selection';
+export * from './undraw';

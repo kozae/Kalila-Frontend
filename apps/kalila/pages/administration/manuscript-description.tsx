@@ -8,8 +8,10 @@ import React from 'react';
 import { AgGridColumn } from 'ag-grid-react';
 import { ManuscriptDescriptionAdmin } from '@frontend/domain';
 import { checkStringValueFactory } from '@frontend/util';
+import { useNavbarMessage } from '@frontend/shared-ui';
 
 export function MSDAdministration() {
+  useNavbarMessage(['Administration:', 'Manuscript Description']);
   const { editors, filter, handlePaginationChange, headerComponentParams } =
     initAdminPage();
   const AdminPageContext = createAdminPageContext<ManuscriptDescriptionAdmin>();
@@ -18,6 +20,7 @@ export function MSDAdministration() {
     <AdminPageContext.Provider
       value={{
         activityName: 'ManuscriptDescription',
+        additionalParams: {},
         initialValues,
         validationSchemaFactory: initialValues.validationSchemaFactory(
           editors.map((v) => v.username),

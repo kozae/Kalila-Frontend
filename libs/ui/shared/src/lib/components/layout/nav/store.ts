@@ -1,19 +1,18 @@
-import {INavbarLink} from "@frontend/shared-ui";
-import React from "react";
-import {IStore} from "@frontend/util";
+import { INavbarLink } from '@frontend/shared-ui';
+import React from 'react';
+import { IStore } from '@frontend/util';
 
 export interface INavbarState {
-  loggedUser?: string | null,
-  isAdmin: boolean,
-  activeLink: string,
-  links: INavbarLink[],
-  messages: [string | undefined, string | undefined],
-  isPanelOpen: boolean,
+  loggedUser?: string | null;
+  isAdmin: boolean;
+  activeLink: string;
+  links: INavbarLink[];
+  isPanelOpen: boolean;
 }
 
 export interface INavbarDispatchers {
-  openPanel: () => void,
-  dismissPanel: () => void,
+  openPanel: () => void;
+  dismissPanel: () => void;
 }
 
 export const navbarInitialStore: IStore<INavbarState, INavbarDispatchers> = {
@@ -21,15 +20,12 @@ export const navbarInitialStore: IStore<INavbarState, INavbarDispatchers> = {
     isAdmin: false,
     activeLink: '/',
     links: [],
-    messages: ['Home', undefined],
     isPanelOpen: false,
   },
   dispatchers: {
-    openPanel: () => {
-    },
-    dismissPanel: () => {
-    },
-  }
-}
+    openPanel: () => {},
+    dismissPanel: () => {},
+  },
+};
 
-export const NavbarStore = React.createContext(navbarInitialStore)
+export const NavbarStore = React.createContext(navbarInitialStore);

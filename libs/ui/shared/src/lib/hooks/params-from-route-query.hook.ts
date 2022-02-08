@@ -3,11 +3,15 @@ import { useCallback, useMemo } from 'react';
 import { cleanObject, IPagination } from '@frontend/util';
 import { debounce } from 'lodash';
 
-export function useParamsFromRouteQuery(router: NextRouter) {
+export function useParamsFromRouteQuery(
+  router: NextRouter,
+  excludeFromFilter: string[] = []
+) {
   const { filter, sort } = useMemo(() => {
     const { PageSize, PageNumber, OrderBy, SortDirection, ...rest } =
       router.query;
-    return { filter: rest, sort: { OrderBy, SortDirection } };
+    excludeFromFilter.forEach((key) => (rest[key] = undefined));
+    return { filter: cleanObject(rest), sort: { OrderBy, SortDirection } };
   }, [router.query]);
 
   const handlePaginationChange = useCallback(

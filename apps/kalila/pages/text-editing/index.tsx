@@ -1,9 +1,8 @@
 import './index.module.scss';
-import {withTransition} from "@frontend/shared-ui";
-import ManuscriptDescription from "../manuscript-description";
-
+import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
 
 export function TextEditing() {
+  useNavbarMessage(['Textual Analysis', undefined]);
   return (
     <div>
       <h1>Welcome to Pages!</h1>
@@ -12,4 +11,3 @@ export function TextEditing() {
 }
 
 export default withTransition(TextEditing, {});
-

@@ -8,11 +8,15 @@ import {
 import {
   IAdminPageContext,
   useAdminPageContext,
-} from '../../admin-page.context';
+} from '../../../admin-page.context';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
 import { KalilaForm } from '@frontend/ui/forms';
 import { KalilaDocument } from '@frontend/domain';
-import { DialogHeading, themeColors, UndrawAddSVG } from '@frontend/shared-ui';
+import {
+  DialogHeading,
+  themeColors,
+  UndrawDocumentSVG,
+} from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Modal from '@mui/material/Modal';
@@ -20,7 +24,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { SxProps } from '@mui/system/styleFunctionSx';
 import SaveIcon from '@mui/icons-material/Save';
-import { UndrawDocumentSVG } from '../../../../../shared/src/lib/components/undraw/undraw-document';
 
 function useSkipConfigObject<T extends KalilaDocument>(
   schema: ActivitySchema,
