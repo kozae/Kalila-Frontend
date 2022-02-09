@@ -1,7 +1,6 @@
 import {
   AdministrationPage,
   createAdminPageContext,
-  initAdminPage,
   withAdminLayout,
 } from '@frontend/ui/administration';
 import { useNavbarMessage } from '@frontend/shared-ui';
@@ -10,8 +9,8 @@ import { queryServerSide, siglum } from '@frontend/server-side-queries';
 import Head from 'next/head';
 import { PageDescriptionAdmin } from '@frontend/domain';
 import { checkNumberValueFactory } from '@frontend/util';
-import { AgGridColumn } from 'ag-grid-react';
 import React from 'react';
+import { initGrid } from '@frontend/ui/table';
 
 function pageTitle(siglum: string): [string, string] {
   return ['Administration:', `Pages of ${siglum}`];
@@ -21,9 +20,28 @@ export function PagesAdministration({ siglum, manuscriptId }) {
   const messages = pageTitle(siglum);
   useNavbarMessage(messages);
   const { editors, filter, handlePaginationChange, headerComponentParams } =
-    initAdminPage(['manuscript']);
+    initGrid(['manuscript']);
   const AdminPageContext = createAdminPageContext<PageDescriptionAdmin>();
   const initialValues = new PageDescriptionAdmin();
+  const columns: any[] = [
+    {
+      field: 'Number',
+      pinned: 'left',
+      lockPosition: true,
+      headerComponent: 'numberValueHeader',
+      headerComponentParams,
+    },
+    {
+      field: 'Editor',
+      headerComponent: 'stringValueHeader',
+      headerComponentParams,
+    },
+    {
+      field: 'EditionProgress',
+      headerComponent: 'stringValueHeader',
+      headerComponentParams,
+    },
+  ];
   return (
     <>
       <Head>
@@ -56,25 +74,7 @@ export function PagesAdministration({ siglum, manuscriptId }) {
           onPaginationChange: handlePaginationChange,
         }}
       >
-        <AdministrationPage cls={PageDescriptionAdmin}>
-          <AgGridColumn
-            headerComponent={'numberValueHeader'}
-            pinned={'left'}
-            headerComponentParams={headerComponentParams}
-            lockPosition={true}
-            field="Number"
-          />
-          <AgGridColumn
-            headerComponent={'stringValueHeader'}
-            headerComponentParams={headerComponentParams}
-            field="Editor"
-          />
-          <AgGridColumn
-            headerComponent={'stringValueHeader'}
-            headerComponentParams={headerComponentParams}
-            field="EditionProgress"
-          />
-        </AdministrationPage>
+        <AdministrationPage columns={columns} cls={PageDescriptionAdmin} />
       </AdminPageContext.Provider>
     </>
   );

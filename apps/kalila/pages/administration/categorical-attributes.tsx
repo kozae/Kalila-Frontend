@@ -1,15 +1,14 @@
 import {
   createAdminPageContext,
-  initAdminPage,
   withAdminLayout,
 } from '@frontend/ui/administration';
 import { useNavbarMessage } from '@frontend/shared-ui';
-import { AgGridColumn } from 'ag-grid-react';
 import React from 'react';
 import { CategoricalAttribute } from '@frontend/domain';
 import { AdministrationPageCategoricalAttributes } from '@frontend/ui/administration';
 import { checkOptionDuplication } from '@frontend/util';
 import Head from 'next/head';
+import { initGrid } from '@frontend/ui/table';
 
 export function CategoricalAttributesAdministration() {
   useNavbarMessage(['Administration:', 'Categorical Attributes']);
@@ -17,7 +16,7 @@ export function CategoricalAttributesAdministration() {
     filter,
     handlePaginationChange,
     headerComponentParams: baseHeaderParams,
-  } = initAdminPage();
+  } = initGrid();
   const headerComponentParams = { ...baseHeaderParams, exactMatch: true };
   const AdminPageContext = createAdminPageContext<CategoricalAttribute>();
   const initialValues = new CategoricalAttribute();
@@ -48,25 +47,9 @@ export function CategoricalAttributesAdministration() {
           onPaginationChange: handlePaginationChange,
         }}
       >
-        <AdministrationPageCategoricalAttributes>
-          <AgGridColumn
-            headerComponent={'stringValueHeader'}
-            pinned={'left'}
-            headerComponentParams={headerComponentParams}
-            lockPosition={true}
-            field="EntityName"
-          />
-          <AgGridColumn
-            headerComponent={'stringValueHeader'}
-            headerComponentParams={headerComponentParams}
-            field="FieldName"
-          />
-          <AgGridColumn
-            headerComponent={'stringValueHeader'}
-            headerComponentParams={headerComponentParams}
-            field="Option"
-          />
-        </AdministrationPageCategoricalAttributes>
+        <AdministrationPageCategoricalAttributes
+          headerComponentParams={headerComponentParams}
+        />
       </AdminPageContext.Provider>
     </>
   );

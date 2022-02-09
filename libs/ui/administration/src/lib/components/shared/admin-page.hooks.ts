@@ -17,15 +17,6 @@ import {
   useBoolean,
 } from '@frontend/shared-ui';
 
-export function resetSelectionOnQueryChange(
-  setter: Dispatch<SetStateAction<any[]>>,
-  { query }: NextRouter
-) {
-  useEffect(() => {
-    setter([]);
-  }, [query]);
-}
-
 export function useControls() {
   const [
     isCreateModalOpen,
@@ -53,22 +44,6 @@ export function useControls() {
     hideEditModal,
     hideDeleteModal,
   };
-}
-
-export function useGrid(
-  { state, setSelection }: any,
-  additionalParams: AgGridReactProps | AgReactUiProps = {}
-) {
-  const gridParams: AgGridReactProps | AgReactUiProps = useMemo(
-    () => ({
-      onSelectionChanged: (event) => setSelection(event.api.getSelectedRows()),
-      rowData: state?.documents ?? [],
-      ...additionalParams,
-    }),
-    [state, setSelection]
-  );
-
-  return gridParams;
 }
 
 export function useUpdateHandler<T extends KalilaDocument>(

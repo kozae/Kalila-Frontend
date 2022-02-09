@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { Grid, TablePaginator } from '@frontend/ui/table';
+import {
+  Grid,
+  resetSelectionOnQueryChange,
+  TablePaginator,
+  useGridParams,
+} from '@frontend/ui/table';
 import { useRouter } from 'next/router';
 import {
   AdministrationCommandBar,
@@ -15,11 +20,9 @@ import {
 } from '@frontend/shared-ui';
 import { CategoricalAttribute } from '@frontend/domain';
 import {
-  resetSelectionOnQueryChange,
   useControls,
   useCreateHandler,
   useDeleteHandler,
-  useGrid,
   useUpdateHandler,
 } from '../shared/admin-page.hooks';
 import { useEffect, useMemo, useState } from 'react';
@@ -36,8 +39,8 @@ import {
 import { CreateAttributeModal } from './modals';
 import { EditAttributeModal } from './modals/edit-attribute-modal';
 
-export const AdministrationPageCategoricalAttributes: React.FC = ({
-  children: columns,
+export const AdministrationPageCategoricalAttributes: React.FC<any> = ({
+  headerComponentParams,
 }) => {
   const router = useRouter();
   const { message, messageBarType, isMessageVisible, hideMessage, notifyUser } =
@@ -66,9 +69,28 @@ export const AdministrationPageCategoricalAttributes: React.FC = ({
       { KeyField: true },
       additionalParams
     );
-  const gridParams = useGrid(
+  const columnDefs: any[] = [
+    {
+      field: 'EntityName',
+      pinned: 'left',
+      lockPosition: true,
+      headerComponent: 'stringValueHeader',
+      headerComponentParams,
+    },
+    {
+      field: 'FieldName',
+      headerComponent: 'stringValueHeader',
+      headerComponentParams,
+    },
+    {
+      field: 'Option',
+      headerComponent: 'stringValueHeader',
+      headerComponentParams,
+    },
+  ];
+  const gridParams = useGridParams(
     { state, setSelection },
-    { rowSelection: 'single' }
+    { rowSelection: 'single', columnDefs }
   );
   const schema = useMemo(() => {
     if (state?.schema) {
@@ -138,9 +160,7 @@ export const AdministrationPageCategoricalAttributes: React.FC = ({
           />
         </Stack>
       ) : null}
-      <Grid gridParams={gridParams} loading={loading ?? false}>
-        {columns}
-      </Grid>
+      <Grid loading={loading ?? false} />
       {schema ? (
         <>
           <CreateAttributeModal

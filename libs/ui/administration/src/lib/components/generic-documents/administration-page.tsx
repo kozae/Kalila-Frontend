@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AdministrationCommandBar,
   DeleteDocumentModal,
@@ -6,7 +6,12 @@ import {
   useAdminPageContext,
 } from '@frontend/ui/administration';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
-import { Grid, TablePaginator } from '@frontend/ui/table';
+import {
+  Grid,
+  TablePaginator,
+  useGridParams,
+  resetSelectionOnQueryChange,
+} from '@frontend/ui/table';
 import { defaultPagination, MediaTypes } from '@frontend/util';
 import { useRouter } from 'next/router';
 import {
@@ -16,11 +21,9 @@ import {
   useSignalrUpdates,
 } from '@frontend/shared-ui';
 import {
-  resetSelectionOnQueryChange,
   useControls,
   useCreateHandler,
   useDeleteHandler,
-  useGrid,
   useUpdateHandler,
 } from '../shared/admin-page.hooks';
 import { KalilaDocument } from '@frontend/domain';
@@ -30,12 +33,12 @@ import { AlertColor } from '@mui/material/Alert/Alert';
 
 export interface IAdministrationPageProps<T extends KalilaDocument> {
   cls: ClassConstructor<T>; // just for type inference
-  children: ReactNode;
+  columns: any[];
 }
 
 export const AdministrationPage = <T extends KalilaDocument>({
   cls,
-  children: columns,
+  columns,
 }: IAdministrationPageProps<T>) => {
   const router = useRouter();
   const {
@@ -106,7 +109,10 @@ export const AdministrationPage = <T extends KalilaDocument>({
     );
   }, [selection.length]);
 
-  const gridParams = useGrid({ state, setSelection });
+  const gridParams = useGridParams(
+    { state, setSelection },
+    { columnDefs: columns }
+  );
 
   resetSelectionOnQueryChange(setSelection, router);
   useSignalrUpdates(activityName, dispatchers);
@@ -133,9 +139,7 @@ export const AdministrationPage = <T extends KalilaDocument>({
           />
         </Stack>
       ) : null}
-      <Grid gridParams={gridParams} loading={loading ?? false}>
-        {columns}
-      </Grid>
+      <Grid loading={loading ?? false} />
       {state?.schema ? (
         <>
           <CreateDocumentModal

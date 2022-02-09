@@ -1,21 +1,39 @@
 import {
   AdministrationPage,
   createAdminPageContext,
-  initAdminPage,
   withAdminLayout,
 } from '@frontend/ui/administration';
 import React from 'react';
-import { AgGridColumn } from 'ag-grid-react';
 import { ManuscriptDescriptionAdmin } from '@frontend/domain';
 import { checkStringValueFactory } from '@frontend/util';
 import { useNavbarMessage } from '@frontend/shared-ui';
+import { initGrid } from '@frontend/ui/table';
 
 export function MSDAdministration() {
   useNavbarMessage(['Administration:', 'Manuscript Description']);
   const { editors, filter, handlePaginationChange, headerComponentParams } =
-    initAdminPage();
+    initGrid();
   const AdminPageContext = createAdminPageContext<ManuscriptDescriptionAdmin>();
   const initialValues = new ManuscriptDescriptionAdmin();
+  const columns: any[] = [
+    {
+      field: 'Siglum',
+      pinned: 'left',
+      lockPosition: true,
+      headerComponent: 'stringValueHeader',
+      headerComponentParams,
+    },
+    {
+      field: 'Editor',
+      headerComponent: 'stringValueHeader',
+      headerComponentParams,
+    },
+    {
+      field: 'EditionProgress',
+      headerComponent: 'stringValueHeader',
+      headerComponentParams,
+    },
+  ];
   return (
     <AdminPageContext.Provider
       value={{
@@ -40,25 +58,7 @@ export function MSDAdministration() {
         onPaginationChange: handlePaginationChange,
       }}
     >
-      <AdministrationPage cls={ManuscriptDescriptionAdmin}>
-        <AgGridColumn
-          headerComponent={'stringValueHeader'}
-          pinned={'left'}
-          headerComponentParams={headerComponentParams}
-          lockPosition={true}
-          field="Siglum"
-        />
-        <AgGridColumn
-          headerComponent={'stringValueHeader'}
-          headerComponentParams={headerComponentParams}
-          field="Editor"
-        />
-        <AgGridColumn
-          headerComponent={'stringValueHeader'}
-          headerComponentParams={headerComponentParams}
-          field="EditionProgress"
-        />
-      </AdministrationPage>
+      <AdministrationPage columns={columns} cls={ManuscriptDescriptionAdmin} />
     </AdminPageContext.Provider>
   );
 }

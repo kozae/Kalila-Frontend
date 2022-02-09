@@ -1,51 +1,42 @@
 import './index.module.scss';
+import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
+import React from 'react';
+import Head from 'next/head';
+import { initGrid } from '@frontend/ui/table';
 import {
-  SignalrStore,
-  useNavbarMessage,
-  usePaginatedDocuments,
-  withTransition,
-} from '@frontend/shared-ui';
-import { useContext, useEffect } from 'react';
-import { MediaTypes } from '@frontend/util';
-import { useRouter } from 'next/router';
+  CodicologyColumns,
+  createDocumentDetailedViewContext,
+  DocumentsDetailedViewPage,
+} from '@frontend/ui/documents-detailed-view';
 import { ManuscriptDescription } from '@frontend/domain';
 
-/* eslint-disable-next-line */
-export interface ManuscriptDescriptionProps {}
-
-export function ManuscriptDescriptionPage(props: ManuscriptDescriptionProps) {
-  const {
-    state: { update, connection, isConnected },
-    dispatchers: { joinGroup },
-  } = useContext(SignalrStore);
-
+export function ManuscriptDescriptionPage() {
   useNavbarMessage(['Manuscript Description:', 'View Documents']);
-
-  useEffect(() => {
-    if (connection && isConnected) {
-      joinGroup('ManuscriptDescription', connection).then(() =>
-        console.log('ManuscriptDescription group joined')
-      );
-    }
-  }, [isConnected, connection]);
-
-  const router = useRouter();
-  const { state, dispatchers, loading } =
-    usePaginatedDocuments<ManuscriptDescription>(
-      'ManuscriptDescription',
-      router,
-      ManuscriptDescription,
-      MediaTypes.FullDescriptionDocument
-    );
-
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
+  const { editors, filter, handlePaginationChange, headerComponentParams } =
+    initGrid();
+  const DocumentViewContext =
+    createDocumentDetailedViewContext<ManuscriptDescription>();
   return (
-    <div>
-      <h1>Welcome to ManuscriptDescription!</h1>
-    </div>
+    <>
+      <Head>
+        <title>Manuscript Description: View Documents</title>
+      </Head>
+      <DocumentViewContext.Provider
+        value={{
+          activityName: 'ManuscriptDescription',
+          additionalParams: {},
+          cls: ManuscriptDescription,
+          filter,
+          editors,
+          onPaginationChange: handlePaginationChange,
+        }}
+      >
+        <DocumentsDetailedViewPage
+          headerComponentParams={headerComponentParams}
+          cls={ManuscriptDescription}
+        />
+      </DocumentViewContext.Provider>
+    </>
   );
 }
 
