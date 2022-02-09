@@ -1,18 +1,16 @@
 import React from 'react';
+import { Column, useTable } from "react-table";
 
-export interface IGridProps {
+export interface IGridProps<T extends object> {
   loading: boolean;
+  columns: ReadonlyArray<Column<T>>;
+  data: readonly T[];
 }
 
-const loadingOverlays =
-  '<span class="ag-overlay-loading-center">loading...</span>';
-const noRowsOverlays = `<span style="padding: 10px; border: 2px solid #444; background: white;">No data</span>`;
-
-export const Grid: React.FC<IGridProps> = ({ loading }) => {
-  return (
-    <div
-      className="ag-theme-kalila"
-      style={{ height: 'fit-content', width: '100%' }}
-    ></div>
-  );
+export const Grid = <T extends object>({ loading, data, columns }: IGridProps<T>) => {
+  const { getTableProps, headerGroups, rows, prepareRow } = useTable({
+    columns: [],
+    data: [],
+  });
+  return <></>;
 };
