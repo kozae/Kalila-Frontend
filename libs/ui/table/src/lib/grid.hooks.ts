@@ -22,6 +22,7 @@ export function initGrid(excludeFromFilter: string[] = []) {
       activeFilter: { ...filter },
       onSort: handleSortChange,
       onFilter: handleFilterChange,
+      minWidth: '250px',
     }),
     [sort, filter, handleSortChange, handleFilterChange]
   );

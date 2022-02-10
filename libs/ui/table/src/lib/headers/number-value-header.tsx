@@ -1,4 +1,3 @@
-import styles from './header.module.scss';
 import * as React from 'react';
 import { SortHeader } from './sort-header';
 import { useFilterFieldState } from './filter-field-state.hook';
@@ -64,11 +63,11 @@ export const NumberValueHeader = (props: any) => {
   };
 
   return (
-    <div className={styles['container']}>
+    <>
       <SortHeader {...sortProps}>
-        <div className={styles['label']}>{props.displayName}</div>
+        <div>{props.displayName}</div>
       </SortHeader>
       <NumberFilterField {...filterProps} />
-    </div>
+    </>
   );
 };

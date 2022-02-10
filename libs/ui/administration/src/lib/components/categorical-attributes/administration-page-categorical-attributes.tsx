@@ -13,6 +13,7 @@ import {
   useAdminPageContext,
 } from '@frontend/ui/administration';
 import {
+  getSchema,
   NotificationBar,
   useNotificationBar,
   usePaginatedDocuments,
@@ -60,13 +61,13 @@ export const AdministrationPageCategoricalAttributes: React.FC<any> = ({
     useAdminPageContext<CategoricalAttribute>() as IAdminPageContext<CategoricalAttribute>;
   const [selection, setSelection] = useState<CategoricalAttribute[]>([]);
   const clearSelection = () => setSelection([]);
+  const { data: schemaData } = getSchema(activityName, { KeyField: true });
   const { state, dispatchers, loading } =
     usePaginatedDocuments<CategoricalAttribute>(
       activityName,
       router,
       CategoricalAttribute,
       MediaTypes.AdminDocument,
-      { KeyField: true },
       additionalParams
     );
   const columnDefs: any[] = [
@@ -93,9 +94,9 @@ export const AdministrationPageCategoricalAttributes: React.FC<any> = ({
     { rowSelection: 'single', columnDefs }
   );
   const schema = useMemo(() => {
-    if (state?.schema) {
+    if (schemaData?.content) {
       return {
-        Fields: state.schema.Fields.map((f) => ({
+        Fields: schemaData?.content.Fields.map((f: any) => ({
           ...f,
           InputMode: InputModes.InputOne,
           KalilaValueType: KalilaValueTypes.String,
@@ -103,7 +104,7 @@ export const AdministrationPageCategoricalAttributes: React.FC<any> = ({
       };
     }
     return undefined;
-  }, [state?.schema]);
+  }, [schemaData?.content]);
   const handleCreate = useCreateHandler(
     additionalParams,
     notifyUser,
@@ -160,7 +161,7 @@ export const AdministrationPageCategoricalAttributes: React.FC<any> = ({
           />
         </Stack>
       ) : null}
-      <Grid loading={loading ?? false} />
+      {/*<Grid loading={loading ?? false} />*/}
       {schema ? (
         <>
           <CreateAttributeModal
@@ -174,7 +175,7 @@ export const AdministrationPageCategoricalAttributes: React.FC<any> = ({
             isOpen={isEditModalOpen}
             optionFieldSchema={
               schema.Fields.find(
-                (f) => f.FieldNamePascalCase === 'Option'
+                (f: any) => f.FieldNamePascalCase === 'Option'
               ) as DataEntrySchema
             }
             onDismiss={() => hideEditModal()}

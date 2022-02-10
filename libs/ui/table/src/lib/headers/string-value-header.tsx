@@ -1,8 +1,10 @@
-import styles from './header.module.scss';
 import TextField from '@mui/material/TextField';
 import * as React from 'react';
 import { SortHeader } from './sort-header';
 import { useFilterFieldState } from './filter-field-state.hook';
+import { IHeaderProps } from './header-props';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 const StringFilterField = ({
   placeholder,
@@ -18,6 +20,7 @@ const StringFilterField = ({
   );
   return (
     <TextField
+      color="primary"
       value={value}
       inputRef={ref}
       size="small"
@@ -29,29 +32,41 @@ const StringFilterField = ({
   );
 };
 
-export const StringValueHeader = (props: any) => {
+export const StringValueHeader = ({
+  Id,
+  exactMatch,
+  activeFilter,
+  activeSort,
+  onFilter,
+  onSort,
+  displayName,
+}: IHeaderProps) => {
   const filterProps = {
-    accessor: props.exactMatch
-      ? `${props.column.colId}Eq`
-      : `${props.column.colId}Cn`,
-    placeholder: props.exactMatch ? 'Find exact match' : 'Filter',
-    ariaLabel: `${props.displayName} filter`,
-    activeFilter: props.activeFilter,
-    onFilter: props.onFilter,
+    accessor: exactMatch ? `${Id}Eq` : `${Id}Cn`,
+    placeholder: exactMatch ? 'Find exact match' : 'Filter',
+    ariaLabel: `${Id} filter`,
+    activeFilter: activeFilter,
+    onFilter: onFilter,
   };
 
   const sortProps = {
-    activeSort: props.activeSort,
-    onSort: props.onSort,
-    colId: props.column.colId,
+    activeSort: activeSort,
+    onSort: onSort,
+    colId: Id,
   };
 
   return (
-    <div className={styles['container']}>
+    <Box sx={{ width: '150px' }}>
       <SortHeader {...sortProps}>
-        <div className={styles['label']}>{props.displayName}</div>
+        <Typography
+          color="primary"
+          sx={{ width: '100px', fontWeight: 800 }}
+          variant="body1"
+        >
+          {displayName}
+        </Typography>
       </SortHeader>
       <StringFilterField {...filterProps} />
-    </div>
+    </Box>
   );
 };

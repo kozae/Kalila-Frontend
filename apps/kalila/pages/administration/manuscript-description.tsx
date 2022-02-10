@@ -7,7 +7,8 @@ import React from 'react';
 import { ManuscriptDescriptionAdmin } from '@frontend/domain';
 import { checkStringValueFactory } from '@frontend/util';
 import { useNavbarMessage } from '@frontend/shared-ui';
-import { initGrid } from '@frontend/ui/table';
+import { initGrid, StringValueHeader } from '@frontend/ui/table';
+import { Column } from 'react-table';
 
 export function MSDAdministration() {
   useNavbarMessage(['Administration:', 'Manuscript Description']);
@@ -15,25 +16,43 @@ export function MSDAdministration() {
     initGrid();
   const AdminPageContext = createAdminPageContext<ManuscriptDescriptionAdmin>();
   const initialValues = new ManuscriptDescriptionAdmin();
-  const columns: any[] = [
-    {
-      field: 'Siglum',
-      pinned: 'left',
-      lockPosition: true,
-      headerComponent: 'stringValueHeader',
-      headerComponentParams,
-    },
-    {
-      field: 'Editor',
-      headerComponent: 'stringValueHeader',
-      headerComponentParams,
-    },
-    {
-      field: 'EditionProgress',
-      headerComponent: 'stringValueHeader',
-      headerComponentParams,
-    },
-  ];
+  const columns: ReadonlyArray<Column<ManuscriptDescriptionAdmin>> =
+    React.useMemo(
+      () => [
+        {
+          Header: () => (
+            <StringValueHeader
+              Id="Siglum"
+              displayName="Siglum"
+              {...headerComponentParams}
+            />
+          ),
+          accessor: 'Siglum',
+          Cell: ({ value }: any) => <h1>{value}</h1>,
+        },
+        {
+          Header: () => (
+            <StringValueHeader
+              Id="Editor"
+              displayName="Editor"
+              {...headerComponentParams}
+            />
+          ),
+          accessor: 'Editor',
+        },
+        {
+          Header: () => (
+            <StringValueHeader
+              Id="EditionProgress"
+              displayName="EditionProgress"
+              {...headerComponentParams}
+            />
+          ),
+          accessor: 'EditionProgress',
+        },
+      ],
+      []
+    );
   return (
     <AdminPageContext.Provider
       value={{

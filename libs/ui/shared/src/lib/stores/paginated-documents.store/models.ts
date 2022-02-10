@@ -5,7 +5,6 @@ import { KalilaDocument } from '@frontend/domain';
 export interface IPaginatedDocumentsState<T extends KalilaDocument> {
   loggedUser: string | null;
   documents: T[];
-  schema: ActivitySchema;
   pagination: IPagination;
 }
 

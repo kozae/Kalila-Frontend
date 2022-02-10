@@ -41,7 +41,7 @@
 
 @mixin inactive-nav-link {
   @include nav-link;
-  color: $neutralPrimary;
+  color: $secondaryBlue;
   font-weight: 500;
 }
 

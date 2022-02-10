@@ -1,4 +1,3 @@
-import styles from './header.module.scss';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,6 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import * as React from 'react';
 import { useCallback, useMemo } from 'react';
+import Stack from '@mui/material/Stack';
 
 export interface ISortHeaderProps {
   activeSort: any;
@@ -44,25 +44,29 @@ export const SortHeader: React.FC<ISortHeaderProps> = ({
   );
 
   return (
-    <div className={styles['label-sort']}>
+    <Stack
+      sx={{ mb: '.2rem' }}
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
+      spacing={0.5}
+    >
       {children}
-      <div className={styles['sort']}>
-        <ToggleButtonGroup
-          size="small"
-          value={sortValue}
-          exclusive
-          color="primary"
-          onChange={handleSort}
-          aria-label="text alignment"
-        >
-          <ToggleButton value="asc" aria-label="sort-ascending">
-            <FontAwesomeIcon size="lg" icon={faSortAmountUpAlt} />
-          </ToggleButton>
-          <ToggleButton value="desc" aria-label="sort-descending">
-            <FontAwesomeIcon size="lg" icon={faSortAmountDown} />
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </div>
-    </div>
+      <ToggleButtonGroup
+        size="small"
+        value={sortValue}
+        exclusive
+        color="primary"
+        onChange={handleSort}
+        aria-label="text alignment"
+      >
+        <ToggleButton value="asc" aria-label="sort-ascending">
+          <FontAwesomeIcon size="lg" icon={faSortAmountUpAlt} />
+        </ToggleButton>
+        <ToggleButton value="desc" aria-label="sort-descending">
+          <FontAwesomeIcon size="lg" icon={faSortAmountDown} />
+        </ToggleButton>
+      </ToggleButtonGroup>
+    </Stack>
   );
 };

@@ -25,28 +25,12 @@ export function createDocumentFactory<T extends KalilaDocument>(
 
 export function processSignalRUpdateFactory(
   mutateDocs: Mutator,
-  mutateSchema: Mutator,
   activityName: string
 ) {
   return async (update: IRealTimeUpdate) => {
-    if (update) {
-      if (update.Topic.endsWith(transformGroupName(activityName))) {
-        await mutateDocs(); // triggers another request to the backend
-        return;
-      }
-      if (
-        activityName === 'CategoricalAttribute' &&
-        update.Topic.endsWith(transformGroupName(activityName))
-      ) {
-        await mutateDocs();
-        return;
-      }
-      if (
-        activityName !== 'CategoricalAttribute' &&
-        update.Topic.endsWith('CategoricalAttribute')
-      ) {
-        await mutateSchema();
-      }
+    if (update && update.Topic.endsWith(transformGroupName(activityName))) {
+      await mutateDocs(); // triggers another request to the backend
+      return;
     }
   };
 }

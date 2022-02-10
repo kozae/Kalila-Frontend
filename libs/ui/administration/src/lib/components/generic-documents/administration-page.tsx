@@ -15,6 +15,7 @@ import {
 import { defaultPagination, MediaTypes } from '@frontend/util';
 import { useRouter } from 'next/router';
 import {
+  getSchema,
   NotificationBar,
   useNotificationBar,
   usePaginatedDocuments,
@@ -30,10 +31,11 @@ import { KalilaDocument } from '@frontend/domain';
 import Stack from '@mui/material/Stack';
 import { CreateDocumentModal, EditDocumentModal } from './modals';
 import { AlertColor } from '@mui/material/Alert/Alert';
+import { Column } from 'react-table';
 
 export interface IAdministrationPageProps<T extends KalilaDocument> {
   cls: ClassConstructor<T>; // just for type inference
-  columns: any[];
+  columns: ReadonlyArray<Column<T>>;
 }
 
 export const AdministrationPage = <T extends KalilaDocument>({
@@ -48,12 +50,12 @@ export const AdministrationPage = <T extends KalilaDocument>({
     additionalParams,
     onPaginationChange,
   } = useAdminPageContext<T>() as IAdminPageContext<T>;
+  const { data: schema } = getSchema(activityName, { KeyField: true });
   const { state, dispatchers, loading } = usePaginatedDocuments<T>(
     activityName,
     router,
     cls,
     MediaTypes.AdminDocument,
-    { KeyField: true },
     additionalParams
   );
   const {
@@ -139,13 +141,17 @@ export const AdministrationPage = <T extends KalilaDocument>({
           />
         </Stack>
       ) : null}
-      <Grid loading={loading ?? false} />
-      {state?.schema ? (
+      <Grid
+        data={state?.documents ?? []}
+        columns={columns}
+        loading={loading ?? false}
+      />
+      {schema?.content ? (
         <>
           <CreateDocumentModal
             cls={cls}
             isOpen={isCreateModalOpen}
-            schema={state.schema}
+            schema={schema.content}
             onDismiss={() => hideCreateModal()}
             onSubmit={handleCreate}
           />
@@ -154,7 +160,7 @@ export const AdministrationPage = <T extends KalilaDocument>({
             initialValues={editMode === 'one' ? selection[0] : initialValues}
             editMode={editMode}
             isOpen={isEditModalOpen}
-            schema={state.schema}
+            schema={schema.content}
             onDismiss={() => hideEditModal()}
             onSubmit={handleUpdate}
           />

@@ -6,15 +6,19 @@ import {
   IDocumentDetailedViewContext,
   useDocumentDetailedViewContext,
 } from './documents-detailed-view.context';
-import { usePaginatedDocuments, useSignalrUpdates } from '@frontend/shared-ui';
+import {
+  getSchema,
+  usePaginatedDocuments,
+  useSignalrUpdates,
+} from '@frontend/shared-ui';
 import { defaultPagination, MediaTypes } from '@frontend/util';
 import {
   columnsDefsFrom,
   Grid,
   resetSelectionOnQueryChange,
   TablePaginator,
-  useGridParams,
 } from '@frontend/ui/table';
+import { Column } from 'react-table';
 
 export interface IDocumentsDetailedViewProps<T extends KalilaDocument> {
   cls: ClassConstructor<T>;
@@ -28,21 +32,21 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
   const router = useRouter();
   const { activityName, filter, additionalParams, onPaginationChange } =
     useDocumentDetailedViewContext<T>() as IDocumentDetailedViewContext<T>;
+  const { data: schema } = getSchema(activityName);
   const { state, dispatchers, loading } = usePaginatedDocuments<T>(
     activityName,
     router,
     cls,
     MediaTypes.FullDescriptionDocument,
-    {},
     additionalParams
   );
   const [selection, setSelection] = useState<T[]>([]);
   const clearSelection = () => setSelection([]);
-  const columnDefs = useMemo(
-    () => columnsDefsFrom(state?.schema?.Fields ?? [], headerComponentParams),
-    [state?.schema, headerComponentParams]
-  );
-  const gridParams = useGridParams({ state, setSelection }, { columnDefs });
+  const columns: ReadonlyArray<Column<T>> = useMemo(
+    () => columnsDefsFrom(schema?.content.Fields ?? [], headerComponentParams),
+    [schema?.content, headerComponentParams]
+  ) as ReadonlyArray<Column<T>>;
+  // const gridParams = useGridParams({ state, setSelection }, { columnDefs });
 
   resetSelectionOnQueryChange(setSelection, router);
   useSignalrUpdates(activityName, dispatchers);
@@ -53,7 +57,11 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
         pagination={state?.pagination ?? defaultPagination}
         onPaginationChange={onPaginationChange}
       />
-      <Grid loading={loading ?? false} />
+      <Grid
+        data={state?.documents ?? []}
+        columns={columns}
+        loading={loading ?? false}
+      />
     </>
   );
 };

@@ -9,7 +9,7 @@ import {
   updateDocumentsFactory,
   updateOneDocumentFactory,
 } from './reducers';
-import { getDocuments, getSchema } from './queries';
+import { getDocuments } from './queries';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
 import { plainToInstance } from 'class-transformer';
 import { KalilaDocument } from '@frontend/domain';
@@ -19,17 +19,11 @@ export function usePaginatedDocuments<T extends KalilaDocument>(
   router: NextRouter,
   cls: ClassConstructor<T>,
   mediaType: MediaTypes,
-  schemaFilter: any = {},
   additionalParams = {}
 ): IPaginatedDocuments<T> {
   const session = getSessionSWR();
   const accessToken = session?.accessToken;
   const loggedUser = session?.session?.user?.username;
-  const { data: schema, mutate: mutateSchema } = getSchema(
-    accessToken,
-    activityName,
-    schemaFilter
-  );
   const {
     data,
     isValidating,
@@ -37,7 +31,6 @@ export function usePaginatedDocuments<T extends KalilaDocument>(
   } = getDocuments(
     accessToken,
     activityName,
-    schema,
     router,
     mediaType,
     additionalParams
@@ -48,7 +41,6 @@ export function usePaginatedDocuments<T extends KalilaDocument>(
       state: {
         documents: plainToInstance(cls, data.content as any[]),
         pagination: data.pagination as IPagination,
-        schema: schema?.content,
         loggedUser: loggedUser as string,
       },
       dispatchers: {
@@ -58,7 +50,6 @@ export function usePaginatedDocuments<T extends KalilaDocument>(
         ),
         processSignalRUpdate: processSignalRUpdateFactory(
           mutateDocs,
-          mutateSchema,
           activityName
         ),
         updateDocuments: updateDocumentsFactory(

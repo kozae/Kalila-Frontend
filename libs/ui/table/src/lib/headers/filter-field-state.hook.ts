@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { stringHasValue } from '@frontend/util';
 
 export function useFilterFieldState(
   accessor: string,
@@ -9,7 +10,7 @@ export function useFilterFieldState(
   const ref = useRef<HTMLInputElement>(null);
   useEffect(() => {
     setValue(activeFilter[accessor] ?? '');
-    if (ref.current) {
+    if (ref.current && stringHasValue(activeFilter[accessor])) {
       ref.current.focus();
     }
   }, [activeFilter[accessor]]);

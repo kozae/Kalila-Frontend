@@ -4,7 +4,6 @@ import React from 'react';
 import Head from 'next/head';
 import { initGrid } from '@frontend/ui/table';
 import {
-  CodicologyColumns,
   createDocumentDetailedViewContext,
   DocumentsDetailedViewPage,
 } from '@frontend/ui/documents-detailed-view';
