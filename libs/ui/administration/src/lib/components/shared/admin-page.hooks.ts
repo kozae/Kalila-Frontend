@@ -1,16 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-} from 'react';
-import { NextRouter } from 'next/router';
-
-import {
-  AgGridReactProps,
-  AgReactUiProps,
-} from 'ag-grid-react/lib/shared/interfaces';
+import { useCallback } from 'react';
 import { KalilaDocument } from '@frontend/domain';
 import {
   IPaginatedDocumentsDispatchers,
