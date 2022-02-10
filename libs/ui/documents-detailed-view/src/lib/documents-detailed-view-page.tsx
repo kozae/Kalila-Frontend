@@ -19,6 +19,7 @@ import {
   TablePaginator,
 } from '@frontend/ui/table';
 import { Column } from 'react-table';
+import { plainToClass } from 'class-transformer';
 
 export interface IDocumentsDetailedViewProps<T extends KalilaDocument> {
   cls: ClassConstructor<T>;
@@ -58,7 +59,7 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
         onPaginationChange={onPaginationChange}
       />
       <Grid
-        data={state?.documents ?? []}
+        data={state?.documents ?? [plainToClass(cls, {})]}
         columns={columns}
         loading={loading ?? false}
       />
