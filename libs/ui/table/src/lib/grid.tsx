@@ -2,6 +2,7 @@ import React from 'react';
 import { Column, useTable } from 'react-table';
 import Paper from '@mui/material/Paper';
 import styles from './grid.module.scss';
+import LazyLoad from 'react-lazyload';
 
 export interface IGridProps<T extends object> {
   loading: boolean;
@@ -34,37 +35,39 @@ export const Grid = <T extends object>({
       }}
     >
       <table className={styles['table']} {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr
-              className={styles['header']}
-              {...headerGroup.getHeaderGroupProps()}
-            >
-              {headerGroup.headers.map((column) => (
-                <th
-                  className={styles['header__cell']}
-                  {...column.getHeaderProps()}
-                >
-                  {column.render('Header')}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row, i) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                  );
-                })}
+        <LazyLoad>
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr
+                className={styles['header']}
+                {...headerGroup.getHeaderGroupProps()}
+              >
+                {headerGroup.headers.map((column) => (
+                  <th
+                    className={styles['header__cell']}
+                    {...column.getHeaderProps()}
+                  >
+                    {column.render('Header')}
+                  </th>
+                ))}
               </tr>
-            );
-          })}
-        </tbody>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row, i) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => {
+                    return (
+                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </LazyLoad>
       </table>
     </Paper>
   );
