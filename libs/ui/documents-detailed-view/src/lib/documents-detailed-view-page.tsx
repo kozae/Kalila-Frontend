@@ -1,6 +1,6 @@
 import { KalilaDocument } from '@frontend/domain';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
-import React, { ReactNode, useCallback, useMemo } from 'react';
+import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   IDocumentDetailedViewContext,
@@ -9,6 +9,7 @@ import {
 import {
   fetchSchema,
   getSchemaWithClientSideFilter,
+  useBoolean,
   usePaginatedDocuments,
   useSignalrUpdates,
 } from '@frontend/shared-ui';
@@ -25,6 +26,8 @@ import { plainToClass } from 'class-transformer';
 import { IFilterProps, ISortControlProps } from '@frontend/ui/table';
 import Stack from '@mui/material/Stack';
 import { DocumentsDetailedViewControlBar } from './documents-detailed-view-control-bar';
+import { ConfigureColumnsModal } from './modals/configure-columns-modal';
+import { useExcludedColumns } from './hooks';
 
 export interface IDocumentsDetailedViewProps<T extends KalilaDocument> {
   cls: ClassConstructor<T>;
@@ -49,6 +52,12 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
     clearSelection,
     onPaginationChange,
   } = useDocumentDetailedViewContext<T>() as IDocumentDetailedViewContext<T>;
+  const { excludedColumns, changeExcludedColumns } =
+    useExcludedColumns(activityName);
+  const [
+    isConfigureColumnsModalOpen,
+    { setTrue: showConfigureColumnsModal, setFalse: hideConfigureColumnsModal },
+  ] = useBoolean(false);
 
   const { state, dispatchers, loading } = usePaginatedDocuments<T>(
     activityName,
@@ -74,8 +83,9 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
   const tableSchema = useTableSchema(schema);
 
   const columns: ReadonlyArray<Column<T>> = useMemo(
-    () => columnsDefsFrom(tableSchema, selection, setSelection),
-    [tableSchema]
+    () =>
+      columnsDefsFrom(tableSchema, selection, setSelection, excludedColumns),
+    [tableSchema, excludedColumns]
   ) as ReadonlyArray<Column<T>>;
 
   const clearFilters = useCallback(async () => {
@@ -98,6 +108,7 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
           selection={selection}
           docCount={state?.pagination ? state.pagination.totalItems : 0}
           onClearFilter={clearFilters}
+          showConfigureColumnsModal={showConfigureColumnsModal}
         />
         {groupToggle}
         <TablePaginator
@@ -116,6 +127,13 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
         columns={columns}
         loading={loading ?? false}
         headerProps={headerPropsWithAttributes}
+      />
+      <ConfigureColumnsModal
+        isOpen={isConfigureColumnsModalOpen}
+        fields={schema.Fields ?? []}
+        onDismiss={hideConfigureColumnsModal}
+        excludedColumns={excludedColumns}
+        changeExcludedColumns={changeExcludedColumns}
       />
     </>
   );

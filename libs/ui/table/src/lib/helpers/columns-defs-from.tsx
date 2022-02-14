@@ -12,7 +12,8 @@ import { EditorCell } from '../cells/editor-cell';
 export const columnsDefsFrom = (
   tableSchema: ITableSchema | null,
   selection: Set<string>,
-  setSelection: (Ids: Set<string>) => void
+  setSelection: (Ids: Set<string>) => void,
+  excludedColumns: Set<string> = new Set<string>()
 ): ReadonlyArray<Column<any>> => {
   if (tableSchema === null) return [];
 
@@ -56,15 +57,28 @@ export const columnsDefsFrom = (
       ),
       accessor: cat,
       color: isOdd(i) ? '#666666' : 'white',
-      columns: fields.map((f) => ({
+      columns: fields
+        .filter((f) => !excludedColumns.has(f.FieldNamePascalCase))
+        .map((f) => ({
+          Header: isOdd(i) ? GrayHeader : WhiteHeader,
+          accessor: f.FieldNamePascalCase,
+          color: isOdd(i) ? '#666666' : 'white',
+          Cell: CellSelector,
+          f,
+        })),
+    }))
+  );
+
+  columns.push(
+    ...tableSchema.fields
+      .filter((f) => !excludedColumns.has(f.FieldNamePascalCase))
+      .map((f, i) => ({
         Header: isOdd(i) ? GrayHeader : WhiteHeader,
         accessor: f.FieldNamePascalCase,
         color: isOdd(i) ? '#666666' : 'white',
         Cell: CellSelector,
         f,
-      })),
-    }))
+      }))
   );
-
   return columns;
 };

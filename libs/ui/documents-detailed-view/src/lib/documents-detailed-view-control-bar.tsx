@@ -12,6 +12,7 @@ export interface IDocumentsDetailedViewControlBarProps {
   selection: Set<string>;
   docCount: number;
   onClearFilter: () => void;
+  showConfigureColumnsModal: () => void;
 }
 
 const editButtonTextSelector = (selected: number, filtered: number) => ({
@@ -26,6 +27,7 @@ export const DocumentsDetailedViewControlBar = ({
   selection,
   docCount,
   onClearFilter,
+  showConfigureColumnsModal,
 }: IDocumentsDetailedViewControlBarProps) => {
   const { push, pathname } = useRouter();
   const filterActivated = useMemo(
@@ -76,6 +78,7 @@ export const DocumentsDetailedViewControlBar = ({
         startIcon={<ViewColumnIcon />}
         disableElevation
         variant="text"
+        onClick={() => showConfigureColumnsModal()}
       >
         Configure columns...
       </Button>
