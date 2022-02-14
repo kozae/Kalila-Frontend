@@ -12,3 +12,4 @@ export * from './lib/regex';
 export * from './lib/schema';
 export * from './lib/transform-session';
 export * from './lib/search-insert-position';
+export * from './lib/set-all-null';

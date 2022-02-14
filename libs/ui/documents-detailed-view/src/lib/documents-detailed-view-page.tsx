@@ -1,6 +1,6 @@
 import { KalilaDocument } from '@frontend/domain';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
-import React, { ReactNode, useMemo } from 'react';
+import React, { ReactNode, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import {
   IDocumentDetailedViewContext,
@@ -12,7 +12,7 @@ import {
   usePaginatedDocuments,
   useSignalrUpdates,
 } from '@frontend/shared-ui';
-import { defaultPagination, MediaTypes } from '@frontend/util';
+import { defaultPagination, MediaTypes, setAllNull } from '@frontend/util';
 import {
   columnsDefsFrom,
   Grid,
@@ -78,6 +78,10 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
     [tableSchema]
   ) as ReadonlyArray<Column<T>>;
 
+  const clearFilters = useCallback(async () => {
+    await headerProps.onFilter(setAllNull({ ...filter }));
+  }, [headerProps, filter]);
+
   resetSelectionOnQueryChange(() => {}, router);
   useSignalrUpdates(activityName, dispatchers);
   return (
@@ -89,7 +93,12 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
         justifyContent="space-between"
         flexWrap="wrap"
       >
-        <DocumentsDetailedViewControlBar />
+        <DocumentsDetailedViewControlBar
+          activeFilter={filter}
+          selection={selection}
+          docCount={state?.pagination ? state.pagination.totalItems : 0}
+          onClearFilter={clearFilters}
+        />
         {groupToggle}
         <TablePaginator
           loading={loading}

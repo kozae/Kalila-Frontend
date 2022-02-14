@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Column, useTable } from 'react-table';
 import Paper from '@mui/material/Paper';
 import styles from './grid.module.scss';
 import { IFilterProps, ISortControlProps } from './column-controls';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import { isOdd } from '@frontend/util';
 
@@ -28,6 +29,11 @@ export const Grid = <T extends object>({
       data,
     });
 
+  const noData = useMemo(
+    () => !loading && data.every((d: any) => d.Id === undefined),
+    [loading, data]
+  );
+
   return (
     <Box
       sx={{
@@ -51,6 +57,26 @@ export const Grid = <T extends object>({
           }}
         >
           <CircularProgress size={180} />
+        </Box>
+      )}
+      {noData && (
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '30%',
+            left: '40%',
+            padding: '2rem',
+            borderRadius: '5px',
+            backgroundColor: 'secondary.dark',
+            zIndex: 20,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography sx={{ color: 'white' }} variant="h1">
+            No data matches the current filters
+          </Typography>
         </Box>
       )}
       <Paper
