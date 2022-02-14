@@ -1,7 +1,6 @@
 import { NextRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 import { cleanObject, IPagination } from '@frontend/util';
-import { debounce } from 'lodash';
 
 export function useParamsFromRouteQuery(
   router: NextRouter,
@@ -43,7 +42,7 @@ export function useParamsFromRouteQuery(
   );
 
   const handleFilterChange = useCallback(
-    debounce(async (filter: any) => {
+    async (filter: any) => {
       await router.push({
         pathname: router.pathname,
         query: cleanObject({
@@ -52,7 +51,7 @@ export function useParamsFromRouteQuery(
           ...filter,
         }),
       });
-    }, 1000),
+    },
     [router.query]
   );
 

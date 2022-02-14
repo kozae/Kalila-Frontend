@@ -13,7 +13,7 @@ import {
   useAdminPageContext,
 } from '@frontend/ui/administration';
 import {
-  getSchema,
+  fetchSchema,
   NotificationBar,
   useNotificationBar,
   usePaginatedDocuments,
@@ -61,7 +61,7 @@ export const AdministrationPageCategoricalAttributes: React.FC<any> = ({
     useAdminPageContext<CategoricalAttribute>() as IAdminPageContext<CategoricalAttribute>;
   const [selection, setSelection] = useState<CategoricalAttribute[]>([]);
   const clearSelection = () => setSelection([]);
-  const { data: schemaData } = getSchema(activityName, { KeyField: true });
+  const { data: schemaData } = fetchSchema(activityName, { KeyField: true });
   const { state, dispatchers, loading } =
     usePaginatedDocuments<CategoricalAttribute>(
       activityName,

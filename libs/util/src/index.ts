@@ -5,6 +5,7 @@ export * from './lib/get-session-swr';
 export * from './lib/media-types';
 export * from './lib/has-value';
 export * from './lib/i-store';
+export * from './lib/is-odd';
 export * from './lib/pagination-header';
 export * from './lib/params-serializer';
 export * from './lib/regex';

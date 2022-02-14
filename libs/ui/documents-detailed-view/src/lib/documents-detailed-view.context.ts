@@ -12,6 +12,9 @@ export interface IDocumentDetailedViewContext<T extends KalilaDocument> {
   editors: IEditor[];
   onPaginationChange: (pagination: IPagination) => Promise<boolean>;
   additionalParams: any;
+  selection: Set<string>;
+  setSelection: (Ids: Set<string>) => void;
+  clearSelection: () => void;
 }
 
 export const createDocumentDetailedViewContext = once(<

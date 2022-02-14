@@ -3,7 +3,8 @@ import {
   useParamsFromRouteQuery,
   useRegisteredEditors,
 } from '@frontend/shared-ui';
-import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
+import { IFilterProps, ISortControlProps } from './column-controls';
 
 export function initGrid(excludeFromFilter: string[] = []) {
   const router = useRouter();
@@ -16,42 +17,35 @@ export function initGrid(excludeFromFilter: string[] = []) {
     handlePaginationChange,
   } = useParamsFromRouteQuery(router, excludeFromFilter);
 
-  const headerComponentParams = useMemo(
+  const headerProps: ISortControlProps & IFilterProps = useMemo(
     () => ({
       activeSort: { ...sort },
       activeFilter: { ...filter },
       onSort: handleSortChange,
       onFilter: handleFilterChange,
-      minWidth: '250px',
     }),
     [sort, filter, handleSortChange, handleFilterChange]
   );
 
-  return { editors, filter, handlePaginationChange, headerComponentParams };
+  const [selection, setSelection] = useState<Set<string>>(new Set<string>());
+  const clearSelection = () => setSelection(new Set<string>());
+
+  return {
+    editors,
+    filter,
+    selection,
+    setSelection,
+    clearSelection,
+    handlePaginationChange,
+    headerProps,
+  };
 }
 
 export function resetSelectionOnQueryChange(
-  setter: Dispatch<SetStateAction<any[]>>,
+  clear: () => void,
   { query }: NextRouter
 ) {
   useEffect(() => {
-    setter([]);
+    clear();
   }, [query]);
-}
-
-export function useGridParams(
-  { state, setSelection }: any,
-  additionalParams = {}
-) {
-  const gridParams = useMemo(
-    () => ({
-      onSelectionChanged: (event: any) =>
-        setSelection(event.api.getSelectedRows()),
-      rowData: state?.documents ?? [],
-      ...additionalParams,
-    }),
-    [state, setSelection, additionalParams]
-  );
-
-  return gridParams;
 }

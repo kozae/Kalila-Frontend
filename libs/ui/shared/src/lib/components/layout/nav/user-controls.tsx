@@ -1,8 +1,8 @@
-import styles from "./nav.module.scss";
-import React, {useContext} from "react";
-import {stringHasValue} from "@frontend/util";
-import {NavbarStore} from "./store";
-import {signIn, signOut} from "next-auth/react";
+import styles from './nav.module.scss';
+import React, { useContext } from 'react';
+import { stringHasValue } from '@frontend/util';
+import { NavbarStore } from './store';
+import { signIn, signOut } from 'next-auth/react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import LoginIcon from '@mui/icons-material/Login';
@@ -13,17 +13,16 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import {useRouter} from "next/router";
+import { useRouter } from 'next/router';
 import IconButton from '@mui/material/IconButton';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import SettingsIcon from '@mui/icons-material/Settings';
-import {themeColors} from "@frontend/shared-ui";
+import { themeColors } from '@frontend/shared-ui';
 
-const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
-  const {push} = useRouter();
+const LogOutButton: React.FC<{ loggedUser: string }> = ({ loggedUser }) => {
+  const { push } = useRouter();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
-
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -40,12 +39,11 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
     setOpen(false);
   };
 
-
   // todo determine initials
 
   return (
     <div className={styles['nav__control-bar__user-controls']}>
-      <Avatar sx={{bgcolor: themeColors.mainGreen}}>MK</Avatar>
+      <Avatar sx={{ bgcolor: themeColors.mainGreen }}>MK</Avatar>
       <IconButton
         size="small"
         aria-controls={open ? 'split-button-menu' : undefined}
@@ -56,7 +54,7 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
         ref={anchorRef}
         onClick={handleToggle}
       >
-        <ArrowDropDownIcon/>
+        <ArrowDropDownIcon />
       </IconButton>
       <Popper
         open={open}
@@ -65,7 +63,7 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
         transition
         disablePortal
       >
-        {({TransitionProps, placement}) => (
+        {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
             style={{
@@ -77,15 +75,20 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu">
                   <MenuItem
-                    sx={{fontSize: '1rem'}}
+                    sx={{ fontSize: '1rem' }}
                     onClick={() => signOut().catch()}
                   >
-                    <ExitToAppIcon color='warning'/> &nbsp; Sign out
+                    <ExitToAppIcon color="warning" /> &nbsp; Sign out
                   </MenuItem>
                   <MenuItem
-                    sx={{fontSize: '1rem'}}
-                    onClick={() => push('/account').then(() => setOpen(false)).catch()}>
-                    <SettingsIcon color='primary'/>  &nbsp; Account Settings
+                    sx={{ fontSize: '1rem' }}
+                    onClick={() =>
+                      push('/account')
+                        .then(() => setOpen(false))
+                        .catch()
+                    }
+                  >
+                    <SettingsIcon color="primary" /> &nbsp; Account Settings
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>
@@ -93,22 +96,28 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
           </Grow>
         )}
       </Popper>
+    </div>
+  );
+};
 
+export const NavUserControls: React.FC = () => {
+  const { loggedUser } = useContext(NavbarStore).state;
+  const logInButton = () => (
+    <div className={styles['nav__control-bar__user-controls']}>
+      <Button
+        onClick={() => signIn()}
+        variant="contained"
+        disableElevation
+        endIcon={<LoginIcon />}
+      >
+        Sign In
+      </Button>
     </div>
   );
 
-}
-
-export const NavUserControls: React.FC = () => {
-  const {loggedUser} = useContext(NavbarStore).state;
-  const logInButton = () => (
-    <div className={styles['nav__control-bar__user-controls']}>
-      <Button onClick={() => signIn()} variant="contained" disableElevation endIcon={<LoginIcon/>}>
-        Sign In"
-      </Button>
-    </div>
-  )
-
-  return stringHasValue(loggedUser) ? <LogOutButton loggedUser={loggedUser as string}/> : logInButton()
-
-}
+  return stringHasValue(loggedUser) ? (
+    <LogOutButton loggedUser={loggedUser as string} />
+  ) : (
+    logInButton()
+  );
+};

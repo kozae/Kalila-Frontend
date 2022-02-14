@@ -5,50 +5,62 @@ import {
 } from '@frontend/ui/administration';
 import React from 'react';
 import { ManuscriptDescriptionAdmin } from '@frontend/domain';
-import { checkStringValueFactory } from '@frontend/util';
+import { checkStringValueFactory, KalilaValueTypes } from '@frontend/util';
 import { useNavbarMessage } from '@frontend/shared-ui';
-import { initGrid, StringValueHeader } from '@frontend/ui/table';
+import {
+  GenericCell,
+  initGrid,
+  PrimaryGreenHeader,
+  WhiteHeader,
+  getSelectionColumn,
+} from '@frontend/ui/table';
 import { Column } from 'react-table';
-
 export function MSDAdministration() {
   useNavbarMessage(['Administration:', 'Manuscript Description']);
-  const { editors, filter, handlePaginationChange, headerComponentParams } =
-    initGrid();
+  const {
+    editors,
+    filter,
+    selection,
+    setSelection,
+    clearSelection,
+    handlePaginationChange,
+    headerProps,
+  } = initGrid();
   const AdminPageContext = createAdminPageContext<ManuscriptDescriptionAdmin>();
   const initialValues = new ManuscriptDescriptionAdmin();
   const columns: ReadonlyArray<Column<ManuscriptDescriptionAdmin>> =
     React.useMemo(
       () => [
+        getSelectionColumn<ManuscriptDescriptionAdmin>(selection, setSelection),
         {
-          Header: () => (
-            <StringValueHeader
-              Id="Siglum"
-              displayName="Siglum"
-              {...headerComponentParams}
-            />
-          ),
+          Header: PrimaryGreenHeader,
           accessor: 'Siglum',
-          Cell: ({ value }: any) => <h1>{value}</h1>,
+          f: {
+            FieldNamePascalCase: 'Siglum',
+            FieldDisplay: 'Siglum',
+            KalilaValueType: KalilaValueTypes.String,
+          },
+          Cell: GenericCell,
         },
         {
-          Header: () => (
-            <StringValueHeader
-              Id="Editor"
-              displayName="Editor"
-              {...headerComponentParams}
-            />
-          ),
+          Header: PrimaryGreenHeader,
           accessor: 'Editor',
+          f: {
+            FieldNamePascalCase: 'Editor',
+            FieldDisplay: 'Editor',
+            KalilaValueType: KalilaValueTypes.String,
+          },
+          Cell: GenericCell,
         },
         {
-          Header: () => (
-            <StringValueHeader
-              Id="EditionProgress"
-              displayName="EditionProgress"
-              {...headerComponentParams}
-            />
-          ),
+          Header: WhiteHeader,
           accessor: 'EditionProgress',
+          f: {
+            FieldNamePascalCase: 'EditionProgress',
+            FieldDisplay: 'EditionProgress',
+            KalilaValueType: KalilaValueTypes.String,
+          },
+          Cell: GenericCell,
         },
       ],
       []
@@ -75,9 +87,17 @@ export function MSDAdministration() {
         filter,
         editors,
         onPaginationChange: handlePaginationChange,
+        selection,
+        setSelection,
+        clearSelection,
       }}
     >
-      <AdministrationPage columns={columns} cls={ManuscriptDescriptionAdmin} />
+      <AdministrationPage
+        gridHeight={'calc(100vh - 235px)'}
+        columns={columns}
+        cls={ManuscriptDescriptionAdmin}
+        headerProps={headerProps}
+      />
     </AdminPageContext.Provider>
   );
 }

@@ -1,26 +1,70 @@
-import { DataEntrySchema } from '@frontend/util';
-import { StringValueHeader } from '../headers';
 import React from 'react';
 import { Column } from 'react-table';
-import Typography from '@mui/material/Typography';
+import { ITableSchema } from './table-schema';
+import { ColumnGroupHeader } from '../headers';
+import { isOdd, KalilaValueTypes } from '@frontend/util';
+import { GrayHeader, PrimaryGreenHeader, WhiteHeader } from '../headers';
+import { CellSelector } from '../cells';
+import { getSelectionColumn } from './get-selection-column';
+import { KeyValueCell } from '../cells/key-value-cell';
+import { EditorCell } from '../cells/editor-cell';
 
 export const columnsDefsFrom = (
-  fields: DataEntrySchema[],
-  headerComponentParams: any
+  tableSchema: ITableSchema | null,
+  selection: Set<string>,
+  setSelection: (Ids: Set<string>) => void
 ): ReadonlyArray<Column<any>> => {
-  return fields.map((f) => ({
-    Header: () => (
-      <StringValueHeader
-        Id={f.FieldNamePascalCase}
-        displayName={f.FieldDisplay}
-        {...headerComponentParams}
-      />
-    ),
-    accessor: f.FieldNamePascalCase,
-    Cell: ({ value }: any) => (
-      <Typography sx={{ width: '200px', pl: '.5rem' }} variant="body1">
-        {String(value)}
-      </Typography>
-    ),
-  }));
+  if (tableSchema === null) return [];
+
+  const columns: Column<any>[] = [
+    getSelectionColumn<any>(selection, setSelection),
+    {
+      Header: () => (
+        <ColumnGroupHeader bgcolor="primary.main" color="white" text="" />
+      ),
+      accessor: tableSchema.topField.FieldNamePascalCase,
+      columns: [
+        {
+          Header: PrimaryGreenHeader,
+          accessor: tableSchema.topField.FieldNamePascalCase,
+          Cell: KeyValueCell,
+          //@ts-ignore
+          f: tableSchema.topField,
+        },
+        {
+          Header: PrimaryGreenHeader,
+          accessor: 'Editor',
+          Cell: EditorCell,
+          //@ts-ignore
+          f: {
+            FieldDisplay: 'Editor',
+            FieldNamePascalCase: 'Editor',
+            KalilaValueType: KalilaValueTypes.String,
+          },
+        },
+      ],
+    },
+  ];
+  columns.push(
+    ...Object.entries(tableSchema.categories).map(([cat, fields], i) => ({
+      Header: () => (
+        <ColumnGroupHeader
+          bgcolor={isOdd(i) ? '#666666' : 'white'}
+          color={isOdd(i) ? 'white' : 'black'}
+          text={cat}
+        />
+      ),
+      accessor: cat,
+      color: isOdd(i) ? '#666666' : 'white',
+      columns: fields.map((f) => ({
+        Header: isOdd(i) ? GrayHeader : WhiteHeader,
+        accessor: f.FieldNamePascalCase,
+        color: isOdd(i) ? '#666666' : 'white',
+        Cell: CellSelector,
+        f,
+      })),
+    }))
+  );
+
+  return columns;
 };

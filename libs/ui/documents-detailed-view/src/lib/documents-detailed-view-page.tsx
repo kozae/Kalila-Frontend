@@ -1,13 +1,14 @@
 import { KalilaDocument } from '@frontend/domain';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
-import React, { useMemo, useState } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import {
   IDocumentDetailedViewContext,
   useDocumentDetailedViewContext,
 } from './documents-detailed-view.context';
 import {
-  getSchema,
+  fetchSchema,
+  getSchemaWithClientSideFilter,
   usePaginatedDocuments,
   useSignalrUpdates,
 } from '@frontend/shared-ui';
@@ -17,23 +18,38 @@ import {
   Grid,
   resetSelectionOnQueryChange,
   TablePaginator,
+  useTableSchema,
 } from '@frontend/ui/table';
 import { Column } from 'react-table';
 import { plainToClass } from 'class-transformer';
+import { IFilterProps, ISortControlProps } from '@frontend/ui/table';
+import Stack from '@mui/material/Stack';
+import { DocumentsDetailedViewControlBar } from './documents-detailed-view-control-bar';
 
 export interface IDocumentsDetailedViewProps<T extends KalilaDocument> {
   cls: ClassConstructor<T>;
-  headerComponentParams: any;
+  headerProps: ISortControlProps & IFilterProps;
+  schemaFilter?: any;
+  groupToggle?: ReactNode;
 }
 
 export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
   cls,
-  headerComponentParams,
+  headerProps,
+  schemaFilter,
+  groupToggle,
 }: IDocumentsDetailedViewProps<T>) => {
   const router = useRouter();
-  const { activityName, filter, additionalParams, onPaginationChange } =
-    useDocumentDetailedViewContext<T>() as IDocumentDetailedViewContext<T>;
-  const { data: schema } = getSchema(activityName);
+  const {
+    activityName,
+    filter,
+    additionalParams,
+    selection,
+    setSelection,
+    clearSelection,
+    onPaginationChange,
+  } = useDocumentDetailedViewContext<T>() as IDocumentDetailedViewContext<T>;
+
   const { state, dispatchers, loading } = usePaginatedDocuments<T>(
     activityName,
     router,
@@ -41,27 +57,56 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
     MediaTypes.FullDescriptionDocument,
     additionalParams
   );
-  const [selection, setSelection] = useState<T[]>([]);
-  const clearSelection = () => setSelection([]);
-  const columns: ReadonlyArray<Column<T>> = useMemo(
-    () => columnsDefsFrom(schema?.content.Fields ?? [], headerComponentParams),
-    [schema?.content, headerComponentParams]
-  ) as ReadonlyArray<Column<T>>;
-  // const gridParams = useGridParams({ state, setSelection }, { columnDefs });
+  const schema = getSchemaWithClientSideFilter(
+    activityName,
+    schemaFilter ?? {}
+  );
+  const headerPropsWithAttributes = useMemo(() => {
+    if (schema) {
+      return {
+        ...headerProps,
+        categoricalAttributes: schema.CategoricalAttributes,
+      };
+    }
+    return headerProps;
+  }, [schema, headerProps]);
 
-  resetSelectionOnQueryChange(setSelection, router);
+  const tableSchema = useTableSchema(schema);
+
+  const columns: ReadonlyArray<Column<T>> = useMemo(
+    () => columnsDefsFrom(tableSchema, selection, setSelection),
+    [tableSchema]
+  ) as ReadonlyArray<Column<T>>;
+
+  resetSelectionOnQueryChange(() => {}, router);
   useSignalrUpdates(activityName, dispatchers);
   return (
     <>
-      <TablePaginator
-        loading={loading}
-        pagination={state?.pagination ?? defaultPagination}
-        onPaginationChange={onPaginationChange}
-      />
+      <Stack
+        sx={{ width: '100%' }}
+        alignItems="center"
+        direction="row"
+        justifyContent="space-between"
+        flexWrap="wrap"
+      >
+        <DocumentsDetailedViewControlBar />
+        {groupToggle}
+        <TablePaginator
+          loading={loading}
+          pagination={state?.pagination ?? defaultPagination}
+          onPaginationChange={onPaginationChange}
+        />
+      </Stack>
+
       <Grid
-        data={state?.documents ?? [plainToClass(cls, {})]}
+        data={
+          state?.documents && state.documents.length !== 0
+            ? state.documents
+            : Array.from({ length: 10 }, () => plainToClass(cls, {}))
+        }
         columns={columns}
         loading={loading ?? false}
+        headerProps={headerPropsWithAttributes}
       />
     </>
   );

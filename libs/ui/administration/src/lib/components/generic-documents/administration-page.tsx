@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   AdministrationCommandBar,
   DeleteDocumentModal,
@@ -9,13 +9,14 @@ import { ClassConstructor } from 'class-transformer/types/interfaces';
 import {
   Grid,
   TablePaginator,
-  useGridParams,
   resetSelectionOnQueryChange,
+  ISortControlProps,
+  IFilterProps,
 } from '@frontend/ui/table';
 import { defaultPagination, MediaTypes } from '@frontend/util';
 import { useRouter } from 'next/router';
 import {
-  getSchema,
+  fetchSchema,
   NotificationBar,
   useNotificationBar,
   usePaginatedDocuments,
@@ -32,15 +33,20 @@ import Stack from '@mui/material/Stack';
 import { CreateDocumentModal, EditDocumentModal } from './modals';
 import { AlertColor } from '@mui/material/Alert/Alert';
 import { Column } from 'react-table';
+import { plainToClass } from 'class-transformer';
 
 export interface IAdministrationPageProps<T extends KalilaDocument> {
   cls: ClassConstructor<T>; // just for type inference
   columns: ReadonlyArray<Column<T>>;
+  gridHeight?: string;
+  headerProps: ISortControlProps & IFilterProps;
 }
 
 export const AdministrationPage = <T extends KalilaDocument>({
   cls,
   columns,
+  gridHeight,
+  headerProps,
 }: IAdministrationPageProps<T>) => {
   const router = useRouter();
   const {
@@ -49,8 +55,10 @@ export const AdministrationPage = <T extends KalilaDocument>({
     filter,
     additionalParams,
     onPaginationChange,
+    selection,
+    clearSelection,
   } = useAdminPageContext<T>() as IAdminPageContext<T>;
-  const { data: schema } = getSchema(activityName, { KeyField: true });
+  const { data: schema } = fetchSchema(activityName, { KeyField: true });
   const { state, dispatchers, loading } = usePaginatedDocuments<T>(
     activityName,
     router,
@@ -69,15 +77,23 @@ export const AdministrationPage = <T extends KalilaDocument>({
     hideEditModal,
     hideDeleteModal,
   } = useControls();
-  const [selection, setSelection] = useState<T[]>([]);
-  const clearSelection = () => setSelection([]);
+
   const [editMode, setEditMode] = useState<'one' | 'many' | 'filtered'>(
     'filtered'
   );
+  const selectedDocs = useMemo<T[]>(() => {
+    if (state?.documents) {
+      return state.documents.filter((d) => selection.has(d.Id as string));
+    }
+    return [];
+  }, [selection, state?.documents]);
+
   const { message, messageBarType, isMessageVisible, hideMessage, notifyUser } =
     useNotificationBar();
+
   const handleUpdate = useUpdateHandler(
     selection,
+    selectedDocs[0],
     filter,
     additionalParams,
     editMode,
@@ -103,20 +119,11 @@ export const AdministrationPage = <T extends KalilaDocument>({
 
   useEffect(() => {
     setEditMode(
-      selection.length === 0
-        ? 'filtered'
-        : selection.length === 1
-        ? 'one'
-        : 'many'
+      selection.size === 0 ? 'filtered' : selection.size === 1 ? 'one' : 'many'
     );
-  }, [selection.length]);
+  }, [selection.size]);
 
-  const gridParams = useGridParams(
-    { state, setSelection },
-    { columnDefs: columns }
-  );
-
-  resetSelectionOnQueryChange(setSelection, router);
+  resetSelectionOnQueryChange(clearSelection, router);
   useSignalrUpdates(activityName, dispatchers);
 
   return (
@@ -142,8 +149,14 @@ export const AdministrationPage = <T extends KalilaDocument>({
         </Stack>
       ) : null}
       <Grid
-        data={state?.documents ?? []}
+        data={
+          state?.documents && state.documents.length !== 0
+            ? state.documents
+            : Array.from({ length: 10 }, () => plainToClass(cls, {}))
+        }
+        height={gridHeight}
         columns={columns}
+        headerProps={headerProps}
         loading={loading ?? false}
       />
       {schema?.content ? (
@@ -157,7 +170,7 @@ export const AdministrationPage = <T extends KalilaDocument>({
           />
           <EditDocumentModal
             cls={cls}
-            initialValues={editMode === 'one' ? selection[0] : initialValues}
+            initialValues={editMode === 'one' ? selectedDocs[0] : initialValues}
             editMode={editMode}
             isOpen={isEditModalOpen}
             schema={schema.content}
@@ -169,7 +182,7 @@ export const AdministrationPage = <T extends KalilaDocument>({
       <DeleteDocumentModal
         isOpen={isDeleteModalOpen}
         onDismiss={() => hideDeleteModal()}
-        doc={selection[0]}
+        doc={selectedDocs[0]}
         onConfirm={handleDelete}
       />
     </>

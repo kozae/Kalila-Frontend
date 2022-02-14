@@ -35,7 +35,8 @@ export function useControls() {
 }
 
 export function useUpdateHandler<T extends KalilaDocument>(
-  selection: T[],
+  selection: Set<string>,
+  oldValue: T,
   filter: Record<string, any>,
   additionalParams: any,
   editMode: 'one' | 'many' | 'filtered',
@@ -47,15 +48,12 @@ export function useUpdateHandler<T extends KalilaDocument>(
 ) {
   return useCallback(
     async (doc: T) => {
-      const update = await doc.CreateAdminUpdate(selection[0], editMode);
+      const update = await doc.CreateAdminUpdate(oldValue, editMode);
       let params;
       try {
         switch (handler) {
           case 'admin':
-            params =
-              editMode === 'filtered'
-                ? filter
-                : { Ids: selection.map((d) => d.Id) };
+            params = editMode === 'filtered' ? filter : { Ids: selection };
             if (dispatchers?.adminUpdateDocument) {
               await dispatchers.adminUpdateDocument(update, {
                 ...params,
@@ -65,7 +63,7 @@ export function useUpdateHandler<T extends KalilaDocument>(
             break;
           case 'updateOne':
             if (dispatchers?.updateOneDocument) {
-              params = { Id: selection[0].Id };
+              params = { Id: selection };
               await dispatchers.updateOneDocument(update, {
                 ...params,
                 ...additionalParams,

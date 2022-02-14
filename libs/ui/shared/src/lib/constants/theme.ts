@@ -40,12 +40,12 @@ export const kalilaTheme = createTheme({
       fontFamily: "'Noto Sans Display', sans-serif",
       fontSize: '1.2rem',
       fontWeight: 500,
-      color: themeColors.fontBlue,
     },
     h4: {
       fontFamily: "'Noto Sans Display', sans-serif",
-      fontWeight: 500,
-      fontSize: '1.1rem',
+      fontWeight: 400,
+      fontSize: '1rem',
+      letterSpacing: '-1px',
     },
     h5: {
       fontFamily: "'Noto Sans Display', sans-serif",
@@ -59,7 +59,6 @@ export const kalilaTheme = createTheme({
     body2: {
       fontFamily: "'Noto Naskh Arabic', serif",
       fontSize: '1rem',
-      color: themeColors.fontBlue,
     },
     button: {
       fontFamily: "'Roboto', sans-serif",

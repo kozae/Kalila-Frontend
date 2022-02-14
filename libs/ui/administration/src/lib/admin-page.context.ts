@@ -22,6 +22,9 @@ export interface IAdminPageContext<T extends KalilaDocument> {
   editors: IEditor[];
   onPaginationChange: (pagination: IPagination) => Promise<boolean>;
   additionalParams: any;
+  selection: Set<string>;
+  setSelection: (Ids: Set<string>) => void;
+  clearSelection: () => void;
 }
 
 export const createAdminPageContext = once(<T extends KalilaDocument>() => {
