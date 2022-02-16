@@ -15,7 +15,7 @@ export function CategoricalAttributesAdministration() {
   const {
     filter,
     handlePaginationChange,
-    headerComponentParams: baseHeaderParams,
+    headerProps: baseHeaderParams,
   } = initGrid();
   const headerComponentParams = { ...baseHeaderParams, exactMatch: true };
   const AdminPageContext = createAdminPageContext<CategoricalAttribute>();
@@ -25,32 +25,32 @@ export function CategoricalAttributesAdministration() {
       <Head>
         <title>Administration: Categorical Attributes</title>
       </Head>
-      <AdminPageContext.Provider
-        value={{
-          activityName: 'CategoricalAttribute',
-          additionalParams: {},
-          initialValues,
-          validationSchemaFactory: initialValues.validationSchemaFactory([], {
-            Option: checkOptionDuplication,
-          }),
-          cls: CategoricalAttribute,
-          createModalTitle: 'Create a Categorical Attribute',
-          editModalTitle: {
-            one: 'Edit selected Categorical Attribute',
-            many: '',
-            filtered: '',
-          },
-          deleteModalMessage:
-            'Deletion can be executed, only if the attribute is unused.',
-          filter,
-          editors: [],
-          onPaginationChange: handlePaginationChange,
-        }}
-      >
-        <AdministrationPageCategoricalAttributes
-          headerComponentParams={headerComponentParams}
-        />
-      </AdminPageContext.Provider>
+      {/*<AdminPageContext.Provider*/}
+      {/*  value={{*/}
+      {/*    activityName: 'CategoricalAttribute',*/}
+      {/*    additionalParams: {},*/}
+      {/*    initialValues,*/}
+      {/*    validationSchemaFactory: initialValues.validationSchemaFactory([], {*/}
+      {/*      Option: checkOptionDuplication,*/}
+      {/*    }),*/}
+      {/*    cls: CategoricalAttribute,*/}
+      {/*    createModalTitle: 'Create a Categorical Attribute',*/}
+      {/*    editModalTitle: {*/}
+      {/*      one: 'Edit selected Categorical Attribute',*/}
+      {/*      many: '',*/}
+      {/*      filtered: '',*/}
+      {/*    },*/}
+      {/*    deleteModalMessage:*/}
+      {/*      'Deletion can be executed, only if the attribute is unused.',*/}
+      {/*    filter,*/}
+      {/*    editors: [],*/}
+      {/*    onPaginationChange: handlePaginationChange,*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <AdministrationPageCategoricalAttributes*/}
+      {/*    headerComponentParams={headerComponentParams}*/}
+      {/*  />*/}
+      {/*</AdminPageContext.Provider>*/}
     </>
   );
 }
