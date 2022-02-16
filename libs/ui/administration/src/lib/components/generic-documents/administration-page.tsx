@@ -19,7 +19,7 @@ import {
   fetchSchema,
   NotificationBar,
   useNotificationBar,
-  usePaginatedDocuments,
+  usePagedDocuments,
   useSignalrUpdates,
 } from '@frontend/shared-ui';
 import {
@@ -59,7 +59,7 @@ export const AdministrationPage = <T extends KalilaDocument>({
     clearSelection,
   } = useAdminPageContext<T>() as IAdminPageContext<T>;
   const { data: schema } = fetchSchema(activityName, { KeyField: true });
-  const { state, dispatchers, loading } = usePaginatedDocuments<T>(
+  const { state, dispatchers, loading } = usePagedDocuments<T>(
     activityName,
     router,
     cls,

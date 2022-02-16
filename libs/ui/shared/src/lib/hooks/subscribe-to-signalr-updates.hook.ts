@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { IRealTimeUpdate, SignalrStore } from '../stores';
+import { IRealTimeUpdate, SignalrStore } from '../store';
 
 export function transformGroupName(name: string) {
   switch (name) {

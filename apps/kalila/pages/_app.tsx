@@ -20,6 +20,8 @@ import { ThemeProvider } from '@mui/material';
 import { createEmotionCache } from './_document';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { useNavMessageBarControls } from '@frontend/shared-ui';
+import { Provider as ReduxProvider } from 'react-redux';
+import { store } from '../store';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -53,15 +55,17 @@ function KalilaApp(appProps: KalilaAppProps) {
             <title>Kalila</title>
           </Head>
           <ThemeProvider theme={kalilaTheme}>
-            <MediaQueryWrapper.Provider value={breakpoints}>
-              <NavMessageBarContext.Provider value={navMessageContextValue}>
-                <Layout>
-                  <AnimatePresence exitBeforeEnter>
-                    <Component {...pageProps} key={router.route} />
-                  </AnimatePresence>
-                </Layout>
-              </NavMessageBarContext.Provider>
-            </MediaQueryWrapper.Provider>
+            <ReduxProvider store={store}>
+              <MediaQueryWrapper.Provider value={breakpoints}>
+                <NavMessageBarContext.Provider value={navMessageContextValue}>
+                  <Layout>
+                    <AnimatePresence exitBeforeEnter>
+                      <Component {...pageProps} key={router.route} />
+                    </AnimatePresence>
+                  </Layout>
+                </NavMessageBarContext.Provider>
+              </MediaQueryWrapper.Provider>
+            </ReduxProvider>
           </ThemeProvider>
         </SessionProvider>
       </SignalrStore.Provider>

@@ -15,7 +15,7 @@ import {
   fetchSchema,
   NotificationBar,
   useNotificationBar,
-  usePaginatedDocuments,
+  usePagedDocuments,
   useSignalrUpdates,
 } from '@frontend/shared-ui';
 import { CategoricalAttribute } from '@frontend/domain';

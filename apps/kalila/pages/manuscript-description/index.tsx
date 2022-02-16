@@ -1,6 +1,6 @@
 import './index.module.scss';
 import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { initGrid } from '@frontend/ui/table';
 import {

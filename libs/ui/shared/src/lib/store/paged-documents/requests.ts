@@ -1,14 +1,42 @@
-import { KeyedMutator } from 'swr';
-import { IPagination } from '@frontend/util';
+import useSWR, { KeyedMutator } from 'swr';
+import { fetcher, IPagination, MediaTypes } from '@frontend/util';
 import axios from 'axios';
 import { IRealTimeUpdate, transformGroupName } from '@frontend/shared-ui';
 import { KalilaDocument } from '@frontend/domain';
 import { paramsSerializer } from '@frontend/util';
+import { NextRouter } from 'next/router';
 
 type Mutator = KeyedMutator<{
   content: any[];
   pagination: IPagination | undefined;
 }>;
+
+export function getDocuments<T extends KalilaDocument>(
+  accessToken: string | undefined | null,
+  activityName: string,
+  { query }: NextRouter,
+  mediaType: MediaTypes,
+  additionalParams = {}
+) {
+  return useSWR(
+    accessToken
+      ? [
+          // only fetch if access token is present
+          activityName,
+          accessToken,
+          query,
+          mediaType,
+          additionalParams,
+        ]
+      : null,
+    fetcher,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: true,
+    }
+  );
+}
 
 export function createDocumentFactory<T extends KalilaDocument>(
   accessToken: string,

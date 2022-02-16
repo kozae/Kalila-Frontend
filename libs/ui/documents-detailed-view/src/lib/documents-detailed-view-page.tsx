@@ -14,10 +14,13 @@ import {
 } from './documents-detailed-view.context';
 import {
   getSchemaWithClientSideFilter,
+  useAppSelector,
+  selectPagedDocsLoading,
   useBoolean,
-  usePaginatedDocuments,
+  usePagedDocuments,
   useSignalrUpdates,
-} from '@frontend/shared-ui';
+  selectPagedDocs, selectPagination
+} from "@frontend/shared-ui";
 import { defaultPagination, MediaTypes, setAllNull } from '@frontend/util';
 import {
   columnsDefsFrom,
@@ -28,7 +31,7 @@ import {
   useTableSchema,
 } from '@frontend/ui/table';
 import { Column } from 'react-table';
-import { plainToClass } from 'class-transformer';
+import { plainToClass, plainToInstance } from "class-transformer";
 import { IFilterProps, ISortControlProps } from '@frontend/ui/table';
 import Stack from '@mui/material/Stack';
 import { DocumentsDetailedViewControlBar } from './documents-detailed-view-control-bar';
@@ -65,13 +68,15 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
     { setTrue: showConfigureColumnsModal, setFalse: hideConfigureColumnsModal },
   ] = useBoolean(false);
 
-  const { state, dispatchers, loading } = usePaginatedDocuments<T>(
+  const dispatchers = usePagedDocuments<T>(
     activityName,
     router,
-    cls,
     MediaTypes.FullDescriptionDocument,
     additionalParams
   );
+  const loading = useAppSelector(selectPagedDocsLoading);
+  const documents = plainToInstance(cls, useAppSelector(selectPagedDocs));
+  const pagination = useAppSelector(selectPagination);
   const schema = getSchemaWithClientSideFilter(
     activityName,
     schemaFilter ?? {}
@@ -115,22 +120,22 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
         <DocumentsDetailedViewControlBar
           activeFilter={filter}
           selection={selection}
-          docCount={state?.pagination ? state.pagination.totalItems : 0}
+          docCount={pagination.totalItems}
           onClearFilter={clearFilters}
           showConfigureColumnsModal={showConfigureColumnsModal}
         />
         {groupToggle}
         <TablePaginator
           loading={loading}
-          pagination={state?.pagination ?? defaultPagination}
+          pagination={pagination}
           onPaginationChange={onPaginationChange}
         />
       </Stack>
       <Grid
         data={
-          state?.documents && state.documents.length !== 0
-            ? state.documents
-            : Array.from({ length: 10 }, () => plainToClass(cls, {}))
+         documents.length !== 0
+            ? documents
+            : Array.from({ length: 10 }, () => plainToInstance(cls, {}))
         }
         columns={columns}
         loading={loading ?? false}

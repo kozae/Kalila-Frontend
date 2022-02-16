@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { ISignalrDispatchers, ISignalrState } from '../stores';
+import { ISignalrDispatchers, ISignalrState } from '../store';
 import { IStore, pageAdminPathRegEx } from '@frontend/util';
 import { HubConnection } from '@microsoft/signalr';
 

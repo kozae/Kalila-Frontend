@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { pagedDocsSlice } from '@frontend/shared-ui';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    pagedDocuments: pagedDocsSlice.reducer,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
