@@ -13,10 +13,18 @@ export interface ITableSchema {
   fields: DataEntrySchema[];
 }
 
-export function getTableSchema(fields: DataEntrySchema[]): ITableSchema {
+export function getTableSchema(
+  fields: DataEntrySchema[],
+  excludedColumns: Set<string>
+): ITableSchema {
   const topField = fields.find((f) => f.TopField) as DataEntrySchema;
   const categories = lodash.groupBy(
-    fields.filter((f) => !f.TopField && stringHasValue(f.FieldCategory)),
+    fields.filter(
+      (f) =>
+        !f.TopField &&
+        stringHasValue(f.FieldCategory) &&
+        !excludedColumns.has(f.FieldNamePascalCase)
+    ),
     (f) => f.FieldCategory
   );
   return {
@@ -28,9 +36,12 @@ export function getTableSchema(fields: DataEntrySchema[]): ITableSchema {
   };
 }
 
-export function useTableSchema(schema: ActivitySchema) {
+export function useTableSchema(
+  schema: ActivitySchema,
+  excludedColumns: Set<string> = new Set<string>()
+) {
   return useMemo(
-    () => (schema ? getTableSchema(schema?.Fields) : null),
-    [schema]
+    () => (schema ? getTableSchema(schema?.Fields, excludedColumns) : null),
+    [schema, excludedColumns]
   );
 }

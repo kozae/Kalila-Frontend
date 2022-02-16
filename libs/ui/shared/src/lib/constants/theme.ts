@@ -63,7 +63,7 @@ export const kalilaTheme = createTheme({
     button: {
       fontFamily: "'Roboto', sans-serif",
       fontSize: '1rem',
-      fontWeight: 300,
+      fontWeight: 500,
       textTransform: 'none',
     },
   },

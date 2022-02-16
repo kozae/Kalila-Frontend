@@ -1,13 +1,18 @@
 import { KalilaDocument } from '@frontend/domain';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
-import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useRouter } from 'next/router';
 import {
   IDocumentDetailedViewContext,
   useDocumentDetailedViewContext,
 } from './documents-detailed-view.context';
 import {
-  fetchSchema,
   getSchemaWithClientSideFilter,
   useBoolean,
   usePaginatedDocuments,
@@ -16,6 +21,7 @@ import {
 import { defaultPagination, MediaTypes, setAllNull } from '@frontend/util';
 import {
   columnsDefsFrom,
+  getSelectionColumn,
   Grid,
   resetSelectionOnQueryChange,
   TablePaginator,
@@ -26,7 +32,7 @@ import { plainToClass } from 'class-transformer';
 import { IFilterProps, ISortControlProps } from '@frontend/ui/table';
 import Stack from '@mui/material/Stack';
 import { DocumentsDetailedViewControlBar } from './documents-detailed-view-control-bar';
-import { ConfigureColumnsModal } from './modals/configure-columns-modal';
+import { ConfigureColumnsModal } from './modals';
 import { useExcludedColumns } from './hooks';
 
 export interface IDocumentsDetailedViewProps<T extends KalilaDocument> {
@@ -52,7 +58,7 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
     clearSelection,
     onPaginationChange,
   } = useDocumentDetailedViewContext<T>() as IDocumentDetailedViewContext<T>;
-  const { excludedColumns, changeExcludedColumns } =
+  const { excludedColumns, excludeColumns, includeColumns, resetColumns } =
     useExcludedColumns(activityName);
   const [
     isConfigureColumnsModalOpen,
@@ -70,6 +76,7 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
     activityName,
     schemaFilter ?? {}
   );
+
   const headerPropsWithAttributes = useMemo(() => {
     if (schema) {
       return {
@@ -80,19 +87,21 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
     return headerProps;
   }, [schema, headerProps]);
 
-  const tableSchema = useTableSchema(schema);
+  const tableSchema = useTableSchema(schema, excludedColumns);
 
-  const columns: ReadonlyArray<Column<T>> = useMemo(
-    () =>
-      columnsDefsFrom(tableSchema, selection, setSelection, excludedColumns),
-    [tableSchema, excludedColumns]
-  ) as ReadonlyArray<Column<T>>;
+  const columns: ReadonlyArray<Column<T>> = useMemo(() => {
+    const defs = columnsDefsFrom(tableSchema);
+    if (defs) {
+      return [getSelectionColumn<any>(selection, setSelection), ...defs];
+    }
+    return null;
+  }, [tableSchema]) as ReadonlyArray<Column<T>>;
 
   const clearFilters = useCallback(async () => {
     await headerProps.onFilter(setAllNull({ ...filter }));
   }, [headerProps, filter]);
 
-  resetSelectionOnQueryChange(() => {}, router);
+  resetSelectionOnQueryChange(clearSelection, router);
   useSignalrUpdates(activityName, dispatchers);
   return (
     <>
@@ -117,7 +126,6 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
           onPaginationChange={onPaginationChange}
         />
       </Stack>
-
       <Grid
         data={
           state?.documents && state.documents.length !== 0
@@ -130,10 +138,12 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
       />
       <ConfigureColumnsModal
         isOpen={isConfigureColumnsModalOpen}
-        fields={schema.Fields ?? []}
+        fields={schema?.Fields ?? []}
         onDismiss={hideConfigureColumnsModal}
         excludedColumns={excludedColumns}
-        changeExcludedColumns={changeExcludedColumns}
+        includeColumns={includeColumns}
+        excludeColumns={excludeColumns}
+        resetColumns={resetColumns}
       />
     </>
   );

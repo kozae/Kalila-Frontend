@@ -5,20 +5,15 @@ import { ColumnGroupHeader } from '../headers';
 import { isOdd, KalilaValueTypes } from '@frontend/util';
 import { GrayHeader, PrimaryGreenHeader, WhiteHeader } from '../headers';
 import { CellSelector } from '../cells';
-import { getSelectionColumn } from './get-selection-column';
 import { KeyValueCell } from '../cells/key-value-cell';
 import { EditorCell } from '../cells/editor-cell';
 
 export const columnsDefsFrom = (
-  tableSchema: ITableSchema | null,
-  selection: Set<string>,
-  setSelection: (Ids: Set<string>) => void,
-  excludedColumns: Set<string> = new Set<string>()
+  tableSchema: ITableSchema | null
 ): ReadonlyArray<Column<any>> => {
   if (tableSchema === null) return [];
 
   const columns: Column<any>[] = [
-    getSelectionColumn<any>(selection, setSelection),
     {
       Header: () => (
         <ColumnGroupHeader bgcolor="primary.main" color="white" text="" />
@@ -35,6 +30,7 @@ export const columnsDefsFrom = (
         {
           Header: PrimaryGreenHeader,
           accessor: 'Editor',
+          id: '_editor',
           Cell: EditorCell,
           //@ts-ignore
           f: {
@@ -57,28 +53,24 @@ export const columnsDefsFrom = (
       ),
       accessor: cat,
       color: isOdd(i) ? '#666666' : 'white',
-      columns: fields
-        .filter((f) => !excludedColumns.has(f.FieldNamePascalCase))
-        .map((f) => ({
-          Header: isOdd(i) ? GrayHeader : WhiteHeader,
-          accessor: f.FieldNamePascalCase,
-          color: isOdd(i) ? '#666666' : 'white',
-          Cell: CellSelector,
-          f,
-        })),
-    }))
-  );
-
-  columns.push(
-    ...tableSchema.fields
-      .filter((f) => !excludedColumns.has(f.FieldNamePascalCase))
-      .map((f, i) => ({
+      columns: fields.map((f) => ({
         Header: isOdd(i) ? GrayHeader : WhiteHeader,
         accessor: f.FieldNamePascalCase,
         color: isOdd(i) ? '#666666' : 'white',
         Cell: CellSelector,
         f,
-      }))
+      })),
+    }))
+  );
+
+  columns.push(
+    ...tableSchema.fields.map((f, i) => ({
+      Header: isOdd(i) ? GrayHeader : WhiteHeader,
+      accessor: f.FieldNamePascalCase,
+      color: isOdd(i) ? '#666666' : 'white',
+      Cell: CellSelector,
+      f,
+    }))
   );
   return columns;
 };

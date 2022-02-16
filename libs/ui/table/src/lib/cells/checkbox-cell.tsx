@@ -13,7 +13,6 @@ export const CheckboxCell = ({
   setSelection,
 }: ICheckboxCellProps) => {
   const [checked, setChecked] = useState(false);
-
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       if (event.target.checked) {
@@ -24,7 +23,7 @@ export const CheckboxCell = ({
       setSelection(new Set<string>(selection));
       setChecked(event.target.checked);
     },
-    [selection]
+    [selection, Id]
   );
 
   return (

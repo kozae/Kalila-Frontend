@@ -21,7 +21,7 @@ export const DialogHeading: React.FC<IDialogHeadingProps> = ({
         width: '100%',
         minWidth: '400px',
         pl: '1rem',
-        backgroundColor: kalilaTheme.palette[color].main,
+        backgroundColor: kalilaTheme.palette[color].dark,
         borderRadius: '10px 10px 0 0',
       }}
       direction="row"
@@ -33,7 +33,7 @@ export const DialogHeading: React.FC<IDialogHeadingProps> = ({
       <Button
         size={'large'}
         onClick={onDismiss}
-        color={color}
+        sx={{ bgcolor: kalilaTheme.palette[color].dark }}
         variant="contained"
         disableElevation
         aria-label="createDocument"

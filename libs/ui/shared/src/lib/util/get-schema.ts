@@ -3,6 +3,7 @@ import {
   ActivitySchema,
   DataEntrySchema,
   fetcher,
+  InputModes,
   IPagination,
 } from '@frontend/util';
 import { SWRResponse } from 'swr';
@@ -49,18 +50,28 @@ export function getSchemaWithClientSideFilter(
   );
   return useMemo(() => {
     if (schema.data?.content) {
+      const topField = schema.data.content.Fields.find(
+        (f: DataEntrySchema) => f.TopField
+      ) as DataEntrySchema;
       if (Object.keys(schemaFilter).length !== 0) {
-        const topField = schema.data.content.Fields.find(
-          (f: DataEntrySchema) => f.TopField
-        ) as DataEntrySchema;
         const fields = schema.data.content.Fields.filter(
-          (f: DataEntrySchema) => f.FieldGroup === schemaFilter.FieldGroup
+          (f: DataEntrySchema) =>
+            f.InputMode !== 15 && f.FieldGroup === schemaFilter.FieldGroup
         );
         return {
-          Fields: [topField, ...fields],
+          Fields: [topField, ...fields.filter((f: any) => f.InputMode !== 15)],
           CategoricalAttributes: schema.data.content.CategoricalAttributes,
         };
       }
+      return {
+        Fields: [
+          topField,
+          ...schema.data.content.Fields.filter(
+            (f: any) => !f.TopField && f.InputMode !== 15
+          ),
+        ],
+        CategoricalAttributes: schema.data.content.CategoricalAttributes,
+      };
     }
     return schema.data?.content;
   }, [schema.data?.content, schemaFilter]);

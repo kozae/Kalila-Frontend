@@ -1,17 +1,68 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
+
+type Actions =
+  | {
+      type: 'add' | 'remove';
+      payload: string[];
+      name: string;
+    }
+  | {
+      type: 'load';
+      payload: Set<string>;
+      name: string;
+    }
+  | {
+      type: 'reset';
+      name: string;
+    };
+
+function reducer(state: Set<string>, action: Actions) {
+  let newState: Set<string>;
+  switch (action.type) {
+    case 'load':
+      return action.payload as Set<string>;
+    case 'add':
+      newState = new Set<string>([...state, ...action.payload]);
+      break;
+    case 'remove':
+      newState = new Set<string>(
+        [...state].filter((v) => !action.payload.includes(v))
+      );
+      break;
+    case 'reset':
+      newState = new Set<string>();
+      break;
+    default:
+      throw new Error();
+  }
+  localStorage.setItem(
+    `${action.name}_excludedColumns`,
+    JSON.stringify([...newState])
+  );
+  return newState;
+}
 
 export function useExcludedColumns(name: string, init: string[] = []) {
-  const [excludedColumns, setExcludedColumns] = useState(new Set<string>(init));
+  const [excludedColumns, dispatch] = useReducer(
+    reducer,
+    new Set<string>(init)
+  );
   useEffect(() => {
     const stored = localStorage.getItem(`${name}_excludedColumns`);
     if (stored) {
-      setExcludedColumns(new Set<string>(JSON.parse(stored)));
+      dispatch({
+        type: 'load',
+        payload: new Set<string>(JSON.parse(stored)),
+        name,
+      });
     }
   }, []);
-  const changeExcludedColumns = (value: Set<string>) => {
-    localStorage.setItem(`${name}_excludedColumns`, JSON.stringify([...value]));
-    setExcludedColumns(value);
-  };
+  const excludeColumns = (value: string[]) =>
+    dispatch({ type: 'add', payload: value, name });
 
-  return { excludedColumns, changeExcludedColumns };
+  const includeColumns = (value: string[]) =>
+    dispatch({ type: 'remove', payload: value, name });
+
+  const resetColumns = () => dispatch({ type: 'reset', name });
+  return { excludedColumns, excludeColumns, includeColumns, resetColumns };
 }
