@@ -30,7 +30,7 @@ export const KalilaLogo: React.FC<IKalilaLogoProps> = ({ color }) => {
           transform="matrix(1 0 0 1 750 550)"
           letterSpacing={20}
           fontSize={500}
-          fontWeight={'600'}
+          fontWeight={600}
           fontFamily={'Noto Sans Display'}
           fill={color ?? defaultColor}
         >
