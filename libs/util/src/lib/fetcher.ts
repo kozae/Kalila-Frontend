@@ -7,14 +7,18 @@ export async function fetcher(
   accessToken: string,
   query: Record<string, any> = {},
   accept: string | MediaTypes = 'application/json',
-  additionalParams = {}
+  additionalParams = {},
+  suffix: string = ''
 ) {
-  const { data, headers } = await axios.get(`/server/api/v1/${controller}`, {
-    headers: {
-      Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
-      Accept: accept,
-    },
-    params: { ...query, ...additionalParams },
-  });
+  const { data, headers } = await axios.get(
+    `/server/api/v1/${controller}${suffix}`,
+    {
+      headers: {
+        Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
+        Accept: accept,
+      },
+      params: { ...query, ...additionalParams },
+    }
+  );
   return { content: data, pagination: getPagination(headers) };
 }

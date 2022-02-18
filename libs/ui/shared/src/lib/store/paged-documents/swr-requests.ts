@@ -8,7 +8,8 @@ export function getDocuments<T extends KalilaDocument>(
   activityName: string,
   query: ParsedUrlQuery,
   mediaType: MediaTypes,
-  additionalParams = {}
+  additionalParams = {},
+  suffix: string = ''
 ) {
   return useSWR(
     accessToken
@@ -19,6 +20,7 @@ export function getDocuments<T extends KalilaDocument>(
           query,
           mediaType,
           additionalParams,
+          suffix,
         ]
       : null,
     fetcher,

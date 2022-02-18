@@ -1,1 +1,1 @@
-export * from './lib/ui-text-editing-pages-summary';
+export * from './lib/pages-summary-page';

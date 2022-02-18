@@ -70,7 +70,8 @@ export function usePagedDocumentsStore(
   activityName: string,
   query: ParsedUrlQuery,
   mediaType: MediaTypes,
-  additionalParams = {}
+  additionalParams = {},
+  routeSuffix = ''
 ) {
   const accessToken = useAppSelector(selectAccessToken);
   const { data, isValidating, mutate } = getDocuments(
@@ -78,7 +79,8 @@ export function usePagedDocumentsStore(
     activityName,
     query,
     mediaType,
-    additionalParams
+    additionalParams,
+    routeSuffix
   );
 
   dispatchDataChangesToStore(isValidating, activityName, data);
