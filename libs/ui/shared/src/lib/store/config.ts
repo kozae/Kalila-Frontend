@@ -7,7 +7,7 @@ export const store = configureStore({
     [pagedDocsSlice.name]: pagedDocsSlice.reducer,
     [sessionSlice.name]: sessionSlice.reducer,
   },
-  devTools: false,
+  devTools: true,
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
