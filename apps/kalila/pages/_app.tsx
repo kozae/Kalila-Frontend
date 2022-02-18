@@ -7,11 +7,9 @@ import React from 'react';
 import {
   kalilaTheme,
   Layout,
-  MediaQueryWrapper,
   NavMessageBarContext,
-  SignalrStore,
-  useKalilaMediaQuery,
-  useNavigationEventHandling,
+  SignalrWrapper,
+  store,
 } from '@frontend/shared-ui';
 import { AnimatePresence } from 'framer-motion';
 import { useSignalr } from '@frontend/shared-ui';
@@ -21,7 +19,6 @@ import { createEmotionCache } from './_document';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { useNavMessageBarControls } from '@frontend/shared-ui';
 import { Provider as ReduxProvider } from 'react-redux';
-import { store } from '../store';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -37,14 +34,12 @@ function KalilaApp(appProps: KalilaAppProps) {
     emotionCache = clientSideEmotionCache,
     router,
   } = appProps;
-  const breakpoints = useKalilaMediaQuery();
   const signalrState = useSignalr();
-  useNavigationEventHandling(signalrState);
   const navMessageContextValue = useNavMessageBarControls();
   const { session } = pageProps;
   return (
     <CacheProvider value={emotionCache}>
-      <SignalrStore.Provider value={{ ...signalrState }}>
+      <SignalrWrapper.Provider value={{ ...signalrState }}>
         <SessionProvider session={session}>
           <Head>
             <meta
@@ -56,19 +51,17 @@ function KalilaApp(appProps: KalilaAppProps) {
           </Head>
           <ThemeProvider theme={kalilaTheme}>
             <ReduxProvider store={store}>
-              <MediaQueryWrapper.Provider value={breakpoints}>
-                <NavMessageBarContext.Provider value={navMessageContextValue}>
-                  <Layout>
-                    <AnimatePresence exitBeforeEnter>
-                      <Component {...pageProps} key={router.route} />
-                    </AnimatePresence>
-                  </Layout>
-                </NavMessageBarContext.Provider>
-              </MediaQueryWrapper.Provider>
+              <NavMessageBarContext.Provider value={navMessageContextValue}>
+                <Layout>
+                  <AnimatePresence exitBeforeEnter>
+                    <Component {...pageProps} key={router.route} />
+                  </AnimatePresence>
+                </Layout>
+              </NavMessageBarContext.Provider>
             </ReduxProvider>
           </ThemeProvider>
         </SessionProvider>
-      </SignalrStore.Provider>
+      </SignalrWrapper.Provider>
     </CacheProvider>
   );
 }

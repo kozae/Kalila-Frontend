@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material';
 
-export const themeColors = {
+const themeColors = {
   mainGreen: '#6b9e1f',
   secondaryDarkBlue: '#001d39',
   fontBlue: '#001d39',
@@ -65,6 +65,15 @@ export const kalilaTheme = createTheme({
       fontSize: '1rem',
       fontWeight: 500,
       textTransform: 'none',
+    },
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 480,
+      md: 640,
+      lg: 1200,
+      xl: 1420,
     },
   },
 });

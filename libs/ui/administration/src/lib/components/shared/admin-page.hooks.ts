@@ -1,9 +1,6 @@
 import { useCallback } from 'react';
 import { KalilaDocument } from '@frontend/domain';
-import {
-  IPaginatedDocumentsDispatchers,
-  useBoolean,
-} from '@frontend/shared-ui';
+import { IPagedDocumentsDispatch, useBoolean } from '@frontend/shared-ui';
 
 export function useControls() {
   const [
@@ -35,15 +32,14 @@ export function useControls() {
 }
 
 export function useUpdateHandler<T extends KalilaDocument>(
-  selection: Set<string>,
+  selection: string[],
   oldValue: T,
   filter: Record<string, any>,
   additionalParams: any,
   editMode: 'one' | 'many' | 'filtered',
   notifyUser: (text: string, type: string) => void,
-  dispatchers: IPaginatedDocumentsDispatchers<T> | undefined,
+  dispatchers: IPagedDocumentsDispatch,
   hideEditModal: () => void,
-  clearSelection: () => void,
   handler: 'admin' | 'updateOne' = 'admin'
 ) {
   return useCallback(
@@ -54,21 +50,29 @@ export function useUpdateHandler<T extends KalilaDocument>(
         switch (handler) {
           case 'admin':
             params = editMode === 'filtered' ? filter : { Ids: selection };
-            if (dispatchers?.adminUpdateDocument) {
-              await dispatchers.adminUpdateDocument(update, {
-                ...params,
-                ...additionalParams,
-              });
-            }
+            await dispatchers
+              .adminUpdateDocuments({
+                update,
+                params: {
+                  ...params,
+                  ...additionalParams,
+                },
+              })
+              .unwrap();
+
             break;
           case 'updateOne':
-            if (dispatchers?.updateOneDocument) {
-              params = { Id: selection };
-              await dispatchers.updateOneDocument(update, {
-                ...params,
-                ...additionalParams,
-              });
-            }
+            params = { Id: selection[0] };
+            await dispatchers
+              .updateOneDocument({
+                update,
+                params: {
+                  ...params,
+                  ...additionalParams,
+                },
+              })
+              .unwrap();
+
             break;
         }
 
@@ -77,7 +81,7 @@ export function useUpdateHandler<T extends KalilaDocument>(
         notifyUser('could not update', 'error');
       } finally {
         hideEditModal();
-        clearSelection();
+        dispatchers.clearSelection();
       }
     },
     [editMode, selection, dispatchers, filter]
@@ -87,22 +91,24 @@ export function useUpdateHandler<T extends KalilaDocument>(
 export function useDeleteHandler<T extends KalilaDocument>(
   additionalParams: any,
   notifyUser: (text: string, type: string) => void,
-  dispatchers: IPaginatedDocumentsDispatchers<T> | undefined,
-  hideDeleteModal: () => void,
-  clearSelection: () => void
+  dispatchers: IPagedDocumentsDispatch,
+  hideDeleteModal: () => void
 ) {
   return useCallback(
     async (doc: T) => {
       try {
-        if (dispatchers?.deleteDocument) {
-          await dispatchers.deleteDocument(doc.Id as string, additionalParams);
-        }
+        await dispatchers
+          .deleteDocument({
+            id: doc.Id as string,
+            additionalParams,
+          })
+          .unwrap();
         notifyUser('deleted successfully', 'success');
       } catch {
         notifyUser('could not delete', 'error');
       } finally {
         hideDeleteModal();
-        clearSelection();
+        dispatchers.clearSelection();
       }
     },
     [dispatchers]
@@ -112,22 +118,21 @@ export function useDeleteHandler<T extends KalilaDocument>(
 export function useCreateHandler<T extends KalilaDocument>(
   additionalParams: any,
   notifyUser: (text: string, type: string) => void,
-  dispatchers: IPaginatedDocumentsDispatchers<T> | undefined,
-  hideCreateModal: () => void,
-  clearSelection: () => void
+  dispatchers: IPagedDocumentsDispatch,
+  hideCreateModal: () => void
 ) {
   return useCallback(
     async (doc: T) => {
       try {
-        if (dispatchers?.createDocument) {
-          await dispatchers.createDocument({ ...doc, ...additionalParams });
-        }
+        await dispatchers
+          .createDocument({ ...doc, ...additionalParams })
+          .unwrap();
         notifyUser('created successfully', 'success');
       } catch {
         notifyUser('could not create', 'error');
       } finally {
         hideCreateModal();
-        clearSelection();
+        dispatchers.clearSelection();
       }
     },
     [dispatchers]

@@ -1,40 +1,44 @@
-import { getSessionSWR, IPagination, MediaTypes } from '@frontend/util';
-import { NextRouter } from 'next/router';
-import {
-  getDocuments,
-  adminUpdateDocumentFactory,
-  createDocumentFactory,
-  deleteDocumentFactory,
-  processSignalRUpdateFactory,
-  updateDocumentsFactory,
-  updateOneDocumentFactory,
-} from './requests';
+import { IPagination, MediaTypes } from '@frontend/util';
+import { getDocuments } from './swr-requests';
 import { KalilaDocument } from '@frontend/domain';
 import { useEffect } from 'react';
-import { IRealTimeUpdate } from '../../wrappers';
-import { useAppDispatch } from '../hooks';
-import { docsCleared, docsLoaded, docsLoading } from './slice';
-
-export interface IPagedDocumentsRequests<T extends KalilaDocument> {
-  createDocument: (doc: T) => Promise<void>;
-  processSignalRUpdate: (update: IRealTimeUpdate) => Promise<void>;
-  updateDocuments: (
-    update: { [p: string]: any },
-    params: { [p: string]: any }
-  ) => Promise<void>;
-  updateOneDocument: (
-    update: { [p: string]: any },
-    params: { [p: string]: any }
-  ) => Promise<void>;
-  adminUpdateDocument: (
-    update: { [p: string]: any },
-    params: { [p: string]: any }
-  ) => Promise<void>;
-  deleteDocument: (id: string, additionalParams: any) => Promise<void>;
-}
+import { useAppDispatch, useAppSelector } from '../hooks';
+import {
+  addToSelection,
+  clearSelection,
+  docsCleared,
+  docsLoaded,
+  docsLoading,
+  queryChanged,
+  removeFromSelection,
+} from './slice';
+import { selectAccessToken } from '../session';
+import {
+  selectCastedPagedDocs,
+  selectFilter,
+  selectPagedDocsLoading,
+  selectPagination,
+  selectSelection,
+  selectSort,
+} from './selectors';
+import { ClassConstructor } from 'class-transformer/types/interfaces';
+import { ParsedUrlQuery } from 'querystring';
+import {
+  adminUpdateDocuments,
+  changeFilter,
+  changePagination,
+  changeSort,
+  clearFilter,
+  createDocument,
+  deleteDocument,
+  updateDocuments,
+  updateOneDocument,
+} from './thunks';
+import { NextRouter } from 'next/router';
 
 function dispatchDataChangesToStore(
   isValidating: boolean,
+  activityName: string,
   data: { content: any; pagination: IPagination | undefined } | undefined
 ) {
   const dispatch = useAppDispatch();
@@ -44,6 +48,7 @@ function dispatchDataChangesToStore(
     } else if (data) {
       dispatch(
         docsLoaded({
+          activityName,
           docs: data.content,
           pagination: data.pagination as IPagination,
         })
@@ -61,47 +66,85 @@ function clearDocOnUnmount() {
   }, []);
 }
 
-export function usePagedDocuments<T extends KalilaDocument>(
+export function usePagedDocumentsStore(
   activityName: string,
-  router: NextRouter,
+  query: ParsedUrlQuery,
   mediaType: MediaTypes,
   additionalParams = {}
-): IPagedDocumentsRequests<T> {
-  const session = getSessionSWR();
-  const accessToken = session?.accessToken;
-  const {
-    data,
-    isValidating,
-    mutate: mutateDocs,
-  } = getDocuments(
+) {
+  const accessToken = useAppSelector(selectAccessToken);
+  const { data, isValidating, mutate } = getDocuments(
     accessToken,
     activityName,
-    router,
+    query,
     mediaType,
     additionalParams
   );
 
-  dispatchDataChangesToStore(isValidating, data);
+  dispatchDataChangesToStore(isValidating, activityName, data);
   clearDocOnUnmount();
+  useParamsFromRouteQuery(query);
+  return mutate;
+}
 
+export function usePagedDocumentsState<T extends KalilaDocument>(
+  cls: ClassConstructor<T>,
+  excludeFromFilter: string[] = []
+) {
   return {
-    createDocument: createDocumentFactory<T>(
-      accessToken as string,
-      activityName
-    ),
-    processSignalRUpdate: processSignalRUpdateFactory(mutateDocs, activityName),
-    updateDocuments: updateDocumentsFactory(
-      accessToken as string,
-      activityName
-    ),
-    updateOneDocument: updateOneDocumentFactory(
-      accessToken as string,
-      activityName
-    ),
-    adminUpdateDocument: adminUpdateDocumentFactory(
-      accessToken as string,
-      activityName
-    ),
-    deleteDocument: deleteDocumentFactory(accessToken as string, activityName),
+    loading: useAppSelector(selectPagedDocsLoading),
+    documents: useAppSelector(selectCastedPagedDocs(cls)),
+    pagination: useAppSelector(selectPagination),
+    selection: useAppSelector(selectSelection),
+    filter: useAppSelector(selectFilter(excludeFromFilter)),
+    sort: useAppSelector(selectSort),
   };
+}
+
+export function usePagedDocumentsDispatch() {
+  const dispatch = useAppDispatch();
+  return {
+    changePagination: (pagination: IPagination, router: NextRouter) =>
+      dispatch(changePagination({ pagination, router })),
+    changeSort: (
+      sort: { OrderBy?: string; SortDirection?: string },
+      router: NextRouter
+    ) => dispatch(changeSort({ sort, router })),
+    changeFilter: (filter: Record<string, any>, router: NextRouter) =>
+      dispatch(changeFilter({ filter, router })),
+    clearFilter: (router: NextRouter) => dispatch(clearFilter({ router })),
+    createDocument: (doc: Record<string, any>) => dispatch(createDocument(doc)),
+    updateDocuments: (data: {
+      update: Record<string, any>;
+      params: Record<string, any>;
+    }) => dispatch(updateDocuments(data)),
+    updateOneDocument: (data: {
+      update: Record<string, any>;
+      params: Record<string, any>;
+    }) => dispatch(updateOneDocument(data)),
+    adminUpdateDocuments: (data: {
+      update: Record<string, any>;
+      params: Record<string, any>;
+    }) => dispatch(adminUpdateDocuments(data)),
+    deleteDocument: (data: { id: string; additionalParams: any }) =>
+      dispatch(deleteDocument(data)),
+    addToSelection: (id: string) => dispatch(addToSelection({ id })),
+    removeFromSelection: (id: string) => dispatch(removeFromSelection({ id })),
+    clearSelection: () => dispatch(clearSelection()),
+  };
+}
+
+export type IPagedDocumentsDispatch = ReturnType<
+  typeof usePagedDocumentsDispatch
+>;
+
+export function useParamsFromRouteQuery(
+  query: ParsedUrlQuery,
+  excludeFromFilter: string[] = []
+) {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(queryChanged({ query }));
+    dispatch(clearSelection());
+  }, [query]);
 }

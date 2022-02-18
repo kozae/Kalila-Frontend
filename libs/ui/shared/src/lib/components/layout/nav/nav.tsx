@@ -9,25 +9,23 @@ import { useBoolean } from '../../../hooks';
 
 export const Nav: React.FC = () => {
   const [isPanelOpen, { setTrue: openPanel, setFalse: dismissPanel }] =
-    useBoolean(navbarInitialStore.state.isPanelOpen);
-  const { activeLink } = useRouteState(navbarInitialStore.state, [
-    dismissPanel,
-  ]);
+    useBoolean(navbarInitialStore.data.isPanelOpen);
+  const { activeLink } = useRouteState(navbarInitialStore.data, [dismissPanel]);
   const { links, loggedUser, isAdmin } = useNavSessionState(
-    navbarInitialStore.state
+    navbarInitialStore.data
   );
 
   return (
     <NavbarStore.Provider
       value={{
-        state: {
+        data: {
           loggedUser,
           isAdmin,
           links,
           activeLink,
           isPanelOpen,
         },
-        dispatchers: {
+        methods: {
           openPanel,
           dismissPanel,
         },

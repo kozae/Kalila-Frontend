@@ -2,8 +2,6 @@ import React from 'react';
 import { once } from 'lodash';
 import { ObjectSchema } from 'yup';
 import { AnySchema } from 'yup/lib/schema';
-import { IPagination } from '@frontend/util';
-import { IEditor } from '@frontend/shared-ui';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
 import { KalilaDocument } from '@frontend/domain';
 
@@ -18,13 +16,7 @@ export interface IAdminPageContext<T extends KalilaDocument> {
   createModalTitle: string;
   editModalTitle: Record<'one' | 'many' | 'filtered', string>;
   deleteModalMessage: string;
-  filter: Record<string, any>;
-  editors: IEditor[];
-  onPaginationChange: (pagination: IPagination) => Promise<boolean>;
   additionalParams: any;
-  selection: Set<string>;
-  setSelection: (Ids: Set<string>) => void;
-  clearSelection: () => void;
 }
 
 export const createAdminPageContext = once(<T extends KalilaDocument>() => {

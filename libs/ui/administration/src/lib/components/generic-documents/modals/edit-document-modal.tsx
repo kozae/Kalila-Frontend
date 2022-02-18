@@ -14,8 +14,10 @@ import { KalilaForm } from '@frontend/ui/forms';
 import { KalilaDocument } from '@frontend/domain';
 import {
   DialogHeading,
-  themeColors,
+  kalilaTheme,
+  selectEditors,
   UndrawDocumentSVG,
+  useAppSelector,
 } from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -79,11 +81,9 @@ export const EditDocumentModal = <T extends KalilaDocument>({
   editMode,
   onSubmit,
 }: IEditModalProps<T>) => {
-  const {
-    validationSchemaFactory,
-    editors,
-    editModalTitle: title,
-  } = useAdminPageContext<T>() as IAdminPageContext<T>;
+  const { validationSchemaFactory, editModalTitle: title } =
+    useAdminPageContext<T>() as IAdminPageContext<T>;
+  const editors = useAppSelector(selectEditors);
 
   const [canEdit, setCanEdit] = useState(false);
   const skip = useSkipConfigObject(schema, initialValues, editMode);
@@ -96,7 +96,10 @@ export const EditDocumentModal = <T extends KalilaDocument>({
             {title[editMode]}
           </Typography>
         </DialogHeading>
-        <UndrawDocumentSVG color={themeColors.mainGreen} width={'150px'} />
+        <UndrawDocumentSVG
+          color={kalilaTheme.palette.warning.main}
+          width={'150px'}
+        />
         <Box sx={{ width: '300px' }}>
           {schema && editors ? (
             <KalilaForm

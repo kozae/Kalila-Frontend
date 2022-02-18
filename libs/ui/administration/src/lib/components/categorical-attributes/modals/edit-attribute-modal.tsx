@@ -10,7 +10,7 @@ import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
 import {
   DialogHeading,
-  themeColors,
+  kalilaTheme,
   UndrawDocumentSVG,
 } from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
@@ -49,7 +49,7 @@ export const EditAttributeModal = ({
   onDismiss,
   onSubmit,
 }: IEditAttributeModalProps) => {
-  const { validationSchemaFactory, editors } =
+  const { validationSchemaFactory } =
     useAdminPageContext<CategoricalAttribute>() as IAdminPageContext<CategoricalAttribute>;
   const [canEdit, setCanEdit] = useState(false);
   const skip = { Option: [initialValues.Option] };
@@ -62,13 +62,16 @@ export const EditAttributeModal = ({
             {initialValues.EntityName}
           </Typography>
         </DialogHeading>
-        <UndrawDocumentSVG color={themeColors.mainGreen} width={'150px'} />
+        <UndrawDocumentSVG
+          color={kalilaTheme.palette.primary.main}
+          width={'150px'}
+        />
         <Box sx={{ width: '300px' }}>
           <KalilaForm
             initialValues={initialValues}
             fields={[optionFieldSchema]}
             categoricalAttributes={{}}
-            editors={editors}
+            editors={[]}
             formClass={styles['form']}
             onCanSubmit={(v) => setCanEdit(v)}
             validationSchema={validationSchemaFactory({ mode: 'edit', skip })}

@@ -1,6 +1,6 @@
 import { INavbarLink } from '@frontend/shared-ui';
 import React from 'react';
-import { IStore } from '@frontend/util';
+import { IWrapper } from '@frontend/util';
 
 export interface INavbarState {
   loggedUser?: string | null;
@@ -15,14 +15,14 @@ export interface INavbarDispatchers {
   dismissPanel: () => void;
 }
 
-export const navbarInitialStore: IStore<INavbarState, INavbarDispatchers> = {
-  state: {
+export const navbarInitialStore: IWrapper<INavbarState, INavbarDispatchers> = {
+  data: {
     isAdmin: false,
     activeLink: '/',
     links: [],
     isPanelOpen: false,
   },
-  dispatchers: {
+  methods: {
     openPanel: () => {},
     dismissPanel: () => {},
   },

@@ -5,8 +5,8 @@ import {
   HubConnection,
   LogLevel,
 } from '@microsoft/signalr';
-import { IRealTimeUpdate, ISignalrMethods, ISignalrWrapper } from './models';
-import { IStore } from '@frontend/util';
+import { IRealTimeUpdate, ISignalrMethods, ISignalrData } from './models';
+import { IWrapper } from '@frontend/util';
 import { useBoolean } from '../../hooks';
 
 function useGroupsState() {
@@ -29,7 +29,7 @@ function useGroupsState() {
   return { groups, joinGroup, leaveGroup };
 }
 
-export function useSignalr(): IStore<ISignalrWrapper, ISignalrMethods> {
+export function useSignalr(): IWrapper<ISignalrData, ISignalrMethods> {
   const [connection, setConnection] = useState<
     HubConnection | undefined | null
   >();
@@ -76,13 +76,13 @@ export function useSignalr(): IStore<ISignalrWrapper, ISignalrMethods> {
   }, [connection]);
 
   return {
-    state: {
+    data: {
       connection,
       groups,
       update,
       isConnected,
     },
-    dispatchers: {
+    methods: {
       joinGroup,
       leaveGroup,
     },

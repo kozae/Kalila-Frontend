@@ -9,7 +9,13 @@ import { ClassConstructor } from 'class-transformer/types/interfaces';
 import { KalilaForm } from '@frontend/ui/forms';
 import { KalilaDocument } from '@frontend/domain';
 import Button from '@mui/material/Button';
-import { DialogHeading, themeColors, UndrawAddSVG } from '@frontend/shared-ui';
+import {
+  DialogHeading,
+  kalilaTheme,
+  selectEditors,
+  UndrawAddSVG,
+  useAppSelector,
+} from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Modal from '@mui/material/Modal';
@@ -46,10 +52,9 @@ export const CreateDocumentModal = <T extends KalilaDocument>({
   const {
     initialValues,
     validationSchemaFactory,
-    editors,
     createModalTitle: title,
   } = useAdminPageContext<T>() as IAdminPageContext<T>;
-
+  const editors = useAppSelector(selectEditors);
   const [canCreate, setCanCreate] = useState(false);
 
   return (
@@ -60,7 +65,10 @@ export const CreateDocumentModal = <T extends KalilaDocument>({
             {title}
           </Typography>
         </DialogHeading>
-        <UndrawAddSVG color={themeColors.mainGreen} width={'200px'} />
+        <UndrawAddSVG
+          color={kalilaTheme.palette.primary.main}
+          width={'200px'}
+        />
         <Box sx={{ width: '300px' }}>
           {schema && editors ? (
             <KalilaForm

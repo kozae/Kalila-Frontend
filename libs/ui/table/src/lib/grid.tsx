@@ -7,13 +7,24 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import { isOdd } from '@frontend/util';
+import { useRouter } from 'next/router';
+import {
+  selectFilter,
+  selectSort,
+  useAppDispatch,
+  useAppSelector,
+} from '@frontend/shared-ui';
+import {
+  changeFilter,
+  changeSort,
+} from '../../../shared/src/lib/store/paged-documents/thunks';
 
 export interface IGridProps<T extends object> {
   loading: boolean;
   columns: ReadonlyArray<Column<T>>;
   data: readonly T[];
   height?: string;
-  headerProps: ISortControlProps & IFilterProps;
+  categoricalAttributes?: Record<string, string[]>;
 }
 
 export const Grid = <T extends object>({
@@ -21,8 +32,10 @@ export const Grid = <T extends object>({
   data,
   columns,
   height,
-  headerProps,
+  categoricalAttributes,
 }: IGridProps<T>) => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const { getTableBodyProps, getTableProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -34,11 +47,22 @@ export const Grid = <T extends object>({
     [loading, data]
   );
 
+  const headerProps: ISortControlProps & IFilterProps = {
+    activeSort: useAppSelector(selectSort),
+    activeFilter: useAppSelector(selectFilter([])),
+    onFilter: (filter: Record<string, any>) =>
+      dispatch(changeFilter({ filter, router })),
+    onSort: (sort: { OrderBy?: string; SortDirection?: string }) =>
+      dispatch(changeSort({ sort, router })),
+    categoricalAttributes,
+  };
+
   return (
     <Box
       sx={{
         position: 'relative',
-        width: '100%',
+        width: 'fit-content',
+        maxWidth: '100%',
       }}
     >
       {loading && (
@@ -63,8 +87,8 @@ export const Grid = <T extends object>({
         <Box
           sx={{
             position: 'absolute',
-            top: '30%',
-            left: '40%',
+            top: '40%',
+            left: '44px',
             padding: '2rem',
             borderRadius: '5px',
             backgroundColor: 'secondary.dark',

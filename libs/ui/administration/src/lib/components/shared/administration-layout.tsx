@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './administration-layout.module.scss';
 import Link from 'next/link';
-import { themeColors, withTransition } from '@frontend/shared-ui';
+import { kalilaTheme, withTransition } from '@frontend/shared-ui';
 import { motion } from 'framer-motion';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -17,7 +17,7 @@ function LinkTab({ label, href }: LinkTabProps) {
       <Tab
         sx={{
           typography: 'h3',
-          color: themeColors.mainGreen,
+          color: kalilaTheme.palette.primary.main,
           opacity: 1,
         }}
         label={label}

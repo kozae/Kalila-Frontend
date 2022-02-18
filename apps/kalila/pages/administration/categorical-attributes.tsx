@@ -8,16 +8,9 @@ import { CategoricalAttribute } from '@frontend/domain';
 import { AdministrationPageCategoricalAttributes } from '@frontend/ui/administration';
 import { checkOptionDuplication } from '@frontend/util';
 import Head from 'next/head';
-import { initGrid } from '@frontend/ui/table';
 
 export function CategoricalAttributesAdministration() {
   useNavbarMessage(['Administration:', 'Categorical Attributes']);
-  const {
-    filter,
-    handlePaginationChange,
-    headerProps: baseHeaderParams,
-  } = initGrid();
-  const headerComponentParams = { ...baseHeaderParams, exactMatch: true };
   const AdminPageContext = createAdminPageContext<CategoricalAttribute>();
   const initialValues = new CategoricalAttribute();
   return (
@@ -25,32 +18,27 @@ export function CategoricalAttributesAdministration() {
       <Head>
         <title>Administration: Categorical Attributes</title>
       </Head>
-      {/*<AdminPageContext.Provider*/}
-      {/*  value={{*/}
-      {/*    activityName: 'CategoricalAttribute',*/}
-      {/*    additionalParams: {},*/}
-      {/*    initialValues,*/}
-      {/*    validationSchemaFactory: initialValues.validationSchemaFactory([], {*/}
-      {/*      Option: checkOptionDuplication,*/}
-      {/*    }),*/}
-      {/*    cls: CategoricalAttribute,*/}
-      {/*    createModalTitle: 'Create a Categorical Attribute',*/}
-      {/*    editModalTitle: {*/}
-      {/*      one: 'Edit selected Categorical Attribute',*/}
-      {/*      many: '',*/}
-      {/*      filtered: '',*/}
-      {/*    },*/}
-      {/*    deleteModalMessage:*/}
-      {/*      'Deletion can be executed, only if the attribute is unused.',*/}
-      {/*    filter,*/}
-      {/*    editors: [],*/}
-      {/*    onPaginationChange: handlePaginationChange,*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <AdministrationPageCategoricalAttributes*/}
-      {/*    headerComponentParams={headerComponentParams}*/}
-      {/*  />*/}
-      {/*</AdminPageContext.Provider>*/}
+      <AdminPageContext.Provider
+        value={{
+          activityName: 'CategoricalAttribute',
+          additionalParams: {},
+          initialValues,
+          validationSchemaFactory: initialValues.validationSchemaFactory([], {
+            Option: checkOptionDuplication,
+          }),
+          cls: CategoricalAttribute,
+          createModalTitle: 'Create a Categorical Attribute',
+          editModalTitle: {
+            one: 'Edit selected Categorical Attribute',
+            many: '',
+            filtered: '',
+          },
+          deleteModalMessage:
+            'Deletion can be executed, only if the attribute is unused.',
+        }}
+      >
+        <AdministrationPageCategoricalAttributes />
+      </AdminPageContext.Provider>
     </>
   );
 }

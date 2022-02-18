@@ -4,10 +4,12 @@ import {
   determinePathParameters,
   INavbarLink,
   NavbarLinksConfiguration,
-  useKalilaSession,
+  useAppSelector,
   verifyAdmin,
 } from '@frontend/shared-ui';
 import { INavbarState } from '../store';
+import { getSessionSWR } from '@frontend/util';
+import { selectSessionStatus, selectUser } from '../../../../store/session';
 
 export function useRouteState(
   init: INavbarState,
@@ -30,8 +32,8 @@ export function useRouteState(
 }
 
 export function useNavSessionState(init: INavbarState) {
-  // todo replace with getSessionSWR
-  const { session, status } = useKalilaSession();
+  const status = useAppSelector(selectSessionStatus);
+  const user = useAppSelector(selectUser);
   const [links, setLinks] = useState<INavbarLink[]>(init.links);
   const [loggedUser, setLoggedUser] = useState<string | undefined | null>(
     init.loggedUser
@@ -40,8 +42,8 @@ export function useNavSessionState(init: INavbarState) {
   useEffect(() => {
     switch (status) {
       case 'authenticated':
-        setLoggedUser(session?.user?.name);
-        if (verifyAdmin(session)) {
+        setLoggedUser(user.name);
+        if (verifyAdmin(user)) {
           setIsAdmin(true);
           setLinks([
             ...NavbarLinksConfiguration.UserLinks,

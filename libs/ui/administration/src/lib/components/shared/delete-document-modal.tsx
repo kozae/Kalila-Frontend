@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   DialogHeading,
-  themeColors,
+  kalilaTheme,
   UndrawExclamationMarkSVG,
 } from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
@@ -45,7 +45,7 @@ export const DeleteDocumentModal = <T extends KalilaDocument>({
       >
         <UndrawExclamationMarkSVG
           width={'50px'}
-          color={themeColors.warningRed}
+          color={kalilaTheme.palette.warning.main}
         />
         <DialogContentText
           sx={{

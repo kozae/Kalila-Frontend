@@ -1,4 +1,4 @@
-import { ActivitySchema, editorEntrySchema } from '@frontend/util';
+import { ActivitySchema } from '@frontend/util';
 import { CategoricalAttribute } from '@frontend/domain';
 import { SxProps } from '@mui/system/styleFunctionSx';
 import {
@@ -8,7 +8,7 @@ import {
 import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
-import { DialogHeading, themeColors, UndrawAddSVG } from '@frontend/shared-ui';
+import { DialogHeading, kalilaTheme, UndrawAddSVG } from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { KalilaForm } from '@frontend/ui/forms';
@@ -46,7 +46,6 @@ export const CreateAttributeModal = ({
   const {
     initialValues,
     validationSchemaFactory,
-    editors,
     createModalTitle: title,
   } = useAdminPageContext<CategoricalAttribute>() as IAdminPageContext<CategoricalAttribute>;
 
@@ -60,9 +59,12 @@ export const CreateAttributeModal = ({
             {title}
           </Typography>
         </DialogHeading>
-        <UndrawAddSVG color={themeColors.mainGreen} width={'200px'} />
+        <UndrawAddSVG
+          color={kalilaTheme.palette.primary.main}
+          width={'200px'}
+        />
         <Box sx={{ width: '300px' }}>
-          {schema && editors ? (
+          {schema ? (
             <KalilaForm
               initialValues={initialValues}
               fields={schema.Fields}

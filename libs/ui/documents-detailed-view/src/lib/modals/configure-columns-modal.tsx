@@ -5,7 +5,6 @@ import {
   Draggable,
   DropContainer,
   kalilaTheme,
-  themeColors,
 } from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
 import React, { useMemo } from 'react';

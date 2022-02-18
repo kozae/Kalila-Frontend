@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { themeColors } from '@frontend/shared-ui';
 import { useCallback, useEffect } from 'react';
+import { kalilaTheme } from '../../../constants';
 
 export interface INavMessageBarControl {
   messages: [string | undefined, string | undefined];
@@ -29,14 +29,14 @@ export function useNavMessageBarControls(): INavMessageBarControl {
     color: string;
   }>({
     messages: [undefined, undefined],
-    color: themeColors.mainGreen,
+    color: kalilaTheme.palette.primary.main,
   });
   const changeMessage = useCallback(
     (
       newMessages: [string | undefined, string | undefined],
       newColor?: string
     ) => {
-      const color = newColor ?? themeColors.mainGreen;
+      const color = newColor ?? kalilaTheme.palette.primary.main;
       if (newMessages[0] === messages[0]) {
         setMessages({
           messages: [messages[0], undefined],

@@ -1,5 +1,13 @@
-import { useContext, useEffect } from 'react';
-import { IRealTimeUpdate, SignalrStore } from '../store';
+import { useContext, useEffect, useMemo } from 'react';
+import { IRealTimeUpdate, SignalrWrapper } from '../wrappers';
+import { HubConnection } from '@microsoft/signalr';
+import { KeyedMutator } from 'swr';
+import { IPagination } from '@frontend/util';
+
+type Mutator = KeyedMutator<{
+  content: any[];
+  pagination: IPagination | undefined;
+}>;
 
 export function transformGroupName(name: string) {
   switch (name) {
@@ -11,27 +19,49 @@ export function transformGroupName(name: string) {
   }
 }
 
-export function useSignalrUpdates<
-  TDispatchers extends {
-    processSignalRUpdate: (update: IRealTimeUpdate) => Promise<void>;
-  }
->(group: string, dispatchers?: TDispatchers) {
+export function processSignalRUpdateFactory(
+  mutateDocs: Mutator,
+  activityName: string
+) {
+  return async (update: IRealTimeUpdate) => {
+    if (update && update.Topic.endsWith(transformGroupName(activityName))) {
+      await mutateDocs(); // triggers another request to the backend
+      return;
+    }
+  };
+}
+
+export function useSignalrUpdates(mutateDocs: Mutator, activityName: string) {
   const {
-    state: { update, connection, isConnected },
-    dispatchers: { joinGroup },
-  } = useContext(SignalrStore);
+    data: { update, connection, isConnected },
+    methods: { joinGroup, leaveGroup },
+  } = useContext(SignalrWrapper);
+
+  const processSignalRUpdate = useMemo(
+    () => processSignalRUpdateFactory(mutateDocs, activityName),
+    [mutateDocs, activityName]
+  );
 
   useEffect(() => {
     if (connection && isConnected) {
-      joinGroup(transformGroupName(group), connection).then(() =>
-        console.log(`${group} group joined`)
+      joinGroup(transformGroupName(activityName), connection).then(() =>
+        console.log(`${activityName} group joined`)
       );
     }
   }, [isConnected, connection]);
 
   useEffect(() => {
-    if (update && dispatchers && dispatchers.processSignalRUpdate) {
-      dispatchers.processSignalRUpdate(update).catch();
+    return () => {
+      leaveGroup(
+        transformGroupName(activityName),
+        connection as HubConnection
+      ).then(() => console.log(`${activityName} group left`));
+    };
+  }, []);
+
+  useEffect(() => {
+    if (update) {
+      processSignalRUpdate(update).catch();
     }
   }, [update]);
 }

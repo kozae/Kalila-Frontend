@@ -3,7 +3,11 @@ import {
   createAdminPageContext,
   withAdminLayout,
 } from '@frontend/ui/administration';
-import { useNavbarMessage } from '@frontend/shared-ui';
+import {
+  selectEditors,
+  useAppSelector,
+  useNavbarMessage,
+} from '@frontend/shared-ui';
 import { GetServerSideProps } from 'next';
 import { queryServerSide, siglum } from '@frontend/server-side-queries';
 import Head from 'next/head';
@@ -11,9 +15,10 @@ import { PageDescriptionAdmin } from '@frontend/domain';
 import { checkNumberValueFactory, KalilaValueTypes } from '@frontend/util';
 import React from 'react';
 import {
+  EditorCell,
   GenericCell,
   getSelectionColumn,
-  initGrid,
+  KeyValueCell,
   PrimaryGreenHeader,
   WhiteHeader,
 } from '@frontend/ui/table';
@@ -26,20 +31,12 @@ function pageTitle(siglum: string): [string, string] {
 export function PagesAdministration({ siglum, manuscriptId }) {
   const messages = pageTitle(siglum);
   useNavbarMessage(messages);
-  const {
-    editors,
-    filter,
-    selection,
-    setSelection,
-    clearSelection,
-    handlePaginationChange,
-    headerProps,
-  } = initGrid(['manuscript']);
+  const editors = useAppSelector(selectEditors);
   const AdminPageContext = createAdminPageContext<PageDescriptionAdmin>();
   const initialValues = new PageDescriptionAdmin();
   const columns: ReadonlyArray<Column<PageDescriptionAdmin>> = React.useMemo(
     () => [
-      getSelectionColumn<PageDescriptionAdmin>(selection, setSelection),
+      getSelectionColumn<PageDescriptionAdmin>(),
       {
         Header: PrimaryGreenHeader,
         accessor: 'Number',
@@ -48,7 +45,7 @@ export function PagesAdministration({ siglum, manuscriptId }) {
           FieldDisplay: 'Number',
           KalilaValueType: KalilaValueTypes.Int,
         },
-        Cell: GenericCell,
+        Cell: KeyValueCell,
       },
       {
         Header: PrimaryGreenHeader,
@@ -58,7 +55,7 @@ export function PagesAdministration({ siglum, manuscriptId }) {
           FieldDisplay: 'Editor',
           KalilaValueType: KalilaValueTypes.String,
         },
-        Cell: GenericCell,
+        Cell: EditorCell,
       },
       {
         Header: WhiteHeader,
@@ -100,19 +97,13 @@ export function PagesAdministration({ siglum, manuscriptId }) {
           },
           deleteModalMessage:
             'Deletion can be executed, only if the page does not have any narrative units assigned.',
-          filter,
-          editors,
-          onPaginationChange: handlePaginationChange,
-          selection,
-          setSelection,
-          clearSelection,
         }}
       >
         <AdministrationPage
           gridHeight={'calc(100vh - 235px)'}
           columns={columns}
           cls={PageDescriptionAdmin}
-          headerProps={headerProps}
+          excludeFromFilter={['manuscript']}
         />
       </AdminPageContext.Provider>
     </>

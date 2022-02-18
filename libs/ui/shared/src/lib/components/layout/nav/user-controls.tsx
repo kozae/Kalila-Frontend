@@ -17,7 +17,7 @@ import { useRouter } from 'next/router';
 import IconButton from '@mui/material/IconButton';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { themeColors } from '@frontend/shared-ui';
+import { kalilaTheme } from '@frontend/shared-ui';
 
 const LogOutButton: React.FC<{ loggedUser: string }> = ({ loggedUser }) => {
   const { push } = useRouter();
@@ -43,7 +43,7 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({ loggedUser }) => {
 
   return (
     <div className={styles['nav__control-bar__user-controls']}>
-      <Avatar sx={{ bgcolor: themeColors.mainGreen }}>MK</Avatar>
+      <Avatar sx={{ bgcolor: kalilaTheme.palette.primary.main }}>MK</Avatar>
       <IconButton
         size="small"
         aria-controls={open ? 'split-button-menu' : undefined}
@@ -101,7 +101,7 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({ loggedUser }) => {
 };
 
 export const NavUserControls: React.FC = () => {
-  const { loggedUser } = useContext(NavbarStore).state;
+  const { loggedUser } = useContext(NavbarStore).data;
   const logInButton = () => (
     <div className={styles['nav__control-bar__user-controls']}>
       <Button

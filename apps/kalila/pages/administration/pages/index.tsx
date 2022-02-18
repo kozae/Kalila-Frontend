@@ -5,12 +5,17 @@ import { useRouter } from 'next/router';
 import { queryServerSide, sigla } from '@frontend/server-side-queries';
 import { GetServerSideProps } from 'next';
 import Alert from '@mui/material/Alert';
+import Head from 'next/head';
+import React from 'react';
 
 export function MSSelection({ sigla }) {
   const { push } = useRouter();
   useNavbarMessage(['Administration:', 'Pages']);
   return (
     <>
+      <Head>
+        <title>Administration: Pages, Select Manuscript</title>
+      </Head>
       <Alert severity="info" sx={{ typography: 'h3' }}>
         Click on a manuscript on which to do administrative tasks
       </Alert>

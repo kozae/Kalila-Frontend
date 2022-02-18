@@ -6,20 +6,16 @@ import {
   useAdminPageContext,
 } from '@frontend/ui/administration';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
-import {
-  Grid,
-  TablePaginator,
-  resetSelectionOnQueryChange,
-  ISortControlProps,
-  IFilterProps,
-} from '@frontend/ui/table';
-import { defaultPagination, MediaTypes } from '@frontend/util';
+import { Grid, TablePaginator } from '@frontend/ui/table';
+import { MediaTypes } from '@frontend/util';
 import { useRouter } from 'next/router';
 import {
   fetchSchema,
   NotificationBar,
   useNotificationBar,
-  usePagedDocuments,
+  usePagedDocumentsDispatch,
+  usePagedDocumentsState,
+  usePagedDocumentsStore,
   useSignalrUpdates,
 } from '@frontend/shared-ui';
 import {
@@ -39,33 +35,28 @@ export interface IAdministrationPageProps<T extends KalilaDocument> {
   cls: ClassConstructor<T>; // just for type inference
   columns: ReadonlyArray<Column<T>>;
   gridHeight?: string;
-  headerProps: ISortControlProps & IFilterProps;
+  excludeFromFilter?: string[];
 }
 
 export const AdministrationPage = <T extends KalilaDocument>({
   cls,
   columns,
   gridHeight,
-  headerProps,
+  excludeFromFilter,
 }: IAdministrationPageProps<T>) => {
   const router = useRouter();
-  const {
-    activityName,
-    initialValues,
-    filter,
-    additionalParams,
-    onPaginationChange,
-    selection,
-    clearSelection,
-  } = useAdminPageContext<T>() as IAdminPageContext<T>;
+  const { activityName, initialValues, additionalParams } =
+    useAdminPageContext<T>() as IAdminPageContext<T>;
   const { data: schema } = fetchSchema(activityName, { KeyField: true });
-  const { state, dispatchers, loading } = usePagedDocuments<T>(
+  const mutator = usePagedDocumentsStore(
     activityName,
-    router,
-    cls,
+    router.query,
     MediaTypes.AdminDocument,
     additionalParams
   );
+  const { loading, documents, pagination, selection, filter } =
+    usePagedDocumentsState(cls, excludeFromFilter ?? []);
+  const dispatchers = usePagedDocumentsDispatch();
   const {
     isCreateModalOpen,
     isEditModalOpen,
@@ -81,50 +72,48 @@ export const AdministrationPage = <T extends KalilaDocument>({
   const [editMode, setEditMode] = useState<'one' | 'many' | 'filtered'>(
     'filtered'
   );
-  const selectedDocs = useMemo<T[]>(() => {
-    if (state?.documents) {
-      return state.documents.filter((d) => selection.has(d.Id as string));
-    }
-    return [];
-  }, [selection, state?.documents]);
+  const selectedDocs = useMemo<T[]>(
+    () => documents.filter((d) => selection.includes(d.Id as string)),
+    [selection, documents.length]
+  );
 
   const { message, messageBarType, isMessageVisible, hideMessage, notifyUser } =
     useNotificationBar();
 
   const handleUpdate = useUpdateHandler(
     selection,
-    selectedDocs[0],
+    selectedDocs[0], // old value
     filter,
     additionalParams,
     editMode,
     notifyUser,
     dispatchers,
-    hideEditModal,
-    clearSelection
+    hideEditModal
   );
   const handleDelete = useDeleteHandler(
     additionalParams,
     notifyUser,
     dispatchers,
-    hideDeleteModal,
-    clearSelection
+    hideDeleteModal
   );
   const handleCreate = useCreateHandler(
     additionalParams,
     notifyUser,
     dispatchers,
-    hideCreateModal,
-    clearSelection
+    hideCreateModal
   );
 
   useEffect(() => {
     setEditMode(
-      selection.size === 0 ? 'filtered' : selection.size === 1 ? 'one' : 'many'
+      selection.length === 0
+        ? 'filtered'
+        : selection.length === 1
+        ? 'one'
+        : 'many'
     );
-  }, [selection.size]);
+  }, [selection.length]);
 
-  resetSelectionOnQueryChange(clearSelection, router);
-  useSignalrUpdates(activityName, dispatchers);
+  useSignalrUpdates(mutator, activityName);
 
   return (
     <>
@@ -139,24 +128,25 @@ export const AdministrationPage = <T extends KalilaDocument>({
       {!isMessageVisible ? (
         <Stack direction="row" spacing={1}>
           <AdministrationCommandBar
-            {...{ cls, selection, onCreate, onEdit, onDelete }}
+            {...{ cls, selection, filter, onCreate, onEdit, onDelete }}
           />
           <TablePaginator
             loading={loading}
-            pagination={state?.pagination ?? defaultPagination}
-            onPaginationChange={onPaginationChange}
+            pagination={pagination}
+            onPaginationChange={(pagination) =>
+              dispatchers.changePagination(pagination, router)
+            }
           />
         </Stack>
       ) : null}
       <Grid
         data={
-          state?.documents && state.documents.length !== 0
-            ? state.documents
+          documents.length !== 0
+            ? documents
             : Array.from({ length: 10 }, () => plainToClass(cls, {}))
         }
         height={gridHeight}
         columns={columns}
-        headerProps={headerProps}
         loading={loading ?? false}
       />
       {schema?.content ? (

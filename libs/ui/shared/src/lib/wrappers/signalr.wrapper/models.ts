@@ -5,7 +5,7 @@ export interface IRealTimeUpdate {
   Data: any;
 }
 
-export interface ISignalrWrapper {
+export interface ISignalrData {
   groups: Set<string>;
   update?: IRealTimeUpdate;
   isConnected: boolean;
