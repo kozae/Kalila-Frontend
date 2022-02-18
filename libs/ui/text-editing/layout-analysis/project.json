@@ -1,0 +1,25 @@
+{
+  "root": "libs/ui/text-editing/layout-analysis",
+  "sourceRoot": "libs/ui/text-editing/layout-analysis/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui/text-editing/layout-analysis/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ui/text-editing/layout-analysis"],
+      "options": {
+        "jestConfig": "libs/ui/text-editing/layout-analysis/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

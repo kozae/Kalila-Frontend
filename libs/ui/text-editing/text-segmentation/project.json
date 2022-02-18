@@ -1,0 +1,25 @@
+{
+  "root": "libs/ui/text-editing/text-segmentation",
+  "sourceRoot": "libs/ui/text-editing/text-segmentation/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui/text-editing/text-segmentation/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ui/text-editing/text-segmentation"],
+      "options": {
+        "jestConfig": "libs/ui/text-editing/text-segmentation/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

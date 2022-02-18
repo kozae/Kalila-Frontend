@@ -1,0 +1,25 @@
+{
+  "root": "libs/ui/text-editing/transcription",
+  "sourceRoot": "libs/ui/text-editing/transcription/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui/text-editing/transcription/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ui/text-editing/transcription"],
+      "options": {
+        "jestConfig": "libs/ui/text-editing/transcription/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

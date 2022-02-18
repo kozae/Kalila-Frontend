@@ -1,0 +1,25 @@
+{
+  "root": "libs/ui/text-editing/pages-summary",
+  "sourceRoot": "libs/ui/text-editing/pages-summary/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui/text-editing/pages-summary/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ui/text-editing/pages-summary"],
+      "options": {
+        "jestConfig": "libs/ui/text-editing/pages-summary/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

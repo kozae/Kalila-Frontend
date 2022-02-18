@@ -86,7 +86,7 @@ export const withAdminLayout = (
       <div className={styles['page']}>
         {showNav ? <AdminNav selectedKey={selectedKey} /> : null}
         <div className={styles['content']}>
-          {withTransition(OriginalComponent, props)()}
+          {withTransition(OriginalComponent, props)({})}
         </div>
       </div>
     );

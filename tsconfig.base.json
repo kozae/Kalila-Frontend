@@ -25,8 +25,21 @@
       "@frontend/ui/documents-detailed-view": [
         "libs/ui/documents-detailed-view/src/index.ts"
       ],
+      "@frontend/ui/facsimile": ["libs/ui/facsimile/src/index.ts"],
       "@frontend/ui/forms": ["libs/ui/forms/src/index.ts"],
       "@frontend/ui/table": ["libs/ui/table/src/index.ts"],
+      "@frontend/ui/text-editing/layout-analysis": [
+        "libs/ui/text-editing/layout-analysis/src/index.ts"
+      ],
+      "@frontend/ui/text-editing/pages-summary": [
+        "libs/ui/text-editing/pages-summary/src/index.ts"
+      ],
+      "@frontend/ui/text-editing/text-segmentation": [
+        "libs/ui/text-editing/text-segmentation/src/index.ts"
+      ],
+      "@frontend/ui/text-editing/transcription": [
+        "libs/ui/text-editing/transcription/src/index.ts"
+      ],
       "@frontend/util": ["libs/util/src/index.ts"]
     }
   },

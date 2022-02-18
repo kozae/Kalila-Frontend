@@ -8,8 +8,13 @@
     "shared-ui": "libs/ui/shared",
     "ui-administration": "libs/ui/administration",
     "ui-documents-detailed-view": "libs/ui/documents-detailed-view",
+    "ui-facsimile": "libs/ui/facsimile",
     "ui-forms": "libs/ui/forms",
     "ui-table": "libs/ui/table",
+    "ui-text-editing-layout-analysis": "libs/ui/text-editing/layout-analysis",
+    "ui-text-editing-pages-summary": "libs/ui/text-editing/pages-summary",
+    "ui-text-editing-text-segmentation": "libs/ui/text-editing/text-segmentation",
+    "ui-text-editing-transcription": "libs/ui/text-editing/transcription",
     "util": "libs/util"
   }
 }
