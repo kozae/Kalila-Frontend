@@ -20,6 +20,7 @@ function pageTitle(siglum: string): [string, string] {
 
 export function EditPage({ siglum, manuscriptId, pageData, allPages }) {
   const messages = pageTitle(siglum);
+  console.log({ pageData });
   useNavbarMessage(messages, undefined, {
     name: 'manuscript-pages-paginator',
     data: { allPages, manuscriptId, current: pageData.Number },
@@ -65,8 +66,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   try {
     const manuscriptId = context.params['manuscript'] as string;
     const pageId = context.params['page'] as string;
-    console.log({ manuscriptId });
-    console.log({ pageId });
     const query = await queryServerSide({
       siglum: siglum(manuscriptId),
       allPages: pages(manuscriptId),
