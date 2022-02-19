@@ -4,7 +4,17 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { ActivitySchema, InputModes } from '@frontend/util';
 
-export class CategoricalAttribute extends KalilaDocument {
+export interface ICategoricalAttribute {
+  Id: string;
+  EntityName: string;
+  FieldName: string;
+  Option: string;
+}
+
+export class CategoricalAttribute
+  extends KalilaDocument
+  implements ICategoricalAttribute
+{
   constructor(
     public Id: string | undefined = undefined,
     public EntityName: string = '',
