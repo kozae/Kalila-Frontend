@@ -26,7 +26,7 @@ export function TextEditing({ sigla }) {
         sigla={sigla}
         siglumClass={styles['siglum']}
         siglaContainerClass={styles['sigla']}
-        onSelect={(s) => push(`/text-editing/${s.id}`)}
+        onSelect={(s) => push(`/text-editing/${s.Id}`)}
       />
     </>
   );

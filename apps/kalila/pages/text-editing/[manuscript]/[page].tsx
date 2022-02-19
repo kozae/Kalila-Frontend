@@ -48,10 +48,10 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   const query = await queryServerSide({ sigla });
   for (const manuscript of query.sigla) {
     const pagesQuery = await queryServerSide({
-      allPages: pages(manuscript.id),
+      allPages: pages(manuscript.Id),
     });
     for (const page of pagesQuery.allPages) {
-      paths.push({ params: { manuscript: manuscript.id, page: page.id } });
+      paths.push({ params: { manuscript: manuscript.Id, page: page.Id } });
     }
   }
 

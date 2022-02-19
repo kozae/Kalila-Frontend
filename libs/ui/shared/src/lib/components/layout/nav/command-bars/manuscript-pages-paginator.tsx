@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 
 export interface IManuscriptPagesPaginatorProps {
   manuscriptId: string;
-  allPages: { id: string; Number: number }[];
+  allPages: { Id: string; Number: number }[];
   current: number;
 }
 
@@ -34,7 +34,7 @@ export const ManuscriptPagesPaginator = ({
   const router = useRouter();
 
   const handleChange = async (e: any, v: number) => {
-    await router.push(`/text-editing/${manuscriptId}/${allPages[v - 1].id}`);
+    await router.push(`/text-editing/${manuscriptId}/${allPages[v - 1].Id}`);
     setPage(v);
   };
 

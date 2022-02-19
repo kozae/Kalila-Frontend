@@ -23,7 +23,7 @@ export function MSSelection({ sigla }) {
         sigla={sigla}
         siglumClass={styles['siglum']}
         siglaContainerClass={styles['sigla']}
-        onSelect={(s) => push(`/administration/pages/${s.id}`)}
+        onSelect={(s) => push(`/administration/pages/${s.Id}`)}
       />
     </>
   );

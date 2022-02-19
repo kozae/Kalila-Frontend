@@ -11,6 +11,6 @@ export function pages(manuscriptId: string) {
       .project<{ _id: ObjectId; Number: number }>({ _id: 1, Number: 1 })
       .toArray();
 
-    return serialize(pages) as { id: string; Number: string }[];
+    return serialize(pages) as { Id: string; Number: string }[];
   };
 }
