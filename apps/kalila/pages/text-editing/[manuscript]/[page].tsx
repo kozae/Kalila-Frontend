@@ -65,6 +65,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
   try {
     const manuscriptId = context.params['manuscript'] as string;
     const pageId = context.params['page'] as string;
+    console.log({ manuscriptId });
+    console.log({ pageId });
     const query = await queryServerSide({
       siglum: siglum(manuscriptId),
       allPages: pages(manuscriptId),
