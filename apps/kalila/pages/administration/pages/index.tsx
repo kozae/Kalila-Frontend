@@ -3,7 +3,7 @@ import styles from './pages.module.scss';
 import { SiglumSelection, useNavbarMessage } from '@frontend/shared-ui';
 import { useRouter } from 'next/router';
 import { queryServerSide, sigla } from '@frontend/server-side-queries';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import Alert from '@mui/material/Alert';
 import Head from 'next/head';
 import React from 'react';
@@ -31,11 +31,12 @@ export function MSSelection({ sigla }) {
 
 export default withAdminLayout(MSSelection, 1);
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const query = await queryServerSide({ sigla });
   return {
     props: {
       ...query,
     },
+    revalidate: 30,
   };
 };

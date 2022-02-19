@@ -8,8 +8,8 @@ import {
   useAppSelector,
   useNavbarMessage,
 } from '@frontend/shared-ui';
-import { GetServerSideProps } from 'next';
-import { queryServerSide, siglum } from '@frontend/server-side-queries';
+import { GetStaticProps, GetStaticPaths } from 'next';
+import { queryServerSide, sigla, siglum } from '@frontend/server-side-queries';
 import Head from 'next/head';
 import { PageDescriptionAdmin } from '@frontend/domain';
 import { checkNumberValueFactory, KalilaValueTypes } from '@frontend/util';
@@ -112,9 +112,24 @@ export function PagesAdministration({ siglum, manuscriptId }) {
 
 export default withAdminLayout(PagesAdministration, 1);
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticPaths: GetStaticPaths = async (context) => {
+  const paths: Array<
+    string | { params: { manuscript: string }; locale?: string }
+  > = [];
+  const query = await queryServerSide({ sigla });
+  for (const manuscript of query.sigla) {
+    paths.push({ params: { manuscript: manuscript.Id } });
+  }
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
   try {
     const manuscriptId = context.params['manuscript'] as string;
+    console.log('generating page administration for: ', manuscriptId);
     const query = await queryServerSide({
       siglum: siglum(manuscriptId),
     });
@@ -123,6 +138,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         ...query,
         manuscriptId,
       },
+      revalidate: 30,
     };
   } catch {
     return {
