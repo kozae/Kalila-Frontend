@@ -2,10 +2,12 @@ import React, { useContext } from 'react';
 import styles from './nav.module.scss';
 import { motion } from 'framer-motion';
 import LinearProgress from '@mui/material/LinearProgress';
-import { NavMessageBarContext } from '@frontend/shared-ui';
+import { FramerFadeInOut, NavMessageBarContext } from '@frontend/shared-ui';
+import { ManuscriptPagesPaginator } from './command-bars';
+import { stringHasValue } from '@frontend/util';
 
 export const NavMessageBar: React.FC = () => {
-  const { messages, color } = useContext(NavMessageBarContext);
+  const { messages, color, commandBar } = useContext(NavMessageBarContext);
 
   return (
     <div
@@ -37,10 +39,22 @@ export const NavMessageBar: React.FC = () => {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 100, opacity: 0 }}
           >
-            {' '}
             {messages[1]}
           </motion.p>
         )}
+        <FramerFadeInOut
+          toggle={
+            stringHasValue(messages[0]) &&
+            commandBar !== undefined &&
+            commandBar.name === 'manuscript-pages-paginator'
+          }
+          className={
+            styles['nav__message-bar__command-bar__transition-container']
+          }
+        >
+          {/*@ts-ignore*/}
+          <ManuscriptPagesPaginator {...commandBar?.data} />
+        </FramerFadeInOut>
       </div>
     </div>
   );

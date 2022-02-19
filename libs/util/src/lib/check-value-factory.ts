@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { CategoricalAttribute } from '@frontend/domain';
+
+interface ICategoricalAttribute {
+  EntityName: string;
+  FieldName: string;
+}
 
 export function checkStringValueFactory(
   activityName: string,
@@ -36,7 +40,7 @@ export function checkNumberValueFactory(
 
 export async function checkOptionDuplication(
   newOption: string,
-  { EntityName, FieldName }: CategoricalAttribute
+  { EntityName, FieldName }: ICategoricalAttribute
 ) {
   return axios
     .get<boolean>('/server/api/v1/CategoricalAttribute/Check', {

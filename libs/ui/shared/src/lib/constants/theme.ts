@@ -71,7 +71,7 @@ export const kalilaTheme = createTheme({
     values: {
       xs: 0,
       sm: 480,
-      md: 640,
+      md: 660,
       lg: 1200,
       xl: 1420,
     },

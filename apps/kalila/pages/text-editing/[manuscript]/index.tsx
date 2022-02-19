@@ -10,7 +10,6 @@ function pageTitle(siglum: string): [string, string] {
 }
 
 export function ManuscriptPages({ siglum, manuscriptId }) {
-  useNavbarMessage(['Text Editing:', 'Select a Manuscript']);
   const messages = pageTitle(siglum);
   useNavbarMessage(messages);
   return (

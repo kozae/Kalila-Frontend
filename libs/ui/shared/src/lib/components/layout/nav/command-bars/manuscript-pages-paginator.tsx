@@ -1,0 +1,63 @@
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { useState } from 'react';
+import {
+  useMediumScreenMediaQuery,
+  useSmallScreenMediaQuery,
+  useXSmallScreenMediaQuery,
+} from '@frontend/shared-ui';
+import { useRouter } from 'next/router';
+
+export interface IManuscriptPagesPaginatorProps {
+  manuscriptId: string;
+  allPages: { id: string; Number: number }[];
+  current: number;
+}
+
+const back = () => <ChevronLeftIcon sx={{ fontSize: '2.1rem' }} />;
+const forward = () => <ChevronRightIcon sx={{ fontSize: '2.1rem' }} />;
+
+export const ManuscriptPagesPaginator = ({
+  manuscriptId,
+  allPages,
+  current,
+}: IManuscriptPagesPaginatorProps) => {
+  const [page, setPage] = useState(current);
+  const isXSmallScreen = useXSmallScreenMediaQuery();
+  const isSmallScreen = useSmallScreenMediaQuery();
+  const isMDScreen = useMediumScreenMediaQuery();
+
+  const count = isXSmallScreen ? 0 : isSmallScreen ? 1 : isMDScreen ? 4 : 6;
+
+  const router = useRouter();
+
+  const handleChange = async (e: any, v: number) => {
+    await router.push(`/text-editing/${manuscriptId}/${allPages[v - 1].id}`);
+    setPage(v);
+  };
+
+  return (
+    <Pagination
+      onChange={handleChange}
+      boundaryCount={count}
+      siblingCount={Math.floor(count / 2)}
+      page={page}
+      count={allPages.length}
+      color="secondary"
+      shape="rounded"
+      renderItem={(item) => (
+        <PaginationItem
+          components={{
+            previous: back,
+            next: forward,
+          }}
+          {...item}
+          size="large"
+          sx={{ typography: 'button', color: 'white' }}
+        />
+      )}
+    />
+  );
+};

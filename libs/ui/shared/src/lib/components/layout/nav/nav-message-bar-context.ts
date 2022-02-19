@@ -1,13 +1,21 @@
 import * as React from 'react';
 import { useCallback, useEffect } from 'react';
 import { kalilaTheme } from '../../../constants';
+import { IManuscriptPagesPaginatorProps } from './command-bars';
+
+export type CommandBars = {
+  name: 'manuscript-pages-paginator';
+  data: IManuscriptPagesPaginatorProps;
+};
 
 export interface INavMessageBarControl {
   messages: [string | undefined, string | undefined];
   color: string;
+  commandBar?: CommandBars;
   changeMessage: (
     newMessages: [string | undefined, string | undefined],
-    color?: string
+    color?: string,
+    newCommandBar?: CommandBars
   ) => void;
 }
 
@@ -16,7 +24,8 @@ const defaultValue: INavMessageBarControl = {
   color: '',
   changeMessage: (
     newMessages: [string | undefined, string | undefined],
-    color?: string
+    color?: string,
+    newCommandBar?: CommandBars
   ) => {},
 };
 
@@ -24,17 +33,20 @@ export const NavMessageBarContext =
   React.createContext<INavMessageBarControl>(defaultValue);
 
 export function useNavMessageBarControls(): INavMessageBarControl {
-  const [{ messages, color }, setMessages] = React.useState<{
+  const [{ messages, color, commandBar }, setMessages] = React.useState<{
     messages: [string | undefined, string | undefined];
     color: string;
+    commandBar?: CommandBars;
   }>({
     messages: [undefined, undefined],
     color: kalilaTheme.palette.primary.main,
   });
+
   const changeMessage = useCallback(
     (
       newMessages: [string | undefined, string | undefined],
-      newColor?: string
+      newColor?: string,
+      newCommandBar?: CommandBars
     ) => {
       const color = newColor ?? kalilaTheme.palette.primary.main;
       if (newMessages[0] === messages[0]) {
@@ -48,18 +60,28 @@ export function useNavMessageBarControls(): INavMessageBarControl {
           color,
         });
       }
-      setTimeout(() => setMessages({ messages: newMessages, color }), 1000);
+
+      setTimeout(
+        () =>
+          setMessages({
+            messages: newMessages,
+            color,
+            commandBar: newCommandBar,
+          }),
+        1000
+      );
     },
     [messages]
   );
 
-  return { messages, color, changeMessage };
+  return { messages, color, commandBar, changeMessage };
 }
 
 export function useNavbarMessage(
   newMessages: [string | undefined, string | undefined],
-  newColor?: string
+  newColor?: string,
+  newCommandBar?: CommandBars
 ) {
   const { changeMessage } = React.useContext(NavMessageBarContext);
-  useEffect(() => changeMessage(newMessages, newColor), []);
+  useEffect(() => changeMessage(newMessages, newColor, newCommandBar), []);
 }

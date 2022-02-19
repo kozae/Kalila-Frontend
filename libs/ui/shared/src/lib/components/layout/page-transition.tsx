@@ -1,6 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import styles from './layout.module.scss';
+import { FramerSlideUpDown } from '../framer-animations';
 
 export const withTransition = (
   OriginalComponent: React.JSXElementConstructor<any>,
@@ -10,15 +9,9 @@ export const withTransition = (
   return (props: any) => {
     const merge = { ...props, ...extraProps };
     return (
-      <motion.div
-        className={className ?? styles['transition-container']}
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 100 }}
-        transition={{ duration: 0.5, ease: 'easeIn' }}
-      >
+      <FramerSlideUpDown className={className}>
         <OriginalComponent {...merge} />
-      </motion.div>
+      </FramerSlideUpDown>
     );
   };
 };

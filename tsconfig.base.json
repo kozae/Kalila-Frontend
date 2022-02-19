@@ -40,6 +40,9 @@
       "@frontend/ui/text-editing/transcription": [
         "libs/ui/text-editing/transcription/src/index.ts"
       ],
+      "@frontend/ui/text-editing/workspace": [
+        "libs/ui/text-editing/workspace/src/index.ts"
+      ],
       "@frontend/util": ["libs/util/src/index.ts"]
     }
   },

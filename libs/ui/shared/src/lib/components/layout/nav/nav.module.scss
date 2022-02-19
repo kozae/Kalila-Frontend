@@ -137,6 +137,7 @@
       color: white;
       display: flex;
       align-items: center;
+      justify-content: flex-start;
       max-width: $siteMaxWidth;
       padding: $sitePadding;
     }
@@ -157,5 +158,14 @@
       font-size: 1.2rem;
       font-weight: 400;
     }
+
+    &__command-bar {
+      &__transition-container {
+        flex-grow: 1;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
   }
 }
+

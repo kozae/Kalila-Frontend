@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import {
-  useBoolean,
   usePagedDocumentsDispatch,
   usePagedDocumentsState,
   usePagedDocumentsStore,
@@ -23,6 +22,7 @@ import React, { useMemo } from 'react';
 import Stack from '@mui/material/Stack';
 import { plainToInstance } from 'class-transformer';
 import { PageTranscriptionSummary } from '@frontend/domain';
+import Button from '@mui/material/Button';
 
 export interface IPagesSummaryPage {
   manuscript: string;
@@ -35,7 +35,7 @@ export function PagesSummaryPage({ manuscript }: IPagesSummaryPage) {
   const mutator = usePagedDocumentsStore(
     'PageTranscription',
     router.query,
-    MediaTypes.FullDescriptionDocument,
+    MediaTypes.FolioTranscriptionSummary,
     { ManuscriptId: manuscript },
     '/Summary'
   );
@@ -45,7 +45,7 @@ export function PagesSummaryPage({ manuscript }: IPagesSummaryPage) {
 
   const columns: ReadonlyArray<Column<PageTranscriptionSummary>> = useMemo(
     () => [
-      getSelectionColumn<PageTranscriptionSummary>(),
+      getSelectionColumn<PageTranscriptionSummary>('single'),
       {
         Header: PrimaryGreenHeader,
         accessor: 'Number',
@@ -68,11 +68,41 @@ export function PagesSummaryPage({ manuscript }: IPagesSummaryPage) {
       },
       {
         Header: WhiteHeader,
-        accessor: 'EditionProgress',
+        accessor: 'FacsimileImageUrl',
         f: {
-          FieldNamePascalCase: 'EditionProgress',
-          FieldDisplay: 'EditionProgress',
+          FieldNamePascalCase: 'FacsimileImageUrl',
+          FieldDisplay: 'Facsimile',
           KalilaValueType: KalilaValueTypes.String,
+        },
+        Cell: GenericCell,
+      },
+      {
+        Header: WhiteHeader,
+        accessor: 'NumberOfTextElements',
+        f: {
+          FieldNamePascalCase: 'NumberOfTextElements',
+          FieldDisplay: 'Text Elements',
+          KalilaValueType: KalilaValueTypes.Int,
+        },
+        Cell: GenericCell,
+      },
+      {
+        Header: WhiteHeader,
+        accessor: 'NumberOfImageElements',
+        f: {
+          FieldNamePascalCase: 'NumberOfImageElements',
+          FieldDisplay: 'Images',
+          KalilaValueType: KalilaValueTypes.Int,
+        },
+        Cell: GenericCell,
+      },
+      {
+        Header: WhiteHeader,
+        accessor: 'NumberOfTokens',
+        f: {
+          FieldNamePascalCase: 'NumberOfTokens',
+          FieldDisplay: 'Transcription',
+          KalilaValueType: KalilaValueTypes.Int,
         },
         Cell: GenericCell,
       },
@@ -90,6 +120,17 @@ export function PagesSummaryPage({ manuscript }: IPagesSummaryPage) {
         justifyContent="space-between"
         flexWrap="wrap"
       >
+        <Button
+          disableElevation
+          disabled={selection.length !== 1}
+          onClick={() =>
+            router.push(`/text-editing/${manuscript}/${selection[0]}`)
+          }
+          variant="contained"
+          color="secondary"
+        >
+          Edit
+        </Button>
         <TablePaginator
           loading={loading}
           pagination={pagination}

@@ -15,6 +15,7 @@
     "ui-text-editing-pages-summary": "libs/ui/text-editing/pages-summary",
     "ui-text-editing-text-segmentation": "libs/ui/text-editing/text-segmentation",
     "ui-text-editing-transcription": "libs/ui/text-editing/transcription",
+    "ui-text-editing-workspace": "libs/ui/text-editing/workspace",
     "util": "libs/util"
   }
 }
