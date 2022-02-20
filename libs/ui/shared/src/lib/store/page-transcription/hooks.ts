@@ -20,7 +20,7 @@ import { useEffect } from 'react';
 
 export function useTextEditingWorkspaceStore(
   data: IPageTranscription,
-  imageSize: { width: number; height: number }
+  imageSize: { Width: number; Height: number }
 ) {
   const dispatch = useAppDispatch();
   const { TextElements, ImageElements, Units, ...pageInfo } = data;
