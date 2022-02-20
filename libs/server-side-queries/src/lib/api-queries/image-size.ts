@@ -3,6 +3,8 @@ import imageSize from 'image-size';
 
 const sizeOf = promisify(imageSize);
 
+const imageRoot = process.env.IMAGE_ROOT ?? '/root/Kalila/volumes/assets';
+
 export async function getImageSize(url: string) {
-  return await sizeOf(`/images${url}`);
+  return await sizeOf(imageRoot + url);
 }
