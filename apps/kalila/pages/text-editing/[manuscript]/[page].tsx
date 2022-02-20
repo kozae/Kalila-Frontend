@@ -11,6 +11,7 @@ import {
 import Head from 'next/head';
 import React from 'react';
 import { TextEditingWorkspace } from '@frontend/ui/text-editing/workspace';
+import { useRouter } from "next/router";
 
 function pageTitle(siglum: string): [string, string] {
   return ['Text Editing:', `Pages of ${siglum}`];
@@ -24,10 +25,15 @@ export function EditPage({
   imageInfo,
 }) {
   const messages = pageTitle(siglum);
+  const router = useRouter();
   useNavbarMessage(messages, undefined, {
     name: 'manuscript-pages-paginator',
     data: { allPages, manuscriptId, current: pageData.Number },
   });
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
