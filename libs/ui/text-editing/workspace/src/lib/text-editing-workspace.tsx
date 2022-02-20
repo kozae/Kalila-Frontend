@@ -1,19 +1,21 @@
 import Stack from '@mui/material/Stack';
-import {
-  selectPageDataLoadingStatus,
-  useAppSelector,
-  useTextEditingWorkspaceStore,
-} from '@frontend/shared-ui';
+import { useTextEditingWorkspaceStore } from '@frontend/shared-ui';
 import { FacsimileSpace, ToolSpace } from './components';
+import {
+  TextEditingWorkspaceContext,
+  useTextEditingWorkspaceContext,
+} from './text-editing-workspace-context';
 
 export function TextEditingWorkspace({ pageData, imageSize }: any) {
   useTextEditingWorkspaceStore(pageData, imageSize);
-  const loadingStatus = useAppSelector(selectPageDataLoadingStatus);
+  const contextValue = useTextEditingWorkspaceContext();
   return (
-    <Stack mt="5px" width="100%" direction="row" spacing={1}>
-      <FacsimileSpace loading={loadingStatus} />
-      <ToolSpace />
-    </Stack>
+    <TextEditingWorkspaceContext.Provider value={contextValue}>
+      <Stack mt="5px" width="100%" direction="row" spacing={1}>
+        <FacsimileSpace />
+        <ToolSpace />
+      </Stack>
+    </TextEditingWorkspaceContext.Provider>
   );
 }
 

@@ -8,6 +8,11 @@ export const selectPageDataLoadingStatus = createSelector(
   (state) => state.loading
 );
 
+export const selectPageEditor = createSelector(
+  selectPageDataState,
+  (state) => state.pageInfo.Editor
+);
+
 export const selectImageUrl = createSelector(
   selectPageDataState,
   (state) => state.pageInfo.FacsimileImageUrl

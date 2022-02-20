@@ -1,15 +1,22 @@
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import PhoneIcon from '@mui/icons-material/Phone';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import PersonPinIcon from '@mui/icons-material/PersonPin';
-import { SyntheticEvent, useState } from 'react';
+import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
+import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
+import ReorderSharpIcon from '@mui/icons-material/ReorderSharp';
+import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
+import { ReactNode, SyntheticEvent, useContext, useState } from 'react';
 import Typography from '@mui/material/Typography';
+import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
 import Box from '@mui/material/Box';
-import { SwipeableViews } from 'react-swipeable-views';
+import SwipeableViews from 'react-swipeable-views';
+import { useTheme } from '@mui/material/styles';
+import {
+  ActiveWorkspace,
+  TextEditingWorkspaceContext,
+} from '../text-editing-workspace-context';
 
 interface TabPanelProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
   dir?: string;
   index: number;
   value: number;
@@ -35,26 +42,53 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-export const ToolSpace = () => {
-  const [value, setValue] = useState(0);
+const TabIndexWorkspaceNameMap: Record<number, ActiveWorkspace> = {
+  0: 'description',
+  1: 'layout',
+  2: 'lines',
+  3: 'transcription',
+  4: 'segmentation',
+};
 
-  const handleChange = (event: SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+export const ToolSpace = () => {
+  const { setActiveWorkspace } = useContext(TextEditingWorkspaceContext);
+  const [value, setValue] = useState(0);
+  const theme = useTheme();
+
+  const handleChange = (event: SyntheticEvent, index: number) => {
+    setValue(index);
+    setActiveWorkspace(TabIndexWorkspaceNameMap[index]);
   };
   const handleChangeIndex = (index: number) => {
     setValue(index);
   };
   return (
-    <Box sx={{ width: '50%' }}>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        aria-label="icon label tabs example"
+    <Box sx={{ width: '55%' }}>
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
-        <Tab icon={<PhoneIcon />} label="RECENTS" />
-        <Tab icon={<FavoriteIcon />} label="FAVORITES" />
-        <Tab icon={<PersonPinIcon />} label="NEARBY" />
-      </Tabs>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="text-editing-tools"
+          textColor="secondary"
+          indicatorColor="secondary"
+          variant="scrollable"
+          scrollButtons="auto"
+        >
+          <Tab icon={<InfoTwoToneIcon />} label="Description" />
+          <Tab icon={<DashboardTwoToneIcon />} label="Layout" />
+          <Tab icon={<ReorderSharpIcon />} label="Lines" />
+          <Tab icon={<HistoryEduTwoToneIcon />} label="Transcription" />
+          <Tab icon={<TableRowsTwoToneIcon />} label="Segmentation" />
+        </Tabs>
+      </Box>
+
       <SwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={value}
@@ -68,6 +102,12 @@ export const ToolSpace = () => {
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           Item Three
+        </TabPanel>
+        <TabPanel value={value} index={3} dir={theme.direction}>
+          Item Four
+        </TabPanel>
+        <TabPanel value={value} index={4} dir={theme.direction}>
+          Item Five
         </TabPanel>
       </SwipeableViews>
     </Box>

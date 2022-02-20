@@ -5,6 +5,7 @@ export const SimpleFullPage = ({
   url,
   width,
   height,
+  onLoaded,
 }: IDisplayFacsimileProps) => {
   return (
     <Image
@@ -14,7 +15,7 @@ export const SimpleFullPage = ({
       layout="intrinsic"
       alt="Page Facsimile"
       priority
-      onLoadingComplete={() => console.log('loading complete')}
+      onLoadingComplete={onLoaded}
     />
   );
 };

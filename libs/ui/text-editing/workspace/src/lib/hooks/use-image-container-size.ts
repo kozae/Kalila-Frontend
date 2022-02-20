@@ -17,32 +17,18 @@ export function useImageContainerSize(
   return useMemo(() => {
     const maxHeight = windowSize.height - navBarHeight - 2 * margin;
     const maxWidth = (Math.min(windowSize.width, 1600) * widthPercentage) / 100;
-    let scaleRatio = 1;
-    if (imageHeight <= maxHeight && imageWidth <= maxWidth) {
-      return {
-        height: imageHeight,
-        width: imageWidth,
-        scaleRatio,
-        imageHeight,
-        imageWidth,
-      };
-    }
-    const imageResolution = imageWidth / imageHeight;
-    const maxResolution = maxWidth / maxHeight;
-    if (maxResolution > imageResolution) {
+    let scaleRatio = 1,
+      height = imageHeight,
+      width = imageWidth;
+    if (imageHeight > maxHeight || imageWidth > maxWidth) {
       scaleRatio = maxHeight / imageHeight;
-      return {
-        height: maxHeight,
-        width: Math.round(imageWidth * scaleRatio),
-        scaleRatio,
-        imageHeight,
-        imageWidth,
-      };
+      width = imageWidth * scaleRatio;
+      height = maxHeight;
     }
-    scaleRatio = maxWidth / imageWidth;
+
     return {
-      height: Math.round(imageHeight * scaleRatio),
-      width: maxWidth,
+      height,
+      width,
       scaleRatio,
       imageHeight,
       imageWidth,
