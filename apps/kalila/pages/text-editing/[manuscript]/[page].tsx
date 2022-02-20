@@ -68,30 +68,21 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  try {
-    const manuscriptId = context.params['manuscript'] as string;
-    const pageId = context.params['page'] as string;
-    console.log({ manuscriptId, pageId });
-    const query = await queryServerSide({
-      siglum: siglum(manuscriptId),
-      allPages: pages(manuscriptId),
-      pageData: pageTranscription(manuscriptId, pageId),
-    });
-    const imageSize = await getImageSize(query.pageData.FacsimileImageUrl);
-    return {
-      props: {
-        ...query,
-        imageSize,
-        manuscriptId,
-      },
-      revalidate: 30,
-    };
-  } catch {
-    return {
-      redirect: {
-        destination: '/404',
-      },
-      props: {},
-    };
-  }
+  const manuscriptId = context.params['manuscript'] as string;
+  const pageId = context.params['page'] as string;
+  console.log({ manuscriptId, pageId });
+  const query = await queryServerSide({
+    siglum: siglum(manuscriptId),
+    allPages: pages(manuscriptId),
+    pageData: pageTranscription(manuscriptId, pageId),
+  });
+  const imageSize = await getImageSize(query.pageData.FacsimileImageUrl);
+  return {
+    props: {
+      ...query,
+      imageSize,
+      manuscriptId,
+    },
+    revalidate: 30,
+  };
 };
