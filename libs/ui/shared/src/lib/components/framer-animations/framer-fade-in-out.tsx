@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import styles from './framer-animations.module.scss';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const FramerFadeInOut: React.FC<{
-  toggle: boolean;
+  visibleWhen: boolean;
   className?: string;
-}> = ({ children, className, toggle }) => {
+  style?: CSSProperties;
+}> = ({ children, className, visibleWhen, style }) => {
   return (
     <AnimatePresence>
-      {toggle && (
+      {visibleWhen && (
         <motion.div
           className={className ?? styles['transition-container']}
+          style={style ?? {}}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

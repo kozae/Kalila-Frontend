@@ -5,18 +5,13 @@ import {
   IToken,
 } from '@frontend/domain';
 import { useAppDispatch } from '../hooks';
-import {
-  clearImageSize,
-  clearPageInfo,
-  loadImageSize,
-  loadPageInfo,
-} from './page-data';
 import { clearUnitSummaries, loadUnitSummaries } from './units-summary';
 import { clearImageElements, loadImageElements } from './image-elements';
 import { clearTextElements, loadTextElements } from './text-elements';
 import { clearLines, loadLines } from './lines';
 import { clearTokens, loadTokens } from './tokens';
 import { useEffect } from 'react';
+import { clearPageData, loadPageData, pageDataLoaded } from './page-data';
 
 export function useTextEditingWorkspaceStore(
   data: IPageTranscription,
@@ -36,18 +31,23 @@ export function useTextEditingWorkspaceStore(
       lines.push(rest);
     });
   });
-  dispatch(loadPageInfo(pageInfo));
-  dispatch(loadImageSize(imageSize));
-  dispatch(loadUnitSummaries(Units));
-  dispatch(loadImageElements(ImageElements));
-  dispatch(loadTextElements(textElements));
-  dispatch(loadLines(lines));
-  dispatch(loadTokens(tokens));
+
+  useEffect(() => {
+    dispatch(loadPageData({ pageInfo, imageSize }));
+    dispatch(loadUnitSummaries(Units));
+    dispatch(loadImageElements(ImageElements));
+    dispatch(loadTextElements(textElements));
+    dispatch(loadLines(lines));
+    dispatch(loadTokens(tokens));
+
+    setTimeout(() => {
+      dispatch(pageDataLoaded());
+    }, 10);
+  }, [data, imageSize]);
 
   useEffect(() => {
     return () => {
-      dispatch(clearPageInfo());
-      dispatch(clearImageSize());
+      dispatch(clearPageData());
       dispatch(clearUnitSummaries());
       dispatch(clearImageElements());
       dispatch(clearTextElements());

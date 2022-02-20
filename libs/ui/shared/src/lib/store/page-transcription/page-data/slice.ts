@@ -1,9 +1,10 @@
-import { IIIFInfo, IPageInfo } from '@frontend/domain';
+import { IPageInfo } from '@frontend/domain';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: {
   pageInfo: IPageInfo;
   imageSize: { Width: number; Height: number };
+  loading: boolean;
 } = {
   imageSize: {
     Height: 0,
@@ -27,29 +28,33 @@ const initialState: {
     TranscriptionFinalized: false,
     Version: undefined,
   },
+  loading: true,
 };
 
 export const pageDataSlice = createSlice({
   name: 'pageData',
   initialState,
   reducers: {
-    loadPageInfo: (state, action: PayloadAction<IPageInfo>) => {
-      state.pageInfo = { ...action.payload };
-    },
-    clearPageInfo: (state) => {
-      state.pageInfo = initialState.pageInfo;
-    },
-    loadImageSize: (
+    loadPageData: (
       state,
-      action: PayloadAction<{ Width: number; Height: number }>
+      action: PayloadAction<{
+        pageInfo: IPageInfo;
+        imageSize: { Width: number; Height: number };
+      }>
     ) => {
-      state.imageSize = { ...action.payload };
+      state.pageInfo = { ...action.payload.pageInfo };
+      state.imageSize = { ...action.payload.imageSize };
     },
-    clearImageSize: (state) => {
-      state.imageSize = initialState.imageSize;
+    pageDataLoaded: (state) => {
+      state.loading = false;
+    },
+    clearPageData: (state) => {
+      console.log('clear page data called');
+      state.pageInfo = initialState.pageInfo;
+      state.loading = true;
     },
   },
 });
 
-export const { loadPageInfo, clearPageInfo, loadImageSize, clearImageSize } =
+export const { loadPageData, clearPageData, pageDataLoaded } =
   pageDataSlice.actions;

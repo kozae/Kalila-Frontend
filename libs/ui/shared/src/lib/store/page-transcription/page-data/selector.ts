@@ -3,6 +3,11 @@ import { createSelector } from '@reduxjs/toolkit';
 
 const selectPageDataState = (state: RootState) => state.pageData;
 
+export const selectPageDataLoadingStatus = createSelector(
+  selectPageDataState,
+  (state) => state.loading
+);
+
 export const selectImageUrl = createSelector(
   selectPageDataState,
   (state) => state.pageInfo.FacsimileImageUrl

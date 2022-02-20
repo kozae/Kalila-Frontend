@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { IDisplayFacsimileProps } from '../models/display-facsimile-props';
+import { IDisplayFacsimileProps } from '../models';
 
 export const SimpleFullPage = ({
   url,
@@ -13,6 +13,7 @@ export const SimpleFullPage = ({
       height={height}
       layout="intrinsic"
       alt="Page Facsimile"
+      priority
     />
   );
 };

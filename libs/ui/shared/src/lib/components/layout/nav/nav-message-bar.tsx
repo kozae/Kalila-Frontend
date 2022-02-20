@@ -43,7 +43,7 @@ export const NavMessageBar: React.FC = () => {
           </motion.p>
         )}
         <FramerFadeInOut
-          toggle={
+          visibleWhen={
             stringHasValue(messages[0]) &&
             commandBar !== undefined &&
             commandBar.name === 'manuscript-pages-paginator'
