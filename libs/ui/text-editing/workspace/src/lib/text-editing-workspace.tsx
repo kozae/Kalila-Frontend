@@ -11,7 +11,14 @@ export function TextEditingWorkspace({ pageData, imageSize }: any) {
   const contextValue = useTextEditingWorkspaceContext();
   return (
     <TextEditingWorkspaceContext.Provider value={contextValue}>
-      <Stack mt="5px" width="100%" direction="row" spacing={1}>
+      <Stack
+        mt="5px"
+        width="100%"
+        direction="row"
+        justifyContent="space-between"
+        alignItems="flex-start"
+        spacing={1}
+      >
         <FacsimileSpace />
         <ToolSpace />
       </Stack>

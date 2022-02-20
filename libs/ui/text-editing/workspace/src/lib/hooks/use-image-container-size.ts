@@ -22,8 +22,13 @@ export function useImageContainerSize(
       width = imageWidth;
     if (imageHeight > maxHeight || imageWidth > maxWidth) {
       scaleRatio = maxHeight / imageHeight;
-      width = imageWidth * scaleRatio;
       height = maxHeight;
+      width = imageWidth * scaleRatio;
+      if (width > maxWidth) {
+        scaleRatio = maxWidth / imageWidth;
+        width = maxWidth;
+        height = (imageHeight * width) / imageWidth;
+      }
     }
 
     return {

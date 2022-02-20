@@ -4,7 +4,13 @@ import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
 import ReorderSharpIcon from '@mui/icons-material/ReorderSharp';
 import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
-import { ReactNode, SyntheticEvent, useContext, useState } from 'react';
+import React, {
+  ReactNode,
+  SyntheticEvent,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import Typography from '@mui/material/Typography';
 import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
 import Box from '@mui/material/Box';
@@ -14,6 +20,8 @@ import {
   ActiveWorkspace,
   TextEditingWorkspaceContext,
 } from '../text-editing-workspace-context';
+import { AnimatePresence, motion } from 'framer-motion';
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -32,6 +40,11 @@ function TabPanel(props: TabPanelProps) {
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
+      style={{
+        width: '100%',
+        height: 'calc(100vh - 110px - 10px - 72px)',
+        backgroundColor: 'red',
+      }}
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
@@ -51,7 +64,9 @@ const TabIndexWorkspaceNameMap: Record<number, ActiveWorkspace> = {
 };
 
 export const ToolSpace = () => {
-  const { setActiveWorkspace } = useContext(TextEditingWorkspaceContext);
+  const { loading, setActiveWorkspace } = useContext(
+    TextEditingWorkspaceContext
+  );
   const [value, setValue] = useState(0);
   const theme = useTheme();
 
@@ -62,8 +77,9 @@ export const ToolSpace = () => {
   const handleChangeIndex = (index: number) => {
     setValue(index);
   };
+
   return (
-    <Box sx={{ width: '55%' }}>
+    <Box sx={{ width: '50%' }}>
       <Box
         sx={{
           width: '100%',
@@ -88,28 +104,68 @@ export const ToolSpace = () => {
           <Tab icon={<TableRowsTwoToneIcon />} label="Segmentation" />
         </Tabs>
       </Box>
-
-      <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
-        </TabPanel>
-        <TabPanel value={value} index={3} dir={theme.direction}>
-          Item Four
-        </TabPanel>
-        <TabPanel value={value} index={4} dir={theme.direction}>
-          Item Five
-        </TabPanel>
-      </SwipeableViews>
+      <AnimatePresence exitBeforeEnter>
+        {loading ? (
+          <motion.div
+            key="facsimile-loading"
+            style={{
+              width: '100%',
+              height: 'calc(100vh - 110px - 10px - 72px)',
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: 'easeIn' }}
+          >
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: 'rgba(153, 153, 153, 0.3)',
+              }}
+            >
+              <CircularProgress size={160} />
+            </Box>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="tool-spaces"
+            style={{
+              width: '100%',
+              height: 'calc(100vh - 110px - 10px - 72px)',
+            }}
+            initial={{ opacity: 0, x: 200 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 200 }}
+            transition={{ duration: 1, ease: 'easeIn' }}
+          >
+            <SwipeableViews
+              axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+              index={value}
+              onChangeIndex={handleChangeIndex}
+            >
+              <TabPanel value={value} index={0} dir={theme.direction}>
+                Item One
+              </TabPanel>
+              <TabPanel value={value} index={1} dir={theme.direction}>
+                Item Two
+              </TabPanel>
+              <TabPanel value={value} index={2} dir={theme.direction}>
+                Item Three
+              </TabPanel>
+              <TabPanel value={value} index={3} dir={theme.direction}>
+                Item Four
+              </TabPanel>
+              <TabPanel value={value} index={4} dir={theme.direction}>
+                Item Five
+              </TabPanel>
+            </SwipeableViews>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Box>
   );
 };
