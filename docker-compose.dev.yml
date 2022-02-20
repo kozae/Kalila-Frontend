@@ -6,6 +6,7 @@ services:
     container_name: kalila-frontend
     image: docker.kozae.de/kalila-frontend:dev
     volumes:
+      - /root/Kalila/volumes/assets:/images
       - /root/Kalila/next/frontend:/frontend
       - /frontend/node_modules
     env_file:

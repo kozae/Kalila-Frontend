@@ -6,7 +6,7 @@ import {
   pages,
   pageTranscription,
   sigla,
-  getImageInfo,
+  getImageSize,
 } from '@frontend/server-side-queries';
 import Head from 'next/head';
 import React from 'react';
@@ -22,7 +22,7 @@ export function EditPage({
   manuscriptId,
   pageData,
   allPages,
-  imageInfo,
+  imageSize,
 }) {
   const messages = pageTitle(siglum);
   const router = useRouter();
@@ -40,7 +40,7 @@ export function EditPage({
       <Head>
         <title>{messages.join(' ') + ` (${pageData.Number})`}</title>
       </Head>
-      {/*<TextEditingWorkspace pageData={pageData} imageInfo={imageInfo} />*/}
+      <TextEditingWorkspace pageData={pageData} imageSize={imageSize} />
     </>
   );
 }
@@ -63,7 +63,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 };
 
@@ -77,11 +77,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
       allPages: pages(manuscriptId),
       pageData: pageTranscription(manuscriptId, pageId),
     });
-    // const imageInfo = await getImageInfo(query.pageData.FacsimileImageUrl);
+    const imageSize = await getImageSize(query.pageData.FacsimileImageUrl);
     return {
       props: {
         ...query,
-        // imageInfo,
+        imageSize,
         manuscriptId,
       },
       revalidate: 30,

@@ -12,8 +12,8 @@ import { SimpleFullPage } from '@frontend/ui/facsimile';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useImageContainerSize } from './hooks/use-image-container-size';
 
-export function TextEditingWorkspace({ pageData, imageInfo }: any) {
-  useTextEditingWorkspaceStore(pageData, imageInfo);
+export function TextEditingWorkspace({ pageData, imageSize }: any) {
+  useTextEditingWorkspaceStore(pageData, imageSize);
   const imageUrl = useAppSelector(selectImageUrl);
   const containerSize = useImageContainerSize();
   return (

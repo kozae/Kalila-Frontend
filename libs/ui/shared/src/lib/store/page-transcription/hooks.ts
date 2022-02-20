@@ -21,7 +21,7 @@ import { useEffect } from 'react';
 
 export function useTextEditingWorkspaceStore(
   data: IPageTranscription,
-  imageInfo: IIIFInfo
+  imageSize: { width: number; height: number }
 ) {
   const dispatch = useAppDispatch();
   const { TextElements, ImageElements, Units, ...pageInfo } = data;
@@ -38,7 +38,7 @@ export function useTextEditingWorkspaceStore(
     });
   });
   dispatch(loadPageInfo(pageInfo));
-  dispatch(loadImageInfo(imageInfo));
+  dispatch(loadImageInfo(imageSize));
   dispatch(loadUnitSummaries(Units));
   dispatch(loadImageElements(ImageElements));
   dispatch(loadTextElements(textElements));
