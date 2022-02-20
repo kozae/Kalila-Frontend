@@ -77,11 +77,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
       allPages: pages(manuscriptId),
       pageData: pageTranscription(manuscriptId, pageId),
     });
-    const imageInfo = await getImageInfo(query.pageData.FacsimileImageUrl);
+    // const imageInfo = await getImageInfo(query.pageData.FacsimileImageUrl);
     return {
       props: {
         ...query,
-        imageInfo,
+        // imageInfo,
         manuscriptId,
       },
       revalidate: 30,
