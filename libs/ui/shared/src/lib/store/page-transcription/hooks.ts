@@ -1,5 +1,4 @@
 import {
-  IIIFInfo,
   ILine,
   IPageTranscription,
   ITextElement,
@@ -7,9 +6,9 @@ import {
 } from '@frontend/domain';
 import { useAppDispatch } from '../hooks';
 import {
-  clearImageInfo,
+  clearImageSize,
   clearPageInfo,
-  loadImageInfo,
+  loadImageSize,
   loadPageInfo,
 } from './page-data';
 import { clearUnitSummaries, loadUnitSummaries } from './units-summary';
@@ -38,7 +37,7 @@ export function useTextEditingWorkspaceStore(
     });
   });
   dispatch(loadPageInfo(pageInfo));
-  dispatch(loadImageInfo(imageSize));
+  dispatch(loadImageSize(imageSize));
   dispatch(loadUnitSummaries(Units));
   dispatch(loadImageElements(ImageElements));
   dispatch(loadTextElements(textElements));
@@ -48,7 +47,7 @@ export function useTextEditingWorkspaceStore(
   useEffect(() => {
     return () => {
       dispatch(clearPageInfo());
-      dispatch(clearImageInfo());
+      dispatch(clearImageSize());
       dispatch(clearUnitSummaries());
       dispatch(clearImageElements());
       dispatch(clearTextElements());

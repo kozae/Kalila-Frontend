@@ -1,15 +1,12 @@
 import { IIIFInfo, IPageInfo } from '@frontend/domain';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: { pageInfo: IPageInfo; imageInfo: IIIFInfo } = {
-  imageInfo: {
-    context: '',
+const initialState: {
+  pageInfo: IPageInfo;
+  imageSize: { width: number; height: number };
+} = {
+  imageSize: {
     height: 0,
-    id: '',
-    profile: [],
-    protocol: '',
-    sizes: [],
-    tiles: [],
     width: 0,
   },
   pageInfo: {
@@ -42,14 +39,14 @@ export const pageDataSlice = createSlice({
     clearPageInfo: (state) => {
       state.pageInfo = initialState.pageInfo;
     },
-    loadImageInfo: (state, action: PayloadAction<IIIFInfo>) => {
-      state.imageInfo = { ...action.payload };
+    loadImageSize: (state, action: PayloadAction<IIIFInfo>) => {
+      state.imageSize = { ...action.payload };
     },
-    clearImageInfo: (state) => {
-      state.imageInfo = initialState.imageInfo;
+    clearImageSize: (state) => {
+      state.imageSize = initialState.imageSize;
     },
   },
 });
 
-export const { loadPageInfo, clearPageInfo, loadImageInfo, clearImageInfo } =
+export const { loadPageInfo, clearPageInfo, loadImageSize, clearImageSize } =
   pageDataSlice.actions;
