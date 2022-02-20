@@ -42,7 +42,7 @@ export function useTextEditingWorkspaceStore(
 
     setTimeout(() => {
       dispatch(pageDataLoaded());
-    }, 10);
+    }, 1000);
   }, [data, imageSize]);
 
   useEffect(() => {
