@@ -24,16 +24,15 @@ export function EditPage({
   allPages,
   imageSize,
 }) {
-  const messages = pageTitle(siglum);
   const router = useRouter();
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+  const messages = pageTitle(siglum);
   useNavbarMessage(messages, undefined, {
     name: 'manuscript-pages-paginator',
     data: { allPages, manuscriptId, current: pageData.Number },
   });
-
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <>
