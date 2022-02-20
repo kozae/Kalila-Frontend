@@ -63,20 +63,25 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const manuscriptId = context.params['manuscript'] as string;
   const pageId = context.params['page'] as string;
-  console.log({ manuscriptId, pageId });
   const query = await queryServerSide({
     siglum: siglum(manuscriptId),
     allPages: pages(manuscriptId),
     pageData: pageTranscription(manuscriptId, pageId),
   });
   const imageSize = await getImageSize(query.pageData.FacsimileImageUrl);
+  console.log({
+    manuscriptId,
+    pageId,
+    siglum: query.siglum,
+    number: query.pageData.Number,
+  });
   console.log({ imageSize });
   return {
     props: {
