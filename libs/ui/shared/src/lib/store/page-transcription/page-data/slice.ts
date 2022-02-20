@@ -3,11 +3,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: {
   pageInfo: IPageInfo;
-  imageSize: { width: number; height: number };
+  imageSize: { Width: number; Height: number };
 } = {
   imageSize: {
-    height: 0,
-    width: 0,
+    Height: 0,
+    Width: 0,
   },
   pageInfo: {
     AdditionalCommentary: '',
@@ -39,7 +39,10 @@ export const pageDataSlice = createSlice({
     clearPageInfo: (state) => {
       state.pageInfo = initialState.pageInfo;
     },
-    loadImageSize: (state, action: PayloadAction<IIIFInfo>) => {
+    loadImageSize: (
+      state,
+      action: PayloadAction<{ Width: number; Height: number }>
+    ) => {
       state.imageSize = { ...action.payload };
     },
     clearImageSize: (state) => {

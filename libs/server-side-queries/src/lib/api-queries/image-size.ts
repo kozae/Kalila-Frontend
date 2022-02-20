@@ -1,10 +1,10 @@
-import { promisify } from 'util';
-import imageSize from 'image-size';
-
-const sizeOf = promisify(imageSize);
-
-const imageRoot = process.env.IMAGE_ROOT ?? '/root/Kalila/volumes/assets';
-
-export async function getImageSize(url: string) {
-  return await sizeOf('/root/Kalila/volumes/assets' + url);
+import axios from 'axios';
+export async function getImageSize(path: string) {
+  const { data } = await axios.get('http://web:5503/server/web/ImageSize', {
+    headers: {
+      Accept: 'application/json',
+    },
+    params: { path },
+  });
+  return data;
 }

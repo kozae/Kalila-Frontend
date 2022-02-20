@@ -10,9 +10,9 @@ export const selectImageUrl = createSelector(
 
 export const selectImageWidth = createSelector(
   selectPageDataState,
-  (state) => state.imageSize.width
+  (state) => state.imageSize.Width
 );
 export const selectImageHeight = createSelector(
   selectPageDataState,
-  (state) => state.imageSize.height
+  (state) => state.imageSize.Height
 );
