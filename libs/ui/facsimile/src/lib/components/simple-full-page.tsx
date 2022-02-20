@@ -14,6 +14,7 @@ export const SimpleFullPage = ({
       layout="intrinsic"
       alt="Page Facsimile"
       priority
+      onLoadingComplete={() => console.log('loading complete')}
     />
   );
 };
