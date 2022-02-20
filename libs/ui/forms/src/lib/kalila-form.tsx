@@ -1,4 +1,4 @@
-import { DataEntrySchema } from '@frontend/util';
+import { IDataEntrySchema } from '@frontend/util';
 import { AnySchema } from 'yup/lib/schema';
 import { ObjectSchema } from 'yup';
 import { useFormik } from 'formik';
@@ -9,7 +9,7 @@ import { createFormField } from './create-form-field';
 
 export interface IKalilaFormProps<T extends KalilaDocument> {
   initialValues: T;
-  fields: DataEntrySchema[];
+  fields: IDataEntrySchema[];
   categoricalAttributes: Record<string, string[]>;
   editors: IEditor[];
   formClass: string;

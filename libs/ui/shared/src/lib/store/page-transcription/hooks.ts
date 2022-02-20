@@ -1,11 +1,17 @@
 import {
+  IIIFInfo,
   ILine,
   IPageTranscription,
   ITextElement,
   IToken,
 } from '@frontend/domain';
 import { useAppDispatch } from '../hooks';
-import { clearPageInfo, loadPageInfo } from './page-info';
+import {
+  clearImageInfo,
+  clearPageInfo,
+  loadImageInfo,
+  loadPageInfo,
+} from './page-data';
 import { clearUnitSummaries, loadUnitSummaries } from './units-summary';
 import { clearImageElements, loadImageElements } from './image-elements';
 import { clearTextElements, loadTextElements } from './text-elements';
@@ -13,7 +19,10 @@ import { clearLines, loadLines } from './lines';
 import { clearTokens, loadTokens } from './tokens';
 import { useEffect } from 'react';
 
-export function useTextEditingWorkspaceStore(data: IPageTranscription) {
+export function useTextEditingWorkspaceStore(
+  data: IPageTranscription,
+  imageInfo: IIIFInfo
+) {
   const dispatch = useAppDispatch();
   const { TextElements, ImageElements, Units, ...pageInfo } = data;
   const textElements: Omit<ITextElement, 'Lines'>[] = [];
@@ -29,6 +38,7 @@ export function useTextEditingWorkspaceStore(data: IPageTranscription) {
     });
   });
   dispatch(loadPageInfo(pageInfo));
+  dispatch(loadImageInfo(imageInfo));
   dispatch(loadUnitSummaries(Units));
   dispatch(loadImageElements(ImageElements));
   dispatch(loadTextElements(textElements));
@@ -38,6 +48,7 @@ export function useTextEditingWorkspaceStore(data: IPageTranscription) {
   useEffect(() => {
     return () => {
       dispatch(clearPageInfo());
+      dispatch(clearImageInfo());
       dispatch(clearUnitSummaries());
       dispatch(clearImageElements());
       dispatch(clearTextElements());

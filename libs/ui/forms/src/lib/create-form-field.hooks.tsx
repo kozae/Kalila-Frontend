@@ -1,21 +1,21 @@
-import { DataEntrySchema } from '@frontend/util';
+import { IDataEntrySchema } from '@frontend/util';
 import InputLabel from '@mui/material/InputLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import React from 'react';
 
-const useFormControlProps = (field: DataEntrySchema, errors: any) => ({
+const useFormControlProps = (field: IDataEntrySchema, errors: any) => ({
   sx: { m: '1rem', width: '100%', typography: 'body1' },
   error: errors[field.FieldNamePascalCase] !== undefined,
 });
 
-const useCommonInputProps = (field: DataEntrySchema, handleBlur: any) => ({
+const useCommonInputProps = (field: IDataEntrySchema, handleBlur: any) => ({
   name: field.FieldNamePascalCase,
   label: field.FieldDisplay,
   onBlur: handleBlur,
 });
 
 export const useCommonFieldProps = (
-  field: DataEntrySchema,
+  field: IDataEntrySchema,
   errors: any,
   handleBlur: any,
   labelId: string,

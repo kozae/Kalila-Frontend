@@ -1,4 +1,5 @@
 export * from './kalila-document';
+export * from './iiif-info';
 export * from './categorical-attribute';
 export * from './manuscript-description';
 export * from './manuscript-description-admin';

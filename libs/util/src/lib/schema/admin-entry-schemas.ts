@@ -1,21 +1,21 @@
-import {DataEntrySchema} from "@frontend/util";
+import { IDataEntrySchema } from '@frontend/util';
 
-export const editorEntrySchema: DataEntrySchema = {
-  DocumentName: "",
-  FieldDisplay: "Editor",
-  FieldName: "editor",
-  FieldNamePascalCase: "Editor",
+export const editorEntrySchema: IDataEntrySchema = {
+  DocumentName: '',
+  FieldDisplay: 'Editor',
+  FieldName: 'editor',
+  FieldNamePascalCase: 'Editor',
   InputMode: 3,
   KalilaValueType: 0,
-  CategoricalAttributeType: "Editors",
-}
+  CategoricalAttributeType: 'Editors',
+};
 
-export const editionProgressEntrySchema: DataEntrySchema = {
-  DocumentName: "",
-  FieldDisplay: "Edition Progress",
-  FieldName: "edition progress",
-  FieldNamePascalCase: "EditionProgress",
+export const editionProgressEntrySchema: IDataEntrySchema = {
+  DocumentName: '',
+  FieldDisplay: 'Edition Progress',
+  FieldName: 'edition progress',
+  FieldNamePascalCase: 'EditionProgress',
   InputMode: 3,
   KalilaValueType: 0,
-  CategoricalAttributeType: "EditionProgress",
-}
+  CategoricalAttributeType: 'EditionProgress',
+};

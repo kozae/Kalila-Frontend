@@ -1,19 +1,26 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { IToken } from '@frontend/domain';
 
-export const tokenAdapter = createEntityAdapter<IToken>({
-  selectId: (doc) => doc._id,
+export interface IAttribute {
+  DocAndField: string;
+  Field: string;
+  Options: string[];
+}
+
+export const attributesAdapter = createEntityAdapter<IAttribute>({
+  selectId: (doc) => doc.DocAndField,
 });
 
-const initialState = tokenAdapter.getInitialState();
+const initialState = attributesAdapter.getInitialState();
 
-export const tokenSlice = createSlice({
-  name: 'tokens',
+export const attributesSlice = createSlice({
+  name: 'attributes',
   initialState,
   reducers: {
-    loadTokens: tokenAdapter.setAll,
-    clearTokens: tokenAdapter.removeAll,
+    loadAttributes: attributesAdapter.setAll,
+    addAttributes: attributesAdapter.addMany,
+    clearAttributes: attributesAdapter.removeAll,
   },
 });
 
-export const { loadTokens, clearTokens } = tokenSlice.actions;
+export const { loadAttributes, addAttributes, clearAttributes } =
+  attributesSlice.actions;

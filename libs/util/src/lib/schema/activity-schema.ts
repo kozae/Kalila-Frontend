@@ -1,6 +1,6 @@
-import { DataEntrySchema } from './data-entry-schema';
+import { IDataEntrySchema } from './data-entry-schema';
 
 export interface ActivitySchema {
-  Fields: DataEntrySchema[];
-  CategoricalAttributes: Record<string, string[]>;
+  Fields: IDataEntrySchema[];
+  CategoricalAttributes: Record<string, any[]>;
 }

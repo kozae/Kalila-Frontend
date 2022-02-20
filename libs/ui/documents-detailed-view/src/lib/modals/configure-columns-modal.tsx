@@ -8,7 +8,7 @@ import {
 } from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
 import React, { useMemo } from 'react';
-import { DataEntrySchema, InputModes, stringHasValue } from '@frontend/util';
+import { IDataEntrySchema, InputModes, stringHasValue } from '@frontend/util';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { SxProps } from '@mui/system/styleFunctionSx';
@@ -23,7 +23,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 export interface IConfigureColumnsModalProps {
   isOpen: boolean;
   excludedColumns: Set<string>;
-  fields: DataEntrySchema[];
+  fields: IDataEntrySchema[];
   onDismiss: () => void;
   includeColumns: (value: string[]) => void;
   excludeColumns: (value: string[]) => void;

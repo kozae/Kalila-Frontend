@@ -1,8 +1,4 @@
-import {
-  useNavbarMessage,
-  useTextEditingWorkspaceStore,
-  withTransition,
-} from '@frontend/shared-ui';
+import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import {
   queryServerSide,
@@ -10,31 +6,35 @@ import {
   pages,
   pageTranscription,
   sigla,
+  getImageInfo,
 } from '@frontend/server-side-queries';
 import Head from 'next/head';
 import React from 'react';
+import { TextEditingWorkspace } from '@frontend/ui/text-editing/workspace';
 
 function pageTitle(siglum: string): [string, string] {
   return ['Text Editing:', `Pages of ${siglum}`];
 }
 
-export function EditPage({ siglum, manuscriptId, pageData, allPages }) {
+export function EditPage({
+  siglum,
+  manuscriptId,
+  pageData,
+  allPages,
+  imageInfo,
+}) {
   const messages = pageTitle(siglum);
   useNavbarMessage(messages, undefined, {
     name: 'manuscript-pages-paginator',
     data: { allPages, manuscriptId, current: pageData.Number },
   });
-  useTextEditingWorkspaceStore(pageData);
+
   return (
     <>
       <Head>
         <title>{messages.join(' ') + ` (${pageData.Number})`}</title>
       </Head>
-      <div>
-        <h1>
-          {siglum}, {pageData.Number}
-        </h1>
-      </div>
+      <TextEditingWorkspace pageData={pageData} imageInfo={imageInfo} />
     </>
   );
 }
@@ -71,9 +71,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
       allPages: pages(manuscriptId),
       pageData: pageTranscription(manuscriptId, pageId),
     });
+    const imageInfo = await getImageInfo(query.pageData.FacsimileImageUrl);
     return {
       props: {
         ...query,
+        imageInfo,
         manuscriptId,
       },
       revalidate: 30,

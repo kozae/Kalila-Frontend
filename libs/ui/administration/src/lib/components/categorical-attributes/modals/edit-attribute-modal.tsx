@@ -1,5 +1,5 @@
 import { CategoricalAttribute } from '@frontend/domain';
-import { DataEntrySchema } from '@frontend/util';
+import { IDataEntrySchema } from '@frontend/util';
 import { SxProps } from '@mui/system/styleFunctionSx';
 import {
   IAdminPageContext,
@@ -23,7 +23,7 @@ import SaveIcon from '@mui/icons-material/Save';
 export interface IEditAttributeModalProps {
   initialValues: CategoricalAttribute;
   isOpen: boolean;
-  optionFieldSchema: DataEntrySchema;
+  optionFieldSchema: IDataEntrySchema;
   onDismiss: () => void;
   onSubmit:
     | ((doc: CategoricalAttribute) => void)

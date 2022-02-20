@@ -2,12 +2,12 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import React from 'react';
-import { DataEntrySchema, editionProgressOptions } from '@frontend/util';
+import { IDataEntrySchema, editionProgressOptions } from '@frontend/util';
 import { IEditor } from '@frontend/shared-ui';
 import { ICommonFieldProps } from './common-field-props';
 
 interface IInputOneStringProps extends ICommonFieldProps {
-  field: DataEntrySchema;
+  field: IDataEntrySchema;
   categoricalAttributes: Record<string, string[]>;
   editors: IEditor[];
   setFieldValue: any;

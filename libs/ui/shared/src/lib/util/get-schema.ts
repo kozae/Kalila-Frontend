@@ -1,7 +1,7 @@
 import useSWRImmutable from 'swr/immutable';
 import {
   ActivitySchema,
-  DataEntrySchema,
+  IDataEntrySchema,
   fetcher,
   InputModes,
   IPagination,
@@ -51,11 +51,11 @@ export function getSchemaWithClientSideFilter(
   return useMemo(() => {
     if (schema.data?.content) {
       const topField = schema.data.content.Fields.find(
-        (f: DataEntrySchema) => f.TopField
-      ) as DataEntrySchema;
+        (f: IDataEntrySchema) => f.TopField
+      ) as IDataEntrySchema;
       if (Object.keys(schemaFilter).length !== 0) {
         const fields = schema.data.content.Fields.filter(
-          (f: DataEntrySchema) =>
+          (f: IDataEntrySchema) =>
             f.InputMode !== 15 && f.FieldGroup === schemaFilter.FieldGroup
         );
         return {

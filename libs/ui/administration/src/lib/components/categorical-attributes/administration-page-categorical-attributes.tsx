@@ -36,7 +36,7 @@ import { AlertColor } from '@mui/material/Alert/Alert';
 import Stack from '@mui/material/Stack';
 import {
   ActivitySchema,
-  DataEntrySchema,
+  IDataEntrySchema,
   defaultPagination,
   InputModes,
   KalilaValueTypes,
@@ -212,7 +212,7 @@ export const AdministrationPageCategoricalAttributes: React.FC = () => {
             optionFieldSchema={
               schema.Fields.find(
                 (f: any) => f.FieldNamePascalCase === 'Option'
-              ) as DataEntrySchema
+              ) as IDataEntrySchema
             }
             onDismiss={() => hideEditModal()}
             onSubmit={handleUpdate}

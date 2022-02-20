@@ -1,18 +1,22 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { pagedDocsSlice } from './paged-documents';
 import { sessionSlice } from './session';
-import { pageInfoSlice } from './page-transcription/page-info';
+import { pageDataSlice } from './page-transcription/page-data';
 import { imageElementsSlice } from './page-transcription/image-elements';
 import { linesSlice } from './page-transcription/lines';
 import { textElementsSlice } from './page-transcription/text-elements';
 import { tokenSlice } from './page-transcription/tokens';
 import { unitSummariesSlice } from './page-transcription/units-summary';
+import { attributesSlice } from './schema/attributes';
+import { fieldsSlice } from './schema/fields';
 
 export const store = configureStore({
   reducer: {
-    [pagedDocsSlice.name]: pagedDocsSlice.reducer,
     [sessionSlice.name]: sessionSlice.reducer,
-    [pageInfoSlice.name]: pageInfoSlice.reducer,
+    [fieldsSlice.name]: fieldsSlice.reducer,
+    [attributesSlice.name]: attributesSlice.reducer,
+    [pagedDocsSlice.name]: pagedDocsSlice.reducer,
+    [pageDataSlice.name]: pageDataSlice.reducer,
     [imageElementsSlice.name]: imageElementsSlice.reducer,
     [linesSlice.name]: linesSlice.reducer,
     [textElementsSlice.name]: textElementsSlice.reducer,

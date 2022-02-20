@@ -7,7 +7,9 @@ import {
   useDocumentDetailedViewContext,
 } from './documents-detailed-view.context';
 import {
-  getSchemaWithClientSideFilter,
+  selectAttributes,
+  selectFields,
+  useAppSelector,
   useBoolean,
   usePagedDocumentsDispatch,
   usePagedDocumentsState,
@@ -61,12 +63,10 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
   const { loading, documents, pagination, selection, filter } =
     usePagedDocumentsState(cls);
   const dispatchers = usePagedDocumentsDispatch();
-  const schema = getSchemaWithClientSideFilter(
-    activityName,
-    schemaFilter ?? {}
-  );
+  const fields = useAppSelector(selectFields(schemaFilter));
+  const attributes = useAppSelector(selectAttributes);
 
-  const tableSchema = useTableSchema(schema, excludedColumns);
+  const tableSchema = useTableSchema(fields, excludedColumns);
 
   const columns: ReadonlyArray<Column<T>> = useMemo(() => {
     const defs = columnsDefsFrom(tableSchema);
@@ -111,11 +111,11 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
         }
         columns={columns}
         loading={loading ?? false}
-        categoricalAttributes={schema?.CategoricalAttributes}
+        categoricalAttributes={attributes}
       />
       <ConfigureColumnsModal
         isOpen={isConfigureColumnsModalOpen}
-        fields={schema?.Fields ?? []}
+        fields={fields}
         onDismiss={hideConfigureColumnsModal}
         excludedColumns={excludedColumns}
         includeColumns={includeColumns}

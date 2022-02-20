@@ -1,4 +1,4 @@
-import { DataEntrySchema, InputModes, KalilaValueTypes } from '@frontend/util';
+import { IDataEntrySchema, InputModes, KalilaValueTypes } from '@frontend/util';
 import { IEditor } from '@frontend/shared-ui';
 import React from 'react';
 import {
@@ -10,7 +10,7 @@ import {
 import { useCommonFieldProps } from './create-form-field.hooks';
 
 export function createFormField(
-  field: DataEntrySchema,
+  field: IDataEntrySchema,
   categoricalAttributes: Record<string, string[]>,
   editors: IEditor[],
   { errors, handleChange, handleBlur, setFieldValue, values }: any

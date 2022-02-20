@@ -2,7 +2,7 @@ import { InputModes } from './input-modes';
 import { KalilaValueTypes } from './value-type';
 import { KalilaRelationType } from './relation-type';
 
-export interface DataEntrySchema {
+export interface IDataEntrySchema {
   DocumentName: string;
   FieldGroup?: string;
   FieldCategory?: string;

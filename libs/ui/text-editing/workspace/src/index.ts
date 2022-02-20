@@ -1,1 +1,1 @@
-export * from './lib/ui-text-editing-workspace';
+export * from './lib/text-editing-workspace';

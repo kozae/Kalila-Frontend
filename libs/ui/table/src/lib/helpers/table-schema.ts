@@ -1,6 +1,6 @@
 import {
   ActivitySchema,
-  DataEntrySchema,
+  IDataEntrySchema,
   stringHasValue,
 } from '@frontend/util';
 import * as lodash from 'lodash';
@@ -8,16 +8,16 @@ import { fetchSchema } from '@frontend/shared-ui';
 import { useMemo } from 'react';
 
 export interface ITableSchema {
-  topField: DataEntrySchema;
-  categories: Record<string, DataEntrySchema[]>;
-  fields: DataEntrySchema[];
+  topField: IDataEntrySchema;
+  categories: Record<string, IDataEntrySchema[]>;
+  fields: IDataEntrySchema[];
 }
 
 export function getTableSchema(
-  fields: DataEntrySchema[],
+  fields: IDataEntrySchema[],
   excludedColumns: Set<string>
 ): ITableSchema {
-  const topField = fields.find((f) => f.TopField) as DataEntrySchema;
+  const topField = fields.find((f) => f.TopField) as IDataEntrySchema;
   const categories = lodash.groupBy(
     fields.filter(
       (f) =>
@@ -37,11 +37,11 @@ export function getTableSchema(
 }
 
 export function useTableSchema(
-  schema: ActivitySchema,
+  fields: IDataEntrySchema[],
   excludedColumns: Set<string> = new Set<string>()
 ) {
   return useMemo(
-    () => (schema ? getTableSchema(schema?.Fields, excludedColumns) : null),
-    [schema, excludedColumns]
+    () => getTableSchema(fields, excludedColumns),
+    [fields.length, excludedColumns]
   );
 }
