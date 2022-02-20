@@ -11,7 +11,7 @@ import {
 import Head from 'next/head';
 import React from 'react';
 import { TextEditingWorkspace } from '@frontend/ui/text-editing/workspace';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 function pageTitle(siglum: string): [string, string] {
   return ['Text Editing:', `Pages of ${siglum}`];
@@ -40,7 +40,7 @@ export function EditPage({
       <Head>
         <title>{messages.join(' ') + ` (${pageData.Number})`}</title>
       </Head>
-      <TextEditingWorkspace pageData={pageData} imageInfo={imageInfo} />
+      {/*<TextEditingWorkspace pageData={pageData} imageInfo={imageInfo} />*/}
     </>
   );
 }
