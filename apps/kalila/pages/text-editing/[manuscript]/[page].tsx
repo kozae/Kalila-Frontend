@@ -77,6 +77,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     pageData: pageTranscription(manuscriptId, pageId),
   });
   const imageSize = await getImageSize(query.pageData.FacsimileImageUrl);
+  console.log({ imageSize });
   return {
     props: {
       ...query,
