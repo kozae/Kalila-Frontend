@@ -1,10 +1,5 @@
 import React, { CSSProperties, useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
-import {
-  useFabricJSEditor,
-  FabricJSEditor,
-  FabricJSEditorHook,
-} from './editor';
 import { ICanvasOptions } from 'fabric/fabric-impl';
 
 export interface Props {
@@ -43,5 +38,3 @@ const FabricCanvas = ({ style, options, width, height, onReady }: Props) => {
     </div>
   );
 };
-
-export { FabricJSEditor, FabricCanvas, FabricJSEditorHook, useFabricJSEditor };
