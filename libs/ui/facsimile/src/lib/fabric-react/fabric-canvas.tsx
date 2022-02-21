@@ -2,7 +2,7 @@ import React, { CSSProperties, useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
 import { ICanvasOptions } from 'fabric/fabric-impl';
 
-export interface Props {
+export interface IFabricCanvasProps {
   style?: CSSProperties;
   onReady?: (canvas: fabric.Canvas) => void;
   options?: ICanvasOptions;
@@ -19,11 +19,10 @@ export const FabricCanvas = ({
   width,
   height,
   onReady,
-}: Props) => {
+}: IFabricCanvasProps) => {
   const canvasEl = useRef(null);
   const canvasElParent = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    console.log('creating canvas');
     const canvas = new fabric.Canvas(canvasEl.current, options ?? {});
 
     if (onReady) {
@@ -32,7 +31,6 @@ export const FabricCanvas = ({
 
     return () => {
       canvas.dispose();
-      console.log('canvas disposed');
     };
   }, []);
   return (

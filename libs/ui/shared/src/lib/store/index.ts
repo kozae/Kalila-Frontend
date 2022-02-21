@@ -4,6 +4,7 @@ export * from './schema/fields';
 export * from './schema/attributes';
 export * from './page-transcription';
 export * from './page-transcription/page-data';
+export * from './page-transcription/lines';
 export * from './paged-documents';
 export * from './config';
 export * from './hooks';

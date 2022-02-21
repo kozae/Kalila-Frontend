@@ -1,5 +1,6 @@
 export * from './lib/check-value-factory';
 export * from './lib/clean-object';
+export * from './lib/color.util';
 export * from './lib/fetcher';
 export * from './lib/get-session-swr';
 export * from './lib/media-types';

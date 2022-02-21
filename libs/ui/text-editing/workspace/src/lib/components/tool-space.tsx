@@ -4,13 +4,7 @@ import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
 import ReorderSharpIcon from '@mui/icons-material/ReorderSharp';
 import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
-import React, {
-  ReactNode,
-  SyntheticEvent,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { ReactNode, SyntheticEvent, useContext, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
 import Box from '@mui/material/Box';
@@ -22,6 +16,7 @@ import {
 } from '../text-editing-workspace-context';
 import { AnimatePresence, motion } from 'framer-motion';
 import CircularProgress from '@mui/material/CircularProgress';
+import { kalilaTheme } from '@frontend/shared-ui';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -43,7 +38,7 @@ function TabPanel(props: TabPanelProps) {
       style={{
         width: '100%',
         height: 'calc(100vh - 110px - 10px - 72px)',
-        backgroundColor: 'red',
+        backgroundColor: kalilaTheme.palette.primary.light,
       }}
     >
       {value === index && (
