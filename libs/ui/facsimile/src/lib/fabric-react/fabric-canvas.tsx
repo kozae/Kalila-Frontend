@@ -13,7 +13,13 @@ export interface Props {
 /**
  * Fabric canvas as component
  */
-const FabricCanvas = ({ style, options, width, height, onReady }: Props) => {
+export const FabricCanvas = ({
+  style,
+  options,
+  width,
+  height,
+  onReady,
+}: Props) => {
   const canvasEl = useRef(null);
   const canvasElParent = useRef<HTMLDivElement>(null);
   useEffect(() => {
