@@ -2,6 +2,7 @@ import { IFacsimileRegion } from '@frontend/domain';
 import { renderLayoutWorkspace } from './render-layout-workspace';
 import { IFacsimileCanvasProps } from '../facsimile-canvas';
 import { fabric } from 'fabric';
+import { renderLinesWorkspace } from './render-lines-workspace';
 
 export type WorkspaceProcedureProps = Omit<
   IFacsimileCanvasProps,
@@ -9,6 +10,7 @@ export type WorkspaceProcedureProps = Omit<
 > & {
   canvas: fabric.Canvas;
   regions: Array<IFacsimileRegion & { Id: string }>;
+  handleHover: (e: any) => void;
 };
 
 export function workspaceProcedure({
@@ -18,6 +20,10 @@ export function workspaceProcedure({
   switch (activeWorkspace) {
     case 'layout':
       renderLayoutWorkspace(props);
+      return;
+    case 'lines':
+    case 'transcription':
+      renderLinesWorkspace(props);
       return;
     default:
       return;

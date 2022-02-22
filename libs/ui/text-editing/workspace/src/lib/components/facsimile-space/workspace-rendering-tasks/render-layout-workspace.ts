@@ -1,9 +1,12 @@
 import { IFacsimileCanvasProps } from '../facsimile-canvas';
 import { IFacsimileRegion } from '@frontend/domain';
 import { fabric } from 'fabric';
-import { highlightColors } from '@frontend/ui/facsimile';
-import { PolygonHelper } from '../../../../../../../facsimile/src/lib/helpers/polygon.helper';
-import { hexToRgba } from '@frontend/util';
+import {
+  AngleHelper,
+  drawRegions,
+  PolygonHelper,
+} from '@frontend/ui/facsimile';
+import { orderBy } from 'lodash';
 
 export type LayoutProcedureProps = Omit<
   IFacsimileCanvasProps,
@@ -11,41 +14,59 @@ export type LayoutProcedureProps = Omit<
 > & {
   canvas: fabric.Canvas;
   regions: Array<IFacsimileRegion & { Id: string }>;
+  handleHover: (e: any) => void;
 };
 
 export function renderLayoutWorkspace({
   canvas,
   regions,
   scaleRatio,
+  handleHover,
+  url,
 }: LayoutProcedureProps) {
   console.log('rendering layout');
-  // set polygons
-  const polygons: Record<string, fabric.Polygon> = {};
-  regions.forEach((region, i) => {
-    const points = region.Points.map(({ X, Y }) => ({ x: X, y: Y }));
-    console.log(region);
-    polygons[region.Id] = new fabric.Polygon(points, {
-      angle: region.Rotation,
-      fill: '',
-      stroke: highlightColors[i],
-      strokeWidth: 3,
-      data: { ...region, Points: points },
-    });
-  });
-  // scale polygons
-  const scale = (x: number) => x * scaleRatio;
-  Object.entries(polygons).forEach(([id, { data }], i) => {
-    polygons[id] = new fabric.Polygon(PolygonHelper.scale(data.Points, scale), {
-      fill: hexToRgba(highlightColors[i], 0.2),
-      stroke: highlightColors[i],
-      strokeWidth: 2,
-      selectable: false,
-      hasControls: false,
-      hoverCursor: 'default',
-      data: data,
-    });
-  });
+  const polygons = drawRegions(canvas, regions, scaleRatio);
 
-  // draw
-  Object.values(polygons).forEach((p) => canvas.add(p));
+  fabric.Image.fromURL(url, (img: fabric.Image) => {
+    polygons.forEach((p) => {
+      p.on('mouseover', (e) => {
+        const points = PolygonHelper.orderPoints(p.data.Points);
+        img.set({
+          clipPath: new fabric.Polygon(points, {
+            top: points[0].y - (img.height as number) / 2,
+            left: points[0].x - (img.width as number) / 2,
+          }),
+        });
+        const { Width, Height } = PolygonHelper.getWidthAndHeight(points);
+        const croppedDataUrl = img.toDataURL({
+          format: 'jpg',
+          width: Width,
+          height: Height,
+          top: points[0].y,
+          left: points[0].x,
+        });
+        fabric.Image.fromURL(croppedDataUrl, (croppedImg) => {
+          croppedImg.set({
+            angle: -p.data.Rotation,
+          });
+          handleHover(croppedImg.toDataURL({}));
+        });
+      });
+      p.on('mouseout', (e) => handleHover(null));
+    });
+  });
+}
+
+function getYOffset({ x, y }: { x: number; y: number }, r: number) {
+  return (
+    y * Math.cos(AngleHelper.degToRad(r)) -
+    x * Math.sin(AngleHelper.degToRad(r))
+  );
+}
+
+function getXOffset({ x, y }: { x: number; y: number }, r: number) {
+  return (
+    x * Math.cos(AngleHelper.degToRad(r)) +
+    y * Math.sin(AngleHelper.degToRad(r))
+  );
 }

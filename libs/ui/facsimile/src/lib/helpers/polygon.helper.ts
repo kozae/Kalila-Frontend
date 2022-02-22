@@ -87,6 +87,22 @@ export class PolygonHelper {
     ];
   }
 
+  static orderPoints(p: Polygon): Polygon {
+    const xValues = p.map((_) => _.x),
+      yValues = p.map((_) => _.y),
+      minX = Math.min(...xValues),
+      maxX = Math.max(...xValues),
+      minY = Math.min(...yValues),
+      maxY = Math.max(...yValues);
+
+    return [
+      { x: minX, y: minY },
+      { x: maxX, y: minY },
+      { x: maxX, y: maxY },
+      { x: minX, y: maxY },
+    ];
+  }
+
   static clipPolygonFromRect(
     rectWidth: number,
     rectHeight: number,

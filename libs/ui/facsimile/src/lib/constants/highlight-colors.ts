@@ -3,7 +3,7 @@ export const highlightColors = [
   '#C0392B',
   '#8E44AD',
   '#16A085',
-  '#D35400',
+  '#FFFFC2',
   '#566573',
   '#2ECC71',
   '#0020C2',
@@ -11,6 +11,6 @@ export const highlightColors = [
   '#E77471',
   '#64E986',
   '#C8A2C8',
-  '#FFFFC2',
+  '#D35400',
   '#7F525D',
 ];
