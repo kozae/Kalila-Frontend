@@ -6,7 +6,6 @@ import {
   drawRegions,
   PolygonHelper,
 } from '@frontend/ui/facsimile';
-import { orderBy } from 'lodash';
 
 export type LayoutProcedureProps = Omit<
   IFacsimileCanvasProps,
