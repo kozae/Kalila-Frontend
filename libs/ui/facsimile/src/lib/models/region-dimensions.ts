@@ -1,6 +1,6 @@
 export interface RegionDimensions {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+  X: number;
+  Y: number;
+  Width: number;
+  Height: number;
 }

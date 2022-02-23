@@ -7,5 +7,6 @@ export interface ILine {
   FacsimileRegion: IFacsimileRegion;
   LineText: string;
   Locked: boolean;
+  HighlightColor?: string;
   Tokens: IToken[];
 }

@@ -1,30 +1,30 @@
 import { fabric } from 'fabric';
 import { PolygonHelper } from '../../helpers';
-import { Polygon } from '../../models';
 import { hexToRgba } from '@frontend/util';
-import { highlightColors } from '../../constants';
-import { IFacsimileRegion } from '@frontend/domain';
+import { IFacsimileRegion, pointToSmallXAndY } from '@frontend/domain';
 
 export function drawRegions(
   canvas: fabric.Canvas,
-  regions: Array<IFacsimileRegion & { Id: string }>,
+  regions: Array<
+    IFacsimileRegion & { Id: string; HighlightColor: string | undefined }
+  >,
   scaleRatio: number
 ) {
   // create polygons
   const scale = (x: number) => x * scaleRatio;
   const polygons: Record<string, fabric.Polygon> = {};
-  regions.forEach((region, i) => {
-    const points = region.Points.map(({ X, Y }) => ({ x: X, y: Y }));
+  regions.forEach((region) => {
+    const points = PolygonHelper.scale(region.Points, scale);
     polygons[region.Id] = new fabric.Polygon(
-      PolygonHelper.scale(points as Polygon, scale),
+      pointToSmallXAndY(points) as fabric.IPoint[],
       {
-        fill: hexToRgba(highlightColors[i % 13], 0.2),
-        stroke: highlightColors[i % 13],
+        fill: hexToRgba(region.HighlightColor as string, 0.2),
+        stroke: region.HighlightColor,
         strokeWidth: 2,
         selectable: false,
         hasControls: false,
         hoverCursor: 'default',
-        data: { ...region, Points: points },
+        data: region,
       }
     );
   });

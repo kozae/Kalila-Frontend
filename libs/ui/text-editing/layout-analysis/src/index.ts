@@ -1,1 +1,1 @@
-export * from './lib/ui-text-editing-layout-analysis';
+export * from './lib/layout-analysis-tool';

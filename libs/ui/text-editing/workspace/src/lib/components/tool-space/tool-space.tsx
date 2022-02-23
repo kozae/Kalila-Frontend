@@ -5,7 +5,7 @@ import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
 import ReorderSharpIcon from '@mui/icons-material/ReorderSharp';
 import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
 import React, { ReactNode, SyntheticEvent, useContext, useState } from 'react';
-import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
 import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
 import Box from '@mui/material/Box';
 import SwipeableViews from 'react-swipeable-views';
@@ -13,10 +13,10 @@ import { useTheme } from '@mui/material/styles';
 import {
   ActiveWorkspace,
   TextEditingWorkspaceContext,
-} from '../text-editing-workspace-context';
+} from '../../text-editing-workspace-context';
 import { AnimatePresence, motion } from 'framer-motion';
 import CircularProgress from '@mui/material/CircularProgress';
-import { kalilaTheme } from '@frontend/shared-ui';
+import { LayoutAnalysisTool } from '@frontend/ui/text-editing/layout-analysis';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -38,13 +38,17 @@ function TabPanel(props: TabPanelProps) {
       style={{
         width: '100%',
         height: 'calc(100vh - 110px - 10px - 72px)',
-        backgroundColor: kalilaTheme.palette.primary.light,
       }}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
+        <Paper
+          sx={{
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          {children}
+        </Paper>
       )}
     </div>
   );
@@ -58,10 +62,16 @@ const TabIndexWorkspaceNameMap: Record<number, ActiveWorkspace> = {
   4: 'segmentation',
 };
 
+// export interface IToolSpaceProps {
+// }
+
 export const ToolSpace = () => {
-  const { loading, setActiveWorkspace } = useContext(
-    TextEditingWorkspaceContext
-  );
+  const {
+    loading,
+    toolSpaceContainerRef,
+    setActiveWorkspace,
+    onElementHovered,
+  } = useContext(TextEditingWorkspaceContext);
   const [value, setValue] = useState(0);
   const theme = useTheme();
 
@@ -74,7 +84,7 @@ export const ToolSpace = () => {
   };
 
   return (
-    <Box sx={{ width: '50%' }}>
+    <Box ref={toolSpaceContainerRef} sx={{ width: '50%' }}>
       <Box
         sx={{
           width: '100%',
@@ -146,7 +156,7 @@ export const ToolSpace = () => {
                 Item One
               </TabPanel>
               <TabPanel value={value} index={1} dir={theme.direction}>
-                Item Two
+                <LayoutAnalysisTool onElementHovered={onElementHovered} />
               </TabPanel>
               <TabPanel value={value} index={2} dir={theme.direction}>
                 Item Three

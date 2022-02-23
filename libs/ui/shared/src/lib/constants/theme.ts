@@ -74,6 +74,8 @@ export const kalilaTheme = createTheme({
       md: 660,
       lg: 1200,
       xl: 1420,
+      //@ts-ignore
+      xxl: 1600,
     },
   },
 });

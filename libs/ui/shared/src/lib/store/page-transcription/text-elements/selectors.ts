@@ -9,5 +9,15 @@ export const { selectAll: selectAllTextElements } =
 
 export const selectAllTextElementsRegions = createSelector(
   selectAllTextElements,
-  (te) => te.map((e) => ({ Id: e._id, ...e.FacsimileRegion }))
+  (te) =>
+    te.map((e) => ({
+      Id: e._id,
+      HighlightColor: e.HighlightColor,
+      ...e.FacsimileRegion,
+    }))
+);
+
+export const selectAllTextElementsIds = createSelector(
+  selectAllTextElements,
+  (te) => te.map((e) => e._id)
 );

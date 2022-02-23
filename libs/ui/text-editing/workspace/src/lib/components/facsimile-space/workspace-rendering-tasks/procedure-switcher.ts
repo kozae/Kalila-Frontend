@@ -9,8 +9,11 @@ export type WorkspaceProcedureProps = Omit<
   'onLoaded'
 > & {
   canvas: fabric.Canvas;
-  regions: Array<IFacsimileRegion & { Id: string }>;
-  handleHover: (e: any) => void;
+  regions: Array<
+    IFacsimileRegion & { Id: string; HighlightColor: string | undefined }
+  >;
+  onRegionHovered: (id: string | null) => void;
+  onCreateDataUrl: (id: string, data: string) => void;
 };
 
 export function workspaceProcedure({

@@ -1,4 +1,8 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { ITextElement } from '@frontend/domain';
 
 export const textElementsAdapter = createEntityAdapter<

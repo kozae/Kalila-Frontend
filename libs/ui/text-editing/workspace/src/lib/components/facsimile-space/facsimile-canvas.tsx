@@ -4,12 +4,19 @@ import {
   renderBackgroundImage,
   useFabricJSEditor,
 } from '@frontend/ui/facsimile';
-import { useCallback, useEffect, useState } from 'react';
-import { ActiveWorkspace } from '../../text-editing-workspace-context';
-import { selectRegions, useAppSelector } from '@frontend/shared-ui';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import {
+  ActiveWorkspace,
+  TextEditingWorkspaceContext,
+} from '../../text-editing-workspace-context';
+import {
+  addDataUrl,
+  selectRegions,
+  useAppDispatch,
+  useAppSelector,
+} from '@frontend/shared-ui';
 import { workspaceProcedure } from './workspace-rendering-tasks';
-import Portal from '@mui/material/Portal';
-import Box from '@mui/material/Box';
+import { FacsimileRegionPreview } from './facsimile-region-preview';
 
 export interface IFacsimileCanvasProps {
   width: number;
@@ -37,14 +44,22 @@ export const FacsimileCanvas = ({
   activeWorkspace,
   onLoaded,
 }: IFacsimileCanvasProps) => {
+  const dispatch = useAppDispatch();
   const { editor, onReady } = useFabricJSEditor();
   const regions = useAppSelector(
     selectRegions(spaceToGroupMap[activeWorkspace])
   );
-  const [regionPreview, setRegionPreview] = useState<string | null>(null);
-  const handleHover = (data: string | null) => {
-    setRegionPreview(data);
-  };
+
+  const storeDataUrl = useCallback((id: string, data: string) => {
+    dispatch(addDataUrl({ id, data }));
+  }, []);
+  const { hoveredElement } = useContext(TextEditingWorkspaceContext);
+  const [hoveredRegionId, setHoveredRegionId] = useState<string | null>(null);
+
+  useEffect(() => {
+    console.log(hoveredElement);
+  }, [hoveredElement]);
+
   const tasksAfterReady = useCallback(
     (canvas: fabric.Canvas) => {
       onReady(canvas);
@@ -58,7 +73,8 @@ export const FacsimileCanvas = ({
         url,
         scaleRatio,
         regions,
-        handleHover,
+        onRegionHovered: setHoveredRegionId,
+        onCreateDataUrl: storeDataUrl,
       });
       onLoaded();
     },
@@ -77,7 +93,8 @@ export const FacsimileCanvas = ({
         url,
         scaleRatio,
         regions,
-        handleHover,
+        onRegionHovered: setHoveredRegionId,
+        onCreateDataUrl: storeDataUrl,
       });
     }
   }, [width, height, url, scaleRatio, regions, activeWorkspace]);
@@ -85,21 +102,7 @@ export const FacsimileCanvas = ({
   return (
     <>
       <FabricCanvas width={width} height={height} onReady={tasksAfterReady} />
-      {regionPreview !== null ? (
-        <Portal>
-          <Box
-            sx={{
-              position: 'fixed',
-              top: 0,
-              right: 0,
-              zIndex: 90,
-              maxWidth: '800px',
-            }}
-          >
-            <img width="100%" height="auto" src={regionPreview} alt="preview" />
-          </Box>
-        </Portal>
-      ) : null}
+      <FacsimileRegionPreview hoveredRegionId={hoveredRegionId} />
     </>
   );
 };

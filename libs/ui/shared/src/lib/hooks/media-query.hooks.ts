@@ -12,3 +12,7 @@ export const useMediumScreenMediaQuery = () =>
 
 export const useLargeScreenMediaQuery = () =>
   useMediaQuery(kalilaTheme.breakpoints.up('xl'));
+
+export const useXLargeScreenMediaQuery = () =>
+  //@ts-ignore
+  useMediaQuery(kalilaTheme.breakpoints.up('xxl'));

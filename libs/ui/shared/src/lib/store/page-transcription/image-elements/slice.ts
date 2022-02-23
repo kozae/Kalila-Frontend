@@ -1,4 +1,8 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { IImageElement } from '@frontend/domain';
 
 export const imageElementsAdapter = createEntityAdapter<IImageElement>({
@@ -12,6 +16,7 @@ export const imageElementsSlice = createSlice({
   initialState,
   reducers: {
     loadImageElements: imageElementsAdapter.setAll,
+
     clearImageElements: imageElementsAdapter.removeAll,
   },
 });

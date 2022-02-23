@@ -12,6 +12,8 @@ import { clearLines, loadLines } from './lines';
 import { clearTokens, loadTokens } from './tokens';
 import { useEffect } from 'react';
 import { clearPageData, loadPageData, pageDataLoaded } from './page-data';
+import { clearDataUrls } from './region-data-urls';
+import { highlightColors } from '@frontend/ui/facsimile';
 
 export function useTextEditingWorkspaceStore(
   data: IPageTranscription,
@@ -22,20 +24,38 @@ export function useTextEditingWorkspaceStore(
   const textElements: Omit<ITextElement, 'Lines'>[] = [];
   const lines: Omit<ILine, 'Tokens'>[] = [];
   const tokens: IToken[] = [];
-  TextElements.forEach((te) => {
+  TextElements.forEach((te, i) => {
     const { Lines, ...rest } = te;
-    textElements.push(rest);
-    Lines.forEach((l) => {
+    textElements.push({ ...rest, HighlightColor: highlightColors[i % 13] });
+    Lines.forEach((l, i) => {
       const { Tokens, ...rest } = l;
       tokens.push(...Tokens);
-      lines.push(rest);
+      lines.push({ ...rest, HighlightColor: highlightColors[i % 13] });
     });
   });
+
+  const clearAll = () => {
+    console.log('clearing page transcription store');
+    dispatch(clearPageData());
+    dispatch(clearDataUrls());
+    dispatch(clearUnitSummaries());
+    dispatch(clearImageElements());
+    dispatch(clearTextElements());
+    dispatch(clearLines());
+    dispatch(clearTokens());
+  };
 
   useEffect(() => {
     dispatch(loadPageData({ pageInfo, imageSize }));
     dispatch(loadUnitSummaries(Units));
-    dispatch(loadImageElements(ImageElements));
+    dispatch(
+      loadImageElements(
+        ImageElements.map((el, i) => ({
+          ...el,
+          HighlightColor: highlightColors[(i + 5) % 13],
+        }))
+      )
+    );
     dispatch(loadTextElements(textElements));
     dispatch(loadLines(lines));
     dispatch(loadTokens(tokens));
@@ -43,16 +63,11 @@ export function useTextEditingWorkspaceStore(
     setTimeout(() => {
       dispatch(pageDataLoaded());
     }, 1000);
+
+    return clearAll;
   }, [data, imageSize]);
 
   useEffect(() => {
-    return () => {
-      dispatch(clearPageData());
-      dispatch(clearUnitSummaries());
-      dispatch(clearImageElements());
-      dispatch(clearTextElements());
-      dispatch(clearLines());
-      dispatch(clearTokens());
-    };
+    return clearAll;
   }, []);
 }

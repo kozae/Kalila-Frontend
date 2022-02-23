@@ -8,5 +8,13 @@ export const { selectAll: selectAllLines } =
   linesAdapter.getSelectors<RootState>(selectLinesState);
 
 export const selectAllLinesRegions = createSelector(selectAllLines, (li) =>
-  li.map((l) => ({ Id: l._id, ...l.FacsimileRegion }))
+  li.map((l) => ({
+    Id: l._id,
+    HighlightColor: l.HighlightColor,
+    ...l.FacsimileRegion,
+  }))
+);
+
+export const selectAllLinesIds = createSelector(selectAllLines, (li) =>
+  li.map((l) => l._id)
 );

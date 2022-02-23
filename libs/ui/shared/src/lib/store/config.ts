@@ -9,6 +9,7 @@ import { tokenSlice } from './page-transcription/tokens';
 import { unitSummariesSlice } from './page-transcription/units-summary';
 import { attributesSlice } from './schema/attributes';
 import { fieldsSlice } from './schema/fields';
+import { regionDataUrlsSlice } from './page-transcription/region-data-urls';
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     [attributesSlice.name]: attributesSlice.reducer,
     [pagedDocsSlice.name]: pagedDocsSlice.reducer,
     [pageDataSlice.name]: pageDataSlice.reducer,
+    [regionDataUrlsSlice.name]: regionDataUrlsSlice.reducer,
     [imageElementsSlice.name]: imageElementsSlice.reducer,
     [linesSlice.name]: linesSlice.reducer,
     [textElementsSlice.name]: textElementsSlice.reducer,
