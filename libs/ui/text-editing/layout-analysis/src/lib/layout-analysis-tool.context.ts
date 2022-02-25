@@ -2,11 +2,17 @@ import { IImageElement, ITextElement } from '@frontend/domain';
 import { createContext } from 'react';
 
 export interface ILayoutAnalysisToolContext {
-  onElementHovered: (element: ITextElement | IImageElement | null) => void;
+  onElementActivated: (element: ITextElement | IImageElement | null) => void;
+  selectedElementId: string | null;
+  onElementSelected: (id: string | null) => void;
+  regionUnderEditUrl: string | null;
 }
 
 const layoutAnalysisToolContextInit: ILayoutAnalysisToolContext = {
-  onElementHovered: (element: ITextElement | IImageElement | null) => {},
+  onElementActivated: (element: ITextElement | IImageElement | null) => {},
+  selectedElementId: null,
+  onElementSelected: (id: string | null) => {},
+  regionUnderEditUrl: null,
 };
 
 export function useLayoutAnalysisToolContext() {}

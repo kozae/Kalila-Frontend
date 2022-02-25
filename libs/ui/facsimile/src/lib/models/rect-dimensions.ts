@@ -1,4 +1,4 @@
-export interface RegionDimensions {
+export interface RectDimensions {
   X: number;
   Y: number;
   Width: number;

@@ -7,6 +7,7 @@ const selectRegionDataUrlState = (state: RootState) => state.regionDataUrls;
 export const {
   selectEntities: selectRegionDataUrlEntities,
   selectAll: selectAllRegionDataUrl,
+  selectById: selectRegionDataUrlByIdAdapter,
 } = regionDataUrlAdapter.getSelectors<RootState>(selectRegionDataUrlState);
 
 export const selectRegionDataUrl = (id: string | null) =>
@@ -25,3 +26,9 @@ export const selectManyRegionDataUrlById = (ids: string[]) =>
       .forEach((i) => (result[i.id] = i.data));
     return result;
   });
+
+export const selectRegionDataUrlById = (id: string) =>
+  createSelector(
+    (state: RootState) => state,
+    (state) => selectRegionDataUrlByIdAdapter(state, id)
+  );

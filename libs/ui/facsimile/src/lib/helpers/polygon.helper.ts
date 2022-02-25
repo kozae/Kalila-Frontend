@@ -1,5 +1,5 @@
 import { IPoint, Polygon } from '@frontend/domain';
-import { RegionDimensions } from '../models';
+import { RectDimensions } from '../models';
 import { PointsHelper } from './points.helper';
 import { fabric } from 'fabric';
 
@@ -19,8 +19,8 @@ export class PolygonHelper {
     };
   }
 
-  static fromRegion(
-    { X, Y, Width, Height }: RegionDimensions,
+  static fromRect(
+    { X, Y, Width, Height }: RectDimensions,
     rotation: number
   ): Polygon {
     const p1 = { X, Y },

@@ -30,16 +30,14 @@ export function createRegionDataUrl(
   });
 }
 
-export function createRegionsDataUrl(
+export function createRegionsDataUrls(
   regions: Array<IFacsimileRegion & { Id: string }>,
-  url: string,
+  img: fabric.Image,
   onCreate: (id: string, data: string) => void
 ) {
-  fabric.Image.fromURL(url, (img: fabric.Image) => {
-    regions.forEach((r) => {
-      createRegionDataUrl(r, img, (dataUrl) => {
-        onCreate(r.Id, dataUrl);
-      });
+  regions.forEach((r) => {
+    createRegionDataUrl(r, img, (dataUrl) => {
+      onCreate(r.Id, dataUrl);
     });
   });
 }

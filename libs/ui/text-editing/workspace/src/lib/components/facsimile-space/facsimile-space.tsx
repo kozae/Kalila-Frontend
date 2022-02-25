@@ -12,7 +12,9 @@ const animationVariants = {
 };
 
 export const FacsimileSpace = () => {
-  const { loading, activeWorkspace } = useContext(TextEditingWorkspaceContext);
+  const { loading, activeWorkspace, accessMode } = useContext(
+    TextEditingWorkspaceContext
+  );
   const imageUrl = useAppSelector(selectImageUrl);
   const containerSize = useImageContainerSize();
 
@@ -39,6 +41,7 @@ export const FacsimileSpace = () => {
     height: containerSize.height,
     scaleRatio: containerSize.scaleRatio,
     activeWorkspace,
+    accessMode,
     onLoaded: () => setLoaded(true),
   };
   const noData = loading || imageUrl === '' || containerSize.height <= 0;

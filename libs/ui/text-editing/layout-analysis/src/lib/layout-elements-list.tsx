@@ -9,6 +9,7 @@ import {
   ImageElementSummary,
   TextElementSummary,
 } from './layout-element-summary';
+import Alert from '@mui/material/Alert';
 
 export const LayoutElementsList = () => {
   const imageElements = useAppSelector(selectAllImageElements);
@@ -18,6 +19,7 @@ export const LayoutElementsList = () => {
       [...imageElements, ...textElements].map((i) => i._id)
     )
   );
+
   return (
     <Stack
       sx={{ flexGrow: 1, mt: '5px', width: '100%', overflowY: 'scroll' }}
@@ -27,6 +29,9 @@ export const LayoutElementsList = () => {
       alignItems="flex-start"
       spacing={1}
     >
+      {textElements.length === 0 && imageElements.length === 0 && (
+        <Alert severity="info">No elements defined.</Alert>
+      )}
       {textElements.map((el) => (
         <TextElementSummary key={el._id} {...el} url={dataUrls[el._id]} />
       ))}

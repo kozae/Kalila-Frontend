@@ -4,8 +4,10 @@ import { createSelector } from '@reduxjs/toolkit';
 
 const selectTextElementsState = (state: RootState) => state.textElements;
 
-export const { selectAll: selectAllTextElements } =
-  textElementsAdapter.getSelectors<RootState>(selectTextElementsState);
+export const {
+  selectAll: selectAllTextElements,
+  selectById: selectTextElementByIdFromAdapter,
+} = textElementsAdapter.getSelectors<RootState>(selectTextElementsState);
 
 export const selectAllTextElementsRegions = createSelector(
   selectAllTextElements,
@@ -21,3 +23,9 @@ export const selectAllTextElementsIds = createSelector(
   selectAllTextElements,
   (te) => te.map((e) => e._id)
 );
+
+export const selectTextElementById = (id: string) =>
+  createSelector(
+    (state: RootState) => state,
+    (state) => selectTextElementByIdFromAdapter(state, id)
+  );

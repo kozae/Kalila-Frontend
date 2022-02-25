@@ -49,7 +49,6 @@ export const pageDataSlice = createSlice({
       state.loading = false;
     },
     clearPageData: (state) => {
-      console.log('clear page data called');
       state.pageInfo = initialState.pageInfo;
       state.loading = true;
     },

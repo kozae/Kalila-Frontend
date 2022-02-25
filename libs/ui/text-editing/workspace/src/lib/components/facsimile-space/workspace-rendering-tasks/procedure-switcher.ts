@@ -1,19 +1,17 @@
 import { IFacsimileRegion } from '@frontend/domain';
 import { renderLayoutWorkspace } from './render-layout-workspace';
-import { IFacsimileCanvasProps } from '../facsimile-canvas';
 import { fabric } from 'fabric';
 import { renderLinesWorkspace } from './render-lines-workspace';
+import { ActiveWorkspace } from '../../../text-editing-workspace-context';
 
-export type WorkspaceProcedureProps = Omit<
-  IFacsimileCanvasProps,
-  'onLoaded'
-> & {
+export type WorkspaceProcedureProps = {
+  activeWorkspace: ActiveWorkspace;
   canvas: fabric.Canvas;
-  regions: Array<
-    IFacsimileRegion & { Id: string; HighlightColor: string | undefined }
-  >;
-  onRegionHovered: (id: string | null) => void;
-  onCreateDataUrl: (id: string, data: string) => void;
+  polygons: fabric.Polygon[];
+  showHighlight: (region: IFacsimileRegion) => void;
+  hideHighlight: () => void;
+  onRegionHighlighted: (id: string | null) => void;
+  onElementSelected: (id: string | null) => void;
 };
 
 export function workspaceProcedure({

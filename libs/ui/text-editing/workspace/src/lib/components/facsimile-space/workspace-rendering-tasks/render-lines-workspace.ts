@@ -1,50 +1,39 @@
-import { IFacsimileCanvasProps } from '../facsimile-canvas';
 import { IFacsimileRegion } from '@frontend/domain';
 import { fabric } from 'fabric';
-import {
-  createRegionsDataUrl,
-  drawRegions,
-  addEventListeners,
-  useHighlighter,
-} from '@frontend/ui/facsimile';
+import { drawPolygons, addEventListeners } from '@frontend/ui/facsimile';
 
-export type LinesProcedureProps = Omit<
-  IFacsimileCanvasProps,
-  'onLoaded' | 'activeWorkspace'
-> & {
+export type LinesProcedureProps = {
   canvas: fabric.Canvas;
-  regions: Array<
-    IFacsimileRegion & { Id: string; HighlightColor: string | undefined }
-  >;
-  onRegionHovered: (id: string | null) => void;
-  onCreateDataUrl: (id: string, data: string) => void;
+  polygons: fabric.Polygon[];
+  showHighlight: (region: IFacsimileRegion) => void;
+  hideHighlight: () => void;
+  onRegionHighlighted: (id: string | null) => void;
+  onElementSelected: (id: string | null) => void;
 };
 
 export function renderLinesWorkspace({
   canvas,
-  regions,
-  scaleRatio,
-  onRegionHovered,
-  url,
-  onCreateDataUrl,
+  polygons,
+  hideHighlight,
+  showHighlight,
+  onRegionHighlighted,
+  onElementSelected,
 }: LinesProcedureProps) {
   console.log('rendering lines');
-  const polygons = drawRegions(canvas, regions, scaleRatio);
-  const { showHighlight, hideHighlight } = useHighlighter(
-    canvas,
-    polygons,
-    scaleRatio
-  );
-  createRegionsDataUrl(regions, url, onCreateDataUrl);
+  drawPolygons(canvas, polygons);
+
   addEventListeners(polygons, {
     onMouseOver: (region) => {
       hideHighlight();
-      onRegionHovered(region.Id);
+      onRegionHighlighted(region.Id);
       showHighlight(region);
     },
     onMouseOut: () => {
       hideHighlight();
-      onRegionHovered(null);
+      onRegionHighlighted(null);
+    },
+    onClicked: (id, e) => {
+      onElementSelected(id);
     },
   });
 }

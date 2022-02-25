@@ -57,6 +57,7 @@
     "regenerator-runtime": "0.13.7",
     "swr": "^1.1.2",
     "tslib": "^2.0.0",
+    "uuid": "^8.3.2",
     "yarn": "^1.22.17",
     "yup": "^0.32.11"
   },
@@ -87,6 +88,7 @@
     "@types/react": "17.0.30",
     "@types/react-dom": "17.0.9",
     "@types/react-swipeable-views": "^0.13.1",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "~5.3.0",
     "@typescript-eslint/parser": "~5.3.0",
     "babel-jest": "27.2.3",

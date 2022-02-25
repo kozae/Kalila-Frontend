@@ -17,6 +17,7 @@ import {
 import { AnimatePresence, motion } from 'framer-motion';
 import CircularProgress from '@mui/material/CircularProgress';
 import { LayoutAnalysisTool } from '@frontend/ui/text-editing/layout-analysis';
+import { useTabDisabledState } from './hooks';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -68,13 +69,16 @@ const TabIndexWorkspaceNameMap: Record<number, ActiveWorkspace> = {
 export const ToolSpace = () => {
   const {
     loading,
+    regionUnderEditUrl,
     toolSpaceContainerRef,
     setActiveWorkspace,
-    onElementHovered,
+    onElementActivated,
+    selectedElementId,
+    onElementSelected,
   } = useContext(TextEditingWorkspaceContext);
   const [value, setValue] = useState(0);
   const theme = useTheme();
-
+  const isDisabled = useTabDisabledState();
   const handleChange = (event: SyntheticEvent, index: number) => {
     setValue(index);
     setActiveWorkspace(TabIndexWorkspaceNameMap[index]);
@@ -83,6 +87,7 @@ export const ToolSpace = () => {
     setValue(index);
   };
 
+  // todo a memoized disabled state for each tab
   return (
     <Box ref={toolSpaceContainerRef} sx={{ width: '50%' }}>
       <Box
@@ -102,11 +107,31 @@ export const ToolSpace = () => {
           variant="scrollable"
           scrollButtons="auto"
         >
-          <Tab icon={<InfoTwoToneIcon />} label="Description" />
-          <Tab icon={<DashboardTwoToneIcon />} label="Layout" />
-          <Tab icon={<ReorderSharpIcon />} label="Lines" />
-          <Tab icon={<HistoryEduTwoToneIcon />} label="Transcription" />
-          <Tab icon={<TableRowsTwoToneIcon />} label="Segmentation" />
+          <Tab
+            disabled={isDisabled.description}
+            icon={<InfoTwoToneIcon />}
+            label="Description"
+          />
+          <Tab
+            disabled={isDisabled.layout}
+            icon={<DashboardTwoToneIcon />}
+            label="Layout"
+          />
+          <Tab
+            disabled={isDisabled.lines}
+            icon={<ReorderSharpIcon />}
+            label="Lines"
+          />
+          <Tab
+            disabled={isDisabled.transcription}
+            icon={<HistoryEduTwoToneIcon />}
+            label="Transcription"
+          />
+          <Tab
+            disabled={isDisabled.segmentation}
+            icon={<TableRowsTwoToneIcon />}
+            label="Segmentation"
+          />
         </Tabs>
       </Box>
       <AnimatePresence exitBeforeEnter>
@@ -156,7 +181,12 @@ export const ToolSpace = () => {
                 Item One
               </TabPanel>
               <TabPanel value={value} index={1} dir={theme.direction}>
-                <LayoutAnalysisTool onElementHovered={onElementHovered} />
+                <LayoutAnalysisTool
+                  onElementSelected={onElementSelected}
+                  selectedElementId={selectedElementId}
+                  onElementActivated={onElementActivated}
+                  regionUnderEditUrl={regionUnderEditUrl}
+                />
               </TabPanel>
               <TabPanel value={value} index={2} dir={theme.direction}>
                 Item Three

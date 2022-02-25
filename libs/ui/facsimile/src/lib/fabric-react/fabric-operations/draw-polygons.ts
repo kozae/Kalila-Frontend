@@ -3,15 +3,25 @@ import { PolygonHelper } from '../../helpers';
 import { hexToRgba } from '@frontend/util';
 import { IFacsimileRegion, pointToSmallXAndY } from '@frontend/domain';
 
-export function drawRegions(
+export interface IPolygonData {
+  polygons: Record<string, fabric.Polygon>;
+  hideHighlight: () => void;
+  showHighlight: (region: IFacsimileRegion) => void;
+}
+
+export function drawPolygons(
   canvas: fabric.Canvas,
+  polygons: fabric.Polygon[]
+) {
+  polygons.forEach((p) => canvas.add(p));
+}
+
+export function createPolygons(
   regions: Array<
     IFacsimileRegion & { Id: string; HighlightColor: string | undefined }
   >,
-  scaleRatio: number
+  scale: (x: number) => number
 ) {
-  // create polygons
-  const scale = (x: number) => x * scaleRatio;
   const polygons: Record<string, fabric.Polygon> = {};
   regions.forEach((region) => {
     const points = PolygonHelper.scale(region.Points, scale);
@@ -23,14 +33,11 @@ export function drawRegions(
         strokeWidth: 2,
         selectable: false,
         hasControls: false,
-        hoverCursor: 'default',
+        hoverCursor: 'pointer',
         data: region,
       }
     );
   });
 
-  // draw
-  Object.values(polygons).forEach((p) => canvas.add(p));
-
-  return Object.values(polygons);
+  return polygons;
 }

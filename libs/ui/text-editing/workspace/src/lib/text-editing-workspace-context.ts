@@ -23,52 +23,72 @@ export type ActiveWorkspace =
 export type AccessMode = 'view' | 'edit';
 
 export interface ITextEditingWorkspaceContextValue {
-  mode: AccessMode;
+  accessMode: AccessMode;
   activeWorkspace: ActiveWorkspace;
   loading: boolean;
-  hoveredElement: ITextElement | IImageElement | null;
+  activeElement: ITextElement | IImageElement | null;
+  selectedElementId: string | null;
+  regionUnderEditUrl: string | null;
+  setRegionUnderEditUrl: (url: string | null) => void;
+  onElementSelected: (id: string | null) => void;
   setActiveWorkspace: (v: ActiveWorkspace) => void;
-  onElementHovered: (element: ITextElement | IImageElement | null) => void;
+  onElementActivated: (element: ITextElement | IImageElement | null) => void;
   toolSpaceContainerRef?: MutableRefObject<null>;
 }
 
 const initialValue: ITextEditingWorkspaceContextValue = {
   activeWorkspace: 'description',
-  mode: 'view',
+  accessMode: 'view',
   loading: true,
-  hoveredElement: null,
+  activeElement: null,
+  selectedElementId: null,
+  regionUnderEditUrl: null,
+  setRegionUnderEditUrl: (url: string | null) => {},
+  onElementSelected: (id: string | null) => {},
   setActiveWorkspace: (v: ActiveWorkspace) => {},
-  onElementHovered: (element: ITextElement | IImageElement | null) => {},
+  onElementActivated: (element: ITextElement | IImageElement | null) => {},
 };
 
 export function useTextEditingWorkspaceContext(): ITextEditingWorkspaceContextValue {
   const toolSpaceContainerRef = useRef(null);
-  const [hoveredElement, onElementHovered] = useState<
+  const [selectedElementId, setSelectedElementId] = useState<string | null>(
+    null
+  );
+  const [activeElement, onElementActivated] = useState<
     ITextElement | IImageElement | null
   >(null);
   const [activeWorkspace, setActiveWorkspace] = useState<ActiveWorkspace>(
     initialValue.activeWorkspace
   );
-  const [mode, setMode] = useState<AccessMode>(initialValue.mode);
+  const [accessMode, setAccessMode] = useState<AccessMode>(
+    initialValue.accessMode
+  );
+  const [regionUnderEditUrl, setRegionUnderEditUrl] = useState<string | null>(
+    null
+  );
   const editor = useAppSelector(selectPageEditor);
   const loggedUser = useAppSelector(selectUser);
 
   useEffect(() => {
     if (editor === loggedUser.username) {
-      setMode('edit');
+      setAccessMode('edit');
     } else {
-      setMode('view');
+      setAccessMode('view');
     }
   }, [editor, loggedUser.username]);
 
   return {
     toolSpaceContainerRef,
     activeWorkspace,
-    mode,
-    hoveredElement,
+    accessMode,
+    activeElement,
     setActiveWorkspace,
     loading: useAppSelector(selectPageDataLoadingStatus),
-    onElementHovered,
+    onElementActivated,
+    selectedElementId,
+    onElementSelected: setSelectedElementId,
+    regionUnderEditUrl,
+    setRegionUnderEditUrl,
   };
 }
 

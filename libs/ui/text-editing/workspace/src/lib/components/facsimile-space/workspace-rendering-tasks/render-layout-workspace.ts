@@ -1,51 +1,42 @@
-import { IFacsimileCanvasProps } from '../facsimile-canvas';
 import { IFacsimileRegion } from '@frontend/domain';
 import { fabric } from 'fabric';
 import {
   AngleHelper,
-  drawRegions,
+  drawPolygons,
   addEventListeners,
-  useHighlighter,
-  createRegionsDataUrl,
 } from '@frontend/ui/facsimile';
 
-export type LayoutProcedureProps = Omit<
-  IFacsimileCanvasProps,
-  'onLoaded' | 'activeWorkspace'
-> & {
+export type LayoutProcedureProps = {
   canvas: fabric.Canvas;
-  regions: Array<
-    IFacsimileRegion & { Id: string; HighlightColor: string | undefined }
-  >;
-  onRegionHovered: (id: string | null) => void;
-  onCreateDataUrl: (id: string, data: string) => void;
+  polygons: fabric.Polygon[];
+  showHighlight: (region: IFacsimileRegion) => void;
+  hideHighlight: () => void;
+  onRegionHighlighted: (id: string | null) => void;
+  onElementSelected: (id: string | null) => void;
 };
 
 export function renderLayoutWorkspace({
   canvas,
-  regions,
-  scaleRatio,
-  onRegionHovered,
-  url,
-  onCreateDataUrl,
+  polygons,
+  showHighlight,
+  hideHighlight,
+  onRegionHighlighted,
+  onElementSelected,
 }: LayoutProcedureProps) {
   console.log('rendering layout');
-  const polygons = drawRegions(canvas, regions, scaleRatio);
-  const { showHighlight, hideHighlight } = useHighlighter(
-    canvas,
-    polygons,
-    scaleRatio
-  );
-  createRegionsDataUrl(regions, url, onCreateDataUrl);
+  drawPolygons(canvas, polygons);
   addEventListeners(polygons, {
-    onMouseOver: (region) => {
+    onMouseOver: (region, e) => {
       hideHighlight();
-      onRegionHovered(region.Id);
+      onRegionHighlighted(region.Id);
       showHighlight(region);
     },
-    onMouseOut: () => {
+    onMouseOut: (e) => {
       hideHighlight();
-      onRegionHovered(null);
+      onRegionHighlighted(null);
+    },
+    onClicked: (id, e) => {
+      onElementSelected(id);
     },
   });
 }
