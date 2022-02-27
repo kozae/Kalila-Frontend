@@ -5,6 +5,12 @@ import { IImageElement, ITextElement } from '@frontend/domain';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LayoutElementsList } from './layout-elements-list';
 import { EditLayoutElement } from './edit-layout-element';
+import {
+  selectAllImageElements,
+  selectAllTextElements,
+  selectManyRegionDataUrlById,
+  useAppSelector,
+} from '@frontend/shared-ui';
 
 export interface ILayoutAnalysisToolProps {
   onElementActivated: (element: ITextElement | IImageElement | null) => void;
@@ -19,6 +25,14 @@ export function LayoutAnalysisTool({
   onElementSelected,
   regionUnderEditUrl,
 }: ILayoutAnalysisToolProps) {
+  const imageElements = useAppSelector(selectAllImageElements);
+  const textElements = useAppSelector(selectAllTextElements);
+  const dataUrls = useAppSelector(
+    selectManyRegionDataUrlById(
+      [...imageElements, ...textElements].map((i) => i._id)
+    )
+  );
+
   return (
     <LayoutAnalysisToolContext.Provider
       value={{
@@ -41,8 +55,15 @@ export function LayoutAnalysisTool({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5, ease: 'easeIn' }}
             >
-              <LayoutAnalysisCommandBar />
-              <LayoutElementsList />
+              <LayoutAnalysisCommandBar
+                numberOfImageElements={imageElements.length}
+                numberOfTextElements={textElements.length}
+              />
+              <LayoutElementsList
+                dataUrls={dataUrls}
+                imageElements={imageElements}
+                textElements={textElements}
+              />
             </motion.div>
           ) : (
             <motion.div

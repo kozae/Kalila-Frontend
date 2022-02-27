@@ -1,25 +1,22 @@
 import Stack from '@mui/material/Stack';
 import {
-  selectAllImageElements,
-  selectAllTextElements,
-  selectManyRegionDataUrlById,
-  useAppSelector,
-} from '@frontend/shared-ui';
-import {
   ImageElementSummary,
   TextElementSummary,
 } from './layout-element-summary';
 import Alert from '@mui/material/Alert';
+import { IImageElement, ITextElement } from '@frontend/domain';
 
-export const LayoutElementsList = () => {
-  const imageElements = useAppSelector(selectAllImageElements);
-  const textElements = useAppSelector(selectAllTextElements);
-  const dataUrls = useAppSelector(
-    selectManyRegionDataUrlById(
-      [...imageElements, ...textElements].map((i) => i._id)
-    )
-  );
+export interface ILayoutElementsListProps {
+  dataUrls: Record<string, string>;
+  textElements: Omit<ITextElement, 'Lines'>[];
+  imageElements: IImageElement[];
+}
 
+export const LayoutElementsList = ({
+  dataUrls,
+  textElements,
+  imageElements,
+}: ILayoutElementsListProps) => {
   return (
     <Stack
       sx={{ flexGrow: 1, mt: '5px', width: '100%', overflowY: 'scroll' }}

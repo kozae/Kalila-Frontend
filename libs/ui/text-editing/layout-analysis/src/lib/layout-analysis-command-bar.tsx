@@ -1,11 +1,52 @@
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import React, { useState } from 'react';
+import React, { useCallback, useContext } from 'react';
 import InsertPhotoTwoToneIcon from '@mui/icons-material/InsertPhotoTwoTone';
 import TextSnippetTwoToneIcon from '@mui/icons-material/TextSnippetTwoTone';
-import { kalilaTheme } from '@frontend/shared-ui';
+import {
+  addImageElement,
+  addTextElement,
+  kalilaTheme,
+  useAppDispatch,
+} from '@frontend/shared-ui';
+import * as uuid from 'uuid';
+import { highlightColors } from '@frontend/ui/facsimile';
+import { LayoutAnalysisToolContext } from './layout-analysis-tool.context';
 
-export const LayoutAnalysisCommandBar = () => {
+export interface ILayoutAnalysisCommandBarProps {
+  numberOfTextElements: number;
+  numberOfImageElements: number;
+}
+
+export const LayoutAnalysisCommandBar = ({
+  numberOfTextElements,
+  numberOfImageElements,
+}: ILayoutAnalysisCommandBarProps) => {
+  const { onElementSelected } = useContext(LayoutAnalysisToolContext);
+  const dispatch = useAppDispatch();
+  const createTextElement = useCallback(() => {
+    const id = uuid.v4();
+    dispatch(
+      addTextElement({
+        _id: id,
+        Position: 'main body',
+        Order: numberOfTextElements + 1,
+        HighlightColor: highlightColors[(numberOfTextElements + 1) % 15],
+      })
+    );
+    onElementSelected(id);
+  }, [numberOfTextElements]);
+  const createImageElement = useCallback(() => {
+    const id = uuid.v4();
+    dispatch(
+      addImageElement({
+        _id: uuid.v4(),
+        Position: 'image in main body',
+        HighlightColor: highlightColors[(numberOfImageElements + 6) % 15],
+      })
+    );
+    onElementSelected(id);
+  }, [numberOfImageElements]);
   return (
     <Stack
       sx={{
@@ -23,6 +64,7 @@ export const LayoutAnalysisCommandBar = () => {
         size="small"
         startIcon={<InsertPhotoTwoToneIcon />}
         variant="text"
+        onClick={createImageElement}
       >
         Add Image Element
       </Button>
@@ -31,6 +73,7 @@ export const LayoutAnalysisCommandBar = () => {
         startIcon={<TextSnippetTwoToneIcon />}
         variant="text"
         color="secondary"
+        onClick={createTextElement}
       >
         Add Text Element
       </Button>

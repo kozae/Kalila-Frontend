@@ -12,7 +12,7 @@ export class PolygonHelper {
     PointsHelper.getDistance(p[0], p[2]);
   }
 
-  static getWidthAndHeight(p: Polygon) {
+  static getWidthAndHeight(p: Polygon | IPoint[]) {
     return {
       Width: PointsHelper.getDistance(p[0], p[1]),
       Height: PointsHelper.getDistance(p[0], p[3]),
@@ -42,6 +42,7 @@ export class PolygonHelper {
     ];
   }
 
+  // order only for the calculation of clippath
   static orderPoints(p: Polygon | IPoint[]): Polygon {
     const xValues = p.map((_) => _.X),
       yValues = p.map((_) => _.Y),

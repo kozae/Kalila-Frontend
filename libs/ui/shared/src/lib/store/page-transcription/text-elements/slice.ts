@@ -1,8 +1,4 @@
-import {
-  createEntityAdapter,
-  createSlice,
-  PayloadAction,
-} from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { ITextElement } from '@frontend/domain';
 
 export const textElementsAdapter = createEntityAdapter<
@@ -18,9 +14,10 @@ export const textElementsSlice = createSlice({
   initialState,
   reducers: {
     loadTextElements: textElementsAdapter.setAll,
+    addTextElement: textElementsAdapter.addOne,
     clearTextElements: textElementsAdapter.removeAll,
   },
 });
 
-export const { loadTextElements, clearTextElements } =
+export const { loadTextElements, clearTextElements, addTextElement } =
   textElementsSlice.actions;

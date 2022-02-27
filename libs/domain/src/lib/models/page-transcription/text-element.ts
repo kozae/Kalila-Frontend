@@ -5,7 +5,7 @@ export interface ITextElement {
   _id: string;
   Position: string;
   Order: number;
-  FacsimileRegion: IFacsimileRegion;
+  FacsimileRegion?: IFacsimileRegion;
   HighlightColor?: string;
   Lines: ILine[];
 }

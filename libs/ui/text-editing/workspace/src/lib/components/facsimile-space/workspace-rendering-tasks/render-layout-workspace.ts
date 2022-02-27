@@ -40,17 +40,3 @@ export function renderLayoutWorkspace({
     },
   });
 }
-
-function getYOffset({ x, y }: { x: number; y: number }, r: number) {
-  return (
-    y * Math.cos(AngleHelper.degToRad(r)) -
-    x * Math.sin(AngleHelper.degToRad(r))
-  );
-}
-
-function getXOffset({ x, y }: { x: number; y: number }, r: number) {
-  return (
-    x * Math.cos(AngleHelper.degToRad(r)) +
-    y * Math.sin(AngleHelper.degToRad(r))
-  );
-}

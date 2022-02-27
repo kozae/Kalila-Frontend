@@ -15,28 +15,29 @@ export function useExternalWorkspaceEvents(
   useEffect(() => {
     if (activeElement === null) {
       canvasState.hideHighlight();
-    } else {
+    } else if (activeElement.FacsimileRegion) {
       canvasState.showHighlight(activeElement.FacsimileRegion);
     }
-  }, [activeElement, canvasState.hideHighlight, canvasState.showHighlight]);
+  }, [activeElement]);
 
+  const round = Math.round;
   const startEditor = useCallback(
     (id) => {
       const handleChange = (e: IEvent) => {
-        console.log({ e });
         setRegionUnderEditUrl(null);
         const rectDimensions = {
-          X: (e.target?.left as number) / props.scaleRatio,
-          Y: (e.target?.top as number) / props.scaleRatio,
-          Width: (e.target?.width as number) / props.scaleRatio,
-          Height: (e.target?.height as number) / props.scaleRatio,
+          X: round((e.target?.left as number) / props.scaleRatio),
+          Y: round((e.target?.top as number) / props.scaleRatio),
+          Width: round((e.target?.width as number) / props.scaleRatio),
+          Height: round((e.target?.height as number) / props.scaleRatio),
         };
+        console.log({ rectDimensions });
         const Points = PolygonHelper.fromRect(
           rectDimensions,
-          e.target?.angle as number
+          round(e.target?.angle as number)
         );
         createRegionDataUrl(
-          { Points, Rotation: e.target?.angle as number },
+          { Points, Rotation: round(e.target?.angle as number) },
           canvasState.fabricImg as fabric.Image,
           setRegionUnderEditUrl
         );
@@ -55,10 +56,11 @@ export function useExternalWorkspaceEvents(
   );
 
   useEffect(() => {
+    console.log({ selectedElementId });
     if (selectedElementId === null) {
       canvasState.hideEditor();
     } else {
       startEditor(selectedElementId);
     }
-  }, [selectedElementId, startEditor, canvasState.hideEditor]);
+  }, [selectedElementId]);
 }
