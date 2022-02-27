@@ -1,6 +1,7 @@
 import { AngleHelper, PolygonHelper } from '@frontend/ui/facsimile';
 import { fabric } from 'fabric';
 import { IFacsimileRegion, pointToSmallXAndY } from '@frontend/domain';
+import * as Jimp from 'jimp/browser';
 
 const PADDING = 400;
 
@@ -46,26 +47,34 @@ export function createRegionDataUrl(
     left: points[0].X - PADDING,
   });
 
-  callback(croppedDataUrl);
-  fabric.Image.fromURL(croppedDataUrl, (croppedImg) => {
-    croppedImg.set({
-      angle: -region.Rotation,
-    });
-    const url = croppedImg.toDataURL({
-      format: 'jpg',
-    });
-
-    fabric.Image.fromURL(url, (rotatedImg) => {
-      console.table({
-        oWidth: croppedImg.width,
-        oHeight: croppedImg.height,
-        width: rotatedImg.width,
-        height: rotatedImg.height,
-        rotation: region.Rotation,
-      });
-      callback(rotatedImg.toDataURL({ left: PADDING, top: PADDING }));
-    });
+  Jimp.read(croppedDataUrl).then((jimpImg) => {
+    console.log({ width: jimpImg.getWidth() });
+    console.log({ height: jimpImg.getHeight() });
+    jimpImg.rotate(-region.Rotation, false);
+    console.log({ width: jimpImg.getWidth() });
+    console.log({ height: jimpImg.getHeight() });
+    callback(img.toString());
   });
+
+  // fabric.Image.fromURL(croppedDataUrl, (croppedImg) => {
+  //   croppedImg.set({
+  //     angle: -region.Rotation,
+  //   });
+  //   const url = croppedImg.toDataURL({
+  //     format: 'jpg',
+  //   });
+  //
+  //   fabric.Image.fromURL(url, (rotatedImg) => {
+  //     console.table({
+  //       oWidth: croppedImg.width,
+  //       oHeight: croppedImg.height,
+  //       width: rotatedImg.width,
+  //       height: rotatedImg.height,
+  //       rotation: region.Rotation,
+  //     });
+  //     callback(rotatedImg.toDataURL({ left: PADDING, top: PADDING }));
+  //   });
+  // });
 }
 
 export function createRegionsDataUrls(
