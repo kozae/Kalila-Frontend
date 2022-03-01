@@ -1,5 +1,9 @@
-import { IImageElement, ITextElement } from '@frontend/domain';
-import React, { useContext } from 'react';
+import {
+  IFacsimileRegion,
+  IImageElement,
+  ITextElement,
+} from '@frontend/domain';
+import React from 'react';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -7,9 +11,13 @@ import Typography from '@mui/material/Typography';
 import InsertPhotoTwoToneIcon from '@mui/icons-material/InsertPhotoTwoTone';
 import TextSnippetTwoToneIcon from '@mui/icons-material/TextSnippetTwoTone';
 import { hexToRgba } from '@frontend/util';
-import { LayoutAnalysisToolContext } from './layout-analysis-tool.context';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
+import {
+  onElementSelected,
+  onRegionHoveredInToolSpace,
+  useAppDispatch,
+} from '@frontend/shared-ui';
 
 const Container: React.FC<{
   title: string;
@@ -18,9 +26,11 @@ const Container: React.FC<{
   icon: string;
   el: any;
 }> = ({ children, title, url, color, icon, el }) => {
-  const { onElementActivated, onElementSelected } = useContext(
-    LayoutAnalysisToolContext
-  );
+  const dispatch = useAppDispatch();
+  const handleHover = (region: (IFacsimileRegion & { Id: string }) | null) =>
+    dispatch(onRegionHoveredInToolSpace(region));
+  const handleSelection = (id: string | null) =>
+    dispatch(onElementSelected(id));
 
   return (
     <Paper
@@ -54,14 +64,17 @@ const Container: React.FC<{
           <IconButton
             color="secondary"
             size="small"
-            onClick={() => onElementSelected(el._id)}
+            onClick={() => handleSelection(el._id)}
           >
             <EditIcon sx={{ fontSize: '1.2rem' }} />
           </IconButton>
         </Stack>
         <Box
-          onMouseEnter={() => onElementActivated(el)}
-          onMouseLeave={() => onElementActivated(null)}
+          onMouseEnter={() =>
+            handleHover({ ...el.FacsimileRegion, Id: el._id })
+          }
+          onMouseLeave={() => handleHover(null)}
+          sx={{ bgcolor: hexToRgba(color as string, 0.4) }}
         >
           <img width="100%" height="auto" src={url} alt="region not defined" />
         </Box>

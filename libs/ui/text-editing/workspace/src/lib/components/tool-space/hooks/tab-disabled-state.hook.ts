@@ -1,8 +1,8 @@
-import { useContext, useMemo } from 'react';
-import { TextEditingWorkspaceContext } from '../../../text-editing-workspace-context';
+import { useMemo } from 'react';
+import { selectSelectedElementId, useAppSelector } from '@frontend/shared-ui';
 
 export function useTabDisabledState() {
-  const { selectedElementId } = useContext(TextEditingWorkspaceContext);
+  const selectedElementId = useAppSelector(selectSelectedElementId);
   const selectionIsActive = useMemo(
     () => selectedElementId !== null,
     [selectedElementId]

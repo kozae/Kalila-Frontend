@@ -7,7 +7,9 @@ export type LinesProcedureProps = {
   polygons: fabric.Polygon[];
   showHighlight: (region: IFacsimileRegion) => void;
   hideHighlight: () => void;
-  onRegionHighlighted: (id: string | null) => void;
+  onRegionHighlighted: (
+    region: (IFacsimileRegion & { Id: string }) | null
+  ) => void;
   onElementSelected: (id: string | null) => void;
 };
 
@@ -25,7 +27,7 @@ export function renderLinesWorkspace({
   addEventListeners(polygons, {
     onMouseOver: (region) => {
       hideHighlight();
-      onRegionHighlighted(region.Id);
+      onRegionHighlighted(region);
       showHighlight(region);
     },
     onMouseOut: () => {

@@ -3,30 +3,33 @@ import { AnimatePresence, motion } from 'framer-motion';
 import {
   kalilaTheme,
   selectRegionDataUrl,
+  selectRegionHoveredInFacsimileSpace,
+  selectTextEditingAccessMode,
   useAppSelector,
   useXLargeScreenMediaQuery,
 } from '@frontend/shared-ui';
-import { AccessMode } from '../../text-editing-workspace-context';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
-export const FacsimileRegionPreview = ({
-  highlightedRegionId,
-  accessMode,
-}: {
-  highlightedRegionId: string | null;
-  accessMode: AccessMode;
-}) => {
+export const FacsimileRegionPreview = () => {
   const isXLScreen = useXLargeScreenMediaQuery();
-  const regionPreview = useAppSelector(
-    selectRegionDataUrl(highlightedRegionId)
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
+
+  const regionHoveredInFacsimileSpace = useAppSelector(
+    selectRegionHoveredInFacsimileSpace
   );
+  const regionPreview = useAppSelector(
+    selectRegionDataUrl(
+      regionHoveredInFacsimileSpace ? regionHoveredInFacsimileSpace.Id : null
+    )
+  );
+
   return (
     <>
       <Portal>
         <AnimatePresence>
-          {regionPreview && accessMode === 'edit' ? (
+          {regionHoveredInFacsimileSpace && accessMode === 'edit' ? (
             <motion.div
               style={{
                 position: 'fixed',

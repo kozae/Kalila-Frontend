@@ -10,6 +10,7 @@ import { unitSummariesSlice } from './page-transcription/units-summary';
 import { attributesSlice } from './schema/attributes';
 import { fieldsSlice } from './schema/fields';
 import { regionDataUrlsSlice } from './page-transcription/region-data-urls';
+import { textEditingPageSlice } from './text-editing-page';
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     [fieldsSlice.name]: fieldsSlice.reducer,
     [attributesSlice.name]: attributesSlice.reducer,
     [pagedDocsSlice.name]: pagedDocsSlice.reducer,
+    [textEditingPageSlice.name]: textEditingPageSlice.reducer,
     [pageDataSlice.name]: pageDataSlice.reducer,
     [regionDataUrlsSlice.name]: regionDataUrlsSlice.reducer,
     [imageElementsSlice.name]: imageElementsSlice.reducer,
@@ -31,7 +33,6 @@ export const store = configureStore({
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
 export type ThunkApi = { state: RootState; dispatch: AppDispatch };

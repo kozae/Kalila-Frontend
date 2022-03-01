@@ -24,9 +24,9 @@ export function createEditRegionRect() {
 const defaultEditRegion: IFacsimileRegion = {
   Points: [
     { X: 50, Y: 50 },
-    { X: 250, Y: 50 },
-    { X: 250, Y: 250 },
-    { X: 50, Y: 250 },
+    { X: 300, Y: 50 },
+    { X: 300, Y: 200 },
+    { X: 50, Y: 200 },
   ],
   Rotation: 0,
 };

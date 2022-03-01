@@ -1,17 +1,17 @@
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import InsertPhotoTwoToneIcon from '@mui/icons-material/InsertPhotoTwoTone';
 import TextSnippetTwoToneIcon from '@mui/icons-material/TextSnippetTwoTone';
 import {
   addImageElement,
   addTextElement,
   kalilaTheme,
+  onElementSelected,
   useAppDispatch,
 } from '@frontend/shared-ui';
 import * as uuid from 'uuid';
 import { highlightColors } from '@frontend/ui/facsimile';
-import { LayoutAnalysisToolContext } from './layout-analysis-tool.context';
 
 export interface ILayoutAnalysisCommandBarProps {
   numberOfTextElements: number;
@@ -22,8 +22,9 @@ export const LayoutAnalysisCommandBar = ({
   numberOfTextElements,
   numberOfImageElements,
 }: ILayoutAnalysisCommandBarProps) => {
-  const { onElementSelected } = useContext(LayoutAnalysisToolContext);
   const dispatch = useAppDispatch();
+  const handleElementSelected = (id: string | null) =>
+    dispatch(onElementSelected(id));
   const createTextElement = useCallback(() => {
     const id = uuid.v4();
     dispatch(
@@ -34,7 +35,7 @@ export const LayoutAnalysisCommandBar = ({
         HighlightColor: highlightColors[(numberOfTextElements + 1) % 15],
       })
     );
-    onElementSelected(id);
+    handleElementSelected(id);
   }, [numberOfTextElements]);
   const createImageElement = useCallback(() => {
     const id = uuid.v4();
@@ -45,7 +46,7 @@ export const LayoutAnalysisCommandBar = ({
         HighlightColor: highlightColors[(numberOfImageElements + 6) % 15],
       })
     );
-    onElementSelected(id);
+    handleElementSelected(id);
   }, [numberOfImageElements]);
   return (
     <Stack

@@ -1,42 +1,27 @@
 import { FabricCanvas } from '@frontend/ui/facsimile';
-import {
-  AccessMode,
-  ActiveWorkspace,
-} from '../../text-editing-workspace-context';
-import { selectRegions, useAppSelector } from '@frontend/shared-ui';
-import { FacsimileRegionPreview } from './facsimile-region-preview';
-import {
-  useDataUrlGeneration,
-  useExternalWorkspaceEvents,
-  useFacsimileCanvasState,
-} from './hooks';
+import { useDataUrlGeneration, useExternalWorkspaceEvents } from './hooks';
+import { useFacsimileCanvasState } from './hooks/facsimile-canvas-state.hook';
+import { useImageDisplaySize } from '../../hooks/use-image-display-size.hook';
 
-export interface IFacsimileCanvasProps {
-  width: number;
-  height: number;
-  url: string;
-  activeWorkspace: ActiveWorkspace;
-  accessMode: AccessMode;
-  scaleRatio: number;
-  onLoaded: () => void;
-}
-
-export const FacsimileCanvas = (props: IFacsimileCanvasProps) => {
-  const canvasState = useFacsimileCanvasState(props);
-  useExternalWorkspaceEvents(props, canvasState);
+export const FacsimileCanvas = ({ onLoaded }: { onLoaded: () => void }) => {
+  useImageDisplaySize();
+  const canvasState = useFacsimileCanvasState(onLoaded);
+  useExternalWorkspaceEvents(canvasState);
   useDataUrlGeneration(canvasState);
 
   return (
-    <>
-      <FabricCanvas
-        width={props.width}
-        height={props.height}
-        onReady={canvasState.onReady}
-      />
-      <FacsimileRegionPreview
-        accessMode={props.accessMode}
-        highlightedRegionId={canvasState.highlightedRegionId}
-      />
-    </>
+    <FabricCanvas
+      width={
+        ![NaN, undefined].includes(canvasState.imageDisplayWidth)
+          ? canvasState.imageDisplayWidth
+          : 0
+      }
+      height={
+        ![NaN, undefined].includes(canvasState.imageDisplayHeight)
+          ? canvasState.imageDisplayHeight
+          : 0
+      }
+      onReady={canvasState.onReady}
+    />
   );
 };

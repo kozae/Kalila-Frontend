@@ -1,24 +1,27 @@
 import {
+  onElementSelected,
   selectImageElementById,
   selectRegionDataUrlById,
+  selectRegionUnderEditUrl,
   selectTextElementById,
+  useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
-import React, { useContext } from 'react';
+import React from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { LayoutAnalysisToolContext } from './layout-analysis-tool.context';
 
 export const EditLayoutElement = ({
   selectedElementId,
 }: {
   selectedElementId: string;
 }) => {
-  const { onElementSelected, regionUnderEditUrl } = useContext(
-    LayoutAnalysisToolContext
-  );
+  const regionUnderEditUrl = useAppSelector(selectRegionUnderEditUrl);
+  const dispatch = useAppDispatch();
+  const handleElementSelected = (id: string | null) =>
+    dispatch(onElementSelected(id));
   const imageElement = useAppSelector(
     selectImageElementById(selectedElementId)
   );
@@ -53,7 +56,7 @@ export const EditLayoutElement = ({
           />
         )}
       </Box>
-      <Button onClick={() => onElementSelected(null)}>Done</Button>
+      <Button onClick={() => handleElementSelected(null)}>Done</Button>
     </Stack>
   );
 };

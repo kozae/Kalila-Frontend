@@ -1,10 +1,12 @@
-import { selectImageUrl, useAppSelector } from '@frontend/shared-ui';
 import { AnimatePresence, useAnimation, motion } from 'framer-motion';
-import React, { useContext, useEffect, useState } from 'react';
-import { TextEditingWorkspaceContext } from '../../text-editing-workspace-context';
-import { useImageContainerSize } from '../../hooks/use-image-container-size';
+import React, { useEffect, useState } from 'react';
 import { FacsimileSpaceLoading } from './facsimile-space-loading';
-import { FacsimileCanvas, IFacsimileCanvasProps } from './facsimile-canvas';
+import { FacsimileCanvas } from './facsimile-canvas';
+import { FacsimileRegionPreview } from './facsimile-region-preview';
+import {
+  selectPageDataLoadingStatus,
+  useAppSelector,
+} from '@frontend/shared-ui';
 
 const animationVariants = {
   visible: { opacity: 1, x: 0 },
@@ -12,12 +14,7 @@ const animationVariants = {
 };
 
 export const FacsimileSpace = () => {
-  const { loading, activeWorkspace, accessMode } = useContext(
-    TextEditingWorkspaceContext
-  );
-  const imageUrl = useAppSelector(selectImageUrl);
-  const containerSize = useImageContainerSize();
-
+  const loading = useAppSelector(selectPageDataLoadingStatus);
   const [loaded, setLoaded] = useState(false);
   const animationControls = useAnimation();
   useEffect(() => {
@@ -27,6 +24,7 @@ export const FacsimileSpace = () => {
   }, [loaded]);
 
   useEffect(() => {
+    console.log({ loading });
     return () => {
       if (loading) {
         setLoaded(false);
@@ -35,37 +33,30 @@ export const FacsimileSpace = () => {
     };
   }, [loading]);
 
-  const props: IFacsimileCanvasProps = {
-    url: imageUrl,
-    width: containerSize.width,
-    height: containerSize.height,
-    scaleRatio: containerSize.scaleRatio,
-    activeWorkspace,
-    accessMode,
-    onLoaded: () => setLoaded(true),
-  };
-  const noData = loading || imageUrl === '' || containerSize.height <= 0;
   return (
-    <AnimatePresence exitBeforeEnter>
-      {noData ? (
-        <FacsimileSpaceLoading />
-      ) : (
-        <motion.div
-          key="facsimile-loaded"
-          layout
-          style={{
-            width: '45%',
-            height: 'fit-content',
-          }}
-          initial={'hidden'}
-          animate={animationControls}
-          variants={animationVariants}
-          exit={{ opacity: 0, x: -200 }}
-          transition={{ duration: 1, ease: 'easeIn' }}
-        >
-          <FacsimileCanvas {...props} />
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <>
+      <AnimatePresence exitBeforeEnter>
+        {loading ? (
+          <FacsimileSpaceLoading />
+        ) : (
+          <motion.div
+            key="facsimile-loaded"
+            layout
+            style={{
+              width: '45%',
+              height: 'fit-content',
+            }}
+            initial={'hidden'}
+            animate={animationControls}
+            variants={animationVariants}
+            exit={{ opacity: 0, x: -200 }}
+            transition={{ duration: 1, ease: 'easeIn' }}
+          >
+            <FacsimileCanvas onLoaded={() => setLoaded(true)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <FacsimileRegionPreview />
+    </>
   );
 };

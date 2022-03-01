@@ -10,14 +10,17 @@ import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
 import Box from '@mui/material/Box';
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
-import {
-  ActiveWorkspace,
-  TextEditingWorkspaceContext,
-} from '../../text-editing-workspace-context';
 import { AnimatePresence, motion } from 'framer-motion';
 import CircularProgress from '@mui/material/CircularProgress';
 import { LayoutAnalysisTool } from '@frontend/ui/text-editing/layout-analysis';
 import { useTabDisabledState } from './hooks';
+import {
+  selectPageDataLoadingStatus,
+  setTextEditingWorkspace,
+  TextEditingActiveWorkspace,
+  useAppDispatch,
+  useAppSelector,
+} from '@frontend/shared-ui';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -55,7 +58,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const TabIndexWorkspaceNameMap: Record<number, ActiveWorkspace> = {
+const TabIndexWorkspaceNameMap: Record<number, TextEditingActiveWorkspace> = {
   0: 'description',
   1: 'layout',
   2: 'lines',
@@ -67,29 +70,21 @@ const TabIndexWorkspaceNameMap: Record<number, ActiveWorkspace> = {
 // }
 
 export const ToolSpace = () => {
-  const {
-    loading,
-    regionUnderEditUrl,
-    toolSpaceContainerRef,
-    setActiveWorkspace,
-    onElementActivated,
-    selectedElementId,
-    onElementSelected,
-  } = useContext(TextEditingWorkspaceContext);
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector(selectPageDataLoadingStatus);
   const [value, setValue] = useState(0);
   const theme = useTheme();
   const isDisabled = useTabDisabledState();
   const handleChange = (event: SyntheticEvent, index: number) => {
     setValue(index);
-    setActiveWorkspace(TabIndexWorkspaceNameMap[index]);
+    dispatch(setTextEditingWorkspace(TabIndexWorkspaceNameMap[index]));
   };
   const handleChangeIndex = (index: number) => {
     setValue(index);
   };
 
-  // todo a memoized disabled state for each tab
   return (
-    <Box ref={toolSpaceContainerRef} sx={{ width: '50%' }}>
+    <Box sx={{ width: '50%' }}>
       <Box
         sx={{
           width: '100%',
@@ -181,12 +176,7 @@ export const ToolSpace = () => {
                 Item One
               </TabPanel>
               <TabPanel value={value} index={1} dir={theme.direction}>
-                <LayoutAnalysisTool
-                  onElementSelected={onElementSelected}
-                  selectedElementId={selectedElementId}
-                  onElementActivated={onElementActivated}
-                  regionUnderEditUrl={regionUnderEditUrl}
-                />
+                <LayoutAnalysisTool />
               </TabPanel>
               <TabPanel value={value} index={2} dir={theme.direction}>
                 Item Three

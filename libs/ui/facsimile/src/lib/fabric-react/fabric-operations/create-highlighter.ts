@@ -46,6 +46,7 @@ export function showHighlightFactory(
       width,
       height,
     });
+    highlighter.bringToFront();
     polygons.forEach((p) =>
       p.set({
         fill: '',
