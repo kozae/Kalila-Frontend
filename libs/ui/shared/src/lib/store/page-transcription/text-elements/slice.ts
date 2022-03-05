@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { ITextElement } from '@frontend/domain';
+import { discardLayoutChanges } from '../../text-editing-page/thunks';
 
 export const textElementsAdapter = createEntityAdapter<
   Omit<ITextElement, 'Lines'>
@@ -17,6 +18,11 @@ export const textElementsSlice = createSlice({
     addTextElement: textElementsAdapter.addOne,
     updateTextElement: textElementsAdapter.updateOne,
     clearTextElements: textElementsAdapter.removeAll,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(discardLayoutChanges.fulfilled, (state, action) => {
+      textElementsAdapter.setAll(state, action.payload.TextElements);
+    });
   },
 });
 

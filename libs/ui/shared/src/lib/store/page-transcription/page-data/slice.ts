@@ -1,5 +1,6 @@
 import { IPageInfo } from '@frontend/domain';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { discardLayoutChanges } from '../../text-editing-page/thunks';
 
 const initialState: {
   pageInfo: IPageInfo;
@@ -52,6 +53,14 @@ export const pageDataSlice = createSlice({
       state.pageInfo = initialState.pageInfo;
       state.loading = true;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(discardLayoutChanges.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(discardLayoutChanges.fulfilled, (state) => {
+      state.loading = false;
+    });
   },
 });
 

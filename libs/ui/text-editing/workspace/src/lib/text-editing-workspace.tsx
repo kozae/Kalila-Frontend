@@ -1,11 +1,18 @@
 import Stack from '@mui/material/Stack';
-import { useTextEditingWorkspaceStore } from '@frontend/shared-ui';
-import { FacsimileSpace, ToolSpace } from './components';
+import {
+  selectWorkspaceHasChanges,
+  useAppSelector,
+  useNavigationAwayGuard,
+  useTextEditingWorkspaceStore,
+} from '@frontend/shared-ui';
+import { CommandBar, FacsimileSpace, ToolSpace } from './components';
 import { useAccessModeSettings } from './hooks/access-mode-settings.hook';
 
 export function TextEditingWorkspace({ pageData, imageSize }: any) {
   useTextEditingWorkspaceStore(pageData, imageSize);
   useAccessModeSettings();
+  const workspaceHasChanges = useAppSelector(selectWorkspaceHasChanges);
+  useNavigationAwayGuard(workspaceHasChanges);
   return (
     <Stack
       mt="5px"
@@ -17,6 +24,7 @@ export function TextEditingWorkspace({ pageData, imageSize }: any) {
     >
       <FacsimileSpace />
       <ToolSpace />
+      <CommandBar hasChanges={workspaceHasChanges} />
     </Stack>
   );
 }

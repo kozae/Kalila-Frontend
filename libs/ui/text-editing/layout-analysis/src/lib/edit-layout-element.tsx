@@ -9,7 +9,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -32,7 +32,7 @@ export const EditLayoutElement = ({
   const textElement = useAppSelector((state) =>
     selectTextElementById(state, selectedElement.id as string)
   );
-  const positionInputRef = useRef<HTMLInputElement>(null);
+  const [position, setPosition] = useState<string>('');
 
   const title =
     textElement && textElement._id.length === 24
@@ -50,6 +50,7 @@ export const EditLayoutElement = ({
           id: selectedElement.id as string,
           changes: {
             FacsimileRegion: selectedElement.region as IFacsimileRegion,
+            Position: position,
           },
         })
       );
@@ -61,13 +62,14 @@ export const EditLayoutElement = ({
           id: selectedElement.id as string,
           changes: {
             FacsimileRegion: selectedElement.region as IFacsimileRegion,
+            Position: position,
           },
         })
       );
     }
 
     dispatch(onElementSelected({ id: null, region: null }));
-  }, [selectedElement]);
+  }, [selectedElement, position]);
 
   return (
     <Stack
@@ -145,10 +147,10 @@ export const EditLayoutElement = ({
       </Stack>
       <RegionDefinitionKeyboardInstructions />
       {textElement && (
-        <TextElementInfoForm positionInputRef={positionInputRef} />
+        <TextElementInfoForm value={position} onChange={setPosition} />
       )}
       {imageElement && (
-        <ImageElementInfoForm positionInputRef={positionInputRef} />
+        <ImageElementInfoForm value={position} onChange={setPosition} />
       )}
       <Stack direction="row" spacing={4}>
         <Button

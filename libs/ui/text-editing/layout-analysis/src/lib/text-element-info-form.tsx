@@ -1,4 +1,4 @@
-import { RefObject } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -6,20 +6,29 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 export const TextElementInfoForm = ({
-  positionInputRef,
+  value,
+  onChange,
 }: {
-  positionInputRef: RefObject<HTMLInputElement>;
+  value: string;
+  onChange: (value: string) => void;
 }) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onChange((event.target as HTMLInputElement).value);
+  };
+  useEffect(() => {
+    onChange('main body');
+  }, []);
   return (
-    <FormControl ref={positionInputRef}>
+    <FormControl>
       <FormLabel id="radio-buttons-text-element-position-group-label">
         Position:
       </FormLabel>
       <RadioGroup
         row
         aria-labelledby="radio-buttons-text-element-position-group-label"
-        defaultValue="main body"
         name="radio-buttons-text-element-position-group"
+        value={value}
+        onChange={handleChange}
       >
         <FormControlLabel
           value="main body"

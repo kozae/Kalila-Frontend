@@ -1,24 +1,33 @@
-import { RefObject } from 'react';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
+import { ChangeEvent, useEffect } from 'react';
 
 export const ImageElementInfoForm = ({
-  positionInputRef,
+  value,
+  onChange,
 }: {
-  positionInputRef: RefObject<HTMLInputElement>;
+  value: string;
+  onChange: (value: string) => void;
 }) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onChange((event.target as HTMLInputElement).value);
+  };
+  useEffect(() => {
+    onChange('image in main body');
+  }, []);
   return (
-    <FormControl ref={positionInputRef}>
+    <FormControl>
       <FormLabel id="radio-buttons-text-element-position-group-label">
         Position:
       </FormLabel>
       <RadioGroup
         row
         aria-labelledby="radio-buttons-text-element-position-group-label"
-        defaultValue="image in main body"
+        value={value}
+        onChange={handleChange}
         name="radio-buttons-text-element-position-group"
       >
         <FormControlLabel

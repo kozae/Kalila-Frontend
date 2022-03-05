@@ -4,6 +4,7 @@ import { kalilaTheme } from '@frontend/shared-ui';
 import { PolygonHelper } from '../../helpers';
 import { IEvent } from 'fabric/fabric-impl';
 import { IFacsimileRegion } from '@frontend/domain';
+import Mousetrap from 'mousetrap';
 
 export function createEditRegionRect() {
   return new fabric.Rect({
@@ -31,16 +32,108 @@ export const defaultEditRegion: IFacsimileRegion = {
   Rotation: 0,
 };
 
-function listenToKeyboardEvents() {
-  document.addEventListener('keydown', (e) => {
-    console.log(e);
-    e.preventDefault();
+function listenToKeyboardEvents(
+  canvas: fabric.Canvas,
+  editorRect: fabric.Rect
+) {
+  const renderAndFireEvent = () => {
+    canvas.requestRenderAll();
+    canvas.fire('object:modified', { target: editorRect });
+  };
+  // rotation
+  Mousetrap.bind('shift+r', () => {
+    console.log('rotating');
+    editorRect.set({ angle: (editorRect.angle as number) + 1 }).setCoords();
+    renderAndFireEvent();
+  });
+  Mousetrap.bind('shift+ctrl+r', () => {
+    editorRect.set({ angle: (editorRect.angle as number) - 1 }).setCoords();
+    renderAndFireEvent();
+  });
+  // movement
+  Mousetrap.bind('shift+right', () => {
+    editorRect.set({ left: (editorRect.left as number) + 1 }).setCoords();
+    renderAndFireEvent();
+  });
+  Mousetrap.bind('shift+left', () => {
+    editorRect.set({ left: (editorRect.left as number) - 1 }).setCoords();
+    renderAndFireEvent();
+  });
+  Mousetrap.bind('shift+up', () => {
+    editorRect.set({ top: (editorRect.top as number) - 1 }).setCoords();
+    renderAndFireEvent();
+  });
+  Mousetrap.bind('shift+down', () => {
+    editorRect.set({ top: (editorRect.top as number) + 1 }).setCoords();
+    renderAndFireEvent();
+  });
+  // expand
+  Mousetrap.bind('shift+ctrl+d', () => {
+    editorRect.set({ width: (editorRect.width as number) + 1 }).setCoords();
+    renderAndFireEvent();
+  });
+  Mousetrap.bind('shift+ctrl+a', () => {
+    editorRect
+      .set({
+        left: (editorRect.left as number) - 1,
+        width: (editorRect.width as number) + 1,
+      })
+      .setCoords();
+    renderAndFireEvent();
+  });
+  Mousetrap.bind('shift+ctrl+w', () => {
+    editorRect
+      .set({
+        top: (editorRect.top as number) - 1,
+        height: (editorRect.height as number) + 1,
+      })
+      .setCoords();
+    renderAndFireEvent();
+  });
+  Mousetrap.bind('shift+ctrl+s', () => {
+    editorRect.set({ height: (editorRect.height as number) + 1 }).setCoords();
+    renderAndFireEvent();
+  });
+  // shrink
+  Mousetrap.bind('shift+d', () => {
+    editorRect
+      .set({
+        left: (editorRect.left as number) + 1,
+        width: (editorRect.width as number) - 1,
+      })
+      .setCoords();
+    renderAndFireEvent();
+  });
+  Mousetrap.bind('shift+a', () => {
+    editorRect
+      .set({
+        width: (editorRect.width as number) - 1,
+      })
+      .setCoords();
+    renderAndFireEvent();
+  });
+  Mousetrap.bind('shift+w', () => {
+    editorRect
+      .set({
+        height: (editorRect.height as number) - 1,
+      })
+      .setCoords();
+    renderAndFireEvent();
+  });
+  Mousetrap.bind('shift+s', () => {
+    editorRect
+      .set({
+        top: (editorRect.top as number) + 1,
+        height: (editorRect.height as number) - 1,
+      })
+      .setCoords();
+    renderAndFireEvent();
   });
 }
 
-// function removeKeyboardEventListeners() {
-//   document.removeEventListener('');
-// }
+function removeKeyboardEventListeners() {
+  Mousetrap.reset();
+}
 
 function showEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
   return (
@@ -78,13 +171,14 @@ function showEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
     canvas.add(editorRect);
     canvas.renderAll();
     canvas.setActiveObject(editorRect);
-    listenToKeyboardEvents();
+    listenToKeyboardEvents(canvas, editorRect);
     canvas.on('object:modified', (e) => onChanged(e));
   };
 }
 
 function hideEditorFactory(canvas: fabric.Canvas) {
   return () => {
+    removeKeyboardEventListeners();
     canvas.remove(...canvas.getObjects());
     canvas.renderAll();
   };

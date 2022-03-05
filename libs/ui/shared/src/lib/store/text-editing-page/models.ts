@@ -1,4 +1,13 @@
-import { IFacsimileRegion, ILine, IToken } from '@frontend/domain';
+import {
+  IFacsimileRegion,
+  IImageElement,
+  ILine,
+  IPageInfo,
+  IPageTranscription,
+  ITextElement,
+  IToken,
+  IUnitSummary,
+} from '@frontend/domain';
 
 export type requestType =
   | 'postLayoutImages'
@@ -28,6 +37,12 @@ export interface ITextEditingPageState {
   regionHoveredInFacsimileSpace: (IFacsimileRegion & { Id: string }) | null;
   selectedElementId: string | null;
   regionUnderEditPolygon: IFacsimileRegion | null;
+  pageInfoBeforeChange: IPageInfo;
+  textElementsBeforeChanges: Omit<ITextElement, 'Lines'>[];
+  imageElementsBeforeChanges: IImageElement[];
+  linesBeforeChanges: Omit<ILine, 'Tokens'>[];
+  tokensBeforeChanges: IToken[];
+  unitSummariesBeforeChanges: IUnitSummary[];
   regionUnderEditUrl: string | null;
   deleteLayoutImages: string[];
   deleteLayoutTextElements: string[];

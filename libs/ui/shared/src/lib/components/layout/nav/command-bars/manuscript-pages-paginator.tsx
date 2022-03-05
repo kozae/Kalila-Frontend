@@ -5,7 +5,9 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useState } from 'react';
 import {
   clearPageData,
+  selectWorkspaceHasChanges,
   useAppDispatch,
+  useAppSelector,
   useMediumScreenMediaQuery,
   useSmallScreenMediaQuery,
   useXSmallScreenMediaQuery,
@@ -41,7 +43,7 @@ export const ManuscriptPagesPaginator = ({
     await router.push(`/text-editing/${manuscriptId}/${allPages[v - 1].Id}`);
     setPage(v);
   };
-
+  const workspaceHasChanges = useAppSelector(selectWorkspaceHasChanges);
   return (
     <Pagination
       onChange={handleChange}
@@ -51,6 +53,7 @@ export const ManuscriptPagesPaginator = ({
       count={allPages.length}
       color="secondary"
       shape="rounded"
+      disabled={workspaceHasChanges}
       renderItem={(item) => (
         <PaginationItem
           components={{

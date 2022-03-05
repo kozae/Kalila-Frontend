@@ -4,7 +4,6 @@ import React, { useCallback } from 'react';
 import InsertPhotoTwoToneIcon from '@mui/icons-material/InsertPhotoTwoTone';
 import TextSnippetTwoToneIcon from '@mui/icons-material/TextSnippetTwoTone';
 import MoveUpTwoToneIcon from '@mui/icons-material/MoveUpTwoTone';
-import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import {
   addImageElement,
   addTextElement,
@@ -65,43 +64,32 @@ export const LayoutAnalysisCommandBar = ({
       direction="row"
       spacing={2}
     >
-      <Stack direction="row" spacing={0.5}>
-        <Button
-          color="secondary"
-          size="small"
-          startIcon={<InsertPhotoTwoToneIcon />}
-          variant="text"
-          onClick={() => createImageElement()}
-        >
-          Define Image Element
-        </Button>
-        <Button
-          size="small"
-          startIcon={<TextSnippetTwoToneIcon />}
-          variant="text"
-          color="secondary"
-          onClick={() => createTextElement()}
-        >
-          Define Text Element
-        </Button>
-        <Button
-          size="small"
-          startIcon={<MoveUpTwoToneIcon />}
-          variant="text"
-          color="secondary"
-          onClick={() => createTextElement()}
-        >
-          Reorder main body elements
-        </Button>
-      </Stack>
+      <Button
+        color="secondary"
+        size="small"
+        startIcon={<InsertPhotoTwoToneIcon />}
+        variant="text"
+        onClick={() => createImageElement()}
+      >
+        Define Image Element
+      </Button>
       <Button
         size="small"
-        startIcon={<SaveTwoToneIcon />}
+        startIcon={<TextSnippetTwoToneIcon />}
         variant="text"
-        color="primary"
-        disabled={!layoutHasChanges}
+        color="secondary"
+        onClick={() => createTextElement()}
       >
-        Save changes
+        Define Text Element
+      </Button>
+      <Button
+        size="small"
+        startIcon={<MoveUpTwoToneIcon />}
+        variant="text"
+        color="secondary"
+        onClick={() => createTextElement()}
+      >
+        Reorder main body elements
       </Button>
     </Stack>
   );

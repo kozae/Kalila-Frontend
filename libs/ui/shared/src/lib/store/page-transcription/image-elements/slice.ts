@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { IImageElement } from '@frontend/domain';
+import { discardLayoutChanges } from '../../text-editing-page/thunks';
 
 export const imageElementsAdapter = createEntityAdapter<IImageElement>({
   selectId: (doc) => doc._id,
@@ -15,6 +16,11 @@ export const imageElementsSlice = createSlice({
     addImageElement: imageElementsAdapter.addOne,
     updateImageElement: imageElementsAdapter.updateOne,
     clearImageElements: imageElementsAdapter.removeAll,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(discardLayoutChanges.fulfilled, (state, action) => {
+      imageElementsAdapter.setAll(state, action.payload.ImageElements);
+    });
   },
 });
 
