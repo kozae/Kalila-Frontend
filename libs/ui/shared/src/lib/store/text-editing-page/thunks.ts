@@ -12,7 +12,7 @@ export const discardLayoutChanges = createAsyncThunk<
   ThunkApi
 >('textEditingPageState/discardLayoutChanges', async ({}, { getState }) => {
   const state = getState();
-  await sleeper(100);
+  await sleeper(1000);
   return {
     ImageElements: state.textEditingPageState.imageElementsBeforeChanges,
     TextElements: state.textEditingPageState.textElementsBeforeChanges,
