@@ -13,7 +13,7 @@ export function useDataUrlGeneration({
   }, []);
   useEffect(() => {
     if (fabricImg !== null) {
-      createRegionsDataUrls(regions, fabricImg, storeDataUrl);
+      createRegionsDataUrls(regions.data, fabricImg, storeDataUrl);
     }
   }, [regions, fabricImg]);
 }

@@ -49,7 +49,7 @@ export const Grid = <T extends object>({
 
   const headerProps: ISortControlProps & IFilterProps = {
     activeSort: useAppSelector(selectSort),
-    activeFilter: useAppSelector(selectFilter([])),
+    activeFilter: useAppSelector((state) => selectFilter(state, [])),
     onFilter: (filter: Record<string, any>) =>
       dispatch(changeFilter({ filter, router })),
     onSort: (sort: { OrderBy?: string; SortDirection?: string }) =>

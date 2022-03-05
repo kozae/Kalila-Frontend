@@ -7,16 +7,17 @@ import {
   selectAllImageElements,
   selectAllTextElements,
   selectManyRegionDataUrlById,
-  selectSelectedElementId,
+  selectSelectedElement,
   useAppSelector,
 } from '@frontend/shared-ui';
 
 export function LayoutAnalysisTool() {
   const imageElements = useAppSelector(selectAllImageElements);
   const textElements = useAppSelector(selectAllTextElements);
-  const selectedElementId = useAppSelector(selectSelectedElementId);
-  const dataUrls = useAppSelector(
+  const selectedElement = useAppSelector(selectSelectedElement);
+  const dataUrls = useAppSelector((state) =>
     selectManyRegionDataUrlById(
+      state,
       [...imageElements, ...textElements].map((i) => i._id)
     )
   );
@@ -26,7 +27,7 @@ export function LayoutAnalysisTool() {
       sx={{ mt: '5px', width: '100%', height: '100%', bgcolor: '#DDDDDD' }}
     >
       <AnimatePresence exitBeforeEnter>
-        {selectedElementId === null ? (
+        {selectedElement.id === null ? (
           <motion.div
             key="layout-analysis-tool-preview-mode"
             style={{ width: '100%', height: '100%' }}
@@ -54,7 +55,7 @@ export function LayoutAnalysisTool() {
             exit={{ opacity: 0, scale: 0.2 }}
             transition={{ duration: 0.5, ease: 'easeIn' }}
           >
-            <EditLayoutElement selectedElementId={selectedElementId} />
+            <EditLayoutElement selectedElement={selectedElement} />
           </motion.div>
         )}
       </AnimatePresence>

@@ -24,7 +24,6 @@ export const FacsimileSpace = () => {
   }, [loaded]);
 
   useEffect(() => {
-    console.log({ loading });
     return () => {
       if (loading) {
         setLoaded(false);

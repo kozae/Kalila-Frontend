@@ -1,8 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { pagedDocsAdapter } from './slice';
 import { RootState } from '../config';
-import { ClassConstructor } from 'class-transformer/types/interfaces';
-import { plainToInstance } from 'class-transformer';
 import { omit } from 'lodash';
 
 const selectPagedDocsState = (state: RootState) => state.pagedDocuments;
@@ -12,9 +10,6 @@ export const {
   selectById: selectPagedDocById,
   selectEntities: selectPagedDocsAsMap,
 } = pagedDocsAdapter.getSelectors<RootState>(selectPagedDocsState);
-
-export const selectCastedPagedDocs = <T>(cls: ClassConstructor<T>) =>
-  createSelector(selectPagedDocs, (docs) => plainToInstance(cls, docs));
 
 export const selectPagedDocsLoading = createSelector(
   selectPagedDocsState,
@@ -31,10 +26,10 @@ export const selectPagination = createSelector(
   (pagedDocsState) => pagedDocsState.pagination
 );
 
-export const selectFilter = (exclude: string[]) =>
-  createSelector(selectPagedDocsState, (pagedDocsState) =>
-    omit(pagedDocsState.filter, exclude)
-  );
+export const selectFilter = createSelector(
+  [selectPagedDocsState, (state, exclude: string[]) => exclude],
+  (pagedDocsState, exclude) => omit(pagedDocsState.filter, exclude)
+);
 
 export const selectSort = createSelector(
   selectPagedDocsState,
@@ -46,5 +41,7 @@ export const selectSelection = createSelector(
   (pagedDocsState) => pagedDocsState.selection
 );
 
-export const isIdSelected = (id: string) =>
-  createSelector(selectSelection, (selection) => selection.includes(id));
+export const isIdSelected = createSelector(
+  [selectSelection, (state, id: string) => id],
+  (selection, id) => selection.includes(id)
+);

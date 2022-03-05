@@ -29,8 +29,8 @@ const Container: React.FC<{
   const dispatch = useAppDispatch();
   const handleHover = (region: (IFacsimileRegion & { Id: string }) | null) =>
     dispatch(onRegionHoveredInToolSpace(region));
-  const handleSelection = (id: string | null) =>
-    dispatch(onElementSelected(id));
+  const handleSelection = (id: string | null, region: IFacsimileRegion) =>
+    dispatch(onElementSelected({ id, region }));
 
   return (
     <Paper
@@ -64,7 +64,9 @@ const Container: React.FC<{
           <IconButton
             color="secondary"
             size="small"
-            onClick={() => handleSelection(el._id)}
+            onClick={() =>
+              handleSelection(el._id, el.FacsimileRegion as IFacsimileRegion)
+            }
           >
             <EditIcon sx={{ fontSize: '1.2rem' }} />
           </IconButton>

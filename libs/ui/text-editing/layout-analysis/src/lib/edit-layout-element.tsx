@@ -1,62 +1,167 @@
 import {
+  kalilaTheme,
   onElementSelected,
   selectImageElementById,
-  selectRegionDataUrlById,
   selectRegionUnderEditUrl,
   selectTextElementById,
+  updateImageElement,
+  updateTextElement,
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { IFacsimileRegion } from '@frontend/domain';
+import { TextElementInfoForm } from './text-element-info-form';
+import { ImageElementInfoForm } from './image-element-info-form';
+import { RegionDefinitionKeyboardInstructions } from './region-definition-keyboard-instructions';
 
 export const EditLayoutElement = ({
-  selectedElementId,
+  selectedElement,
 }: {
-  selectedElementId: string;
+  selectedElement: { id: string | null; region: IFacsimileRegion | null };
 }) => {
   const regionUnderEditUrl = useAppSelector(selectRegionUnderEditUrl);
   const dispatch = useAppDispatch();
-  const handleElementSelected = (id: string | null) =>
-    dispatch(onElementSelected(id));
-  const imageElement = useAppSelector(
-    selectImageElementById(selectedElementId)
+  const imageElement = useAppSelector((state) =>
+    selectImageElementById(state, selectedElement.id as string)
   );
-  const textElement = useAppSelector(selectTextElementById(selectedElementId));
-  const url = useAppSelector(selectRegionDataUrlById(selectedElementId));
+  const textElement = useAppSelector((state) =>
+    selectTextElementById(state, selectedElement.id as string)
+  );
+  const positionInputRef = useRef<HTMLInputElement>(null);
+
+  const title =
+    textElement && textElement._id.length === 24
+      ? 'Edit Text Element'
+      : textElement && textElement._id.length !== 24
+      ? 'Define Text Element'
+      : imageElement && imageElement._id.length === 24
+      ? 'Edit Image Element'
+      : 'Define Image Element';
+
+  const handleSave = useCallback(() => {
+    if (textElement) {
+      dispatch(
+        updateTextElement({
+          id: selectedElement.id as string,
+          changes: {
+            FacsimileRegion: selectedElement.region as IFacsimileRegion,
+          },
+        })
+      );
+    }
+
+    if (imageElement) {
+      dispatch(
+        updateImageElement({
+          id: selectedElement.id as string,
+          changes: {
+            FacsimileRegion: selectedElement.region as IFacsimileRegion,
+          },
+        })
+      );
+    }
+
+    dispatch(onElementSelected({ id: null, region: null }));
+  }, [selectedElement]);
 
   return (
-    <Stack sx={{ width: '100%', height: '100%' }}>
-      <Box>
-        <Typography variant="h3">Title</Typography>
-      </Box>
+    <Stack
+      sx={{
+        width: '100%',
+        height: '100%',
+        bgcolor: 'white',
+        alignItems: 'center',
+      }}
+    >
       <Box
         sx={{
           width: '100%',
-          height: '50%',
+          bgcolor: 'secondary.main',
+          color: 'white',
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
+          boxShadow: kalilaTheme.shadows[4],
         }}
       >
-        {regionUnderEditUrl && (
-          <img
-            style={{
-              maxWidth: '100%',
-              maxHeight: '100%',
-              objectFit: 'contain',
-            }}
-            width="auto"
-            height="auto"
-            src={regionUnderEditUrl}
-            alt="region not defined"
-          />
-        )}
+        <Typography sx={{ p: '5px' }} variant="h3">
+          {title}
+        </Typography>
       </Box>
-      <Button onClick={() => handleElementSelected(null)}>Done</Button>
+      <Stack
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{
+          mt: '5px',
+          mb: '5px',
+          width: '98%',
+          height: '40%',
+          borderRadius: '5px 5px 5px 5px',
+          border: 'solid 2px ' + kalilaTheme.palette.primary.main,
+        }}
+      >
+        <Box
+          sx={{
+            mt: '5px',
+            width: '100%%',
+            height: '90%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            display: 'flex',
+          }}
+        >
+          {regionUnderEditUrl && (
+            <img
+              style={{
+                maxWidth: '100%',
+                maxHeight: '100%',
+                objectFit: 'contain',
+              }}
+              width="auto"
+              height="auto"
+              src={regionUnderEditUrl}
+              alt="region not defined"
+            />
+          )}
+        </Box>
+        <Box
+          sx={{
+            width: '100%',
+            bgcolor: 'primary.main',
+            color: 'white',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography variant="body1">
+            To adjust the region, interact using the mouse with the image on the
+            left or use the keyboard commands below.
+          </Typography>
+        </Box>
+      </Stack>
+      <RegionDefinitionKeyboardInstructions />
+      {textElement && (
+        <TextElementInfoForm positionInputRef={positionInputRef} />
+      )}
+      {imageElement && (
+        <ImageElementInfoForm positionInputRef={positionInputRef} />
+      )}
+      <Stack direction="row" spacing={4}>
+        <Button
+          disableElevation
+          variant="contained"
+          onClick={() => handleSave()}
+        >
+          Save
+        </Button>
+        <Button disableElevation variant="outlined" color="warning">
+          Cancel
+        </Button>
+      </Stack>
     </Stack>
   );
 };

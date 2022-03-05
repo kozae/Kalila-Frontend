@@ -21,7 +21,7 @@ export function createEditRegionRect() {
   });
 }
 
-const defaultEditRegion: IFacsimileRegion = {
+export const defaultEditRegion: IFacsimileRegion = {
   Points: [
     { X: 50, Y: 50 },
     { X: 300, Y: 50 },
@@ -31,17 +31,28 @@ const defaultEditRegion: IFacsimileRegion = {
   Rotation: 0,
 };
 
-function showEditorFactory(
-  scale: (x: number) => number,
-  editorRect: fabric.Rect,
-  polygons: fabric.Polygon[],
-  canvas: fabric.Canvas
-) {
-  return (id: string, onChanged: (e: IEvent) => void) => {
+function listenToKeyboardEvents() {
+  document.addEventListener('keydown', (e) => {
+    console.log(e);
+    e.preventDefault();
+  });
+}
+
+// function removeKeyboardEventListeners() {
+//   document.removeEventListener('');
+// }
+
+function showEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
+  return (
+    id: string,
+    scaleRatio: number,
+    onChanged: (e: IEvent) => void,
+    editRegion: IFacsimileRegion = defaultEditRegion
+  ) => {
+    const scale = (x: number) => x * scaleRatio;
+    const polygons = canvas.getObjects();
     const existingPolygon = polygons.find((p) => p.data.Id === id);
-    const polygonToEdit = existingPolygon
-      ? existingPolygon.data
-      : defaultEditRegion;
+    const polygonToEdit = existingPolygon ? existingPolygon.data : editRegion;
     if (existingPolygon) {
       canvas.remove(existingPolygon);
     }
@@ -67,39 +78,30 @@ function showEditorFactory(
     canvas.add(editorRect);
     canvas.renderAll();
     canvas.setActiveObject(editorRect);
+    listenToKeyboardEvents();
     canvas.on('object:modified', (e) => onChanged(e));
   };
 }
 
-function hideEditorFactory(
-  canvas: fabric.Canvas,
-  editorRect: fabric.Rect,
-  polygons: fabric.Polygon[]
-) {
+function hideEditorFactory(canvas: fabric.Canvas) {
   return () => {
-    polygons.forEach((p) =>
-      p.set({
-        fill: hexToRgba(p.data.HighlightColor, 0.2),
-        stroke: p.data.HighlightColor,
-      })
-    );
-    editorRect.off();
-    canvas.remove(editorRect);
+    canvas.remove(...canvas.getObjects());
     canvas.renderAll();
   };
 }
 
 export function createEditor(
   canvas: fabric.Canvas | null,
-  editorRect: fabric.Rect,
-  polygons: fabric.Polygon[],
-  scale: (x: number) => number
+  editorRect: fabric.Rect
 ) {
   const showEditor = canvas
-    ? showEditorFactory(scale, editorRect, polygons, canvas)
-    : (id: string, onChanged: (e: IEvent) => void) => {};
-  const hideEditor = canvas
-    ? hideEditorFactory(canvas, editorRect, polygons)
-    : () => {};
+    ? showEditorFactory(canvas, editorRect)
+    : (
+        id: string,
+        scaleRatio: number,
+        onChanged: (e: IEvent) => void,
+        editRegion: IFacsimileRegion = defaultEditRegion
+      ) => {};
+  const hideEditor = canvas ? hideEditorFactory(canvas) : () => {};
   return { showEditor, hideEditor };
 }

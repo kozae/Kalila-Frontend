@@ -63,7 +63,7 @@ export const DocumentsDetailedViewPage = <T extends KalilaDocument>({
   const { loading, documents, pagination, selection, filter } =
     usePagedDocumentsState(cls);
   const dispatchers = usePagedDocumentsDispatch();
-  const fields = useAppSelector(selectFields(schemaFilter));
+  const fields = useAppSelector((state) => selectFields(state, schemaFilter));
   const attributes = useAppSelector(selectAttributes);
 
   const tableSchema = useTableSchema(fields, excludedColumns);

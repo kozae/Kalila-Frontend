@@ -17,15 +17,15 @@ export function createRegionHighlighter() {
 }
 
 export function showHighlightFactory(
-  scale: (x: number) => number,
-  highlighter: fabric.Rect,
-  polygons: fabric.Polygon[],
   canvas: fabric.Canvas,
+  highlighter: fabric.Rect,
   hideHighlight: () => void
 ) {
-  const width = canvas.width as number;
-  const height = canvas.height as number;
-  return (region: IFacsimileRegion) => {
+  return (region: IFacsimileRegion, scaleRatio: number) => {
+    const polygons = canvas.getObjects();
+    const scale = (x: number) => x * scaleRatio;
+    const width = canvas.width as number;
+    const height = canvas.height as number;
     hideHighlight(); // make sure that the highlight is hidden
     canvas.add(highlighter);
     const points = PolygonHelper.scale(
@@ -58,34 +58,32 @@ export function showHighlightFactory(
 }
 
 export function hideHighlightFactory(
-  highlighter: fabric.Rect,
-  polygons: fabric.Polygon[],
-  canvas: fabric.Canvas
+  canvas: fabric.Canvas,
+  highlighter: fabric.Rect
 ) {
   return () => {
+    canvas.remove(highlighter);
+    const polygons = canvas.getObjects();
     polygons.forEach((p) =>
       p.set({
         fill: hexToRgba(p.data.HighlightColor, 0.2),
         stroke: p.data.HighlightColor,
       })
     );
-    canvas.remove(highlighter);
     canvas.renderAll();
   };
 }
 
 export function createHighlighter(
   canvas: fabric.Canvas | null,
-  highlighter: fabric.Rect,
-  polygons: fabric.Polygon[],
-  scale: (x: number) => number
+  highlighter: fabric.Rect
 ) {
   const hideHighlight = canvas
-    ? hideHighlightFactory(highlighter, polygons, canvas)
+    ? hideHighlightFactory(canvas, highlighter)
     : () => {};
 
   const showHighlight = canvas
-    ? showHighlightFactory(scale, highlighter, polygons, canvas, hideHighlight)
+    ? showHighlightFactory(canvas, highlighter, hideHighlight)
     : (r: any) => {};
 
   return { hideHighlight, showHighlight };

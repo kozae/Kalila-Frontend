@@ -14,8 +14,8 @@ import {
 } from './slice';
 import { selectAccessToken } from '../session';
 import {
-  selectCastedPagedDocs,
   selectFilter,
+  selectPagedDocs,
   selectPagedDocsLoading,
   selectPagination,
   selectSelection,
@@ -35,6 +35,7 @@ import {
   updateOneDocument,
 } from './thunks';
 import { NextRouter } from 'next/router';
+import { plainToInstance } from 'class-transformer';
 
 function dispatchDataChangesToStore(
   isValidating: boolean,
@@ -95,10 +96,10 @@ export function usePagedDocumentsState<T extends KalilaDocument>(
 ) {
   return {
     loading: useAppSelector(selectPagedDocsLoading),
-    documents: useAppSelector(selectCastedPagedDocs(cls)),
+    documents: plainToInstance(cls, useAppSelector(selectPagedDocs)),
     pagination: useAppSelector(selectPagination),
     selection: useAppSelector(selectSelection),
-    filter: useAppSelector(selectFilter(excludeFromFilter)),
+    filter: useAppSelector((state) => selectFilter(state, excludeFromFilter)),
     sort: useAppSelector(selectSort),
   };
 }

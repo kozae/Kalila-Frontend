@@ -3,12 +3,6 @@ import { PolygonHelper } from '../../helpers';
 import { hexToRgba } from '@frontend/util';
 import { IFacsimileRegion, pointToSmallXAndY } from '@frontend/domain';
 
-export interface IPolygonData {
-  polygons: Record<string, fabric.Polygon>;
-  hideHighlight: () => void;
-  showHighlight: (region: IFacsimileRegion) => void;
-}
-
 export function drawPolygons(
   canvas: fabric.Canvas,
   polygons: fabric.Polygon[]

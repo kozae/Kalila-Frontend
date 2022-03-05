@@ -3,6 +3,7 @@ import { linesAdapter } from './slice';
 import { createSelector } from '@reduxjs/toolkit';
 
 const selectLinesState = (state: RootState) => state.lines;
+const selectId = (state: RootState, id: string) => id;
 
 export const { selectAll: selectAllLines } =
   linesAdapter.getSelectors<RootState>(selectLinesState);

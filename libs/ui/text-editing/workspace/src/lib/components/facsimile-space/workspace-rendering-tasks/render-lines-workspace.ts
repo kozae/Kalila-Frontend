@@ -5,17 +5,25 @@ import { drawPolygons, addEventListeners } from '@frontend/ui/facsimile';
 export type LinesProcedureProps = {
   canvas: fabric.Canvas;
   polygons: fabric.Polygon[];
-  showHighlight: (region: IFacsimileRegion) => void;
+  scaleRatio: number;
+  showHighlight: (region: IFacsimileRegion, scaleRatio: number) => void;
   hideHighlight: () => void;
   onRegionHighlighted: (
     region: (IFacsimileRegion & { Id: string }) | null
   ) => void;
-  onElementSelected: (id: string | null) => void;
+  onElementSelected: ({
+    id,
+    region,
+  }: {
+    id: string | null;
+    region: IFacsimileRegion | null;
+  }) => void;
 };
 
 export function renderLinesWorkspace({
   canvas,
   polygons,
+  scaleRatio,
   hideHighlight,
   showHighlight,
   onRegionHighlighted,
@@ -28,14 +36,14 @@ export function renderLinesWorkspace({
     onMouseOver: (region) => {
       hideHighlight();
       onRegionHighlighted(region);
-      showHighlight(region);
+      showHighlight(region, scaleRatio);
     },
     onMouseOut: () => {
       hideHighlight();
       onRegionHighlighted(null);
     },
     onClicked: (id, e) => {
-      onElementSelected(id);
+      onElementSelected({ id, region: null });
     },
   });
 }

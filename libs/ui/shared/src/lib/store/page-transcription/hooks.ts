@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { clearPageData, loadPageData, pageDataLoaded } from './page-data';
 import { clearDataUrls } from './region-data-urls';
 import { highlightColors } from '@frontend/ui/facsimile';
+import { clearTextEditingPageStore } from '../text-editing-page';
 
 export function useTextEditingWorkspaceStore(
   data: IPageTranscription,
@@ -43,6 +44,7 @@ export function useTextEditingWorkspaceStore(
     dispatch(clearTextElements());
     dispatch(clearLines());
     dispatch(clearTokens());
+    dispatch(clearTextEditingPageStore());
   };
 
   useEffect(() => {

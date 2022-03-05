@@ -6,7 +6,7 @@ const selectImageElementsState = (state: RootState) => state.imageElements;
 
 export const {
   selectAll: selectAllImageElements,
-  selectById: selectImageElementByIdFromAdapter,
+  selectById: selectImageElementById,
 } = imageElementsAdapter.getSelectors<RootState>(selectImageElementsState);
 
 export const selectAllImageElementsRegions = createSelector(
@@ -23,9 +23,3 @@ export const selectAllImageElementsIds = createSelector(
   selectAllImageElements,
   (ie) => ie.map((e) => e._id)
 );
-
-export const selectImageElementById = (id: string) =>
-  createSelector(
-    (state: RootState) => state,
-    (state) => selectImageElementByIdFromAdapter(state, id)
-  );

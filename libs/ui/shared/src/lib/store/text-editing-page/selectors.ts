@@ -24,9 +24,12 @@ export const selectRegionHoveredInFacsimileSpace = createSelector(
   (state) => state.regionHoveredInFacsimileSpace
 );
 
-export const selectSelectedElementId = createSelector(
+export const selectSelectedElement = createSelector(
   selectTextEditingPageState,
-  (state) => state.selectedElementId
+  (state) => ({
+    id: state.selectedElementId,
+    region: state.regionUnderEditPolygon,
+  })
 );
 
 export const selectRegionUnderEditUrl = createSelector(
@@ -34,16 +37,36 @@ export const selectRegionUnderEditUrl = createSelector(
   (state) => state.regionUnderEditUrl
 );
 
-export const selectImageDimensions = createSelector(
+export const selectLayoutHasChanges = createSelector(
   selectTextEditingPageState,
-  (state) => ({
-    imageDisplayHeight: state.imageDisplayHeight,
-    imageDisplayWidth: state.imageDisplayWidth,
-    scaleRatio: state.scaleRatio,
-  })
+  (state) =>
+    state.postLayoutImages.length !== 0 ||
+    state.postLayoutTextElements.length !== 0 ||
+    state.putImages.length !== 0 ||
+    state.putTextElements.length !== 0 ||
+    state.deleteLayoutImages.length !== 0 ||
+    state.deleteLayoutTextElements.length !== 0
 );
 
-export const selectScaleRaion = createSelector(
+export const selectLinesHaveChanges = createSelector(
   selectTextEditingPageState,
-  (state) => state.scaleRatio
+  (state) =>
+    state.postLines.length !== 0 ||
+    state.putLines.length !== 0 ||
+    state.deleteLines.length !== 0
+);
+
+export const selectTranscriptionHaveChanges = createSelector(
+  selectTextEditingPageState,
+  (state) => state.postTokens.length !== 0
+);
+
+export const selectWorkspaceHasChanges = createSelector(
+  [
+    selectLayoutHasChanges,
+    selectLinesHaveChanges,
+    selectTranscriptionHaveChanges,
+  ],
+  (layoutHasChanges, linesHaveChanges, transcriptionHasChanges) =>
+    layoutHasChanges || linesHaveChanges || transcriptionHasChanges
 );

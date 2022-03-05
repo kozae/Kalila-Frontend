@@ -1,17 +1,22 @@
 import { useMemo } from 'react';
-import { selectSelectedElementId, useAppSelector } from '@frontend/shared-ui';
+import {
+  selectSelectedElement,
+  selectWorkspaceHasChanges,
+  useAppSelector,
+} from '@frontend/shared-ui';
 
 export function useTabDisabledState() {
-  const selectedElementId = useAppSelector(selectSelectedElementId);
+  const selectedElement = useAppSelector(selectSelectedElement);
+  const workspaceHasChanges = useAppSelector(selectWorkspaceHasChanges);
   const selectionIsActive = useMemo(
-    () => selectedElementId !== null,
-    [selectedElementId]
+    () => selectedElement.id !== null,
+    [selectedElement.id]
   );
   return {
-    description: selectionIsActive,
-    layout: selectionIsActive,
-    lines: selectionIsActive,
-    transcription: selectionIsActive,
-    segmentation: selectionIsActive,
+    description: selectionIsActive || workspaceHasChanges,
+    layout: selectionIsActive || workspaceHasChanges,
+    lines: selectionIsActive || workspaceHasChanges,
+    transcription: selectionIsActive || workspaceHasChanges,
+    segmentation: selectionIsActive || workspaceHasChanges,
   };
 }

@@ -2,7 +2,7 @@ import Portal from '@mui/material/Portal';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   kalilaTheme,
-  selectRegionDataUrl,
+  selectRegionDataUrlById,
   selectRegionHoveredInFacsimileSpace,
   selectTextEditingAccessMode,
   useAppSelector,
@@ -19,9 +19,10 @@ export const FacsimileRegionPreview = () => {
   const regionHoveredInFacsimileSpace = useAppSelector(
     selectRegionHoveredInFacsimileSpace
   );
-  const regionPreview = useAppSelector(
-    selectRegionDataUrl(
-      regionHoveredInFacsimileSpace ? regionHoveredInFacsimileSpace.Id : null
+  const regionPreview = useAppSelector((state) =>
+    selectRegionDataUrlById(
+      state,
+      regionHoveredInFacsimileSpace ? regionHoveredInFacsimileSpace.Id : ''
     )
   );
 
@@ -73,9 +74,9 @@ export const FacsimileRegionPreview = () => {
       </Portal>
       <Portal>
         <AnimatePresence exitBeforeEnter>
-          {regionPreview ? (
+          {regionPreview && regionPreview.data ? (
             <motion.div
-              key={regionPreview.substr(0, 100)}
+              key={regionPreview.id}
               style={{
                 position: 'fixed',
                 top: 10,
@@ -96,7 +97,7 @@ export const FacsimileRegionPreview = () => {
                 style={{ boxShadow: kalilaTheme.shadows[16] }}
                 width="100%"
                 height="auto"
-                src={regionPreview}
+                src={regionPreview.data}
                 alt="preview"
               />
             </motion.div>

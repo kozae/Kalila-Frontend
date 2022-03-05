@@ -7,13 +7,20 @@ import { TextEditingActiveWorkspace } from '@frontend/shared-ui';
 export type WorkspaceProcedureProps = {
   activeWorkspace: TextEditingActiveWorkspace;
   canvas: fabric.Canvas;
+  scaleRatio: number;
   polygons: fabric.Polygon[];
-  showHighlight: (region: IFacsimileRegion) => void;
+  showHighlight: (region: IFacsimileRegion, scaleRatio: number) => void;
   hideHighlight: () => void;
   onRegionHighlighted: (
     region: (IFacsimileRegion & { Id: string }) | null
   ) => void;
-  onElementSelected: (id: string | null) => void;
+  onElementSelected: ({
+    id,
+    region,
+  }: {
+    id: string | null;
+    region: IFacsimileRegion | null;
+  }) => void;
 };
 
 export function workspaceProcedure({

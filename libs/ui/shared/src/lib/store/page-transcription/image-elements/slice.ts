@@ -13,9 +13,14 @@ export const imageElementsSlice = createSlice({
   reducers: {
     loadImageElements: imageElementsAdapter.setAll,
     addImageElement: imageElementsAdapter.addOne,
+    updateImageElement: imageElementsAdapter.updateOne,
     clearImageElements: imageElementsAdapter.removeAll,
   },
 });
 
-export const { loadImageElements, clearImageElements, addImageElement } =
-  imageElementsSlice.actions;
+export const {
+  loadImageElements,
+  updateImageElement,
+  clearImageElements,
+  addImageElement,
+} = imageElementsSlice.actions;

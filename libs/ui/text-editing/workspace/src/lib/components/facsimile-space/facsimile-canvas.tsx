@@ -1,11 +1,14 @@
 import { FabricCanvas } from '@frontend/ui/facsimile';
-import { useDataUrlGeneration, useExternalWorkspaceEvents } from './hooks';
-import { useFacsimileCanvasState } from './hooks/facsimile-canvas-state.hook';
-import { useImageDisplaySize } from '../../hooks/use-image-display-size.hook';
+import {
+  useDataUrlGeneration,
+  useExternalWorkspaceEvents,
+  useFacsimileCanvasEffects,
+  useFacsimileCanvasState,
+} from './hooks';
 
 export const FacsimileCanvas = ({ onLoaded }: { onLoaded: () => void }) => {
-  useImageDisplaySize();
-  const canvasState = useFacsimileCanvasState(onLoaded);
+  const canvasState = useFacsimileCanvasState();
+  useFacsimileCanvasEffects(canvasState, onLoaded);
   useExternalWorkspaceEvents(canvasState);
   useDataUrlGeneration(canvasState);
 

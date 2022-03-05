@@ -1,26 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFacsimileRegion } from '@frontend/domain';
-
-export type TextEditingActiveWorkspace =
-  | 'description'
-  | 'transcription'
-  | 'layout'
-  | 'lines'
-  | 'segmentation';
-
-export type TextEditingAccessMode = 'view' | 'edit';
-
-interface ITextEditingPageState {
-  accessMode: TextEditingAccessMode;
-  activeWorkspace: TextEditingActiveWorkspace;
-  regionHoveredInToolSpace: (IFacsimileRegion & { Id: string }) | null;
-  regionHoveredInFacsimileSpace: (IFacsimileRegion & { Id: string }) | null;
-  selectedElementId: string | null;
-  regionUnderEditUrl: string | null;
-  imageDisplayHeight: number;
-  imageDisplayWidth: number;
-  scaleRatio: number;
-}
+import {
+  IFacsimileRegion,
+  IImageElement,
+  ITextElement,
+} from '@frontend/domain';
+import {
+  ITextEditingPageState,
+  TextEditingAccessMode,
+  TextEditingActiveWorkspace,
+} from './models';
+import { Update } from '@reduxjs/toolkit/src/entities/models';
 
 const initialState: ITextEditingPageState = {
   accessMode: 'view',
@@ -28,10 +17,18 @@ const initialState: ITextEditingPageState = {
   regionHoveredInToolSpace: null,
   regionHoveredInFacsimileSpace: null,
   selectedElementId: null,
+  regionUnderEditPolygon: null,
   regionUnderEditUrl: null,
-  imageDisplayHeight: 1,
-  imageDisplayWidth: 1,
-  scaleRatio: 1,
+  deleteLayoutImages: [],
+  deleteLayoutTextElements: [],
+  deleteLines: [],
+  postLayoutImages: [],
+  postLayoutTextElements: [],
+  postLines: [],
+  postTokens: [],
+  putImages: [],
+  putLines: [],
+  putTextElements: [],
 };
 
 export const textEditingPageSlice = createSlice({
@@ -62,27 +59,70 @@ export const textEditingPageSlice = createSlice({
     ) => {
       state.regionHoveredInFacsimileSpace = action.payload;
     },
-    onElementSelected: (state, action: PayloadAction<string | null>) => {
-      state.selectedElementId = action.payload;
+    onElementSelected: (
+      state,
+      action: PayloadAction<{
+        id: string | null;
+        region: IFacsimileRegion | null;
+      }>
+    ) => {
+      state.selectedElementId = action.payload.id;
+      state.regionUnderEditPolygon = action.payload.region;
+      if (action.payload.id === null) {
+        state.regionUnderEditPolygon = null;
+        state.regionUnderEditUrl = null;
+      }
+    },
+    setRegionUnderEditPolygon: (
+      state,
+      action: PayloadAction<IFacsimileRegion>
+    ) => {
+      state.regionUnderEditPolygon = action.payload;
     },
     setRegionUnderEditUrl: (state, action: PayloadAction<string | null>) => {
       state.regionUnderEditUrl = action.payload;
     },
-    textEditingPageState: (state) => {
+    clearTextEditingPageStore: (state) => {
       state = initialState;
     },
-    setImageDimensions: (
-      state,
-      action: PayloadAction<{
-        imageDisplayHeight: number;
-        imageDisplayWidth: number;
-        scaleRatio: number;
-      }>
-    ) => {
-      state.imageDisplayHeight = action.payload.imageDisplayHeight;
-      state.imageDisplayWidth = action.payload.imageDisplayWidth;
-      state.scaleRatio = action.payload.scaleRatio;
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      (action) => action.type === 'textElements/addTextElement',
+      (state, action: PayloadAction<ITextElement>) => {
+        state.postLayoutTextElements.push(action.payload._id);
+      }
+    );
+    builder.addMatcher(
+      (action) => action.type === 'textElements/updateTextElement',
+      (state, action: PayloadAction<Update<ITextElement>>) => {
+        const id = action.payload.id as string;
+        if (id.length === 24) {
+          // mongo object id, i.e. existing item
+          if (!state.putTextElements.includes(id)) {
+            state.putTextElements.push(id);
+          }
+        }
+      }
+    );
+    builder.addMatcher(
+      (action) => action.type === 'textElements/addImageElement',
+      (state, action: PayloadAction<IImageElement>) => {
+        state.postLayoutImages.push(action.payload._id);
+      }
+    );
+    builder.addMatcher(
+      (action) => action.type === 'textElements/updateImageElement',
+      (state, action: PayloadAction<Update<IImageElement>>) => {
+        const id = action.payload.id as string;
+        if (id.length === 24) {
+          // mongo object id, i.e. existing item
+          if (!state.putImages.includes(id)) {
+            state.putImages.push(id);
+          }
+        }
+      }
+    );
   },
 });
 
@@ -93,6 +133,6 @@ export const {
   onRegionHoveredInFacsimileSpace,
   onElementSelected,
   setRegionUnderEditUrl,
-  textEditingPageState,
-  setImageDimensions,
+  setRegionUnderEditPolygon,
+  clearTextEditingPageStore,
 } = textEditingPageSlice.actions;

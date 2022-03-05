@@ -3,13 +3,16 @@ import { createSelector } from '@reduxjs/toolkit';
 import { fieldsAdapter } from './slice';
 
 const selectFieldsState = (state: RootState) => state.fields;
+const selectFilter = (
+  state: RootState,
+  filter: Record<'FieldGroup', string | undefined>
+) => filter;
 
 const { selectAll } = fieldsAdapter.getSelectors<RootState>(selectFieldsState);
 
-export const selectFields = (
-  filter: Record<'FieldGroup', string | undefined> = { FieldGroup: undefined }
-) =>
-  createSelector(selectAll, (fields) => {
+export const selectFields = createSelector(
+  [selectAll, selectFilter],
+  (fields, filter = { FieldGroup: undefined }) => {
     if (filter.FieldGroup) {
       return fields.filter(
         (f) =>
@@ -18,4 +21,5 @@ export const selectFields = (
       );
     }
     return fields.filter((f) => f.InputMode !== 15);
-  });
+  }
+);

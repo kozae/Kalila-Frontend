@@ -15,9 +15,14 @@ export const textElementsSlice = createSlice({
   reducers: {
     loadTextElements: textElementsAdapter.setAll,
     addTextElement: textElementsAdapter.addOne,
+    updateTextElement: textElementsAdapter.updateOne,
     clearTextElements: textElementsAdapter.removeAll,
   },
 });
 
-export const { loadTextElements, clearTextElements, addTextElement } =
-  textElementsSlice.actions;
+export const {
+  loadTextElements,
+  updateTextElement,
+  clearTextElements,
+  addTextElement,
+} = textElementsSlice.actions;

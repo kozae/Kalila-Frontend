@@ -6,98 +6,46 @@ import {
   createHighlighter,
   createPolygons,
   createRegionHighlighter,
-  IPolygonData,
   loadImageAsFabricObject,
   renderBackgroundImage,
 } from '@frontend/ui/facsimile';
 import {
   onElementSelected,
   onRegionHoveredInFacsimileSpace,
-  selectImageDimensions,
-  selectImageUrl,
-  selectPageDataLoadingStatus,
+  selectCurrentPageFacsimileData,
   selectRegions,
+  selectSelectedElement,
   selectTextEditingActiveWorkspace,
   TextEditingActiveWorkspace,
   useAppDispatch,
   useAppSelector,
+  useWindowSize,
 } from '@frontend/shared-ui';
 import { IFacsimileRegion } from '@frontend/domain';
 import { workspaceProcedure } from '../workspace-rendering-tasks';
+import { stringHasValue } from '@frontend/util';
 
-function createOnReadyFunction(
-  canvas: fabric.Canvas | null,
-  setCanvas: (canvas: fabric.Canvas) => void,
-  {
-    imageDisplayWidth,
-    imageDisplayHeight,
-    imageUrl,
-    scaleRatio,
-    onLoaded,
-  }: {
-    imageDisplayWidth: number;
-    imageDisplayHeight: number;
-    imageUrl: string;
-    scaleRatio: number;
-    onLoaded: () => void;
-  }
-) {
+function createPageFacsimileRenderer(data: {
+  imageDisplayWidth: number;
+  imageDisplayHeight: number;
+  scaleRatio: number;
+  pageId: string;
+  imageUrl: string;
+}) {
   return useCallback(
     (canvas: fabric.Canvas) => {
-      setCanvas(canvas);
-      canvas.clear();
-      renderBackgroundImage(canvas, {
-        width: imageDisplayWidth,
-        height: imageDisplayHeight,
-        url: imageUrl,
-        scaleRatio,
-      });
-      onLoaded();
+      if (stringHasValue(data.pageId)) {
+        canvas.clear();
+        renderBackgroundImage(canvas, {
+          width: data.imageDisplayWidth,
+          height: data.imageDisplayHeight,
+          scaleRatio: data.scaleRatio,
+          url: data.imageUrl,
+        });
+      }
     },
-    [imageDisplayWidth, imageDisplayHeight, imageUrl, scaleRatio]
+    [data]
   );
-}
-
-function useBackgroundImageChangeEffect(
-  canvas: fabric.Canvas | null,
-  {
-    imageDisplayWidth,
-    imageDisplayHeight,
-    imageUrl,
-    scaleRatio,
-    activeWorkspace,
-    loading,
-  }: {
-    imageDisplayWidth: number;
-    imageDisplayHeight: number;
-    imageUrl: string;
-    scaleRatio: number;
-    activeWorkspace: TextEditingActiveWorkspace;
-    loading: boolean;
-  }
-) {
-  useEffect(() => {
-    if (canvas && !loading) {
-      console.log('recreating background image');
-      canvas.clear();
-      renderBackgroundImage(canvas, {
-        width: imageDisplayWidth,
-        height: imageDisplayHeight,
-        url: imageUrl,
-        scaleRatio,
-      });
-    }
-    if (loading) {
-      canvas?.clear();
-    }
-  }, [
-    imageDisplayWidth,
-    imageDisplayHeight,
-    imageUrl,
-    scaleRatio,
-    activeWorkspace,
-    loading,
-  ]);
 }
 
 function useImageAsFabricObject(url: string) {
@@ -108,39 +56,22 @@ function useImageAsFabricObject(url: string) {
   return fabricImg;
 }
 
-function usePolygonData(
-  canvas: fabric.Canvas | null,
-  regions: Array<
-    IFacsimileRegion & { Id: string; HighlightColor: string | undefined }
-  >,
-  scaleRatio: number
-) {
+function usePolygonEventHandlers(canvas: fabric.Canvas | null) {
   const highlighterRect = createRegionHighlighter();
   const editorRect = createEditRegionRect();
   return useMemo(() => {
-    const scale = (x: number) => x * scaleRatio;
-    const polygons = createPolygons(regions, scale);
-    const { showEditor, hideEditor } = createEditor(
-      canvas,
-      editorRect,
-      Object.values(polygons),
-      scale
-    );
+    const { showEditor, hideEditor } = createEditor(canvas, editorRect);
     const { hideHighlight, showHighlight } = createHighlighter(
       canvas,
-      highlighterRect,
-      Object.values(polygons),
-      scale
+      highlighterRect
     );
-    return { polygons, hideHighlight, showHighlight, showEditor, hideEditor };
-  }, [regions, scaleRatio, canvas]);
+    return { showEditor, hideEditor, hideHighlight, showHighlight };
+  }, [canvas]);
 }
 
-function usePolygonChangeEffect(
-  canvas: fabric.Canvas | null,
-  polygonData: IPolygonData,
-  activeWorkspace: TextEditingActiveWorkspace
-) {
+export type PolygonEventHandlers = ReturnType<typeof usePolygonEventHandlers>;
+
+function createPolygonRenderer() {
   const dispatch = useAppDispatch();
   const setHighlightedRegionId = (
     region: (IFacsimileRegion & { Id: string }) | null
@@ -148,59 +79,70 @@ function usePolygonChangeEffect(
     dispatch(onRegionHoveredInFacsimileSpace(null));
     setTimeout(() => dispatch(onRegionHoveredInFacsimileSpace(region)), 100);
   };
-  const handleElementSelection = (id: string | null) =>
-    dispatch(onElementSelected(id));
+  const handleElementSelection = ({
+    id,
+    region,
+  }: {
+    id: string | null;
+    region: IFacsimileRegion | null;
+  }) => dispatch(onElementSelected({ id, region }));
 
-  useEffect(() => {
+  return (
+    canvas: fabric.Canvas | null,
+    activeWorkspace: TextEditingActiveWorkspace,
+    regions: Array<
+      IFacsimileRegion & { Id: string; HighlightColor: string | undefined }
+    >,
+    scaleRatio: number,
+    {
+      hideHighlight,
+      showHighlight,
+    }: Pick<PolygonEventHandlers, 'hideHighlight' | 'showHighlight'>
+  ) => {
     if (canvas) {
+      const scale = (x: number) => x * scaleRatio;
+      const polygons = createPolygons(regions, scale);
       workspaceProcedure({
         canvas,
-        activeWorkspace,
-        polygons: Object.values(polygonData.polygons),
-        hideHighlight: polygonData.hideHighlight,
-        showHighlight: polygonData.showHighlight,
+        scaleRatio,
+        activeWorkspace: activeWorkspace,
+        polygons: Object.values(polygons),
+        hideHighlight: hideHighlight,
+        showHighlight: showHighlight,
         onRegionHighlighted: setHighlightedRegionId,
         onElementSelected: handleElementSelection,
       });
     }
-  }, [activeWorkspace, polygonData]);
+  };
 }
 
-const spaceToGroupMap: Record<
-  TextEditingActiveWorkspace,
-  'layout' | 'lines' | undefined
-> = {
-  description: undefined,
-  segmentation: undefined,
-  layout: 'layout',
-  lines: 'lines',
-  transcription: 'lines',
-};
-
-export function useFacsimileCanvasState(onLoaded: () => void) {
+export function useFacsimileCanvasState() {
   const [canvas, setCanvas] = useState<null | fabric.Canvas>(null);
-  const loading = useAppSelector(selectPageDataLoadingStatus);
-  const imageSize = useAppSelector(selectImageDimensions);
-  const imageUrl = useAppSelector(selectImageUrl);
+  const windowSize = useWindowSize();
+  const facsimileData = useAppSelector((state) =>
+    selectCurrentPageFacsimileData(state, windowSize, 110, 5, 45)
+  );
   const activeWorkspace = useAppSelector(selectTextEditingActiveWorkspace);
   const regions = useAppSelector((state) =>
-    selectRegions(state, spaceToGroupMap[activeWorkspace])
+    selectRegions(state, activeWorkspace)
   );
-  const fabricImg = useImageAsFabricObject(imageUrl);
-  const onReady = createOnReadyFunction(canvas, setCanvas, {
-    ...imageSize,
-    imageUrl,
-    onLoaded,
-  });
-  useBackgroundImageChangeEffect(canvas, {
-    ...imageSize,
-    imageUrl,
-    activeWorkspace,
-    loading,
-  });
-  const polygonData = usePolygonData(canvas, regions, imageSize.scaleRatio);
-  usePolygonChangeEffect(canvas, polygonData, activeWorkspace);
-  return { onReady, regions, fabricImg, ...imageSize, ...polygonData };
+  const selectedElement = useAppSelector(selectSelectedElement);
+  const fabricImg = useImageAsFabricObject(facsimileData.imageUrl);
+
+  const renderPageFacsimile = createPageFacsimileRenderer(facsimileData);
+  const renderPolygons = createPolygonRenderer();
+  const polygonEventHandlers = usePolygonEventHandlers(canvas);
+  return {
+    canvas,
+    onReady: setCanvas,
+    regions,
+    renderPageFacsimile,
+    renderPolygons,
+    fabricImg,
+    selectedElement,
+    ...facsimileData,
+    ...polygonEventHandlers,
+  };
 }
 
 export type FacsimileCanvasState = ReturnType<typeof useFacsimileCanvasState>;

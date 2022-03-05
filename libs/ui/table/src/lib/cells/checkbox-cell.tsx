@@ -16,7 +16,7 @@ export interface ICheckboxCellProps {
 
 export const CheckboxCell = ({ Id, mode }: ICheckboxCellProps) => {
   const dispatch = useAppDispatch();
-  const checked = useAppSelector(isIdSelected(Id));
+  const checked = useAppSelector((state) => isIdSelected(state, Id));
   mode = mode ?? 'multiple';
   const handleChange =
     mode === 'multiple'

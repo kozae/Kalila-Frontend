@@ -66,9 +66,6 @@ const TabIndexWorkspaceNameMap: Record<number, TextEditingActiveWorkspace> = {
   4: 'segmentation',
 };
 
-// export interface IToolSpaceProps {
-// }
-
 export const ToolSpace = () => {
   const dispatch = useAppDispatch();
   const loading = useAppSelector(selectPageDataLoadingStatus);
