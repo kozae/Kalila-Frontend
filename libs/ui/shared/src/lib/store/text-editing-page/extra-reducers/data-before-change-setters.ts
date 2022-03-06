@@ -35,7 +35,9 @@ export function addDataBeforeChangeSetters(
     >[];
   });
   builder.addCase(loadLines, (state, action) => {
-    state.linesBeforeChanges = action.payload as Omit<ILine, 'Tokens'>[];
+    state.linesBeforeChanges = action.payload as (Omit<ILine, 'Tokens'> & {
+      ElementId: string;
+    })[];
   });
   builder.addCase(loadTokens, (state, action) => {
     state.tokensBeforeChanges = action.payload as IToken[];
