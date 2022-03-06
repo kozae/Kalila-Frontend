@@ -15,4 +15,3 @@ export * from './lib/transform-session';
 export * from './lib/search-insert-position';
 export * from './lib/set-all-null';
 export * from './lib/sleeper';
-export * from './lib/rename-key';

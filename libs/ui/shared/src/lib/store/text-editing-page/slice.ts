@@ -8,6 +8,7 @@ import {
 import {
   addDataBeforeChangeSetters,
   addDiscardReducers,
+  addSaveReducers,
   addUpdateCollectors,
 } from './extra-reducers';
 
@@ -111,6 +112,7 @@ export const textEditingPageSlice = createSlice({
   },
   extraReducers: (builder) => {
     addDiscardReducers(builder);
+    addSaveReducers(builder);
     addDataBeforeChangeSetters(builder);
     addUpdateCollectors(builder);
   },

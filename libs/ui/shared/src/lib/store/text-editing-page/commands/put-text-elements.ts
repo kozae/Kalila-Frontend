@@ -2,7 +2,8 @@ import axios from 'axios';
 import { ITextElement } from '@frontend/domain';
 import { RootState } from '../../config';
 import { getParams, PageParams } from './helpers';
-import { cleanObject, renameKey } from '@frontend/util';
+import { cleanObject } from '@frontend/util';
+import { omit } from 'lodash';
 
 export async function putTextElements(state: RootState) {
   const TextElements: Array<
@@ -10,9 +11,10 @@ export async function putTextElements(state: RootState) {
   > = [];
   state.textEditingPageState.putTextElements.forEach((id) => {
     TextElements.push(
-      cleanObject(
-        renameKey(state.textElements.entities[id], '_id', 'Id')
-      ) as Omit<ITextElement, 'Lines' | '_id'> & { Id: string }
+      cleanObject({
+        ...omit(state.textElements.entities[id], '_id'),
+        Id: id,
+      }) as Omit<ITextElement, 'Lines' | '_id'> & { Id: string }
     );
   });
 

@@ -2,15 +2,17 @@ import axios from 'axios';
 import { IImageElement } from '@frontend/domain';
 import { RootState } from '../../config';
 import { getParams, PageParams } from './helpers';
-import { cleanObject, renameKey } from '@frontend/util';
+import { cleanObject } from '@frontend/util';
+import { omit } from 'lodash';
 
 export async function putImages(state: RootState) {
   const Images: Array<Omit<IImageElement, '_id'> & { Id: string }> = [];
   state.textEditingPageState.putImages.forEach((id) => {
     Images.push(
-      cleanObject(
-        renameKey(state.imageElements.entities[id], '_id', 'Id')
-      ) as Omit<IImageElement, '_id'> & { Id: string }
+      cleanObject({
+        ...omit(state.imageElements.entities[id], '_id'),
+        Id: id,
+      }) as Omit<IImageElement, '_id'> & { Id: string }
     );
   });
 

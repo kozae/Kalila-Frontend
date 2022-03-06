@@ -7,14 +7,16 @@ import { cleanObject } from '@frontend/util';
 import ObjectID from 'bson-objectid';
 
 export async function postLayout(state: RootState) {
-  const TextElements: Omit<ITextElement, 'Lines' | '_id'>[] = [];
-  const Images: Omit<IImageElement, '_id'>[] = [];
+  const TextElements: Array<
+    Omit<ITextElement, 'Lines' | '_id'> & { Id: string }
+  > = [];
+  const Images: Array<Omit<IImageElement, '_id'> & { Id: string }> = [];
   state.textEditingPageState.postLayoutTextElements.forEach((id) => {
     TextElements.push(
       cleanObject({
         ...omit(state.textElements.entities[id], '_id'),
         Id: ObjectID().toString(),
-      }) as Omit<ITextElement, 'Lines' | '_id'>
+      }) as Omit<ITextElement, 'Lines' | '_id'> & { Id: string }
     );
   });
   state.textEditingPageState.postLayoutImages.forEach((id) => {
@@ -22,22 +24,27 @@ export async function postLayout(state: RootState) {
       cleanObject({
         ...omit(state.imageElements.entities[id], '_id'),
         Id: ObjectID().toString(),
-      }) as IImageElement
+      }) as Omit<IImageElement, '_id'> & { Id: string }
     );
   });
   if (Images.length === 0 && TextElements.length === 0) {
-    return { TextElements, Images };
+    return { TextElements, TextElementIds: [], Images, ImageIds: [] };
   }
 
   await postLayoutHTTP({ TextElements, Images }, getParams(state));
 
-  return { TextElements, Images };
+  return {
+    TextElements,
+    TextElementIds: state.textEditingPageState.postLayoutTextElements,
+    Images,
+    ImageIds: state.textEditingPageState.postLayoutImages,
+  };
 }
 
 async function postLayoutHTTP(
   data: {
-    Images: Omit<IImageElement, '_id'>[];
-    TextElements: Omit<ITextElement, 'Lines' | '_id'>[];
+    Images: Array<Omit<IImageElement, '_id'> & { Id: string }>;
+    TextElements: Array<Omit<ITextElement, 'Lines' | '_id'> & { Id: string }>;
   },
   { accessToken, manuscriptId, pageId }: PageParams
 ) {
