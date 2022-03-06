@@ -5,6 +5,10 @@ import {
   useFacsimileCanvasEffects,
   useFacsimileCanvasState,
 } from './hooks';
+import {
+  selectPageDataLoadingStatus,
+  useAppSelector,
+} from '@frontend/shared-ui';
 
 export const FacsimileCanvas = ({ onLoaded }: { onLoaded: () => void }) => {
   const canvasState = useFacsimileCanvasState();

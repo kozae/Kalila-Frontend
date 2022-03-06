@@ -13,10 +13,17 @@ import TextSnippetTwoToneIcon from '@mui/icons-material/TextSnippetTwoTone';
 import { hexToRgba } from '@frontend/util';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
+  cancelCreateImageElement,
+  cancelCreateTextElement,
   onElementSelected,
   onRegionHoveredInToolSpace,
+  removeImageElement,
+  removeTextElement,
+  selectTextElementHasLines,
   useAppDispatch,
+  useAppSelector,
 } from '@frontend/shared-ui';
 
 const Container: React.FC<{
@@ -31,6 +38,28 @@ const Container: React.FC<{
     dispatch(onRegionHoveredInToolSpace(region));
   const handleSelection = (id: string | null, region: IFacsimileRegion) =>
     dispatch(onElementSelected({ id, region }));
+
+  const elementHasLines = useAppSelector((state) =>
+    selectTextElementHasLines(state, el._id)
+  );
+
+  const canDelete = !elementHasLines;
+
+  const handleDelete = (id: string) => {
+    if (id.length !== 24) {
+      if (icon === 'image') {
+        dispatch(cancelCreateImageElement(id));
+      } else {
+        dispatch(cancelCreateTextElement(id));
+      }
+    } else {
+      if (icon === 'image') {
+        dispatch(removeImageElement(id));
+      } else {
+        dispatch(removeTextElement(id));
+      }
+    }
+  };
 
   return (
     <Paper
@@ -61,15 +90,26 @@ const Container: React.FC<{
             )}
             <Typography variant="h3">&nbsp;{title}</Typography>
           </Stack>
-          <IconButton
-            color="secondary"
-            size="small"
-            onClick={() =>
-              handleSelection(el._id, el.FacsimileRegion as IFacsimileRegion)
-            }
-          >
-            <EditIcon sx={{ fontSize: '1.2rem' }} />
-          </IconButton>
+          <Stack direction="row" alignItems="flex-end">
+            {canDelete && (
+              <IconButton
+                onClick={() => handleDelete(el._id)}
+                color="error"
+                size="small"
+              >
+                <DeleteIcon sx={{ fontSize: '1.2rem' }} />
+              </IconButton>
+            )}
+            <IconButton
+              color="secondary"
+              size="small"
+              onClick={() =>
+                handleSelection(el._id, el.FacsimileRegion as IFacsimileRegion)
+              }
+            >
+              <EditIcon sx={{ fontSize: '1.2rem' }} />
+            </IconButton>
+          </Stack>
         </Stack>
         <Box
           onMouseEnter={() =>

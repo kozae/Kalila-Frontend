@@ -30,6 +30,7 @@ export const FabricCanvas = ({
     }
 
     return () => {
+      console.log('canvas disposed');
       canvas.dispose();
     };
   }, []);

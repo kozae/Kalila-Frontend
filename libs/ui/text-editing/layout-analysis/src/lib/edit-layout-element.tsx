@@ -1,4 +1,6 @@
 import {
+  cancelCreateImageElement,
+  cancelCreateTextElement,
   kalilaTheme,
   onElementSelected,
   selectImageElementById,
@@ -9,7 +11,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -26,11 +28,11 @@ export const EditLayoutElement = ({
 }) => {
   const regionUnderEditUrl = useAppSelector(selectRegionUnderEditUrl);
   const dispatch = useAppDispatch();
-  const imageElement = useAppSelector((state) =>
-    selectImageElementById(state, selectedElement.id as string)
-  );
   const textElement = useAppSelector((state) =>
     selectTextElementById(state, selectedElement.id as string)
+  );
+  const imageElement = useAppSelector((state) =>
+    selectImageElementById(state, selectedElement.id as string)
   );
   const [position, setPosition] = useState<string>('');
 
@@ -70,6 +72,20 @@ export const EditLayoutElement = ({
 
     dispatch(onElementSelected({ id: null, region: null }));
   }, [selectedElement, position]);
+
+  const handleCancel = useCallback(() => {
+    if (selectedElement.id && selectedElement.id.length !== 24) {
+      if (textElement) {
+        dispatch(cancelCreateTextElement(selectedElement.id));
+      }
+
+      if (imageElement) {
+        dispatch(cancelCreateImageElement(selectedElement.id));
+      }
+    }
+
+    dispatch(onElementSelected({ id: null, region: null }));
+  }, [selectedElement]);
 
   return (
     <Stack
@@ -160,7 +176,12 @@ export const EditLayoutElement = ({
         >
           Save
         </Button>
-        <Button disableElevation variant="outlined" color="warning">
+        <Button
+          onClick={handleCancel}
+          disableElevation
+          variant="outlined"
+          color="warning"
+        >
           Cancel
         </Button>
       </Stack>

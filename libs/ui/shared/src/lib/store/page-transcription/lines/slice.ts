@@ -1,11 +1,9 @@
-import {
-  createEntityAdapter,
-  createSlice,
-  PayloadAction,
-} from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { ILine } from '@frontend/domain';
 
-export const linesAdapter = createEntityAdapter<Omit<ILine, 'Tokens'>>({
+export const linesAdapter = createEntityAdapter<
+  Omit<ILine, 'Tokens'> & { ElementId: string }
+>({
   selectId: (doc) => doc._id,
 });
 

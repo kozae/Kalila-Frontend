@@ -1,5 +1,9 @@
 import { FacsimileCanvasState } from './facsimile-canvas-state.hook';
 import { useEffect } from 'react';
+import {
+  selectPageDataLoadingStatus,
+  useAppSelector,
+} from '@frontend/shared-ui';
 
 export function useFacsimileCanvasEffects(
   canvasState: FacsimileCanvasState,
@@ -34,5 +38,5 @@ export function useFacsimileCanvasEffects(
         }
       );
     }
-  }, [canvasState.scaleRatio, canvasState.regions.activeWorkspace]);
+  }, [canvasState.scaleRatio, canvasState.regions]);
 }

@@ -6034,6 +6034,11 @@ bser@2.1.1:
   dependencies:
     node-int64 "^0.4.0"
 
+bson-objectid@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/bson-objectid/-/bson-objectid-2.0.2.tgz#e72c9c51841f5e842dcc17d3cc7b7064f7abacae"
+  integrity sha512-61Yo6MBAftkyc+nU0smq+VX2SCeKgtC6+cRI+JkatdCy1tPdAzvR1ezEQFlio6St2tDhKZm/IUXc2bzg0QSnqQ==
+
 bson@^4.6.1:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/bson/-/bson-4.6.1.tgz#2b5da517539bb0f7f3ffb54ac70a384ca899641c"

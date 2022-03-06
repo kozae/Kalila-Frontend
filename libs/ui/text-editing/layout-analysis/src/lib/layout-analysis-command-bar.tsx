@@ -28,7 +28,6 @@ export const LayoutAnalysisCommandBar = ({
   const dispatch = useAppDispatch();
   const handleElementSelected = (id: string | null) =>
     dispatch(onElementSelected({ id, region: null }));
-  const layoutHasChanges = useAppSelector(selectLayoutHasChanges);
   const createTextElement = useCallback(() => {
     const id = uuid.v4();
     dispatch(
@@ -45,7 +44,7 @@ export const LayoutAnalysisCommandBar = ({
     const id = uuid.v4();
     dispatch(
       addImageElement({
-        _id: uuid.v4(),
+        _id: id,
         Position: 'image in main body',
         HighlightColor: highlightColors[(numberOfImageElements + 6) % 15],
       })
@@ -87,7 +86,6 @@ export const LayoutAnalysisCommandBar = ({
         startIcon={<MoveUpTwoToneIcon />}
         variant="text"
         color="secondary"
-        onClick={() => createTextElement()}
       >
         Reorder main body elements
       </Button>

@@ -1,20 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  IFacsimileRegion,
-  IImageElement,
-  ILine,
-  IPageInfo,
-  ITextElement,
-  IToken,
-  IUnitSummary,
-} from '@frontend/domain';
+import { IFacsimileRegion } from '@frontend/domain';
 import {
   ITextEditingPageState,
   TextEditingAccessMode,
   TextEditingActiveWorkspace,
 } from './models';
-import { Update } from '@reduxjs/toolkit/src/entities/models';
-import { discardLayoutChanges } from './thunks';
+import {
+  addDataBeforeChangeSetters,
+  addDiscardReducers,
+  addUpdateCollectors,
+} from './extra-reducers';
 
 const initialState: ITextEditingPageState = {
   accessMode: 'view',
@@ -115,95 +110,9 @@ export const textEditingPageSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // discard reducers
-    builder.addCase(discardLayoutChanges.fulfilled, (state) => {
-      state.postLayoutTextElements = [];
-      state.postLayoutImages = [];
-      state.putImages = [];
-      state.putTextElements = [];
-      state.deleteLayoutImages = [];
-      state.deleteLayoutTextElements = [];
-    });
-    // setting data before change
-    builder.addMatcher(
-      (action) => action.type === 'pageData/loadPageData',
-      (
-        state,
-        action: PayloadAction<{
-          pageInfo: IPageInfo;
-          imageSize: { Width: number; Height: number };
-        }>
-      ) => {
-        state.pageInfoBeforeChange = action.payload.pageInfo;
-      }
-    );
-    builder.addMatcher(
-      (action) => action.type === 'unitSummaries/loadUnitSummaries',
-      (state, action: PayloadAction<IUnitSummary[]>) => {
-        state.unitSummariesBeforeChanges = action.payload;
-      }
-    );
-    builder.addMatcher(
-      (action) => action.type === 'imageElements/loadImageElements',
-      (state, action: PayloadAction<IImageElement[]>) => {
-        state.imageElementsBeforeChanges = action.payload;
-      }
-    );
-    builder.addMatcher(
-      (action) => action.type === 'textElements/loadTextElements',
-      (state, action: PayloadAction<Omit<ITextElement, 'Lines'>[]>) => {
-        state.textElementsBeforeChanges = action.payload;
-      }
-    );
-    builder.addMatcher(
-      (action) => action.type === 'lines/loadLines',
-      (state, action: PayloadAction<Omit<ILine, 'Tokens'>[]>) => {
-        state.linesBeforeChanges = action.payload;
-      }
-    );
-    builder.addMatcher(
-      (action) => action.type === 'tokens/loadTokens',
-      (state, action: PayloadAction<IToken[]>) => {
-        state.tokensBeforeChanges = action.payload;
-      }
-    );
-    // collecting updates
-    builder.addMatcher(
-      (action) => action.type === 'textElements/addTextElement',
-      (state, action: PayloadAction<ITextElement>) => {
-        state.postLayoutTextElements.push(action.payload._id);
-      }
-    );
-    builder.addMatcher(
-      (action) => action.type === 'textElements/updateTextElement',
-      (state, action: PayloadAction<Update<ITextElement>>) => {
-        const id = action.payload.id as string;
-        if (id.length === 24) {
-          // mongo object id, i.e. existing item
-          if (!state.putTextElements.includes(id)) {
-            state.putTextElements.push(id);
-          }
-        }
-      }
-    );
-    builder.addMatcher(
-      (action) => action.type === 'textElements/addImageElement',
-      (state, action: PayloadAction<IImageElement>) => {
-        state.postLayoutImages.push(action.payload._id);
-      }
-    );
-    builder.addMatcher(
-      (action) => action.type === 'textElements/updateImageElement',
-      (state, action: PayloadAction<Update<IImageElement>>) => {
-        const id = action.payload.id as string;
-        if (id.length === 24) {
-          // mongo object id, i.e. existing item
-          if (!state.putImages.includes(id)) {
-            state.putImages.push(id);
-          }
-        }
-      }
-    );
+    addDiscardReducers(builder);
+    addDataBeforeChangeSetters(builder);
+    addUpdateCollectors(builder);
   },
 });
 

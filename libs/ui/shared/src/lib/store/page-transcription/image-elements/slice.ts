@@ -14,7 +14,9 @@ export const imageElementsSlice = createSlice({
   reducers: {
     loadImageElements: imageElementsAdapter.setAll,
     addImageElement: imageElementsAdapter.addOne,
+    removeImageElement: imageElementsAdapter.removeOne,
     updateImageElement: imageElementsAdapter.updateOne,
+    cancelCreateImageElement: imageElementsAdapter.removeOne,
     clearImageElements: imageElementsAdapter.removeAll,
   },
   extraReducers: (builder) => {
@@ -28,5 +30,7 @@ export const {
   loadImageElements,
   updateImageElement,
   clearImageElements,
+  cancelCreateImageElement,
   addImageElement,
+  removeImageElement,
 } = imageElementsSlice.actions;

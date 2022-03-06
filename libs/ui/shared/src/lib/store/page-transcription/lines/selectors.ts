@@ -19,3 +19,8 @@ export const selectAllLinesRegions = createSelector(selectAllLines, (li) =>
 export const selectAllLinesIds = createSelector(selectAllLines, (li) =>
   li.map((l) => l._id)
 );
+
+export const selectTextElementHasLines = createSelector(
+  [selectAllLines, (state, id: string) => id],
+  (lines, id) => lines.find((l) => l.ElementId === id) !== undefined
+);

@@ -23,7 +23,7 @@ export function useTextEditingWorkspaceStore(
   const dispatch = useAppDispatch();
   const { TextElements, ImageElements, Units, ...pageInfo } = data;
   const textElements: Omit<ITextElement, 'Lines'>[] = [];
-  const lines: Omit<ILine, 'Tokens'>[] = [];
+  const lines: Array<Omit<ILine, 'Tokens'> & { ElementId: string }> = [];
   const tokens: IToken[] = [];
   TextElements.forEach((te, i) => {
     const { Lines, ...rest } = te;
@@ -31,7 +31,11 @@ export function useTextEditingWorkspaceStore(
     Lines.forEach((l, i) => {
       const { Tokens, ...rest } = l;
       tokens.push(...Tokens);
-      lines.push({ ...rest, HighlightColor: highlightColors[i % 13] });
+      lines.push({
+        ...rest,
+        ElementId: te._id,
+        HighlightColor: highlightColors[i % 13],
+      });
     });
   });
 

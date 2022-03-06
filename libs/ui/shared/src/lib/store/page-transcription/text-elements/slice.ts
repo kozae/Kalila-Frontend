@@ -16,6 +16,8 @@ export const textElementsSlice = createSlice({
   reducers: {
     loadTextElements: textElementsAdapter.setAll,
     addTextElement: textElementsAdapter.addOne,
+    removeTextElement: textElementsAdapter.removeOne,
+    cancelCreateTextElement: textElementsAdapter.removeOne,
     updateTextElement: textElementsAdapter.updateOne,
     clearTextElements: textElementsAdapter.removeAll,
   },
@@ -31,4 +33,6 @@ export const {
   updateTextElement,
   clearTextElements,
   addTextElement,
+  cancelCreateTextElement,
+  removeTextElement,
 } = textElementsSlice.actions;

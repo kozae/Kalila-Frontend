@@ -9,12 +9,13 @@ import {
   selectTextEditingActiveWorkspace,
   useAppDispatch,
   useAppSelector,
+  discardLayoutChanges,
+  saveLayoutChanges,
 } from '@frontend/shared-ui';
 import { hexToRgba } from '@frontend/util';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { useCallback } from 'react';
-import { discardLayoutChanges } from '../../../../../shared/src/lib/store/text-editing-page/thunks';
 
 export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
   const selectedElement = useAppSelector(selectSelectedElement);
@@ -27,6 +28,24 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
         break;
       case 'layout':
         dispatch(discardLayoutChanges({}));
+        break;
+      case 'lines':
+        break;
+      case 'transcription':
+        break;
+      case 'segmentation':
+        break;
+      default:
+        break;
+    }
+  }, [activeWorkspace]);
+
+  const handleSave = useCallback(() => {
+    switch (activeWorkspace) {
+      case 'description':
+        break;
+      case 'layout':
+        dispatch(saveLayoutChanges({}));
         break;
       case 'lines':
         break;
@@ -75,6 +94,7 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
                   startIcon={<SaveTwoToneIcon />}
                   variant="contained"
                   color="secondary"
+                  onClick={handleSave}
                 >
                   Save changes
                 </Button>
