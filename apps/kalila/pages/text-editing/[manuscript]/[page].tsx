@@ -1,5 +1,5 @@
 import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import {
   queryServerSide,
   siglum,
@@ -46,29 +46,29 @@ export function EditPage({
 
 export default withTransition(EditPage, {});
 
-export const getStaticPaths: GetStaticPaths = async (context) => {
-  const paths: Array<
-    string | { params: { manuscript: string; page: string }; locale?: string }
-  > = [];
-  const query = await queryServerSide({ sigla });
-  for (const manuscript of query.sigla.filter((s) =>
-    ['P5881', 'A4095', 'M486', 'M487', 'P3471'].includes(s.Siglum)
-  )) {
-    const pagesQuery = await queryServerSide({
-      allPages: pages(manuscript.Id),
-    });
-    for (const page of pagesQuery.allPages) {
-      paths.push({ params: { manuscript: manuscript.Id, page: page.Id } });
-    }
-  }
+// export const getStaticPaths: GetStaticPaths = async (context) => {
+//   const paths: Array<
+//     string | { params: { manuscript: string; page: string }; locale?: string }
+//   > = [];
+//   const query = await queryServerSide({ sigla });
+//   for (const manuscript of query.sigla.filter((s) =>
+//     ['P5881', 'A4095', 'M486', 'M487', 'P3471'].includes(s.Siglum)
+//   )) {
+//     const pagesQuery = await queryServerSide({
+//       allPages: pages(manuscript.Id),
+//     });
+//     for (const page of pagesQuery.allPages) {
+//       paths.push({ params: { manuscript: manuscript.Id, page: page.Id } });
+//     }
+//   }
+//
+//   return {
+//     paths,
+//     fallback: true,
+//   };
+// };
 
-  return {
-    paths,
-    fallback: true,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const manuscriptId = context.params['manuscript'] as string;
   const pageId = context.params['page'] as string;
   const query = await queryServerSide({
