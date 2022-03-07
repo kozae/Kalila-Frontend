@@ -14,6 +14,11 @@ export const selectTextEditingActiveWorkspace = createSelector(
   (state) => state.activeWorkspace
 );
 
+export const selectTextEditingToolMode = createSelector(
+  selectTextEditingPageState,
+  (state) => state.toolMode
+);
+
 export const selectRegionHoveredInToolSpace = createSelector(
   selectTextEditingPageState,
   (state) => state.regionHoveredInToolSpace

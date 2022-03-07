@@ -8,13 +8,16 @@ import {
   selectAllTextElements,
   selectManyRegionDataUrlById,
   selectSelectedElement,
+  selectTextEditingToolMode,
   useAppSelector,
 } from '@frontend/shared-ui';
+import { ReorderLayoutElements } from './reorder-layout-elements';
 
 export function LayoutAnalysisTool() {
   const imageElements = useAppSelector(selectAllImageElements);
   const textElements = useAppSelector(selectAllTextElements);
   const selectedElement = useAppSelector(selectSelectedElement);
+  const toolMode = useAppSelector(selectTextEditingToolMode);
   const dataUrls = useAppSelector((state) =>
     selectManyRegionDataUrlById(
       state,
@@ -24,13 +27,24 @@ export function LayoutAnalysisTool() {
 
   return (
     <Stack
-      sx={{ mt: '5px', width: '100%', height: '100%', bgcolor: '#DDDDDD' }}
+      sx={{
+        mt: '5px',
+        width: '100%',
+        height: '100%',
+      }}
     >
       <AnimatePresence exitBeforeEnter>
         {selectedElement.id === null ? (
           <motion.div
             key="layout-analysis-tool-preview-mode"
-            style={{ width: '100%', height: '100%' }}
+            style={{
+              width: '100%',
+              height: 'fit-content',
+              maxHeight: '100%',
+              minHeight: '100%',
+              backgroundColor: '#DDDDDD',
+              overflow: 'scroll',
+            }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -39,12 +53,22 @@ export function LayoutAnalysisTool() {
             <LayoutAnalysisCommandBar
               numberOfImageElements={imageElements.length}
               numberOfTextElements={textElements.length}
+              toolMode={toolMode}
             />
-            <LayoutElementsList
-              dataUrls={dataUrls}
-              imageElements={imageElements}
-              textElements={textElements}
-            />
+            {toolMode === 'default' && (
+              <LayoutElementsList
+                dataUrls={dataUrls}
+                imageElements={imageElements}
+                textElements={textElements}
+              />
+            )}
+            {toolMode === 'reorder' && (
+              <ReorderLayoutElements
+                dataUrls={dataUrls}
+                imageElements={imageElements}
+                textElements={textElements}
+              />
+            )}
           </motion.div>
         ) : (
           <motion.div

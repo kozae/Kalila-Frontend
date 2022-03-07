@@ -26,13 +26,25 @@ import {
   useAppSelector,
 } from '@frontend/shared-ui';
 
-const Container: React.FC<{
-  title: string;
+export type ILayoutElementSummaryProps = (
+  | IImageElement
+  | Omit<ITextElement, 'Lines'>
+) & {
   url: string;
-  color?: string;
   icon: string;
-  el: any;
-}> = ({ children, title, url, color, icon, el }) => {
+  buttons: boolean;
+  maxHeight?: string;
+  width?: string;
+};
+
+export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
+  url,
+  icon,
+  buttons,
+  maxHeight,
+  width,
+  ...el
+}) => {
   const dispatch = useAppDispatch();
   const handleHover = (region: (IFacsimileRegion & { Id: string }) | null) =>
     dispatch(onRegionHoveredInToolSpace(region));
@@ -66,8 +78,8 @@ const Container: React.FC<{
       sx={{
         borderRadius: '5px 5px 0 0',
         position: 'relative',
-        width: '40%',
-        m: '10px',
+        width: width ?? '40%',
+        mt: '10px !important',
       }}
     >
       <Stack sx={{ borderRadius: '5px 5px 0 0' }}>
@@ -78,7 +90,7 @@ const Container: React.FC<{
           sx={{
             width: '100%',
             p: '5px',
-            bgcolor: hexToRgba(color as string, 0.4),
+            bgcolor: hexToRgba(el.HighlightColor as string, 0.4),
             borderRadius: '5px 5px 0 0',
           }}
         >
@@ -88,71 +100,66 @@ const Container: React.FC<{
             ) : (
               <TextSnippetTwoToneIcon color="secondary" />
             )}
-            <Typography variant="h3">&nbsp;{title}</Typography>
+            <Typography variant="h3">
+              &nbsp;{`${el.Order}. ${el.Position}`}
+            </Typography>
           </Stack>
-          <Stack direction="row" alignItems="flex-end">
-            {canDelete && (
+          {buttons && (
+            <Stack direction="row" alignItems="flex-end">
+              {canDelete && (
+                <IconButton
+                  onClick={() => handleDelete(el._id)}
+                  color="error"
+                  size="small"
+                >
+                  <DeleteIcon sx={{ fontSize: '1.2rem' }} />
+                </IconButton>
+              )}
               <IconButton
-                onClick={() => handleDelete(el._id)}
-                color="error"
+                color="secondary"
                 size="small"
+                onClick={() =>
+                  handleSelection(
+                    el._id,
+                    el.FacsimileRegion as IFacsimileRegion
+                  )
+                }
               >
-                <DeleteIcon sx={{ fontSize: '1.2rem' }} />
+                <EditIcon sx={{ fontSize: '1.2rem' }} />
               </IconButton>
-            )}
-            <IconButton
-              color="secondary"
-              size="small"
-              onClick={() =>
-                handleSelection(el._id, el.FacsimileRegion as IFacsimileRegion)
-              }
-            >
-              <EditIcon sx={{ fontSize: '1.2rem' }} />
-            </IconButton>
-          </Stack>
+            </Stack>
+          )}
         </Stack>
         <Box
           onMouseEnter={() =>
-            handleHover({ ...el.FacsimileRegion, Id: el._id })
+            handleHover({
+              ...el.FacsimileRegion,
+              Id: el._id,
+            } as IFacsimileRegion & { Id: string })
           }
           onMouseLeave={() => handleHover(null)}
-          sx={{ bgcolor: hexToRgba(color as string, 0.4) }}
+          sx={{
+            bgcolor: hexToRgba(el.HighlightColor as string, 0.4),
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          <img width="100%" height="auto" src={url} alt="region not defined" />
+          <img
+            style={{
+              maxWidth: '100%',
+              minWidth: '50%',
+              maxHeight: maxHeight ?? '20vh',
+              objectFit: 'contain',
+              margin: '1vh 0.5vw 1vh 0.5vw',
+            }}
+            width="auto"
+            height="auto"
+            src={url}
+            alt="region not defined"
+          />
         </Box>
       </Stack>
     </Paper>
-  );
-};
-
-export const ImageElementSummary = ({
-  url,
-  ...el
-}: IImageElement & { url: string }) => {
-  return (
-    <Container
-      el={el}
-      color={el.HighlightColor}
-      title={el.Position}
-      url={url}
-      icon="image"
-    />
-  );
-};
-
-export const TextElementSummary = ({
-  url,
-  ...el
-}: Omit<ITextElement, 'Lines'> & {
-  url: string;
-}) => {
-  return (
-    <Container
-      title={`${el.Order}. ${el.Position}`}
-      url={url}
-      color={el.HighlightColor}
-      icon="text"
-      el={el}
-    />
   );
 };

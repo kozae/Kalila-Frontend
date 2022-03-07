@@ -4,6 +4,7 @@ import {
   ITextEditingPageState,
   TextEditingAccessMode,
   TextEditingActiveWorkspace,
+  TextEditingToolMode,
 } from './models';
 import {
   addDataBeforeChangeSetters,
@@ -15,6 +16,7 @@ import {
 const initialState: ITextEditingPageState = {
   accessMode: 'view',
   activeWorkspace: 'description',
+  toolMode: 'default',
   regionHoveredInToolSpace: null,
   regionHoveredInFacsimileSpace: null,
   selectedElementId: null,
@@ -71,6 +73,12 @@ export const textEditingPageSlice = createSlice({
     ) => {
       state.activeWorkspace = action.payload;
     },
+    setTextEditingToolMode: (
+      state,
+      action: PayloadAction<TextEditingToolMode>
+    ) => {
+      state.toolMode = action.payload;
+    },
     onRegionHoveredInToolSpace: (
       state,
       action: PayloadAction<(IFacsimileRegion & { Id: string }) | null>
@@ -121,6 +129,7 @@ export const textEditingPageSlice = createSlice({
 export const {
   setTextEditingAccessMode,
   setTextEditingWorkspace,
+  setTextEditingToolMode,
   onRegionHoveredInToolSpace,
   onRegionHoveredInFacsimileSpace,
   onElementSelected,

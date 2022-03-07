@@ -60,7 +60,7 @@ export function useExternalWorkspaceEvents(canvasState: FacsimileCanvasState) {
               rectDimensions,
               rectDimensions.Rotation
             ),
-            Rotation: rectDimensions.Rotation,
+            Rotation: round(rectDimensions.Rotation),
           })
         );
 

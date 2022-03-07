@@ -5,7 +5,12 @@ import {
   useNavigationAwayGuard,
   useTextEditingWorkspaceStore,
 } from '@frontend/shared-ui';
-import { CommandBar, FacsimileSpace, ToolSpace } from './components';
+import {
+  CommandBar,
+  FacsimileSpace,
+  MessageBar,
+  ToolSpace,
+} from './components';
 import { useAccessModeSettings } from './hooks/access-mode-settings.hook';
 
 export function TextEditingWorkspace({ pageData, imageSize }: any) {
@@ -25,6 +30,7 @@ export function TextEditingWorkspace({ pageData, imageSize }: any) {
       <FacsimileSpace />
       <ToolSpace />
       <CommandBar hasChanges={workspaceHasChanges} />
+      <MessageBar />
     </Stack>
   );
 }

@@ -20,7 +20,7 @@ export function createDataUrlFromRect(
   },
   img: fabric.Image,
   callback: (dataUrl: string) => void,
-  paddingPercentage: number = 7
+  paddingPercentage: number = 3
 ) {
   const padding = Math.floor(
     (Math.sqrt(Math.pow(Width, 2) + Math.pow(Height, 2)) * paddingPercentage) /

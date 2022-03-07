@@ -2,24 +2,26 @@ import { fabric } from 'fabric';
 import { hexToRgba } from '@frontend/util';
 import { kalilaTheme } from '@frontend/shared-ui';
 import { PolygonHelper } from '../../helpers';
-import { IEvent } from 'fabric/fabric-impl';
+import { IEvent, IRectOptions } from 'fabric/fabric-impl';
 import { IFacsimileRegion } from '@frontend/domain';
 import Mousetrap from 'mousetrap';
 
+const rectDefaultOptions: () => IRectOptions = () => ({
+  fill: hexToRgba(kalilaTheme.palette.primary.main, 0.4),
+  selectable: true,
+  hasControls: true,
+  hoverCursor: 'move',
+  borderColor: kalilaTheme.palette.primary.main,
+  borderScaleFactor: 3,
+  borderDashArray: [4, 4],
+  cornerColor: kalilaTheme.palette.primary.dark,
+  cornerStyle: 'circle',
+  cornerSize: 11,
+  transparentCorners: false,
+});
+
 export function createEditRegionRect() {
-  return new fabric.Rect({
-    fill: hexToRgba(kalilaTheme.palette.primary.main, 0.4),
-    selectable: true,
-    hasControls: true,
-    hoverCursor: 'move',
-    borderColor: kalilaTheme.palette.primary.main,
-    borderScaleFactor: 3,
-    borderDashArray: [4, 4],
-    cornerColor: kalilaTheme.palette.primary.dark,
-    cornerStyle: 'circle',
-    cornerSize: 11,
-    transparentCorners: false,
-  });
+  return new fabric.Rect(rectDefaultOptions());
 }
 
 export const defaultEditRegion: IFacsimileRegion = {
@@ -176,10 +178,11 @@ function showEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
   };
 }
 
-function hideEditorFactory(canvas: fabric.Canvas) {
+function hideEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
   return () => {
     removeKeyboardEventListeners();
     canvas.remove(...canvas.getObjects());
+    editorRect.set(rectDefaultOptions());
     canvas.renderAll();
   };
 }
@@ -196,6 +199,6 @@ export function createEditor(
         onChanged: (e: IEvent) => void,
         editRegion: IFacsimileRegion = defaultEditRegion
       ) => {};
-  const hideEditor = canvas ? hideEditorFactory(canvas) : () => {};
+  const hideEditor = canvas ? hideEditorFactory(canvas, editorRect) : () => {};
   return { showEditor, hideEditor };
 }

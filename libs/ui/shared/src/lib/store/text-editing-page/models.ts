@@ -3,7 +3,6 @@ import {
   IImageElement,
   ILine,
   IPageInfo,
-  IPageTranscription,
   ITextElement,
   IToken,
   IUnitSummary,
@@ -28,11 +27,14 @@ export type TextEditingActiveWorkspace =
   | 'lines'
   | 'segmentation';
 
+export type TextEditingToolMode = 'default' | 'reorder';
+
 export type TextEditingAccessMode = 'view' | 'edit';
 
 export interface ITextEditingPageState {
   accessMode: TextEditingAccessMode;
   activeWorkspace: TextEditingActiveWorkspace;
+  toolMode: TextEditingToolMode;
   regionHoveredInToolSpace: (IFacsimileRegion & { Id: string }) | null;
   regionHoveredInFacsimileSpace: (IFacsimileRegion & { Id: string }) | null;
   selectedElementId: string | null;

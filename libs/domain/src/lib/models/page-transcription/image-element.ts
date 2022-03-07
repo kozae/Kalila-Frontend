@@ -5,4 +5,5 @@ export interface IImageElement {
   Position: string;
   FacsimileRegion?: IFacsimileRegion;
   HighlightColor?: string;
+  Order: number;
 }

@@ -71,19 +71,23 @@ export default withTransition(EditPage, {});
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const manuscriptId = context.params['manuscript'] as string;
   const pageId = context.params['page'] as string;
-  const query = await queryServerSide({
-    siglum: siglum(manuscriptId),
-    allPages: pages(manuscriptId),
-    pageData: pageTranscription(manuscriptId, pageId),
-  });
-  const imageSize = await getImageSize(query.pageData.FacsimileImageUrl);
-  console.log({ manuscriptId, pageId });
-  console.log({ imageSize });
-  return {
-    props: {
-      ...query,
-      imageSize,
-      manuscriptId,
-    },
-  };
+  try {
+    const query = await queryServerSide({
+      siglum: siglum(manuscriptId),
+      allPages: pages(manuscriptId),
+      pageData: pageTranscription(manuscriptId, pageId),
+    });
+    const imageSize = await getImageSize(query.pageData.FacsimileImageUrl);
+    console.log({ manuscriptId, pageId });
+    console.log({ imageSize });
+    return {
+      props: {
+        ...query,
+        imageSize,
+        manuscriptId,
+      },
+    };
+  } catch {
+    return { notFound: true };
+  }
 };

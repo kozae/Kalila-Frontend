@@ -8,3 +8,4 @@ export * from './manuscript-description';
 export * from './siglum-selection';
 export * from './undraw';
 export * from './framer-animations';
+export * from './sortable';
