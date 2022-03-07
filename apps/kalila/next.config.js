@@ -14,6 +14,9 @@ const nextConfig = (phase) => ({
   },
   env: {
     production: phase === PHASE_PRODUCTION_BUILD,
+    PHASE_PRODUCTION_BUILD: PHASE_PRODUCTION_BUILD,
+    PHASE_DEVELOPMENT_SERVER: PHASE_DEVELOPMENT_SERVER,
+    phase,
   },
   nx: {
     // Set this to true if you would like to to use SVGR

@@ -85,6 +85,5 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       imageSize,
       manuscriptId,
     },
-    revalidate: 30,
   };
 };
