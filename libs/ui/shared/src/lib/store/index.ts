@@ -8,6 +8,7 @@ export * from './page-transcription/region-data-urls';
 export * from './page-transcription/lines';
 export * from './page-transcription/text-elements';
 export * from './page-transcription/image-elements';
+export * from './page-transcription/tokens';
 export * from './paged-documents';
 export * from './text-editing-page';
 export * from './config';

@@ -3,7 +3,6 @@ import { linesAdapter } from './slice';
 import { createSelector } from '@reduxjs/toolkit';
 
 const selectLinesState = (state: RootState) => state.lines;
-const selectId = (state: RootState, id: string) => id;
 
 export const { selectAll: selectAllLines } =
   linesAdapter.getSelectors<RootState>(selectLinesState);
@@ -18,6 +17,11 @@ export const selectAllLinesRegions = createSelector(selectAllLines, (li) =>
 
 export const selectAllLinesIds = createSelector(selectAllLines, (li) =>
   li.map((l) => l._id)
+);
+
+export const selectPageHasLines = createSelector(
+  selectAllLines,
+  (li) => li.length !== 0
 );
 
 export const selectTextElementHasLines = createSelector(

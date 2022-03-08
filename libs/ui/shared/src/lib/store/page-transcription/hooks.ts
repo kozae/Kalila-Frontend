@@ -14,28 +14,16 @@ import { clearTokens, loadTokens } from './tokens';
 import { useEffect, useState } from 'react';
 import { clearPageData, loadPageData, pageDataLoaded } from './page-data';
 import { addDataUrl, clearDataUrls } from './region-data-urls';
-import {
-  createRegionsDataUrls,
-  highlightColors,
-  loadImageAsFabricObject,
-} from '@frontend/ui/facsimile';
+import { createRegionsDataUrls, highlightColors } from '@frontend/ui/facsimile';
 import { clearTextEditingPageStore } from '../text-editing-page';
 import { fabric } from 'fabric';
 
-function useImageAsFabricObject(url: string) {
-  const [fabricImg, setFabricImg] = useState<null | fabric.Image>(null);
-  useEffect(() => {
-    loadImageAsFabricObject(url, setFabricImg);
-  }, [url]);
-  return fabricImg;
-}
-
 export function useTextEditingWorkspaceStore(
   data: IPageTranscription,
-  imageSize: { Width: number; Height: number }
+  imageSize: { Width: number; Height: number },
+  fabricImg: fabric.Image | null
 ) {
   const dispatch = useAppDispatch();
-  const fabricImg = useImageAsFabricObject(data.FacsimileImageUrl);
   const { TextElements, ImageElements, Units, ...pageInfo } = data;
   const textElements: Omit<ITextElement, 'Lines'>[] = [];
   const lines: Array<Omit<ILine, 'Tokens'> & { ElementId: string }> = [];

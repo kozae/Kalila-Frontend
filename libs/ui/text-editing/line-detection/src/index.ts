@@ -1,1 +1,1 @@
-export * from './lib/ui-text-editing-line-detection';
+export * from './lib/line-detection-tool';

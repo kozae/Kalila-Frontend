@@ -12,26 +12,31 @@ import {
   ToolSpace,
 } from './components';
 import { useAccessModeSettings } from './hooks/access-mode-settings.hook';
+import { useImageAsFabricObject } from './hooks';
+import { TextEditingWorkspaceContext } from './text-editing-workspace-context';
 
 export function TextEditingWorkspace({ pageData, imageSize }: any) {
-  useTextEditingWorkspaceStore(pageData, imageSize);
+  const fabricImg = useImageAsFabricObject(pageData.FacsimileImageUrl);
+  useTextEditingWorkspaceStore(pageData, imageSize, fabricImg);
   useAccessModeSettings();
   const workspaceHasChanges = useAppSelector(selectWorkspaceHasChanges);
   useNavigationAwayGuard(workspaceHasChanges);
   return (
-    <Stack
-      mt="5px"
-      width="100%"
-      direction="row"
-      justifyContent="space-between"
-      alignItems="flex-start"
-      spacing={1}
-    >
-      <FacsimileSpace />
-      <ToolSpace />
-      <CommandBar hasChanges={workspaceHasChanges} />
-      <MessageBar />
-    </Stack>
+    <TextEditingWorkspaceContext.Provider value={{ fabricImg }}>
+      <Stack
+        mt="5px"
+        width="100%"
+        direction="row"
+        justifyContent="space-between"
+        alignItems="flex-start"
+        spacing={1}
+      >
+        <FacsimileSpace />
+        <ToolSpace />
+        <CommandBar hasChanges={workspaceHasChanges} />
+        <MessageBar />
+      </Stack>
+    </TextEditingWorkspaceContext.Provider>
   );
 }
 

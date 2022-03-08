@@ -1,0 +1,23 @@
+{
+  "root": "libs/ui/text-editing/shared",
+  "sourceRoot": "libs/ui/text-editing/shared/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/ui/text-editing/shared/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ui/text-editing/shared"],
+      "options": {
+        "jestConfig": "libs/ui/text-editing/shared/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

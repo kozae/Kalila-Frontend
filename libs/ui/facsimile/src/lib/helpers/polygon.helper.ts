@@ -2,7 +2,6 @@ import { IPoint, Polygon } from '@frontend/domain';
 import { RectDimensions } from '../models';
 import { PointsHelper } from './points.helper';
 import { fabric } from 'fabric';
-import { sortBy } from 'lodash';
 
 export class PolygonHelper {
   static getCenter(points: Polygon) {

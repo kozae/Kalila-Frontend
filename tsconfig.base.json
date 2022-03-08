@@ -37,6 +37,9 @@
       "@frontend/ui/text-editing/pages-summary": [
         "libs/ui/text-editing/pages-summary/src/index.ts"
       ],
+      "@frontend/ui/text-editing/shared": [
+        "libs/ui/text-editing/shared/src/index.ts"
+      ],
       "@frontend/ui/text-editing/text-segmentation": [
         "libs/ui/text-editing/text-segmentation/src/index.ts"
       ],

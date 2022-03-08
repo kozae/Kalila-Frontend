@@ -21,7 +21,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
-import { LineDetectionTool } from '../../line-detection-tool';
+import { LineDetectionTool } from '@frontend/ui/text-editing/line-detection';
 
 interface TabPanelProps {
   children?: ReactNode;

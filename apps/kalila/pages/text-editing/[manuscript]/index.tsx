@@ -30,7 +30,16 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
   > = [];
   const query = await queryServerSide({ sigla });
   for (const manuscript of query.sigla.filter((s) =>
-    ['P5881', 'A4095', 'M486', 'M487', 'P3471', 'L4044'].includes(s.Siglum)
+    [
+      'P5881',
+      'A4095',
+      'M486',
+      'M487',
+      'P3471',
+      'L4044',
+      'P3466',
+      'P3465',
+    ].includes(s.Siglum)
   )) {
     paths.push({ params: { manuscript: manuscript.Id } });
   }

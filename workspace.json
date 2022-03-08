@@ -14,6 +14,7 @@
     "ui-text-editing-layout-analysis": "libs/ui/text-editing/layout-analysis",
     "ui-text-editing-line-detection": "libs/ui/text-editing/line-detection",
     "ui-text-editing-pages-summary": "libs/ui/text-editing/pages-summary",
+    "ui-text-editing-shared": "libs/ui/text-editing/shared",
     "ui-text-editing-text-segmentation": "libs/ui/text-editing/text-segmentation",
     "ui-text-editing-transcription": "libs/ui/text-editing/transcription",
     "ui-text-editing-workspace": "libs/ui/text-editing/workspace",

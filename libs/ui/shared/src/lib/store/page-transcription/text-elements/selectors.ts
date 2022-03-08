@@ -22,3 +22,8 @@ export const selectAllTextElementsIds = createSelector(
   selectAllTextElements,
   (te) => te.map((e) => e._id)
 );
+
+export const selectPageHasText = createSelector(
+  selectAllTextElements,
+  (te) => te.length !== 0
+);

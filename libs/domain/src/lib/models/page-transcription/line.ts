@@ -5,8 +5,8 @@ export interface ILine {
   _id: string;
   LineOrder: number;
   FacsimileRegion: IFacsimileRegion;
-  LineText: string;
-  Locked: boolean;
+  LineText?: string;
+  Locked?: boolean;
   HighlightColor?: string;
   Tokens: IToken[];
 }
