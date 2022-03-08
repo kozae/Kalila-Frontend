@@ -20,7 +20,7 @@ export function TextEditing({ sigla }) {
         <title>Text Editing: Select Manuscript</title>
       </Head>
       <Alert severity="info" sx={{ typography: 'h3' }}>
-        Click on a manuscript on which to load its pages
+        Click on a manuscript to load its pages
       </Alert>
       <SiglumSelection
         sigla={sigla}

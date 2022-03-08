@@ -48,14 +48,6 @@ function createPageFacsimileRenderer(data: {
   );
 }
 
-function useImageAsFabricObject(url: string) {
-  const [fabricImg, setFabricImg] = useState<null | fabric.Image>(null);
-  useEffect(() => {
-    loadImageAsFabricObject(url, setFabricImg);
-  }, [url]);
-  return fabricImg;
-}
-
 function usePolygonEventHandlers(canvas: fabric.Canvas | null) {
   const highlighterRect = createRegionHighlighter();
   const editorRect = createEditRegionRect();
@@ -127,7 +119,6 @@ export function useFacsimileCanvasState() {
     selectRegions(state, activeWorkspace)
   );
   const selectedElement = useAppSelector(selectSelectedElement);
-  const fabricImg = useImageAsFabricObject(facsimileData.imageUrl);
 
   const renderPageFacsimile = createPageFacsimileRenderer(facsimileData);
   const renderPolygons = createPolygonRenderer();
@@ -138,7 +129,6 @@ export function useFacsimileCanvasState() {
     regions,
     renderPageFacsimile,
     renderPolygons,
-    fabricImg,
     selectedElement,
     ...facsimileData,
     ...polygonEventHandlers,

@@ -28,7 +28,7 @@ export function createDataUrlFromRect(
   );
   const boundingRect = getBoundingRect(X, Y, Width, Height, Rotation);
   const croppedDataUrl = img.toDataURL({
-    format: 'jpeg',
+    format: 'png',
     width: 2 * padding + boundingRect.width,
     height: 2 * padding + boundingRect.height,
     top: boundingRect.y - padding,
@@ -41,7 +41,7 @@ export function createDataUrlFromRect(
     });
 
     const rotatedImgUrl = croppedImg.toDataURL({
-      format: 'jpeg',
+      format: 'png',
     });
 
     fabric.Image.fromURL(rotatedImgUrl, (rotatedImg) => {
@@ -62,7 +62,7 @@ export function createDataUrlFromRect(
 
       callback(
         group.toDataURL({
-          format: 'jpeg',
+          format: 'png',
           width: 2 * padding + Width,
           height: 2 * padding + Height,
           top: dY,

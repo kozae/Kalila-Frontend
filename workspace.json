@@ -12,6 +12,7 @@
     "ui-forms": "libs/ui/forms",
     "ui-table": "libs/ui/table",
     "ui-text-editing-layout-analysis": "libs/ui/text-editing/layout-analysis",
+    "ui-text-editing-line-detection": "libs/ui/text-editing/line-detection",
     "ui-text-editing-pages-summary": "libs/ui/text-editing/pages-summary",
     "ui-text-editing-text-segmentation": "libs/ui/text-editing/text-segmentation",
     "ui-text-editing-transcription": "libs/ui/text-editing/transcription",

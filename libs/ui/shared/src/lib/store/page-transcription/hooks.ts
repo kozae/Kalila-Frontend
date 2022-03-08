@@ -1,4 +1,5 @@
 import {
+  IFacsimileRegion,
   ILine,
   IPageTranscription,
   ITextElement,
@@ -10,17 +11,31 @@ import { clearImageElements, loadImageElements } from './image-elements';
 import { clearTextElements, loadTextElements } from './text-elements';
 import { clearLines, loadLines } from './lines';
 import { clearTokens, loadTokens } from './tokens';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { clearPageData, loadPageData, pageDataLoaded } from './page-data';
-import { clearDataUrls } from './region-data-urls';
-import { highlightColors } from '@frontend/ui/facsimile';
+import { addDataUrl, clearDataUrls } from './region-data-urls';
+import {
+  createRegionsDataUrls,
+  highlightColors,
+  loadImageAsFabricObject,
+} from '@frontend/ui/facsimile';
 import { clearTextEditingPageStore } from '../text-editing-page';
+import { fabric } from 'fabric';
+
+function useImageAsFabricObject(url: string) {
+  const [fabricImg, setFabricImg] = useState<null | fabric.Image>(null);
+  useEffect(() => {
+    loadImageAsFabricObject(url, setFabricImg);
+  }, [url]);
+  return fabricImg;
+}
 
 export function useTextEditingWorkspaceStore(
   data: IPageTranscription,
   imageSize: { Width: number; Height: number }
 ) {
   const dispatch = useAppDispatch();
+  const fabricImg = useImageAsFabricObject(data.FacsimileImageUrl);
   const { TextElements, ImageElements, Units, ...pageInfo } = data;
   const textElements: Omit<ITextElement, 'Lines'>[] = [];
   const lines: Array<Omit<ILine, 'Tokens'> & { ElementId: string }> = [];
@@ -39,6 +54,10 @@ export function useTextEditingWorkspaceStore(
     });
   });
 
+  const imageElements = ImageElements.map((el, i) => ({
+    ...el,
+    HighlightColor: highlightColors[(i + 5) % 13],
+  }));
   const clearAll = () => {
     console.log('clearing page transcription store');
     dispatch(clearPageData());
@@ -54,14 +73,7 @@ export function useTextEditingWorkspaceStore(
   useEffect(() => {
     dispatch(loadPageData({ pageInfo, imageSize }));
     dispatch(loadUnitSummaries(Units));
-    dispatch(
-      loadImageElements(
-        ImageElements.map((el, i) => ({
-          ...el,
-          HighlightColor: highlightColors[(i + 5) % 13],
-        }))
-      )
-    );
+    dispatch(loadImageElements(imageElements));
     dispatch(loadTextElements(textElements));
     dispatch(loadLines(lines));
     dispatch(loadTokens(tokens));
@@ -72,6 +84,22 @@ export function useTextEditingWorkspaceStore(
 
     return clearAll;
   }, [data, imageSize]);
+
+  const onUrlCreated = (id: string, data: string) =>
+    dispatch(addDataUrl({ id, data }));
+  useEffect(() => {
+    if (fabricImg !== null) {
+      const data = [...textElements, ...imageElements, ...lines].map(
+        (el) =>
+          el && {
+            Id: el._id,
+            HighlightColor: el.HighlightColor,
+            ...el.FacsimileRegion,
+          }
+      ) as Array<IFacsimileRegion & { Id: string; HighlightColor?: string }>;
+      createRegionsDataUrls(data, fabricImg, onUrlCreated);
+    }
+  }, [data, fabricImg]);
 
   useEffect(() => {
     return clearAll;

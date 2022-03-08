@@ -11,6 +11,7 @@ import {
   useAppSelector,
   discardLayoutChanges,
   saveLayoutChanges,
+  selectTextEditingToolMode,
 } from '@frontend/shared-ui';
 import { hexToRgba } from '@frontend/util';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
@@ -20,7 +21,9 @@ import { useCallback } from 'react';
 export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
   const selectedElement = useAppSelector(selectSelectedElement);
   const activeWorkspace = useAppSelector(selectTextEditingActiveWorkspace);
-  const show = hasChanges && selectedElement.id === null;
+  const toolMode = useAppSelector(selectTextEditingToolMode);
+  const show =
+    hasChanges && selectedElement.id === null && toolMode === 'default';
   const dispatch = useAppDispatch();
   const handleDiscard = useCallback(() => {
     switch (activeWorkspace) {

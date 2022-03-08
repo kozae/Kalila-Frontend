@@ -79,6 +79,8 @@ export const Sortable: React.FC<ISortableProps> = ({
 
       // Time to actually perform the action
       move(dragIndex, hoverIndex);
+
+      item.index = hoverIndex;
     },
   });
 

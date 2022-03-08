@@ -21,6 +21,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
+import { LineDetectionTool } from '../../line-detection-tool';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -176,7 +177,7 @@ export const ToolSpace = () => {
                 <LayoutAnalysisTool />
               </TabPanel>
               <TabPanel value={value} index={2} dir={theme.direction}>
-                Item Three
+                <LineDetectionTool />
               </TabPanel>
               <TabPanel value={value} index={3} dir={theme.direction}>
                 Item Four

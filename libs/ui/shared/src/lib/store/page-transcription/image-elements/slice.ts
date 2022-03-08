@@ -4,8 +4,6 @@ import {
   discardLayoutChanges,
   saveLayoutChanges,
 } from '../../text-editing-page/thunks';
-import { reorderLayoutElements } from '../actions';
-import { action } from '@storybook/addon-actions';
 
 export const imageElementsAdapter = createEntityAdapter<IImageElement>({
   selectId: (doc) => doc._id,

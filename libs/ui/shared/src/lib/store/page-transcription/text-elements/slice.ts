@@ -4,7 +4,6 @@ import {
   discardLayoutChanges,
   saveLayoutChanges,
 } from '../../text-editing-page/thunks';
-import { reorderLayoutElements } from '../actions';
 
 export const textElementsAdapter = createEntityAdapter<
   Omit<ITextElement, 'Lines'>

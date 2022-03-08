@@ -2,10 +2,20 @@ import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import { IImageElement, ITextElement } from '@frontend/domain';
 import { orderBy } from 'lodash';
-import { LayoutElementSummary } from './layout-element-summary';
+import {
+  ILayoutElementSummaryProps,
+  LayoutElementSummary,
+} from './layout-element-summary';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Sortable, useAppDispatch } from '@frontend/shared-ui';
+import {
+  Sortable,
+  updateImageElement,
+  updateTextElement,
+  useAppDispatch,
+} from '@frontend/shared-ui';
+import { useCallback, useEffect, useState } from 'react';
+import update from 'immutability-helper';
 
 export interface IReorderLayoutElementsProps {
   dataUrls: Record<string, string>;
@@ -18,20 +28,77 @@ export const ReorderLayoutElements = ({
   textElements,
   imageElements,
 }: IReorderLayoutElementsProps) => {
-  const elements = orderBy(
-    [
-      ...textElements.map((el) => ({
-        ...el,
-        url: dataUrls[el._id],
-        icon: 'text',
-      })),
-      ...imageElements.map((el) => ({
-        ...el,
-        url: dataUrls[el._id],
-        icon: 'image',
-      })),
-    ],
-    'Order'
+  const dispatch = useAppDispatch();
+  const [elements, setElements] = useState<ILayoutElementSummaryProps[]>(
+    orderBy(
+      [
+        ...textElements.map((el) => ({
+          ...el,
+          url: dataUrls[el._id],
+          icon: 'text',
+        })),
+        ...imageElements.map((el) => ({
+          ...el,
+          url: dataUrls[el._id],
+          icon: 'image',
+        })),
+      ],
+      'Order'
+    ) as ILayoutElementSummaryProps[]
+  );
+
+  const move = useCallback((dragIndex: number, hoverIndex: number) => {
+    setElements((prevElements) =>
+      update(prevElements, {
+        $splice: [
+          [dragIndex, 1],
+          [
+            hoverIndex,
+            0,
+            prevElements[dragIndex] as ILayoutElementSummaryProps,
+          ],
+        ],
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    elements.forEach((el, index) => {
+      if (el.Order !== index + 1) {
+        if (el.icon === 'image') {
+          dispatch(
+            updateImageElement({ id: el._id, changes: { Order: index + 1 } })
+          );
+        } else {
+          dispatch(
+            updateTextElement({ id: el._id, changes: { Order: index + 1 } })
+          );
+        }
+      }
+    });
+  }, [elements]);
+
+  const renderElement = useCallback(
+    (el: ILayoutElementSummaryProps, index: number) => {
+      return (
+        <Sortable
+          move={move}
+          index={index}
+          id={el._id}
+          style={{ width: '60%' }}
+          key={el._id}
+        >
+          <LayoutElementSummary
+            {...el}
+            Order={index + 1}
+            maxHeight="10vh"
+            width="100%"
+            buttons={false}
+          />
+        </Sortable>
+      );
+    },
+    []
   );
 
   return (
@@ -46,24 +113,7 @@ export const ReorderLayoutElements = ({
         {elements.length === 0 && (
           <Alert severity="info">No elements defined.</Alert>
         )}
-        {elements.map((el) => (
-          <Sortable
-            move={(movedElement, target) =>
-              console.log({ movedElement, target })
-            }
-            index={el.Order}
-            id={el._id}
-            style={{ width: '60%' }}
-            key={el._id}
-          >
-            <LayoutElementSummary
-              maxHeight="10vh"
-              width="100%"
-              buttons={false}
-              {...el}
-            />
-          </Sortable>
-        ))}
+        {elements.map((el, index) => renderElement(el, index))}
       </Stack>
     </DndProvider>
   );

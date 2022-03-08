@@ -31,6 +31,9 @@
       "@frontend/ui/text-editing/layout-analysis": [
         "libs/ui/text-editing/layout-analysis/src/index.ts"
       ],
+      "@frontend/ui/text-editing/line-detection": [
+        "libs/ui/text-editing/line-detection/src/index.ts"
+      ],
       "@frontend/ui/text-editing/pages-summary": [
         "libs/ui/text-editing/pages-summary/src/index.ts"
       ],
