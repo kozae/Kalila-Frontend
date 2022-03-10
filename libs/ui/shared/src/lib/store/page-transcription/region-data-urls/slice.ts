@@ -1,6 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { generateDataUrls } from './thunks';
-import { createRegionsDataUrls } from '@frontend/ui/facsimile';
+import { saveLayoutChanges } from '../../text-editing-page';
 
 export const regionDataUrlAdapter = createEntityAdapter<{
   id: string;
@@ -20,14 +19,8 @@ export const regionDataUrlsSlice = createSlice({
     clearDataUrls: regionDataUrlAdapter.removeAll,
   },
   extraReducers: (builder) => {
-    builder.addCase(generateDataUrls.fulfilled, (state, action) => {
-      const onCreate = (id: string, data: string) =>
-        regionDataUrlAdapter.upsertOne(state, { id, data });
-      createRegionsDataUrls(
-        action.payload.data,
-        action.payload.fabricImg,
-        onCreate
-      );
+    builder.addCase(saveLayoutChanges.fulfilled, (state, action) => {
+      regionDataUrlAdapter.setAll(state, action.payload.dataUrls);
     });
   },
 });

@@ -1,1 +1,2 @@
-export * from './lib/ui-text-editing-shared';
+export * from './lib/layout-element-summary';
+export * from './lib/text-editing-workspace-context';

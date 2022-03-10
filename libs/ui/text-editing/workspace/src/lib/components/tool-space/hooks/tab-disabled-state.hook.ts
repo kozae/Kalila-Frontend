@@ -6,10 +6,12 @@ import {
   selectWorkspaceHasChanges,
   selectPageHasTranscription,
   useAppSelector,
+  selectTextEditingToolMode,
 } from '@frontend/shared-ui';
 
 export function useTabDisabledState() {
   const selectedElement = useAppSelector(selectSelectedElement);
+  const toolMode = useAppSelector(selectTextEditingToolMode);
   const workspaceHasChanges = useAppSelector(selectWorkspaceHasChanges);
   const pageHasLines = useAppSelector(selectPageHasLines);
   const pageHasText = useAppSelector(selectPageHasText);
@@ -19,11 +21,23 @@ export function useTabDisabledState() {
     [selectedElement.id]
   );
   return {
-    description: selectionIsActive || workspaceHasChanges,
-    layout: selectionIsActive || workspaceHasChanges,
-    lines: selectionIsActive || workspaceHasChanges || !pageHasText,
-    transcription: selectionIsActive || workspaceHasChanges || !pageHasLines,
+    description:
+      toolMode !== 'default' || selectionIsActive || workspaceHasChanges,
+    layout: toolMode !== 'default' || selectionIsActive || workspaceHasChanges,
+    lines:
+      toolMode !== 'default' ||
+      selectionIsActive ||
+      workspaceHasChanges ||
+      !pageHasText,
+    transcription:
+      toolMode !== 'default' ||
+      selectionIsActive ||
+      workspaceHasChanges ||
+      !pageHasLines,
     segmentation:
-      selectionIsActive || workspaceHasChanges || !pageHasTranscription,
+      toolMode !== 'default' ||
+      selectionIsActive ||
+      workspaceHasChanges ||
+      !pageHasTranscription,
   };
 }

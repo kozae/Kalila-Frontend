@@ -13,7 +13,7 @@ import {
 } from './components';
 import { useAccessModeSettings } from './hooks/access-mode-settings.hook';
 import { useImageAsFabricObject } from './hooks';
-import { TextEditingWorkspaceContext } from './text-editing-workspace-context';
+import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 
 export function TextEditingWorkspace({ pageData, imageSize }: any) {
   const fabricImg = useImageAsFabricObject(pageData.FacsimileImageUrl);

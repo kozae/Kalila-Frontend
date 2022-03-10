@@ -4,7 +4,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 const selectLinesState = (state: RootState) => state.lines;
 
-export const { selectAll: selectAllLines } =
+export const { selectAll: selectAllLines, selectIds: selectLineIds } =
   linesAdapter.getSelectors<RootState>(selectLinesState);
 
 export const selectAllLinesRegions = createSelector(selectAllLines, (li) =>
@@ -17,6 +17,11 @@ export const selectAllLinesRegions = createSelector(selectAllLines, (li) =>
 
 export const selectAllLinesIds = createSelector(selectAllLines, (li) =>
   li.map((l) => l._id)
+);
+
+export const selectNumberOfLines = createSelector(
+  selectLineIds,
+  (li) => li.length
 );
 
 export const selectPageHasLines = createSelector(

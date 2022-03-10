@@ -4,8 +4,7 @@ import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
 import ReorderSharpIcon from '@mui/icons-material/ReorderSharp';
 import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
-import React, { ReactNode, SyntheticEvent, useContext, useState } from 'react';
-import Paper from '@mui/material/Paper';
+import React, { ReactNode, SyntheticEvent } from 'react';
 import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
 import Box from '@mui/material/Box';
 import SwipeableViews from 'react-swipeable-views';
@@ -16,6 +15,7 @@ import { LayoutAnalysisTool } from '@frontend/ui/text-editing/layout-analysis';
 import { useTabDisabledState } from './hooks';
 import {
   selectPageDataLoadingStatus,
+  selectTextEditingActiveWorkspace,
   setTextEditingWorkspace,
   TextEditingActiveWorkspace,
   useAppDispatch,
@@ -46,14 +46,14 @@ function TabPanel(props: TabPanelProps) {
       }}
     >
       {value === index && (
-        <Paper
+        <Box
           sx={{
             width: '100%',
             height: '100%',
           }}
         >
           {children}
-        </Paper>
+        </Box>
       )}
     </div>
   );
@@ -66,19 +66,26 @@ const TabIndexWorkspaceNameMap: Record<number, TextEditingActiveWorkspace> = {
   3: 'transcription',
   4: 'segmentation',
 };
+const WorkspaceNameTabIndexMap: Record<TextEditingActiveWorkspace, number> = {
+  description: 0,
+  layout: 1,
+  lines: 2,
+  transcription: 3,
+  segmentation: 4,
+};
 
 export const ToolSpace = () => {
   const dispatch = useAppDispatch();
   const loading = useAppSelector(selectPageDataLoadingStatus);
-  const [value, setValue] = useState(0);
+  const activeWorkspace = useAppSelector(selectTextEditingActiveWorkspace);
+  const tabIndex = WorkspaceNameTabIndexMap[activeWorkspace];
   const theme = useTheme();
   const isDisabled = useTabDisabledState();
   const handleChange = (event: SyntheticEvent, index: number) => {
-    setValue(index);
     dispatch(setTextEditingWorkspace(TabIndexWorkspaceNameMap[index]));
   };
   const handleChangeIndex = (index: number) => {
-    setValue(index);
+    dispatch(setTextEditingWorkspace(TabIndexWorkspaceNameMap[index]));
   };
 
   return (
@@ -92,7 +99,7 @@ export const ToolSpace = () => {
         }}
       >
         <Tabs
-          value={value}
+          value={tabIndex}
           onChange={handleChange}
           aria-label="text-editing-tools"
           textColor="secondary"
@@ -167,22 +174,22 @@ export const ToolSpace = () => {
           >
             <SwipeableViews
               axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-              index={value}
+              index={tabIndex}
               onChangeIndex={handleChangeIndex}
             >
-              <TabPanel value={value} index={0} dir={theme.direction}>
+              <TabPanel value={tabIndex} index={0} dir={theme.direction}>
                 Item One
               </TabPanel>
-              <TabPanel value={value} index={1} dir={theme.direction}>
+              <TabPanel value={tabIndex} index={1} dir={theme.direction}>
                 <LayoutAnalysisTool />
               </TabPanel>
-              <TabPanel value={value} index={2} dir={theme.direction}>
+              <TabPanel value={tabIndex} index={2} dir={theme.direction}>
                 <LineDetectionTool />
               </TabPanel>
-              <TabPanel value={value} index={3} dir={theme.direction}>
+              <TabPanel value={tabIndex} index={3} dir={theme.direction}>
                 Item Four
               </TabPanel>
-              <TabPanel value={value} index={4} dir={theme.direction}>
+              <TabPanel value={tabIndex} index={4} dir={theme.direction}>
                 Item Five
               </TabPanel>
             </SwipeableViews>

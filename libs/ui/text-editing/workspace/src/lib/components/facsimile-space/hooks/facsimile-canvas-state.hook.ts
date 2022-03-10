@@ -1,5 +1,5 @@
 import { fabric } from 'fabric';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   createEditor,
   createEditRegionRect,
@@ -24,6 +24,7 @@ import {
 import { IFacsimileRegion } from '@frontend/domain';
 import { workspaceProcedure } from '../workspace-rendering-tasks';
 import { stringHasValue } from '@frontend/util';
+import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 
 function createPageFacsimileRenderer(data: {
   imageDisplayWidth: number;
@@ -110,6 +111,8 @@ function createPolygonRenderer() {
 
 export function useFacsimileCanvasState() {
   const [canvas, setCanvas] = useState<null | fabric.Canvas>(null);
+  const { fabricImg } = useContext(TextEditingWorkspaceContext);
+
   const windowSize = useWindowSize();
   const facsimileData = useAppSelector((state) =>
     selectCurrentPageFacsimileData(state, windowSize, 110, 5, 45)
@@ -126,7 +129,9 @@ export function useFacsimileCanvasState() {
   return {
     canvas,
     onReady: setCanvas,
+    onDispose: () => setCanvas(null),
     regions,
+    fabricImg,
     renderPageFacsimile,
     renderPolygons,
     selectedElement,

@@ -7,6 +7,7 @@ import {
 
 export function useFacsimileCanvasEffects(
   canvasState: FacsimileCanvasState,
+  loading: boolean | undefined,
   onLoaded: () => void
 ) {
   useEffect(() => {
@@ -16,7 +17,7 @@ export function useFacsimileCanvasEffects(
   }, []);
 
   useEffect(() => {
-    if (canvasState.canvas) {
+    if (!loading && canvasState.canvas) {
       console.log('rerendering image only');
       canvasState.renderPageFacsimile(canvasState.canvas);
       onLoaded();
@@ -24,7 +25,12 @@ export function useFacsimileCanvasEffects(
   }, [canvasState.canvas]);
 
   useEffect(() => {
-    if (canvasState.canvas && canvasState.selectedElement.id === null) {
+    if (
+      !loading &&
+      canvasState.canvas &&
+      canvasState.selectedElement.id === null &&
+      ['lines', 'layout'].includes(canvasState.regions.activeWorkspace)
+    ) {
       console.log('rerendering image and polygons');
       canvasState.renderPageFacsimile(canvasState.canvas);
       canvasState.renderPolygons(

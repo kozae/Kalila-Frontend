@@ -12,6 +12,27 @@ export class PolygonHelper {
     PointsHelper.getDistance(p[0], p[2]);
   }
 
+  static getSubRegion(
+    p: Polygon | IPoint[],
+    rotation: number,
+    {
+      top,
+      left,
+      width,
+      height,
+    }: { top: number; left: number; width: number; height: number }
+  ) {
+    const p1 = PointsHelper.atDistanceAndAngle(
+        p[0],
+        Math.sqrt(Math.pow(top, 2) + Math.pow(left, 2)),
+        rotation + 90
+      ),
+      p2 = PointsHelper.atDistanceAndAngle(p1, width, rotation),
+      p3 = PointsHelper.atDistanceAndAngle(p2, height, rotation + 90),
+      p4 = PointsHelper.atDistanceAndAngle(p1, height, rotation + 90);
+    return [p1, p2, p3, p4];
+  }
+
   static getWidthAndHeight(p: Polygon | IPoint[]) {
     return {
       Width: PointsHelper.getDistance(p[0], p[1]),

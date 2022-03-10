@@ -1,4 +1,5 @@
 import {
+  addDataUrl,
   cancelCreateImageElement,
   cancelCreateTextElement,
   kalilaTheme,
@@ -11,7 +12,13 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -20,12 +27,15 @@ import { IFacsimileRegion } from '@frontend/domain';
 import { TextElementInfoForm } from './text-element-info-form';
 import { ImageElementInfoForm } from './image-element-info-form';
 import { RegionDefinitionKeyboardInstructions } from './region-definition-keyboard-instructions';
+import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
+import { createRegionsDataUrls } from '@frontend/ui/facsimile';
 
 export const EditLayoutElement = ({
   selectedElement,
 }: {
   selectedElement: { id: string | null; region: IFacsimileRegion | null };
 }) => {
+  const { fabricImg } = useContext(TextEditingWorkspaceContext);
   const regionUnderEditUrl = useAppSelector(selectRegionUnderEditUrl);
   const dispatch = useAppDispatch();
   const textElement = useAppSelector((state) =>
@@ -68,6 +78,23 @@ export const EditLayoutElement = ({
           },
         })
       );
+    }
+
+    const onUrlCreated = (id: string, data: string) =>
+      dispatch(addDataUrl({ id, data }));
+
+    if (fabricImg !== null) {
+      console.log({ selectedElement });
+      const data = {
+        Id: selectedElement.id,
+        HighlightColor: textElement
+          ? textElement.HighlightColor
+          : imageElement
+          ? imageElement.HighlightColor
+          : kalilaTheme.palette.primary.main,
+        ...selectedElement.region,
+      } as IFacsimileRegion & { Id: string; HighlightColor?: string };
+      createRegionsDataUrls([data], fabricImg, onUrlCreated);
     }
 
     dispatch(onElementSelected({ id: null, region: null }));

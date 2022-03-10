@@ -52,10 +52,7 @@ export const pageDataSlice = createSlice({
     pageDataLoaded: (state) => {
       state.loading = false;
     },
-    clearPageData: (state) => {
-      state.pageInfo = initialState.pageInfo;
-      state.loading = true;
-    },
+    clearPageData: () => initialState,
   },
 });
 

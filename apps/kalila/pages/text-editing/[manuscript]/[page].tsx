@@ -1,4 +1,8 @@
-import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
+import {
+  useMountedIndicator,
+  useNavbarMessage,
+  withTransition,
+} from '@frontend/shared-ui';
 import { GetServerSideProps } from 'next';
 import {
   queryServerSide,

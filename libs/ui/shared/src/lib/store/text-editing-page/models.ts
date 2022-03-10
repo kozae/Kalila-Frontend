@@ -27,7 +27,11 @@ export type TextEditingActiveWorkspace =
   | 'lines'
   | 'segmentation';
 
-export type TextEditingToolMode = 'default' | 'reorder';
+export type TextEditingToolMode =
+  | 'default'
+  | 'reorder'
+  | 'generate'
+  | 'automatic-detection';
 
 export type TextEditingAccessMode = 'view' | 'edit';
 
@@ -42,21 +46,17 @@ export interface ITextEditingPageState {
   pageInfoBeforeChange: IPageInfo;
   textElementsBeforeChanges: Omit<ITextElement, 'Lines'>[];
   imageElementsBeforeChanges: IImageElement[];
-  linesBeforeChanges: Omit<ILine, 'Tokens'>[];
+  linesBeforeChanges: (Omit<ILine, 'Tokens'> & { ElementId: string })[];
   tokensBeforeChanges: IToken[];
   unitSummariesBeforeChanges: IUnitSummary[];
   regionUnderEditUrl: string | null;
   deleteLayoutImages: string[];
   deleteLayoutTextElements: string[];
-  deleteLines: { ElementId: string; Lines: string[] }[];
+  deleteLines: string[];
   postLayoutImages: string[];
   postLayoutTextElements: string[];
-  postLines: { ElementId: string; Lines: string[] }[];
-  postTokens: {
-    ElementId: string;
-    LineId: string;
-    Tokens: string[];
-  }[];
+  postLines: string[];
+  postTokens: string[];
   putImages: string[];
   putLines: string[];
   putTextElements: string[];

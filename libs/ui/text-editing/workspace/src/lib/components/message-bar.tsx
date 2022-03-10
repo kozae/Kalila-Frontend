@@ -26,13 +26,7 @@ const PulsingInfoIcon = () => (
   </motion.div>
 );
 
-const Message = ({
-  isXLScreen,
-  text,
-}: {
-  isXLScreen: boolean;
-  text: string;
-}) => (
+const Message = ({ text }: { text: string }) => (
   <motion.div
     key={text}
     style={{
@@ -66,7 +60,6 @@ const Message = ({
 );
 
 export const MessageBar = () => {
-  const isXLScreen = useXLargeScreenMediaQuery();
   const accessMode = useAppSelector(selectTextEditingAccessMode);
   const toolMode = useAppSelector(selectTextEditingToolMode);
   const activeWorkspace = useAppSelector(selectTextEditingActiveWorkspace);
@@ -77,17 +70,22 @@ export const MessageBar = () => {
     regionHoveredInFacsimileSpace && accessMode === 'edit';
   const showDragElements =
     activeWorkspace === 'layout' && toolMode === 'reorder';
+  const showLineAutomaticDetection =
+    activeWorkspace === 'lines' && toolMode === 'automatic-detection';
+  const showLineGenerationMessage =
+    activeWorkspace === 'lines' && toolMode === 'generate';
   return (
     <Portal>
       <AnimatePresence>
-        {showClickToEdit && (
-          <Message text="Click to edit" isXLScreen={isXLScreen} />
-        )}
+        {showClickToEdit && <Message text="Click to edit" />}
         {showDragElements && (
-          <Message
-            text="Drag elements up and down to reorder them"
-            isXLScreen={isXLScreen}
-          />
+          <Message text="Drag elements up and down to reorder them" />
+        )}
+        {showLineAutomaticDetection && (
+          <Message text="Automatic detection in progress..." />
+        )}
+        {showLineGenerationMessage && (
+          <Message text="Enter the number of lines to generate per text element." />
         )}
       </AnimatePresence>
     </Portal>

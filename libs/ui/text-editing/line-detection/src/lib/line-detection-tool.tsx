@@ -1,9 +1,16 @@
-import { selectAllLines, useAppSelector } from '@frontend/shared-ui';
-import { SemiAutomatedLineDetector } from './semi-automated-line-detector';
+import {
+  selectAllLines,
+  selectNumberOfLines,
+  selectTextEditingToolMode,
+  useAppSelector,
+} from '@frontend/shared-ui';
+import { DefineLinesChoices } from './define-lines-choices';
+import { LineList } from './line-list';
 
 export const LineDetectionTool = () => {
-  const lines = useAppSelector(selectAllLines);
+  const numberOfLines = useAppSelector(selectNumberOfLines);
+  const toolMode = useAppSelector(selectTextEditingToolMode);
 
-  if (lines.length === 0) return <SemiAutomatedLineDetector />;
-  return <SemiAutomatedLineDetector />;
+  if (numberOfLines === 0) return <DefineLinesChoices />;
+  return toolMode === 'default' ? <LineList /> : <></>;
 };

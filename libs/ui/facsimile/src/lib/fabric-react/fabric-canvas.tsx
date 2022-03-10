@@ -5,9 +5,11 @@ import { ICanvasOptions } from 'fabric/fabric-impl';
 export interface IFabricCanvasProps {
   style?: CSSProperties;
   onReady?: (canvas: fabric.Canvas) => void;
+  onDispose?: () => void;
   options?: ICanvasOptions;
   width: number;
   height: number;
+  create: boolean;
 }
 
 /**
@@ -19,21 +21,32 @@ export const FabricCanvas = ({
   width,
   height,
   onReady,
+  onDispose,
+  create,
 }: IFabricCanvasProps) => {
   const canvasEl = useRef(null);
   const canvasElParent = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const canvas = new fabric.Canvas(canvasEl.current, options ?? {});
-
-    if (onReady) {
-      onReady(canvas);
+    let canvas: fabric.Canvas | null = null;
+    console.log(create);
+    if (create) {
+      canvas = new fabric.Canvas(canvasEl.current, options ?? {});
+      console.log('canvas created');
+      if (onReady) {
+        onReady(canvas);
+      }
     }
 
     return () => {
       console.log('canvas disposed');
-      canvas.dispose();
+      if (canvas) {
+        canvas.dispose();
+        if (onDispose) {
+          onDispose();
+        }
+      }
     };
-  }, []);
+  }, [create]);
   return (
     <div
       ref={canvasElParent}

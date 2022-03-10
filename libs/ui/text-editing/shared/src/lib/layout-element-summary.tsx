@@ -34,15 +34,18 @@ export type ILayoutElementSummaryProps = (
   icon: string;
   buttons: boolean;
   maxHeight?: string;
+  color?: string;
   width?: string;
 };
 
 export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
+  children,
   url,
   icon,
   buttons,
   maxHeight,
   width,
+  color,
   ...el
 }) => {
   const dispatch = useAppDispatch();
@@ -90,7 +93,7 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
           sx={{
             width: '100%',
             p: '5px',
-            bgcolor: hexToRgba(el.HighlightColor as string, 0.4),
+            bgcolor: hexToRgba(color ?? (el.HighlightColor as string), 0.4),
             borderRadius: '5px 5px 0 0',
           }}
         >
@@ -139,7 +142,7 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
           }
           onMouseLeave={() => handleHover(null)}
           sx={{
-            bgcolor: hexToRgba(el.HighlightColor as string, 0.4),
+            bgcolor: hexToRgba(color ?? (el.HighlightColor as string), 0.4),
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -159,6 +162,7 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
             alt="region not defined"
           />
         </Box>
+        {children}
       </Stack>
     </Paper>
   );

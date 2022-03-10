@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ThunkApi } from '@frontend/shared-ui';
-import { IImageElement, ITextElement } from '@frontend/domain';
+import { IImageElement, ILine, ITextElement } from '@frontend/domain';
 import { sleeper } from '@frontend/util';
 import {
   deleteLayout,
@@ -13,11 +13,13 @@ import { omit } from 'lodash';
 export const discardThunk = {
   prefix: 'discard/textEditingPageState',
   layoutChanges: 'discard/textEditingPageState/layoutChanges',
+  lineChanges: 'discard/textEditingPageState/lineChanges',
 };
 
 export const saveThunk = {
   prefix: 'save/textEditingPageState',
   layoutChanges: 'save/textEditingPageState/layoutChanges',
+  lineChanges: 'save/textEditingPageState/lineChanges',
 };
 
 export const discardLayoutChanges = createAsyncThunk<
@@ -36,10 +38,28 @@ export const discardLayoutChanges = createAsyncThunk<
   };
 });
 
+export const discardLineChanges = createAsyncThunk<
+  {
+    Lines: (Omit<ILine, 'Tokens'> & { ElementId: string })[];
+  },
+  any,
+  ThunkApi
+>(discardThunk.lineChanges, async ({}, { getState }) => {
+  const state = getState();
+  await sleeper(10);
+  return {
+    Lines: state.textEditingPageState.linesBeforeChanges,
+  };
+});
+
 export const saveLayoutChanges = createAsyncThunk<
   {
     TextElements: Omit<ITextElement, 'Lines'>[];
     Images: IImageElement[];
+    dataUrls: {
+      id: string;
+      data: string;
+    }[];
   },
   any,
   ThunkApi
@@ -49,6 +69,31 @@ export const saveLayoutChanges = createAsyncThunk<
   await deleteLayout(state);
   await putTextElements(state);
   await putImages(state);
+  const dataUrls: {
+    id: string;
+    data: string;
+  }[] = [];
+  Object.values(state.regionDataUrls.entities).forEach((item) => {
+    if (item) {
+      const textElIndex = changes.TextElementIds.indexOf(item.id);
+      if (textElIndex !== -1) {
+        dataUrls.push({
+          id: changes.TextElements[textElIndex].Id,
+          data: item.data,
+        });
+        return;
+      }
+      const imageElIndex = changes.ImageIds.indexOf(item.id);
+      if (imageElIndex !== -1) {
+        dataUrls.push({
+          id: changes.Images[imageElIndex].Id,
+          data: item.data,
+        });
+        return;
+      }
+      dataUrls.push(item);
+    }
+  });
   return {
     TextElements: [
       ...Object.values(state.textElements.entities).filter(
@@ -66,5 +111,24 @@ export const saveLayoutChanges = createAsyncThunk<
         (t) => ({ ...omit(t, 'Id'), _id: t.Id } as IImageElement)
       ),
     ] as IImageElement[],
+    dataUrls,
+  };
+});
+
+export const saveLineChanges = createAsyncThunk<
+  {
+    Lines: (Omit<ILine, 'Tokens'> & { ElementId: string })[];
+    dataUrls: {
+      id: string;
+      data: string;
+    }[];
+  },
+  any,
+  ThunkApi
+>(saveThunk.lineChanges, async ({}, { getState }) => {
+  const state = getState();
+  return {
+    Lines: [],
+    dataUrls: [],
   };
 });

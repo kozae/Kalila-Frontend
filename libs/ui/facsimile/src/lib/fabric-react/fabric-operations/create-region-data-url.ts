@@ -2,6 +2,8 @@ import { AngleHelper, PolygonHelper } from '@frontend/ui/facsimile';
 import { fabric } from 'fabric';
 import { IFacsimileRegion } from '@frontend/domain';
 
+export const PADDING_PERCENTAGE = 3;
+
 export function createDataUrlFromRect(
   {
     X,
@@ -20,7 +22,7 @@ export function createDataUrlFromRect(
   },
   img: fabric.Image,
   callback: (dataUrl: string) => void,
-  paddingPercentage: number = 3
+  paddingPercentage: number = PADDING_PERCENTAGE
 ) {
   const padding = Math.floor(
     (Math.sqrt(Math.pow(Width, 2) + Math.pow(Height, 2)) * paddingPercentage) /

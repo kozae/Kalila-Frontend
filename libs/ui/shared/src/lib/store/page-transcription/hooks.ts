@@ -49,13 +49,13 @@ export function useTextEditingWorkspaceStore(
   const clearAll = () => {
     console.log('clearing page transcription store');
     dispatch(clearPageData());
+    dispatch(clearTextEditingPageStore());
     dispatch(clearDataUrls());
     dispatch(clearUnitSummaries());
     dispatch(clearImageElements());
     dispatch(clearTextElements());
     dispatch(clearLines());
     dispatch(clearTokens());
-    dispatch(clearTextEditingPageStore());
   };
 
   useEffect(() => {

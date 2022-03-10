@@ -36,10 +36,8 @@ export const ManuscriptPagesPaginator = ({
   const count = isXSmallScreen ? 0 : isSmallScreen ? 1 : isMDScreen ? 4 : 6;
 
   const router = useRouter();
-  const dispatch = useAppDispatch();
 
   const handleChange = async (e: any, v: number) => {
-    dispatch(clearPageData());
     await router.push(`/text-editing/${manuscriptId}/${allPages[v - 1].Id}`);
     setPage(v);
   };

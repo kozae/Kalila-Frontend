@@ -114,9 +114,7 @@ export const textEditingPageSlice = createSlice({
     setRegionUnderEditUrl: (state, action: PayloadAction<string | null>) => {
       state.regionUnderEditUrl = action.payload;
     },
-    clearTextEditingPageStore: (state) => {
-      state = initialState;
-    },
+    clearTextEditingPageStore: () => initialState,
   },
   extraReducers: (builder) => {
     addDiscardReducers(builder);

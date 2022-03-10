@@ -2,7 +2,7 @@ import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import { IImageElement, ITextElement } from '@frontend/domain';
 import { orderBy } from 'lodash';
-import { LayoutElementSummary } from './layout-element-summary';
+import { LayoutElementSummary } from '@frontend/ui/text-editing/shared';
 
 export interface ILayoutElementsListProps {
   dataUrls: Record<string, string>;

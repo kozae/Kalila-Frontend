@@ -27,3 +27,14 @@ export const selectPageHasText = createSelector(
   selectAllTextElements,
   (te) => te.length !== 0
 );
+
+export const selectFirstTextElement = createSelector(
+  selectAllTextElements,
+  (te) => {
+    const mainBody = te.filter((e) => e.Position.startsWith('main'));
+    if (mainBody.length !== 0) {
+      return mainBody[0];
+    }
+    return te[0];
+  }
+);

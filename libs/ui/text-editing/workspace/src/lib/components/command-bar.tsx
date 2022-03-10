@@ -12,6 +12,7 @@ import {
   discardLayoutChanges,
   saveLayoutChanges,
   selectTextEditingToolMode,
+  discardLineChanges,
 } from '@frontend/shared-ui';
 import { hexToRgba } from '@frontend/util';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
@@ -33,6 +34,7 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
         dispatch(discardLayoutChanges({}));
         break;
       case 'lines':
+        dispatch(discardLineChanges({}));
         break;
       case 'transcription':
         break;

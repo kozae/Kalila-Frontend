@@ -12,6 +12,8 @@ import {
   updateTextElement,
 } from '../../page-transcription/text-elements';
 import { ITextEditingPageState } from '../models';
+import { ILine } from '@frontend/domain';
+import { loadGeneratedLines } from '../../page-transcription/lines';
 
 export function addUpdateCollectors(
   builder: ActionReducerMapBuilder<ITextEditingPageState>
@@ -23,6 +25,7 @@ export function addUpdateCollectors(
   builder.addCase(addTextElement, (state, action) => {
     state.postLayoutTextElements.push(action.payload._id);
   });
+
   builder.addCase(updateTextElement, (state, action) => {
     const id = action.payload.id as string;
     if (id.length === 24) {
@@ -48,5 +51,12 @@ export function addUpdateCollectors(
         state.putImages.push(id);
       }
     }
+  });
+
+  builder.addCase(loadGeneratedLines, (state, action) => {
+    const lines = action.payload as Array<
+      Omit<ILine, 'Tokens'> & { ElementId: string }
+    >;
+    state.postLines.push(...lines.map((l) => l._id));
   });
 }

@@ -1,6 +1,6 @@
 // noinspection ES6PreferShortImport
 
-import { discardLayoutChanges } from '../thunks';
+import { discardLayoutChanges, discardLineChanges } from '../thunks';
 import { ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { ITextEditingPageState } from '../models';
 import { cancelCreateTextElement } from '../../page-transcription/text-elements';
@@ -28,5 +28,10 @@ export function addDiscardReducers(
       (id) => id === action.payload
     );
     if (index !== -1) state.postLayoutImages.splice(index, 1);
+  });
+  builder.addCase(discardLineChanges.fulfilled, (state) => {
+    state.postLines = [];
+    state.putLines = [];
+    state.deleteLines = [];
   });
 }

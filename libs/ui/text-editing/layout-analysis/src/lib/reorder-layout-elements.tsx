@@ -5,7 +5,7 @@ import { orderBy } from 'lodash';
 import {
   ILayoutElementSummaryProps,
   LayoutElementSummary,
-} from './layout-element-summary';
+} from '@frontend/ui/text-editing/shared';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {
