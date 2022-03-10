@@ -38,9 +38,9 @@ export const FabricCanvas = ({
     }
 
     return () => {
-      console.log('canvas disposed');
       if (canvas) {
         canvas.dispose();
+        console.log('canvas disposed');
         if (onDispose) {
           onDispose();
         }
