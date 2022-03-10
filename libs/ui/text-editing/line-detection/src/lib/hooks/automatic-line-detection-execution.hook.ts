@@ -28,7 +28,8 @@ const runDetectionFactory = (setProgress: (v: number) => void) => {
     await worker.loadLanguage('ara');
     await worker.initialize('ara');
     await worker.setParameters({
-      tessedit_pageseg_mode: PSM.AUTO_ONLY,
+      //@ts-ignore
+      tessedit_pageseg_mode: '2',
     });
     return await scheduler.addJob('recognize', url);
   };
