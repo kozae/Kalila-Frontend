@@ -1,9 +1,5 @@
 import { IPageInfo } from '@frontend/domain';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  discardLayoutChanges,
-  discardThunk,
-} from '../../text-editing-page/thunks';
 
 const initialState: {
   pageInfo: IPageInfo;
