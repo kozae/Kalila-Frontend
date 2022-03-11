@@ -9,6 +9,7 @@ const {
  * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
  **/
 const nextConfig = (phase) => ({
+  swcMinify: true,
   images: {
     domains: ['kalila.kozae.de'],
   },
