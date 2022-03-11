@@ -34,7 +34,7 @@ export function addTextToPolygons(
         originY: 'center',
         left: center.X,
         top: center.Y,
-        fontSize: 25,
+        fontSize: 20,
         textAlign: 'center',
         fontWeight: 'bold',
         selectable: false,
