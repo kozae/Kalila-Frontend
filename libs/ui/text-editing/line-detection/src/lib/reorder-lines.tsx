@@ -13,38 +13,28 @@ import {
   ILayoutElementSummaryProps,
   LayoutElementSummary,
 } from '@frontend/ui/text-editing/shared';
-import { flatten, orderBy } from 'lodash';
+import { debounce, flatten, orderBy } from 'lodash';
 import { ILineSummaryProps, LineSummary } from './line-summary';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import update from 'immutability-helper';
 import { Update } from '@reduxjs/toolkit/src/entities/models';
 import { ILine } from '@frontend/domain';
-import GridLayout, { Layout } from 'react-grid-layout';
 
 const toLineContainerIdMap = (urls: Record<string, string>) => {
   return (
-    acc: Record<string, { summaryProps: ILineSummaryProps; layout: Layout }[]>,
+    acc: Record<string, { summaryProps: ILineSummaryProps }[]>,
     l: Omit<ILine, 'Tokens'> & { ElementId: string },
     index: number
   ) => {
-    const item: { summaryProps: ILineSummaryProps; layout: Layout } = {
+    const item: { summaryProps: ILineSummaryProps } = {
       summaryProps: {
         line: l,
         url: urls[l._id],
         buttons: false,
-        maxHeight: '100%',
-      },
-      layout: {
-        i: l._id,
-        x: 0,
-        y: index,
-        w: 1,
-        h: 1,
-        isResizable: false,
-        isDraggable: true,
+        maxHeight: '40px',
       },
     };
     if (acc[l.ElementId] === undefined) {
@@ -58,6 +48,7 @@ const toLineContainerIdMap = (urls: Record<string, string>) => {
 
 export const ReorderLines = () => {
   const textElements = useAppSelector(selectAllTextElements);
+  const containerRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const lines = useAppSelector(selectAllLines);
   const urls = useAppSelector((state) =>
@@ -66,6 +57,7 @@ export const ReorderLines = () => {
       ...lines.map((l) => l._id),
     ])
   );
+
   const elementSummaries: ILayoutElementSummaryProps[] = orderBy(
     textElements.map((el) => ({
       ...el,
@@ -88,13 +80,12 @@ export const ReorderLines = () => {
     .map((el, i) => ({ ...el, Order: i + 1 }));
 
   const [lineToContainerMap, setLineToContainerMap] = useState<
-    Record<string, { summaryProps: ILineSummaryProps; layout: Layout }[]>
+    Record<string, { summaryProps: ILineSummaryProps }[]>
   >(lines.reduce(toLineContainerIdMap(urls), {}));
 
   const createElementLineList = useCallback(
     (el: ILayoutElementSummaryProps) => {
       const presentLines = lineToContainerMap[el._id];
-      const layout = presentLines.map((l) => l.layout);
       const title =
         presentLines.length === 0
           ? 'no lines'
@@ -103,28 +94,16 @@ export const ReorderLines = () => {
           : '[one line]';
       return (
         <LayoutElementSummary key={el._id} {...el} title={title}>
-          <GridLayout
-            className="layout"
-            layout={layout}
-            cols={1}
-            rowHeight={150}
-            onLayoutChange={(l) => console.log(l)}
-            onDrop={(l, i, e) => console.log({ l, i, e })}
-          >
+          <Stack>
             {presentLines.length === 0 && (
               <Typography variant="button">
                 No lines defined in this element
               </Typography>
             )}
             {presentLines.map(
-              (l, index) =>
-                l && (
-                  <div key={l.layout.i}>
-                    <LineSummary {...l.summaryProps} />
-                  </div>
-                )
+              (l, index) => l && <LineSummary {...l.summaryProps} />
             )}
-          </GridLayout>
+          </Stack>
         </LayoutElementSummary>
       );
     },
@@ -133,6 +112,7 @@ export const ReorderLines = () => {
 
   return (
     <Stack
+      ref={containerRef}
       sx={{
         mt: '5px',
         width: '100%',
@@ -145,7 +125,7 @@ export const ReorderLines = () => {
       <Stack
         sx={{
           flexGrow: 1,
-          width: '100',
+          width: '100%',
           height: 'fit-content',
           bgcolor: '#DDDDDD',
         }}

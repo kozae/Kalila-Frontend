@@ -13,6 +13,11 @@ export function createRegionHighlighter() {
     evented: false,
     originX: 'left',
     originY: 'top',
+    data: {
+      normal: {},
+      hidden: {},
+      greyed: {},
+    },
   });
 }
 

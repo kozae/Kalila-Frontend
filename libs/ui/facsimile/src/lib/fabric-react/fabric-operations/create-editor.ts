@@ -18,6 +18,11 @@ const rectDefaultOptions: () => IRectOptions = () => ({
   cornerStyle: 'circle',
   cornerSize: 11,
   transparentCorners: false,
+  data: {
+    normal: {},
+    hidden: {},
+    greyed: {},
+  },
 });
 
 export function createEditRegionRect() {
