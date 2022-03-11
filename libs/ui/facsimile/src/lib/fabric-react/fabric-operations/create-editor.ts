@@ -155,10 +155,7 @@ function showEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
       .filter((p) => p.data.Id !== id)
       .forEach((p) => {
         p.off();
-        p.set({
-          stroke: undefined,
-          fill: hexToRgba('#333333', 0.6),
-        });
+        p.set(p.data.greyed);
       });
     const scaledPolygon = PolygonHelper.scale(polygonToEdit.Points, scale);
     const { Width, Height } = PolygonHelper.getWidthAndHeight(scaledPolygon);

@@ -68,7 +68,7 @@ const transformResultsToKalilaLines = (
     );
     lines.push(
       ...tesseractLines.map(({ bbox }, index) => ({
-        _id: uuid.v4(),
+        _id: 'generated_' + uuid.v4(),
         LineOrder: index + 1,
         ElementId: id,
         HighlightColor: highlightColors[index % 13],

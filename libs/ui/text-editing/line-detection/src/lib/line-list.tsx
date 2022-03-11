@@ -14,6 +14,8 @@ import {
 import { orderBy } from 'lodash';
 import { LineSummary } from './line-summary';
 import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 export const LineList = () => {
   const textElements = useAppSelector(selectAllTextElements);
@@ -36,8 +38,55 @@ export const LineList = () => {
     })),
     'Order'
   );
+
+  const mainBodyElements = elementSummaries
+    .filter((el) => el.Position.startsWith('main'))
+    .map((el, i) => ({ ...el, Order: i + 1 }));
+
+  const otherElements = elementSummaries
+    .filter((el) => !el.Position.startsWith('main'))
+    .map((el, i) => ({ ...el, Order: i + 1 }));
+
   const linesOfElement = (id: string) =>
     lines.filter((l) => l.ElementId === id);
+
+  const createElementLineList = (el: ILayoutElementSummaryProps) => {
+    const presentLines = linesOfElement(el._id);
+    const title =
+      presentLines.length === 0
+        ? 'no lines'
+        : presentLines.length > 1
+        ? `[${presentLines.length} lines]`
+        : '[one line]';
+    return (
+      <LayoutElementSummary key={el._id} {...el} title={title}>
+        <Stack
+          sx={{
+            width: '100%',
+          }}
+          alignItems="center"
+          spacing={1}
+        >
+          <Divider />
+          {presentLines.length === 0 && (
+            <Typography variant="button">
+              No lines defined in this element
+            </Typography>
+          )}
+          {presentLines.map((l) => (
+            <LineSummary
+              buttons={true}
+              key={l._id}
+              url={urls[l._id]}
+              line={l}
+              maxHeight="5vh"
+            />
+          ))}
+        </Stack>
+      </LayoutElementSummary>
+    );
+  };
+
   return (
     <Stack
       sx={{
@@ -58,27 +107,20 @@ export const LineList = () => {
         }}
         alignItems="center"
       >
-        {elementSummaries.map((el, index) => (
-          <LayoutElementSummary key={el._id} {...el}>
-            <Stack
-              sx={{
-                width: '100%',
-              }}
-              alignItems="center"
-              spacing={1}
-            >
-              <Divider />
-              {linesOfElement(el._id).map((l) => (
-                <LineSummary
-                  key={l._id}
-                  url={urls[l._id]}
-                  line={l}
-                  maxHeight="5vh"
-                />
-              ))}
-            </Stack>
-          </LayoutElementSummary>
-        ))}
+        <Box sx={{ pt: '5px' }}>
+          <Typography variant="h2">
+            Main text, {mainBodyElements.length}
+            {mainBodyElements.length > 1 ? ' elements' : ' element'}
+          </Typography>
+        </Box>
+        {mainBodyElements.map(createElementLineList)}
+        <Box sx={{ pt: '5px' }}>
+          <Typography variant="h2">
+            Glosses, legends, and marginalia, {otherElements.length}
+            {otherElements.length > 1 ? ' elements' : ' element'}
+          </Typography>
+        </Box>
+        {otherElements.map(createElementLineList)}
       </Stack>
     </Stack>
   );

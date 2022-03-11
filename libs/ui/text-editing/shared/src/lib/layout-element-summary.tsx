@@ -32,6 +32,7 @@ export type ILayoutElementSummaryProps = (
 ) & {
   url: string;
   icon: string;
+  title?: string;
   buttons: boolean;
   maxHeight?: string;
   color?: string;
@@ -46,6 +47,7 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
   maxHeight,
   width,
   color,
+  title,
   ...el
 }) => {
   const dispatch = useAppDispatch();
@@ -83,6 +85,7 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
         position: 'relative',
         width: width ?? '40%',
         mt: '10px !important',
+        mb: '10px !important',
       }}
     >
       <Stack sx={{ borderRadius: '5px 5px 0 0' }}>
@@ -104,7 +107,8 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
               <TextSnippetTwoToneIcon color="secondary" />
             )}
             <Typography variant="h3">
-              &nbsp;{`${el.Order}. ${el.Position}`}
+              &nbsp;{`${el.Order}. ${el.Position}`} &nbsp;
+              {title}
             </Typography>
           </Stack>
           {buttons && (
@@ -134,13 +138,6 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
           )}
         </Stack>
         <Box
-          onMouseEnter={() =>
-            handleHover({
-              ...el.FacsimileRegion,
-              Id: el._id,
-            } as IFacsimileRegion & { Id: string })
-          }
-          onMouseLeave={() => handleHover(null)}
           sx={{
             bgcolor: hexToRgba(color ?? (el.HighlightColor as string), 0.4),
             display: 'flex',
@@ -149,6 +146,13 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
           }}
         >
           <img
+            onMouseEnter={() =>
+              handleHover({
+                ...el.FacsimileRegion,
+                Id: el._id,
+              } as IFacsimileRegion & { Id: string })
+            }
+            onMouseLeave={() => handleHover(null)}
             style={{
               maxWidth: '100%',
               minWidth: '50%',

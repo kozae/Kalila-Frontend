@@ -36,6 +36,7 @@ export const selectRegions = createSelector(
             IFacsimileRegion & {
               Id: string;
               HighlightColor: string | undefined;
+              Text: string;
             }
           >)
         : group === 'lines'
@@ -43,6 +44,7 @@ export const selectRegions = createSelector(
             IFacsimileRegion & {
               Id: string;
               HighlightColor: string | undefined;
+              Text: string;
             }
           >)
         : [];

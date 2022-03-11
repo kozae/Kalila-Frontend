@@ -1,6 +1,10 @@
 import { IFacsimileRegion } from '@frontend/domain';
 import { fabric } from 'fabric';
-import { drawPolygons, addEventListeners } from '@frontend/ui/facsimile';
+import {
+  drawPolygons,
+  addEventListeners,
+  addTextToPolygons,
+} from '@frontend/ui/facsimile';
 
 export type LayoutProcedureProps = {
   canvas: fabric.Canvas;
@@ -31,6 +35,7 @@ export function renderLayoutWorkspace({
 }: LayoutProcedureProps) {
   console.log('rendering layout');
   drawPolygons(canvas, polygons);
+  addTextToPolygons(canvas, polygons, (data) => `${data.Text}`);
   addEventListeners(polygons, {
     onMouseOver: (region, e) => {
       hideHighlight();

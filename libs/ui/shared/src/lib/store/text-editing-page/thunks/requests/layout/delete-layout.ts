@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { RootState } from '../../config';
-import { getParams, PageParams } from './helpers';
+import { RootState } from '../../../../config';
+import { getParams, PageParams } from '../helpers';
 
 export async function deleteLayout(state: RootState) {
   if (

@@ -26,9 +26,9 @@ const PulsingInfoIcon = () => (
   </motion.div>
 );
 
-const Message = ({ text }: { text: string }) => (
+const Message = ({ text, _key }: { text: string; _key: string }) => (
   <motion.div
-    key={text}
+    key={_key}
     style={{
       position: 'fixed',
       left: 0,
@@ -70,6 +70,7 @@ export const MessageBar = () => {
     regionHoveredInFacsimileSpace && accessMode === 'edit';
   const showDragElements =
     activeWorkspace === 'layout' && toolMode === 'reorder';
+  const showDragLines = activeWorkspace === 'lines' && toolMode === 'reorder';
   const showLineAutomaticDetection =
     activeWorkspace === 'lines' && toolMode === 'automatic-detection';
   const showLineGenerationMessage =
@@ -77,15 +78,30 @@ export const MessageBar = () => {
   return (
     <Portal>
       <AnimatePresence>
-        {showClickToEdit && <Message text="Click to edit" />}
+        {showClickToEdit && <Message key="1" _key="1" text="Click to edit" />}
         {showDragElements && (
-          <Message text="Drag elements up and down to reorder them" />
+          <Message
+            key="2"
+            _key="2"
+            text="Drag elements up and down to reorder them"
+          />
         )}
         {showLineAutomaticDetection && (
-          <Message text="Automatic detection in progress..." />
+          <Message key="3" _key="3" text="Automatic detection in progress..." />
         )}
         {showLineGenerationMessage && (
-          <Message text="Enter the number of lines to generate per text element." />
+          <Message
+            key="4"
+            _key="4"
+            text="Enter the number of lines to generate per text element."
+          />
+        )}
+        {showDragLines && (
+          <Message
+            key="5"
+            _key="5"
+            text="Drag lines up and down to change their order in an element, or to reassign them to another one."
+          />
         )}
       </AnimatePresence>
     </Portal>

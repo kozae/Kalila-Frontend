@@ -10,3 +10,8 @@ export const selectPageHasTranscription = createSelector(
   selectAll,
   (tokens) => tokens.length !== 0
 );
+
+export const selectLineHasTokens = createSelector(
+  [selectAll, (state, id: string) => id],
+  (tokens, lineId) => tokens.filter((t) => t.LineId === lineId).length !== 0
+);

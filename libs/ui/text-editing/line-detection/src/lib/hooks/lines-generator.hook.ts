@@ -22,7 +22,7 @@ function generateLines(
   const lineHeight = Math.round(Height / numberOfLines);
   for (let i = 0; i < numberOfLines; i++) {
     lines.push({
-      _id: uuid.v4(),
+      _id: 'generated_' + uuid.v4(),
       LineOrder: existingLines + i + 1,
       ElementId: element._id,
       HighlightColor: highlightColors[(existingLines + i + 1) % 13],
@@ -50,15 +50,34 @@ export function useLinesGenerator(
   const { fabricImg } = useContext(TextEditingWorkspaceContext);
   const dispatch = useAppDispatch();
   return (linesPerElement: { [elementId: string]: number | undefined }) => {
-    const lines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
-    // seperate into main lines and gloss lines
+    const mainLines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
+    const glossLines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
+
     textElements.forEach((el) => {
-      lines.push(
-        ...generateLines(el, linesPerElement[el._id] as number, lines.length)
-      );
+      if (el.Position.startsWith('main')) {
+        mainLines.push(
+          ...generateLines(
+            el,
+            linesPerElement[el._id] as number,
+            mainLines.length
+          )
+        );
+      } else {
+        glossLines.push(
+          ...generateLines(
+            el,
+            linesPerElement[el._id] as number,
+            glossLines.length
+          )
+        );
+      }
     });
-    dispatch(loadGeneratedLines(lines));
-    createAndDispatchLineDataUrl(lines, fabricImg, dispatch);
+    dispatch(loadGeneratedLines([...mainLines, ...glossLines]));
+    createAndDispatchLineDataUrl(
+      [...mainLines, ...glossLines],
+      fabricImg,
+      dispatch
+    );
     dispatch(setTextEditingToolMode('default'));
   };
 }

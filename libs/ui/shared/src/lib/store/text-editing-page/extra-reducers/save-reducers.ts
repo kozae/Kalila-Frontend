@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { ITextEditingPageState } from '../models';
-import { saveLayoutChanges } from '../thunks';
+import { saveLayoutChanges, saveLineChanges } from '../thunks';
 
 export function addSaveReducers(
   builder: ActionReducerMapBuilder<ITextEditingPageState>
@@ -14,5 +14,11 @@ export function addSaveReducers(
     state.deleteLayoutTextElements = [];
     state.textElementsBeforeChanges = action.payload.TextElements;
     state.imageElementsBeforeChanges = action.payload.Images;
+  });
+  builder.addCase(saveLineChanges.fulfilled, (state, action) => {
+    state.postLines = [];
+    state.putLines = [];
+    state.deleteLines = [];
+    state.linesBeforeChanges = action.payload.Lines;
   });
 }

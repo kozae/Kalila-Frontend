@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { IImageElement, ITextElement } from '@frontend/domain';
-import { RootState } from '../../config';
+import { RootState } from '../../../../config';
 import { omit } from 'lodash';
-import { getParams, PageParams } from './helpers';
+import { getParams, PageParams } from '../helpers';
 import { cleanObject } from '@frontend/util';
 import ObjectID from 'bson-objectid';
 

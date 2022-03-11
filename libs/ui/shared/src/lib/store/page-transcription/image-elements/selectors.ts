@@ -15,6 +15,7 @@ export const selectAllImageElementsRegions = createSelector(
     ie.map((e) => ({
       Id: e._id,
       HighlightColor: e.HighlightColor,
+      Text: `${e.Order}`,
       ...e.FacsimileRegion,
     }))
 );

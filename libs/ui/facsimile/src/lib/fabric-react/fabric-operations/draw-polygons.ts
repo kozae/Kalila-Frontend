@@ -12,23 +12,40 @@ export function drawPolygons(
 
 export function createPolygons(
   regions: Array<
-    IFacsimileRegion & { Id: string; HighlightColor: string | undefined }
+    IFacsimileRegion & {
+      Id: string;
+      HighlightColor: string | undefined;
+      Text: string;
+    }
   >,
   scale: (x: number) => number
 ) {
   const polygons: Record<string, fabric.Polygon> = {};
   regions.forEach((region) => {
     const points = PolygonHelper.scale(region.Points, scale);
+    const renderStates = {
+      normal: {
+        fill: hexToRgba(region.HighlightColor as string, 0.2),
+        stroke: region.HighlightColor,
+      },
+      hidden: {
+        fill: undefined,
+        stroke: undefined,
+      },
+      greyed: {
+        fill: hexToRgba('#333333', 0.6),
+        stroke: undefined,
+      },
+    };
     polygons[region.Id] = new fabric.Polygon(
       pointToSmallXAndY(points) as fabric.IPoint[],
       {
-        fill: hexToRgba(region.HighlightColor as string, 0.2),
-        stroke: region.HighlightColor,
+        ...renderStates.normal,
         strokeWidth: 2,
         selectable: false,
         hasControls: false,
         hoverCursor: 'pointer',
-        data: region,
+        data: { ...region, ...renderStates },
       }
     );
   });

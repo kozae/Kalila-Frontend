@@ -1,6 +1,10 @@
 import { IFacsimileRegion } from '@frontend/domain';
 import { fabric } from 'fabric';
-import { drawPolygons, addEventListeners } from '@frontend/ui/facsimile';
+import {
+  drawPolygons,
+  addEventListeners,
+  addTextToPolygons,
+} from '@frontend/ui/facsimile';
 
 export type LinesProcedureProps = {
   canvas: fabric.Canvas;
@@ -29,9 +33,8 @@ export function renderLinesWorkspace({
   onRegionHighlighted,
   onElementSelected,
 }: LinesProcedureProps) {
-  console.log('rendering lines');
   drawPolygons(canvas, polygons);
-
+  addTextToPolygons(canvas, polygons, (data) => `${data.Text}`);
   addEventListeners(polygons, {
     onMouseOver: (region) => {
       hideHighlight();

@@ -1,4 +1,4 @@
-import { RootState } from '../../config';
+import { RootState } from '../../../config';
 
 export function getParams(state: RootState) {
   const accessToken = state.session.session.accessToken;

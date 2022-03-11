@@ -1,12 +1,11 @@
 import { fabric } from 'fabric';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import {
   createEditor,
   createEditRegionRect,
   createHighlighter,
   createPolygons,
   createRegionHighlighter,
-  loadImageAsFabricObject,
   renderBackgroundImage,
 } from '@frontend/ui/facsimile';
 import {
@@ -84,7 +83,11 @@ function createPolygonRenderer() {
     canvas: fabric.Canvas | null,
     activeWorkspace: TextEditingActiveWorkspace,
     regions: Array<
-      IFacsimileRegion & { Id: string; HighlightColor: string | undefined }
+      IFacsimileRegion & {
+        Id: string;
+        HighlightColor: string | undefined;
+        Text: string;
+      }
     >,
     scaleRatio: number,
     {

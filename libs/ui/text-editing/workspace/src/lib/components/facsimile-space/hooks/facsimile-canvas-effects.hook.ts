@@ -18,7 +18,7 @@ export function useFacsimileCanvasEffects(
 
   useEffect(() => {
     if (!loading && canvasState.canvas) {
-      console.log('rerendering image only');
+      console.log('rendering image after canvas created');
       canvasState.renderPageFacsimile(canvasState.canvas);
       onLoaded();
     }
@@ -28,21 +28,26 @@ export function useFacsimileCanvasEffects(
     if (
       !loading &&
       canvasState.canvas &&
-      canvasState.selectedElement.id === null &&
-      ['lines', 'layout'].includes(canvasState.regions.activeWorkspace)
+      canvasState.selectedElement.id === null
     ) {
-      console.log('rerendering image and polygons');
-      canvasState.renderPageFacsimile(canvasState.canvas);
-      canvasState.renderPolygons(
-        canvasState.canvas,
-        canvasState.regions.activeWorkspace,
-        canvasState.regions.data,
-        canvasState.scaleRatio,
-        {
-          hideHighlight: canvasState.hideHighlight,
-          showHighlight: canvasState.showHighlight,
-        }
-      );
+      if (canvasState.regions.activeWorkspace === 'description') {
+        console.log('rerendering image only');
+        canvasState.renderPageFacsimile(canvasState.canvas);
+      }
+      if (['lines', 'layout'].includes(canvasState.regions.activeWorkspace)) {
+        console.log('rerendering image and polygons');
+        canvasState.renderPageFacsimile(canvasState.canvas);
+        canvasState.renderPolygons(
+          canvasState.canvas,
+          canvasState.regions.activeWorkspace,
+          canvasState.regions.data,
+          canvasState.scaleRatio,
+          {
+            hideHighlight: canvasState.hideHighlight,
+            showHighlight: canvasState.showHighlight,
+          }
+        );
+      }
     }
   }, [canvasState.scaleRatio, canvasState.regions]);
 }

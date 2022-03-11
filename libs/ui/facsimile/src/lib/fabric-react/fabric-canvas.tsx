@@ -28,7 +28,6 @@ export const FabricCanvas = ({
   const canvasElParent = useRef<HTMLDivElement>(null);
   useEffect(() => {
     let canvas: fabric.Canvas | null = null;
-    console.log(create);
     if (create) {
       canvas = new fabric.Canvas(canvasEl.current, options ?? {});
       console.log('canvas created');

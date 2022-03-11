@@ -47,12 +47,7 @@ export function showHighlightFactory(
       height,
     });
     highlighter.bringToFront();
-    polygons.forEach((p) =>
-      p.set({
-        fill: '',
-        stroke: '',
-      })
-    );
+    polygons.forEach((p) => p.set(p.data.hidden));
     canvas.renderAll();
   };
 }
@@ -64,12 +59,7 @@ export function hideHighlightFactory(
   return () => {
     canvas.remove(highlighter);
     const polygons = canvas.getObjects();
-    polygons.forEach((p) =>
-      p.set({
-        fill: hexToRgba(p.data.HighlightColor, 0.2),
-        stroke: p.data.HighlightColor,
-      })
-    );
+    polygons.forEach((p) => p.set(p.data.normal));
     canvas.renderAll();
   };
 }

@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { saveLayoutChanges } from '../../text-editing-page';
+import { saveLayoutChanges, saveLineChanges } from '../../text-editing-page';
 
 export const regionDataUrlAdapter = createEntityAdapter<{
   id: string;
@@ -20,6 +20,9 @@ export const regionDataUrlsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(saveLayoutChanges.fulfilled, (state, action) => {
+      regionDataUrlAdapter.setAll(state, action.payload.dataUrls);
+    });
+    builder.addCase(saveLineChanges.fulfilled, (state, action) => {
       regionDataUrlAdapter.setAll(state, action.payload.dataUrls);
     });
   },

@@ -27,13 +27,13 @@ export function useTextEditingWorkspaceStore(
   const { TextElements, ImageElements, Units, ...pageInfo } = data;
   const textElements: Omit<ITextElement, 'Lines'>[] = [];
   const lines: Array<Omit<ILine, 'Tokens'> & { ElementId: string }> = [];
-  const tokens: IToken[] = [];
+  const tokens: (IToken & { LineId: string })[] = [];
   TextElements.forEach((te, i) => {
     const { Lines, ...rest } = te;
     textElements.push({ ...rest, HighlightColor: highlightColors[i % 13] });
     Lines.forEach((l, i) => {
       const { Tokens, ...rest } = l;
-      tokens.push(...Tokens);
+      tokens.push(...Tokens.map((t) => ({ ...t, LineId: l._id })));
       lines.push({
         ...rest,
         ElementId: te._id,
@@ -68,7 +68,7 @@ export function useTextEditingWorkspaceStore(
 
     setTimeout(() => {
       dispatch(pageDataLoaded());
-    }, 1000);
+    }, 100);
 
     return clearAll;
   }, [data, imageSize]);

@@ -4,7 +4,7 @@ import { PointsHelper } from './points.helper';
 import { fabric } from 'fabric';
 
 export class PolygonHelper {
-  static getCenter(points: Polygon) {
+  static getCenter(points: Polygon | IPoint[]) {
     return PointsHelper.getMidpoint(points[0], points[2]);
   }
 

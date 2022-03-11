@@ -91,7 +91,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         manuscriptId,
       },
     };
-  } catch {
+  } catch (err) {
+    console.log({ err });
     return { notFound: true };
   }
 };

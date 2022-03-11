@@ -1,56 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { IImageElement, ITextElement } from '@frontend/domain';
 import { ThunkApi } from '@frontend/shared-ui';
-import { IImageElement, ILine, ITextElement } from '@frontend/domain';
-import { sleeper } from '@frontend/util';
 import {
   deleteLayout,
   postLayout,
-  putTextElements,
   putImages,
-} from './commands';
+  putTextElements,
+} from './requests';
 import { omit } from 'lodash';
-
-export const discardThunk = {
-  prefix: 'discard/textEditingPageState',
-  layoutChanges: 'discard/textEditingPageState/layoutChanges',
-  lineChanges: 'discard/textEditingPageState/lineChanges',
-};
-
-export const saveThunk = {
-  prefix: 'save/textEditingPageState',
-  layoutChanges: 'save/textEditingPageState/layoutChanges',
-  lineChanges: 'save/textEditingPageState/lineChanges',
-};
-
-export const discardLayoutChanges = createAsyncThunk<
-  {
-    ImageElements: IImageElement[];
-    TextElements: Omit<ITextElement, 'Lines'>[];
-  },
-  any,
-  ThunkApi
->(discardThunk.layoutChanges, async ({}, { getState }) => {
-  const state = getState();
-  await sleeper(10);
-  return {
-    ImageElements: state.textEditingPageState.imageElementsBeforeChanges,
-    TextElements: state.textEditingPageState.textElementsBeforeChanges,
-  };
-});
-
-export const discardLineChanges = createAsyncThunk<
-  {
-    Lines: (Omit<ILine, 'Tokens'> & { ElementId: string })[];
-  },
-  any,
-  ThunkApi
->(discardThunk.lineChanges, async ({}, { getState }) => {
-  const state = getState();
-  await sleeper(10);
-  return {
-    Lines: state.textEditingPageState.linesBeforeChanges,
-  };
-});
+import { saveThunk } from './save';
 
 export const saveLayoutChanges = createAsyncThunk<
   {
@@ -112,23 +70,5 @@ export const saveLayoutChanges = createAsyncThunk<
       ),
     ] as IImageElement[],
     dataUrls,
-  };
-});
-
-export const saveLineChanges = createAsyncThunk<
-  {
-    Lines: (Omit<ILine, 'Tokens'> & { ElementId: string })[];
-    dataUrls: {
-      id: string;
-      data: string;
-    }[];
-  },
-  any,
-  ThunkApi
->(saveThunk.lineChanges, async ({}, { getState }) => {
-  const state = getState();
-  return {
-    Lines: [],
-    dataUrls: [],
   };
 });

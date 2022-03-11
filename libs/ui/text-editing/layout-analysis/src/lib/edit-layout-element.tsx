@@ -12,13 +12,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -26,7 +20,7 @@ import Button from '@mui/material/Button';
 import { IFacsimileRegion } from '@frontend/domain';
 import { TextElementInfoForm } from './text-element-info-form';
 import { ImageElementInfoForm } from './image-element-info-form';
-import { RegionDefinitionKeyboardInstructions } from './region-definition-keyboard-instructions';
+import { RegionDefinitionKeyboardInstructions } from '../../../shared/src/lib/region-definition-keyboard-instructions';
 import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 import { createRegionsDataUrls } from '@frontend/ui/facsimile';
 
@@ -84,7 +78,6 @@ export const EditLayoutElement = ({
       dispatch(addDataUrl({ id, data }));
 
     if (fabricImg !== null) {
-      console.log({ selectedElement });
       const data = {
         Id: selectedElement.id,
         HighlightColor: textElement

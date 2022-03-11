@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ITextElement } from '@frontend/domain';
-import { RootState } from '../../config';
-import { getParams, PageParams } from './helpers';
+import { RootState } from '../../../../config';
+import { getParams, PageParams } from '../helpers';
 import { cleanObject } from '@frontend/util';
 import { omit } from 'lodash';
 

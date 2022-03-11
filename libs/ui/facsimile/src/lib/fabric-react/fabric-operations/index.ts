@@ -1,3 +1,4 @@
+export * from './add-text-to-polygons';
 export * from './add-event-listeners';
 export * from './draw-polygons';
 export * from './render-background-image';
