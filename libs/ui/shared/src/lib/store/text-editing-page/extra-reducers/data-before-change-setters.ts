@@ -40,6 +40,8 @@ export function addDataBeforeChangeSetters(
     })[];
   });
   builder.addCase(loadTokens, (state, action) => {
-    state.tokensBeforeChanges = action.payload as IToken[];
+    state.tokensBeforeChanges = action.payload as (IToken & {
+      LineId: string;
+    })[];
   });
 }
