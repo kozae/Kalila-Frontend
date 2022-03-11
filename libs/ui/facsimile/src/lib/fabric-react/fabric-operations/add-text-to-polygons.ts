@@ -1,6 +1,7 @@
 import { fabric } from 'fabric';
 import { hexToRgba } from '@frontend/util';
 import { PolygonHelper } from '../../helpers';
+import { darken } from '@mui/system';
 
 export function addTextToPolygons(
   canvas: fabric.Canvas,
@@ -14,15 +15,12 @@ export function addTextToPolygons(
     );
     const renderStates = {
       normal: {
-        fill: p.data.HighlightColor,
-        stroke: '#000000',
-        strokeWidth: 2,
+        fill: darken(p.data.HighlightColor, 10),
       },
       hidden: {
         fill: undefined,
-        stroke: undefined,
       },
-      greyed: { fill: hexToRgba('#333333', 0.6), stroke: undefined },
+      greyed: { fill: hexToRgba('#333333', 0.6) },
     };
     canvas.add(
       new fabric.Text(textGetter(p.data), {
