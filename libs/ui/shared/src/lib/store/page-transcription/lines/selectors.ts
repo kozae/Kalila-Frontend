@@ -14,7 +14,7 @@ export const selectAllLinesRegions = createSelector(selectAllLines, (li) =>
   li.map((l) => ({
     Id: l._id,
     HighlightColor: l.HighlightColor,
-    Text: `${l.LineOrder}`,
+    Text: ` ${l.LineOrder} `,
     ...l.FacsimileRegion,
   }))
 );

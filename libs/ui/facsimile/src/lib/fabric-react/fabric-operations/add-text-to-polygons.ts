@@ -15,12 +15,17 @@ export function addTextToPolygons(
     );
     const renderStates = {
       normal: {
-        fill: darken(p.data.HighlightColor, 10),
+        fill: darken(p.data.HighlightColor, 0.5),
+        textBackgroundColor: hexToRgba('#ffffff', 0.4),
       },
       hidden: {
         fill: undefined,
+        textBackgroundColor: undefined,
       },
-      greyed: { fill: hexToRgba('#333333', 0.6) },
+      greyed: {
+        fill: hexToRgba('#333333', 0.6),
+        textBackgroundColor: undefined,
+      },
     };
     canvas.add(
       new fabric.Text(textGetter(p.data), {
