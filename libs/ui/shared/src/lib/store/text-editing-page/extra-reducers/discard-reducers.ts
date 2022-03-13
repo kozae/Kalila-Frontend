@@ -33,6 +33,6 @@ export function addDiscardReducers(
     state.postLines = [];
     state.putLines = [];
     state.deleteLines = [];
-    state.moveLines = [];
+    state.moveLines = {};
   });
 }
