@@ -4,14 +4,14 @@ import {
   determinePathParameters,
   INavbarLink,
   NavbarLinksConfiguration,
-  useAppSelector,
   verifyAdmin,
 } from '@frontend/shared-ui';
 import { INavbarState } from '../store';
 import {
+  useAppSelector,
   selectSessionStatus,
   selectUser,
-} from '../../../../../../../store/src/lib/session';
+} from '@frontend/ui/store';
 
 export function useRouteState(
   init: INavbarState,

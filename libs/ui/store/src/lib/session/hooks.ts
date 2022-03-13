@@ -1,8 +1,8 @@
 import { useSession, UseSessionOptions } from 'next-auth/react';
 import { transformSession } from '@frontend/util';
-import { useAppDispatch } from '@frontend/shared-ui';
 import { useEffect } from 'react';
 import { loadSession } from './slice';
+import { useAppDispatch } from '../hooks';
 
 export function useKalilaSession<R extends boolean>(
   options?: UseSessionOptions<R>

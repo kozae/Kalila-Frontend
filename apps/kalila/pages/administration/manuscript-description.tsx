@@ -6,11 +6,7 @@ import {
 import React from 'react';
 import { ManuscriptDescriptionAdmin } from '@frontend/domain';
 import { checkStringValueFactory, KalilaValueTypes } from '@frontend/util';
-import {
-  selectEditors,
-  useAppSelector,
-  useNavbarMessage,
-} from '@frontend/shared-ui';
+import { useNavbarMessage } from '@frontend/shared-ui';
 import {
   EditorCell,
   GenericCell,
@@ -21,6 +17,7 @@ import {
 } from '@frontend/ui/table';
 import { Column } from 'react-table';
 import Head from 'next/head';
+import { selectEditors, useAppSelector } from '@frontend/ui/store';
 
 export function MSDAdministration() {
   useNavbarMessage(['Administration:', 'Manuscript Description']);
