@@ -24,7 +24,7 @@
         "dev": true,
         "buildLibsFromSource": true,
         "port": 6000,
-        "hostname": "localhost"
+        "hostname": "0.0.0.0"
       },
       "configurations": {
         "production": {
