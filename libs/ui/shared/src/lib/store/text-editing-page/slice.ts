@@ -48,6 +48,7 @@ const initialState: ITextEditingPageState = {
   deleteLayoutImages: [],
   deleteLayoutTextElements: [],
   deleteLines: [],
+  moveLines: {},
   postLayoutImages: [],
   postLayoutTextElements: [],
   postLines: [],

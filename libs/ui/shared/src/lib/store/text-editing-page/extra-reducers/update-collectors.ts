@@ -17,7 +17,9 @@ import {
   addLine,
   deleteLine,
   loadGeneratedLines,
+  moveLines,
   updateLine,
+  updateManyLines,
 } from '../../page-transcription/lines';
 
 export function addUpdateCollectors(
@@ -74,9 +76,44 @@ export function addUpdateCollectors(
   builder.addCase(updateLine, (state, action) => {
     const id = action.payload.id as string;
     if (id.length === 24) {
-      if (!state.putLines.includes(id)) {
+      if (
+        !state.putLines.includes(id) &&
+        !Object.keys(state.moveLines).includes(id)
+      ) {
         state.putLines.push(id);
       }
     }
+  });
+  builder.addCase(updateManyLines, (state, action) => {
+    action.payload.forEach((update) => {
+      const id = update.id as string;
+      if (id.length === 24) {
+        if (
+          !state.putLines.includes(id) &&
+          !Object.keys(state.moveLines).includes(id)
+        ) {
+          state.putLines.push(id);
+        }
+      }
+    });
+  });
+  builder.addCase(moveLines, (state, action) => {
+    action.payload.forEach((update) => {
+      const line = state.linesBeforeChanges.find(
+        (l) => l._id === update.LineId
+      );
+      if (
+        // returning a line to its original container
+        line &&
+        Object.keys(state.moveLines).includes(update.LineId) &&
+        line.ElementId === update.Target
+      ) {
+        delete state.moveLines[update.LineId];
+        state.putLines.push(update.LineId);
+      } else {
+        state.moveLines[update.LineId] = update.Target;
+        state.putLines = state.putLines.filter((id) => id === update.LineId);
+      }
+    });
   });
 }

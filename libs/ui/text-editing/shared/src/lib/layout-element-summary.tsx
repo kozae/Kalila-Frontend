@@ -107,7 +107,7 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
               <TextSnippetTwoToneIcon color="secondary" />
             )}
             <Typography variant="h3">
-              &nbsp;{`${el.Order}. ${el.Position}`} &nbsp;
+              &nbsp;{`${el.Order + 1}. ${el.Position}`} &nbsp;
               {title}
             </Typography>
           </Stack>

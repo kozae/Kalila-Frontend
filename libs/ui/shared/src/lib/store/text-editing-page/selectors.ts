@@ -58,7 +58,8 @@ export const selectLinesHaveChanges = createSelector(
   (state) =>
     state.postLines.length !== 0 ||
     state.putLines.length !== 0 ||
-    state.deleteLines.length !== 0
+    state.deleteLines.length !== 0 ||
+    Object.keys(state.moveLines).length !== 0
 );
 
 export const selectTranscriptionHaveChanges = createSelector(

@@ -67,11 +67,11 @@ export const ReorderLayoutElements = ({
       if (el.Order !== index + 1) {
         if (el.icon === 'image') {
           dispatch(
-            updateImageElement({ id: el._id, changes: { Order: index + 1 } })
+            updateImageElement({ id: el._id, changes: { Order: index } })
           );
         } else {
           dispatch(
-            updateTextElement({ id: el._id, changes: { Order: index + 1 } })
+            updateTextElement({ id: el._id, changes: { Order: index } })
           );
         }
       }

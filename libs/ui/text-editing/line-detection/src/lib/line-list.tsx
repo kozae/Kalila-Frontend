@@ -41,14 +41,17 @@ export const LineList = () => {
 
   const mainBodyElements = elementSummaries
     .filter((el) => el.Position.startsWith('main'))
-    .map((el, i) => ({ ...el, Order: i + 1 }));
+    .map((el, i) => ({ ...el, Order: i }));
 
   const otherElements = elementSummaries
     .filter((el) => !el.Position.startsWith('main'))
-    .map((el, i) => ({ ...el, Order: i + 1 }));
+    .map((el, i) => ({ ...el, Order: i }));
 
   const linesOfElement = (id: string) =>
-    lines.filter((l) => l.ElementId === id);
+    orderBy(
+      lines.filter((l) => l.ElementId === id),
+      'LineOrder'
+    );
 
   const createElementLineList = (el: ILayoutElementSummaryProps) => {
     const presentLines = linesOfElement(el._id);

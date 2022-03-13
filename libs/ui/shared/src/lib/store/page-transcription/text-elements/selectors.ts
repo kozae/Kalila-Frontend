@@ -14,7 +14,7 @@ export const selectAllTextElementsRegions = createSelector(
     te.map((e) => ({
       Id: e._id,
       HighlightColor: e.HighlightColor,
-      Text: ` ${e.Order} `,
+      Text: ` ${e.Order + 1} `,
       ...e.FacsimileRegion,
     }))
 );

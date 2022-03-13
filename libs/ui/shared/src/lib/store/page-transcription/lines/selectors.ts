@@ -5,6 +5,7 @@ import { createSelector } from '@reduxjs/toolkit';
 const selectLinesState = (state: RootState) => state.lines;
 
 export const {
+  selectEntities: selectLinesDictionary,
   selectAll: selectAllLines,
   selectIds: selectLineIds,
   selectById: selectLineById,
@@ -14,7 +15,7 @@ export const selectAllLinesRegions = createSelector(selectAllLines, (li) =>
   li.map((l) => ({
     Id: l._id,
     HighlightColor: l.HighlightColor,
-    Text: ` ${l.LineOrder} `,
+    Text: ` ${l.LineOrder + 1} `,
     ...l.FacsimileRegion,
   }))
 );

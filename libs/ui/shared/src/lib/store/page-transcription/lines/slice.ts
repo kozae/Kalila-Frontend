@@ -1,4 +1,8 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { ILine } from '@frontend/domain';
 import { discardLineChanges, saveLineChanges } from '../../text-editing-page';
 
@@ -22,6 +26,20 @@ export const linesSlice = createSlice({
     cancelCreateLine: linesAdapter.removeOne,
     deleteLine: linesAdapter.removeOne,
     clearLines: linesAdapter.removeAll,
+    moveLines: (
+      state,
+      action: PayloadAction<
+        { LineId: string; Target: string; LineOrder: number }[]
+      >
+    ) => {
+      linesAdapter.updateMany(
+        state,
+        action.payload.map((d) => ({
+          id: d.LineId,
+          changes: { ElementId: d.Target, LineOrder: d.LineOrder },
+        }))
+      );
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(discardLineChanges.fulfilled, (state, action) => {
@@ -37,6 +55,7 @@ export const {
   loadLines,
   addLine,
   updateLine,
+  moveLines,
   updateManyLines,
   cancelCreateLine,
   deleteLine,

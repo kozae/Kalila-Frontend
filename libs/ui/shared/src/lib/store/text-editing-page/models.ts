@@ -53,6 +53,7 @@ export interface ITextEditingPageState {
   deleteLayoutImages: string[];
   deleteLayoutTextElements: string[];
   deleteLines: string[];
+  moveLines: Record<string, string>; // line id to target element
   postLayoutImages: string[];
   postLayoutTextElements: string[];
   postLines: string[];

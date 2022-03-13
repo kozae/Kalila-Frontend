@@ -10,6 +10,7 @@ import {
   onElementSelected,
   onRegionHoveredInToolSpace,
   selectLineHasTokens,
+  selectTokensOfLine,
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
@@ -72,7 +73,7 @@ export const LineSummary = ({
           pr: '10px',
         }}
       >
-        <Typography variant="h1">{line.LineOrder}</Typography>
+        <Typography variant="h1">{line.LineOrder + 1}</Typography>
       </Box>
       <Box
         sx={{

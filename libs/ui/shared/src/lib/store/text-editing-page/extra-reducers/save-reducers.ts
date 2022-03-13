@@ -19,6 +19,7 @@ export function addSaveReducers(
     state.postLines = [];
     state.putLines = [];
     state.deleteLines = [];
+    state.moveLines = [];
     state.linesBeforeChanges = action.payload.Lines;
   });
 }

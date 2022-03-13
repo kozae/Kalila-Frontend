@@ -45,8 +45,8 @@ export function renderLinesWorkspace({
       hideHighlight();
       onRegionHighlighted(null);
     },
-    onClicked: (id, e) => {
-      onElementSelected({ id, region: null });
+    onClicked: (id, region) => {
+      onElementSelected({ id, region });
     },
   });
 }

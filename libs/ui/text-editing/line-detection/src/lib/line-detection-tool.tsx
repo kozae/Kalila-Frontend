@@ -8,7 +8,7 @@ import {
 import { DefineLinesChoices } from './define-lines-choices';
 import { LineList } from './line-list';
 import { EditLine } from './edit-line';
-import { ReorderLines } from './reorder-lines';
+import { ReorderLines } from './line-reordering';
 
 // todo animate transitions
 export const LineDetectionTool = () => {

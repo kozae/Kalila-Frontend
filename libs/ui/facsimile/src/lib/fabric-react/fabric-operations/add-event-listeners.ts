@@ -5,7 +5,7 @@ import { IEvent } from 'fabric/fabric-impl';
 export interface IRegionEvents {
   onMouseOver: (region: IFacsimileRegion & { Id: string }, e: IEvent) => void;
   onMouseOut: (e: IEvent) => void;
-  onClicked: (id: string, e: IEvent) => void;
+  onClicked: (id: string, region: IFacsimileRegion & { Id: string }) => void;
 }
 
 export function addEventListeners(
@@ -20,7 +20,7 @@ export function addEventListeners(
       onMouseOut(e);
     });
     p.on('mousedown', (e) => {
-      onClicked(p.data.Id, e);
+      onClicked(p.data.Id, p.data);
     });
   });
 }

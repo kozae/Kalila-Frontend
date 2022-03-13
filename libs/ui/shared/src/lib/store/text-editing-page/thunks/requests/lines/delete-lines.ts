@@ -4,7 +4,10 @@ import { getParams, PageParams } from '../helpers';
 import { groupBy } from 'lodash';
 
 export async function deleteLines(state: RootState) {
-  if (state.textEditingPageState.deleteLines.length === 0) {
+  if (
+    state.textEditingPageState.deleteLines.length === 0 &&
+    Object.entries(state.textEditingPageState.moveLines).length === 0
+  ) {
     return;
   }
   const lines: { Id: string; ElementId: string }[] = [];
@@ -13,6 +16,18 @@ export async function deleteLines(state: RootState) {
       Id: id,
       ElementId: state.lines.entities[id]?.ElementId as string,
     });
+  });
+
+  Object.keys(state.textEditingPageState.moveLines).forEach((lineId) => {
+    const line = state.textEditingPageState.linesBeforeChanges.find(
+      (l) => l._id === lineId
+    );
+    if (line) {
+      lines.push({
+        Id: lineId,
+        ElementId: line.ElementId,
+      });
+    }
   });
 
   const params = getParams(state);
