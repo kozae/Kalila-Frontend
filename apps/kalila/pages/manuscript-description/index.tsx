@@ -3,7 +3,6 @@ import {
   ManuscriptDescriptionGroupToggle,
   useMediumScreenMediaQuery,
   useNavbarMessage,
-  useSchemaStore,
   withTransition,
 } from '@frontend/shared-ui';
 import React from 'react';
@@ -16,6 +15,7 @@ import {
 import { ManuscriptDescription } from '@frontend/domain';
 import { GetStaticProps } from 'next';
 import { getSchema } from '@frontend/server-side-queries';
+import { useSchemaStore } from '@frontend/ui/store';
 
 export function ManuscriptDescriptionPage({ schema }) {
   useSchemaStore('ManuscriptDescription', schema);
