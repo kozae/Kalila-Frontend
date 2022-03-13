@@ -1,4 +1,4 @@
-import Tesseract, { createScheduler, createWorker, PSM } from 'tesseract.js';
+import Tesseract, { createScheduler, createWorker } from 'tesseract.js';
 import { useContext, useEffect } from 'react';
 import { ILine, IPoint, ITextElement } from '@frontend/domain';
 import {

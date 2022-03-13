@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useMemo } from 'react';
 import {
   GenericCell,
   getSelectionColumn,
@@ -31,13 +32,11 @@ import {
   useDeleteHandler,
   useUpdateHandler,
 } from '../shared/admin-page.hooks';
-import { useMemo } from 'react';
 import { AlertColor } from '@mui/material/Alert/Alert';
 import Stack from '@mui/material/Stack';
 import {
   ActivitySchema,
   IDataEntrySchema,
-  defaultPagination,
   InputModes,
   KalilaValueTypes,
   MediaTypes,

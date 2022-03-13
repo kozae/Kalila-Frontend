@@ -8,13 +8,13 @@ import { IEvent } from 'fabric/fabric-impl';
 import { fabric } from 'fabric';
 import { FacsimileCanvasState } from './facsimile-canvas-state.hook';
 import {
-  useAppSelector,
-  selectRegionHoveredInToolSpace,
-  useAppDispatch,
-  setRegionUnderEditUrl,
   onRegionHoveredInFacsimileSpace,
   onRegionHoveredInToolSpace,
+  selectRegionHoveredInToolSpace,
   setRegionUnderEditPolygon,
+  setRegionUnderEditUrl,
+  useAppDispatch,
+  useAppSelector,
 } from '@frontend/shared-ui';
 
 export function useExternalWorkspaceEvents(canvasState: FacsimileCanvasState) {

@@ -1,16 +1,11 @@
-import {
-  useMountedIndicator,
-  useNavbarMessage,
-  withTransition,
-} from '@frontend/shared-ui';
+import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
 import { GetServerSideProps } from 'next';
 import {
-  queryServerSide,
-  siglum,
+  getImageSize,
   pages,
   pageTranscription,
-  sigla,
-  getImageSize,
+  queryServerSide,
+  siglum,
 } from '@frontend/server-side-queries';
 import Head from 'next/head';
 import React from 'react';

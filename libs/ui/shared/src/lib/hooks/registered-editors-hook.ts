@@ -1,9 +1,8 @@
-import {useEffect, useState} from "react";
-import axios from "axios";
+import { useState } from 'react';
 
 export interface IEditor {
-  username: string,
-  name: string
+  username: string;
+  name: string;
 }
 
 // todo move confidential information to an env file
@@ -11,12 +10,12 @@ export function useRegisteredEditors(): IEditor[] {
   const [editors, setEditors] = useState<IEditor[]>([
     {
       username: 'mk',
-      name: 'Mahmoud Kozae'
+      name: 'Mahmoud Kozae',
     },
     {
       username: 'ds',
-      name: 'Dima Sakran'
-    }
+      name: 'Dima Sakran',
+    },
   ]);
   // todo cache the editors on the server using the rest worker
   // useEffect(() => {
@@ -32,5 +31,5 @@ export function useRegisteredEditors(): IEditor[] {
   //
   // }, [])
 
-  return editors
+  return editors;
 }

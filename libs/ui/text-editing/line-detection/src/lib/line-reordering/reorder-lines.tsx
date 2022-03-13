@@ -12,7 +12,7 @@ import {
 } from '@frontend/shared-ui';
 import { debounce, orderBy } from 'lodash';
 import Box from '@mui/material/Box';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { IFacsimileRegion, ILine } from '@frontend/domain';
 import GridLayout, { Layout } from 'react-grid-layout';
 import { ITextElementMarkProps, TextElementMark } from './text-element-mark';

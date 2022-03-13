@@ -6,14 +6,20 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/ui/text-editing/shared/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "libs/ui/text-editing/shared/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/text-editing/shared"],
+      "outputs": [
+        "coverage/libs/ui/text-editing/shared"
+      ],
       "options": {
         "jestConfig": "libs/ui/text-editing/shared/jest.config.js",
         "passWithNoTests": true

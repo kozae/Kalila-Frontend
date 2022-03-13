@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 import {
   selectPageHasLines,
   selectPageHasText,
-  selectSelectedElement,
-  selectWorkspaceHasChanges,
   selectPageHasTranscription,
-  useAppSelector,
+  selectSelectedElement,
   selectTextEditingToolMode,
+  selectWorkspaceHasChanges,
+  useAppSelector,
 } from '@frontend/shared-ui';
 
 export function useTabDisabledState() {

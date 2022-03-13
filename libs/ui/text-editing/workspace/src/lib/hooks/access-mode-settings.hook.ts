@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import {
-  selectUser,
   selectPageEditor,
-  useAppSelector,
-  useAppDispatch,
+  selectUser,
   setTextEditingAccessMode,
+  useAppDispatch,
+  useAppSelector,
 } from '@frontend/shared-ui';
 
 export function useAccessModeSettings() {

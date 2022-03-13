@@ -1,12 +1,7 @@
 import { ActivitySchema } from '@frontend/util';
 import { useAppDispatch } from '../hooks';
-import { addFields, clearFields, loadFields } from './fields';
-import {
-  addAttributes,
-  clearAttributes,
-  IAttribute,
-  loadAttributes,
-} from './attributes';
+import { addFields, clearFields } from './fields';
+import { addAttributes, clearAttributes, IAttribute } from './attributes';
 import { useEffect } from 'react';
 
 export function useSchemaStore(activityName: string, schema: ActivitySchema) {

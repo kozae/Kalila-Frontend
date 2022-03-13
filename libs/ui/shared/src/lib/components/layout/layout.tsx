@@ -1,7 +1,7 @@
 import styles from './layout.module.scss';
 import React from 'react';
 import { Nav } from './nav';
-import { useKalilaSession } from '../../store/session';
+import { useKalilaSession } from '../../../../../store/src/lib/session';
 
 export const Layout: React.FC = ({ children }) => {
   useKalilaSession();

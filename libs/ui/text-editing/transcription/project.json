@@ -6,7 +6,9 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
         "lintFilePatterns": [
           "libs/ui/text-editing/transcription/**/*.{ts,tsx,js,jsx}"
@@ -15,7 +17,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/text-editing/transcription"],
+      "outputs": [
+        "coverage/libs/ui/text-editing/transcription"
+      ],
       "options": {
         "jestConfig": "libs/ui/text-editing/transcription/jest.config.js",
         "passWithNoTests": true

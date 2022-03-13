@@ -1,9 +1,9 @@
 import * as React from 'react';
+import { useCallback } from 'react';
 import TablePagination from '@mui/material/TablePagination';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import { IPagination } from '@frontend/util';
-import { useCallback } from 'react';
 
 export interface IPaginatorProps {
   pagination: IPagination;

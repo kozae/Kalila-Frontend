@@ -1,6 +1,6 @@
 import './index.module.scss';
-import { NavMessageBarContext, withTransition } from '@frontend/shared-ui';
-import { useContext } from 'react';
+import {NavMessageBarContext, withTransition} from '@frontend/shared-ui';
+import {useContext} from 'react';
 
 /* eslint-disable-next-line */
 export interface AccountProps {}

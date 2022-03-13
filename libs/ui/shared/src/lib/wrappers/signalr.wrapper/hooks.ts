@@ -1,11 +1,11 @@
 import { useEffect, useReducer, useState } from 'react';
 import { GroupsActionType, groupsReducer } from './reducer';
 import {
-  HubConnectionBuilder,
   HubConnection,
+  HubConnectionBuilder,
   LogLevel,
 } from '@microsoft/signalr';
-import { IRealTimeUpdate, ISignalrMethods, ISignalrData } from './models';
+import { IRealTimeUpdate, ISignalrData, ISignalrMethods } from './models';
 import { IWrapper } from '@frontend/util';
 import { useBoolean } from '../../hooks';
 

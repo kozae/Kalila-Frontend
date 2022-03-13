@@ -139,6 +139,10 @@ export class ManuscriptDescription extends KalilaDocument {
   RedactionRewriting: string;
   RedactionCommentary: string;
 
+  constructor() {
+    super();
+  }
+
   CreateAdminUpdate(
     oldValue: any,
     mode: 'one' | 'many' | 'filtered'
@@ -150,8 +154,4 @@ export class ManuscriptDescription extends KalilaDocument {
     editors: string[],
     validators: Record<any, validationFn | validationWithParentFn>
   ) {}
-
-  constructor() {
-    super();
-  }
 }

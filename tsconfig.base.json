@@ -10,24 +10,45 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "typeRoots": ["src", "node_modules/@types"],
+    "typeRoots": [
+      "src",
+      "node_modules/@types"
+    ],
     "paths": {
-      "@frontend/domain": ["libs/domain/src/index.ts"],
+      "@frontend/domain": [
+        "libs/domain/src/index.ts"
+      ],
       "@frontend/server-side-queries": [
         "libs/server-side-queries/src/index.ts"
       ],
-      "@frontend/shared-ui": ["libs/ui/shared/src/index.ts"],
-      "@frontend/ui/administration": ["libs/ui/administration/src/index.ts"],
+      "@frontend/shared-ui": [
+        "libs/ui/shared/src/index.ts"
+      ],
+      "@frontend/ui/administration": [
+        "libs/ui/administration/src/index.ts"
+      ],
       "@frontend/ui/documents-detailed-view": [
         "libs/ui/documents-detailed-view/src/index.ts"
       ],
-      "@frontend/ui/facsimile": ["libs/ui/facsimile/src/index.ts"],
-      "@frontend/ui/forms": ["libs/ui/forms/src/index.ts"],
-      "@frontend/ui/table": ["libs/ui/table/src/index.ts"],
+      "@frontend/ui/facsimile": [
+        "libs/ui/facsimile/src/index.ts"
+      ],
+      "@frontend/ui/forms": [
+        "libs/ui/forms/src/index.ts"
+      ],
+      "@frontend/ui/store": [
+        "libs/ui/store/src/index.ts"
+      ],
+      "@frontend/ui/table": [
+        "libs/ui/table/src/index.ts"
+      ],
       "@frontend/ui/text-editing/layout-analysis": [
         "libs/ui/text-editing/layout-analysis/src/index.ts"
       ],
@@ -49,8 +70,13 @@
       "@frontend/ui/text-editing/workspace": [
         "libs/ui/text-editing/workspace/src/index.ts"
       ],
-      "@frontend/util": ["libs/util/src/index.ts"]
+      "@frontend/util": [
+        "libs/util/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

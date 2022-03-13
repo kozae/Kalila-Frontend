@@ -12,5 +12,5 @@ export enum KalilaValueTypes {
   EntityList,
   EmbeddedEntityList,
   CategoricalAttributeList,
-  Date // Only used for versioning
+  Date, // Only used for versioning
 }

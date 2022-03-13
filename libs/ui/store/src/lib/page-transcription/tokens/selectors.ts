@@ -1,6 +1,6 @@
-import { RootState } from '@frontend/shared-ui';
 import { tokenAdapter } from './slice';
 import { createSelector } from '@reduxjs/toolkit';
+import { RootState } from '../../config';
 
 const selectTokensState = (state: RootState) => state.tokens;
 

@@ -10,7 +10,6 @@ import {
   onElementSelected,
   onRegionHoveredInToolSpace,
   selectLineHasTokens,
-  selectTokensOfLine,
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';

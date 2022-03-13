@@ -12,15 +12,16 @@ import {
   useNavbarMessage,
 } from '@frontend/shared-ui';
 import {
+  EditorCell,
   GenericCell,
+  getSelectionColumn,
+  KeyValueCell,
   PrimaryGreenHeader,
   WhiteHeader,
-  getSelectionColumn,
-  EditorCell,
 } from '@frontend/ui/table';
 import { Column } from 'react-table';
 import Head from 'next/head';
-import { KeyValueCell } from '@frontend/ui/table';
+
 export function MSDAdministration() {
   useNavbarMessage(['Administration:', 'Manuscript Description']);
   const editors = useAppSelector(selectEditors);

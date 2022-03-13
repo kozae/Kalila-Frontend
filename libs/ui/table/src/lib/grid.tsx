@@ -17,7 +17,7 @@ import {
 import {
   changeFilter,
   changeSort,
-} from '../../../shared/src/lib/store/paged-documents/thunks';
+} from '../../../store/src/lib/paged-documents/thunks';
 
 export interface IGridProps<T extends object> {
   loading: boolean;

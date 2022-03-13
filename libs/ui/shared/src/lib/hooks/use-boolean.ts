@@ -9,11 +9,15 @@ function useConst<T>(initialValue: T | (() => T)): T {
     // Box the value in an object so we can tell if it's initialized even if the initializer
     // returns/is undefined
     ref.current = {
-      value: typeof initialValue === 'function' ? (initialValue as Function)() : initialValue,
+      value:
+        typeof initialValue === 'function'
+          ? (initialValue as Function)()
+          : initialValue,
     };
   }
   return ref.current.value;
 }
+
 /** Updater callbacks returned by `useBoolean`. */
 export interface IUseBooleanCallbacks {
   /** Set the value to true. Always has the same identity. */
@@ -31,7 +35,9 @@ export interface IUseBooleanCallbacks {
  * @param initialState - Initial value
  * @returns Array with the current value and an object containing the updater callbacks.
  */
-export function useBoolean(initialState: boolean): [boolean, IUseBooleanCallbacks] {
+export function useBoolean(
+  initialState: boolean
+): [boolean, IUseBooleanCallbacks] {
   const [value, setValue] = React.useState(initialState);
 
   const setTrue = useConst(() => () => {
@@ -41,7 +47,7 @@ export function useBoolean(initialState: boolean): [boolean, IUseBooleanCallback
     setValue(false);
   });
   const toggle = useConst(() => () => {
-    setValue(currentValue => !currentValue);
+    setValue((currentValue) => !currentValue);
   });
 
   return [value, { setTrue, setFalse, toggle }];

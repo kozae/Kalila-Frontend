@@ -4,9 +4,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useState } from 'react';
 import {
-  clearPageData,
   selectWorkspaceHasChanges,
-  useAppDispatch,
   useAppSelector,
   useMediumScreenMediaQuery,
   useSmallScreenMediaQuery,

@@ -8,8 +8,10 @@ import {
   verifyAdmin,
 } from '@frontend/shared-ui';
 import { INavbarState } from '../store';
-import { getSessionSWR } from '@frontend/util';
-import { selectSessionStatus, selectUser } from '../../../../store/session';
+import {
+  selectSessionStatus,
+  selectUser,
+} from '../../../../../../../store/src/lib/session';
 
 export function useRouteState(
   init: INavbarState,

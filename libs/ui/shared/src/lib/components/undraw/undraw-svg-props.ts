@@ -1,4 +1,4 @@
 export interface IUndrawSvgProps {
-  color: string,
-  width: any
+  color: string;
+  width: any;
 }

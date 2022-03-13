@@ -1,4 +1,4 @@
-import { AnimatePresence, useAnimation, motion } from 'framer-motion';
+import { AnimatePresence, motion, useAnimation } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { FacsimileSpaceLoading } from './facsimile-space-loading';
 import { FacsimileCanvas } from './facsimile-canvas';

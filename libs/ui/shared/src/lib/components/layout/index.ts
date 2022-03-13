@@ -1,3 +1,3 @@
-export * from './layout'
-export * from './page-transition'
-export * from './nav'
+export * from './layout';
+export * from './page-transition';
+export * from './nav';

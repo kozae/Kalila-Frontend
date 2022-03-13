@@ -4,16 +4,16 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
+  discardLayoutChanges,
+  discardLineChanges,
   kalilaTheme,
+  saveLayoutChanges,
+  saveLineChanges,
   selectSelectedElement,
   selectTextEditingActiveWorkspace,
+  selectTextEditingToolMode,
   useAppDispatch,
   useAppSelector,
-  discardLayoutChanges,
-  saveLayoutChanges,
-  selectTextEditingToolMode,
-  discardLineChanges,
-  saveLineChanges,
 } from '@frontend/shared-ui';
 import { hexToRgba } from '@frontend/util';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';

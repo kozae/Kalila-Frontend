@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import 'es6-shim';
-import { AppProps } from 'next/app';
+import {AppProps} from 'next/app';
 import Head from 'next/head';
 import './styles.scss';
 import React from 'react';
@@ -10,15 +10,15 @@ import {
   NavMessageBarContext,
   SignalrWrapper,
   store,
+  useNavMessageBarControls,
+  useSignalr,
 } from '@frontend/shared-ui';
-import { AnimatePresence } from 'framer-motion';
-import { useSignalr } from '@frontend/shared-ui';
-import { SessionProvider } from 'next-auth/react';
-import { ThemeProvider } from '@mui/material';
-import { createEmotionCache } from './_document';
-import { CacheProvider, EmotionCache } from '@emotion/react';
-import { useNavMessageBarControls } from '@frontend/shared-ui';
-import { Provider as ReduxProvider } from 'react-redux';
+import {AnimatePresence} from 'framer-motion';
+import {SessionProvider} from 'next-auth/react';
+import {ThemeProvider} from '@mui/material';
+import {createEmotionCache} from './_document';
+import {CacheProvider, EmotionCache} from '@emotion/react';
+import {Provider as ReduxProvider} from 'react-redux';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();

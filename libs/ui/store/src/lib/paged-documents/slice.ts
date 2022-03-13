@@ -16,7 +16,7 @@ import {
   updateOneDocument,
 } from './thunks';
 import { ParsedUrlQuery } from 'querystring';
-import { IEditor } from '../../hooks';
+import { IEditor } from '../../../../shared/src/lib/hooks';
 
 type Doc = Record<string | 'Id', any>;
 

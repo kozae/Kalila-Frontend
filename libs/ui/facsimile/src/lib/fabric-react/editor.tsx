@@ -1,5 +1,5 @@
 import { fabric } from 'fabric';
-import { CIRCLE, RECTANGLE, LINE, TEXT, FILL, STROKE } from './defaultShapes';
+import { CIRCLE, FILL, LINE, RECTANGLE, STROKE, TEXT } from './defaultShapes';
 import { useEffect, useState } from 'react';
 
 export interface FabricJSEditor {

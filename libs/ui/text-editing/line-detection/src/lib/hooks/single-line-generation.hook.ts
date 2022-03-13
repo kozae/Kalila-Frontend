@@ -1,8 +1,4 @@
-import {
-  addDataUrl,
-  loadGeneratedLines,
-  useAppDispatch,
-} from '@frontend/shared-ui';
+import { addDataUrl, useAppDispatch } from '@frontend/shared-ui';
 import { useContext } from 'react';
 import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 import { ILine, IPoint, ITextElement } from '@frontend/domain';

@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 import styles from './framer-animations.module.scss';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export const FramerFadeInOut: React.FC<{
   visibleWhen: boolean;

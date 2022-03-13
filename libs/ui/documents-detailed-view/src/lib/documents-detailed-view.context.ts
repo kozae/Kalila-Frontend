@@ -1,7 +1,5 @@
 import React from 'react';
 import { once } from 'lodash';
-import { IPagination } from '@frontend/util';
-import { IEditor } from '@frontend/shared-ui';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
 import { KalilaDocument } from '@frontend/domain';
 

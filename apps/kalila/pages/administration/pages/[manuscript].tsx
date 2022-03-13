@@ -8,7 +8,7 @@ import {
   useAppSelector,
   useNavbarMessage,
 } from '@frontend/shared-ui';
-import { GetStaticProps, GetStaticPaths } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { queryServerSide, sigla, siglum } from '@frontend/server-side-queries';
 import Head from 'next/head';
 import { PageDescriptionAdmin } from '@frontend/domain';

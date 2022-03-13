@@ -1,6 +1,6 @@
 import React, { CSSProperties, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import type { XYCoord, Identifier } from 'dnd-core';
+import type { Identifier, XYCoord } from 'dnd-core';
 
 export interface ISortableProps {
   id: string;

@@ -11,7 +11,7 @@ import { clearImageElements, loadImageElements } from './image-elements';
 import { clearTextElements, loadTextElements } from './text-elements';
 import { clearLines, loadLines } from './lines';
 import { clearTokens, loadTokens } from './tokens';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { clearPageData, loadPageData, pageDataLoaded } from './page-data';
 import { addDataUrl, clearDataUrls } from './region-data-urls';
 import { createRegionsDataUrls, highlightColors } from '@frontend/ui/facsimile';
