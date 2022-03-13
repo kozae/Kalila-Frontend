@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb';
-import { clientPromise } from '@frontend/server-side-queries';
+import { clientPromise } from '../connection';
 
 export type QueryDefinitions = {
   [name: string]: (client: MongoClient) => Promise<any>;
@@ -11,5 +11,6 @@ export async function queryServerSide(queries: QueryDefinitions) {
   for (const [item, handler] of Object.entries(queries)) {
     result[item] = await handler(client);
   }
+  await client.close();
   return result;
 }
