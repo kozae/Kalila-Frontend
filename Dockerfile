@@ -1,4 +1,4 @@
-FROM bitnami/node:17
+FROM bitnami/node:16
 
 RUN apt-get update
 RUN mkdir /frontend
