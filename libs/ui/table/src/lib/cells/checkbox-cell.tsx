@@ -7,7 +7,7 @@ import {
   removeFromSelection,
   useAppDispatch,
   useAppSelector,
-} from '@frontend/shared-ui';
+} from '@frontend/ui/store';
 
 export interface ICheckboxCellProps {
   Id: string;
