@@ -20,9 +20,6 @@ import {
   fetchSchema,
   NotificationBar,
   useNotificationBar,
-  usePagedDocumentsDispatch,
-  usePagedDocumentsState,
-  usePagedDocumentsStore,
   useSignalrUpdates,
 } from '@frontend/shared-ui';
 import { CategoricalAttribute } from '@frontend/domain';
@@ -45,6 +42,11 @@ import { CreateAttributeModal } from './modals';
 import { EditAttributeModal } from './modals/edit-attribute-modal';
 import { Column } from 'react-table';
 import { plainToClass } from 'class-transformer';
+import {
+  usePagedDocumentsDispatch,
+  usePagedDocumentsState,
+  usePagedDocumentsStore,
+} from '@frontend/ui/store';
 
 export const AdministrationPageCategoricalAttributes: React.FC = () => {
   const router = useRouter();
