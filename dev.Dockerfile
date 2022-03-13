@@ -12,4 +12,4 @@ COPY yarn.lock yarn.lock
 RUN yarn --network-timeout 100000
 COPY . .
 
-CMD ["nx", "run", "kalila:serve", "--port=6000 ", "--hostname=localhost"]
+CMD ["nx", "run", "kalila:serve", "--port=6000 "]
