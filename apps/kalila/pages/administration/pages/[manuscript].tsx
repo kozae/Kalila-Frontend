@@ -3,11 +3,7 @@ import {
   createAdminPageContext,
   withAdminLayout,
 } from '@frontend/ui/administration';
-import {
-  selectEditors,
-  useAppSelector,
-  useNavbarMessage,
-} from '@frontend/shared-ui';
+import { useNavbarMessage } from '@frontend/shared-ui';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { queryServerSide, sigla, siglum } from '@frontend/server-side-queries';
 import Head from 'next/head';
@@ -23,6 +19,7 @@ import {
   WhiteHeader,
 } from '@frontend/ui/table';
 import { Column } from 'react-table';
+import { selectEditors, useAppSelector } from '@frontend/ui/store';
 
 function pageTitle(siglum: string): [string, string] {
   return ['Administration:', `Pages of ${siglum}`];
