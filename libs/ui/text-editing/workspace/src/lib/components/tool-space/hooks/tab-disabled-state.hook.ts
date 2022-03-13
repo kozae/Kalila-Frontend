@@ -7,7 +7,7 @@ import {
   selectTextEditingToolMode,
   selectWorkspaceHasChanges,
   useAppSelector,
-} from '@frontend/shared-ui';
+} from '@frontend/ui/store';
 
 export function useTabDisabledState() {
   const selectedElement = useAppSelector(selectSelectedElement);

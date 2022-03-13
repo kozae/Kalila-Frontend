@@ -3,12 +3,12 @@ import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useState } from 'react';
+import { useAutomaticLineDetectionExecution } from './hooks';
 import {
   selectAllTextElements,
   selectManyRegionDataUrlById,
   useAppSelector,
-} from '@frontend/shared-ui';
-import { useAutomaticLineDetectionExecution } from './hooks';
+} from '@frontend/ui/store';
 
 export const AutomaticLineDetection = () => {
   const [progress, setProgress] = useState(0);

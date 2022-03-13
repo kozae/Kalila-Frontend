@@ -1,17 +1,4 @@
-import {
-  addDataUrl,
-  cancelCreateImageElement,
-  cancelCreateTextElement,
-  kalilaTheme,
-  onElementSelected,
-  selectImageElementById,
-  selectRegionUnderEditUrl,
-  selectTextElementById,
-  updateImageElement,
-  updateTextElement,
-  useAppDispatch,
-  useAppSelector,
-} from '@frontend/shared-ui';
+import { kalilaTheme } from '@frontend/shared-ui';
 import React, { useCallback, useContext, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -20,9 +7,22 @@ import Button from '@mui/material/Button';
 import { IFacsimileRegion } from '@frontend/domain';
 import { TextElementInfoForm } from './text-element-info-form';
 import { ImageElementInfoForm } from './image-element-info-form';
-import { RegionDefinitionKeyboardInstructions } from '../../../shared/src/lib/region-definition-keyboard-instructions';
+import { RegionDefinitionKeyboardInstructions } from '@frontend/ui/text-editing/shared';
 import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 import { createRegionsDataUrls } from '@frontend/ui/facsimile';
+import {
+  addDataUrl,
+  cancelCreateImageElement,
+  cancelCreateTextElement,
+  onElementSelected,
+  selectImageElementById,
+  selectRegionUnderEditUrl,
+  selectTextElementById,
+  updateImageElement,
+  updateTextElement,
+  useAppDispatch,
+  useAppSelector,
+} from '@frontend/ui/store';
 
 export const EditLayoutElement = ({
   selectedElement,

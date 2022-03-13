@@ -7,13 +7,13 @@ import {
   PolygonHelper,
 } from '@frontend/ui/facsimile';
 import * as uuid from 'uuid';
+import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
+import { createAndDispatchLineDataUrl } from './helpers';
 import {
   loadGeneratedLines,
   setTextEditingToolMode,
   useAppDispatch,
-} from '@frontend/shared-ui';
-import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
-import { createAndDispatchLineDataUrl } from './helpers';
+} from '@frontend/ui/store';
 
 const runDetectionFactory = (setProgress: (v: number) => void) => {
   const scheduler = createScheduler();

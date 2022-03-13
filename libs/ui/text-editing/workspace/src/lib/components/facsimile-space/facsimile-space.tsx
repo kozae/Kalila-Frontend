@@ -6,7 +6,7 @@ import { FacsimileRegionPreview } from './facsimile-region-preview';
 import {
   selectPageDataLoadingStatus,
   useAppSelector,
-} from '@frontend/shared-ui';
+} from '@frontend/ui/store';
 
 const animationVariants = {
   visible: { opacity: 1, x: 0 },

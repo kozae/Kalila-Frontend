@@ -1,8 +1,5 @@
 import { useRouter } from 'next/router';
 import {
-  usePagedDocumentsDispatch,
-  usePagedDocumentsState,
-  usePagedDocumentsStore,
   useSignalrUpdates,
   useSmallScreenMediaQuery,
 } from '@frontend/shared-ui';
@@ -23,6 +20,11 @@ import Stack from '@mui/material/Stack';
 import { plainToInstance } from 'class-transformer';
 import { PageTranscriptionSummary } from '@frontend/domain';
 import Button from '@mui/material/Button';
+import {
+  usePagedDocumentsDispatch,
+  usePagedDocumentsState,
+  usePagedDocumentsStore,
+} from '@frontend/ui/store';
 
 export interface IPagesSummaryPage {
   manuscript: string;

@@ -13,6 +13,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import CircularProgress from '@mui/material/CircularProgress';
 import { LayoutAnalysisTool } from '@frontend/ui/text-editing/layout-analysis';
 import { useTabDisabledState } from './hooks';
+import { LineDetectionTool } from '@frontend/ui/text-editing/line-detection';
 import {
   selectPageDataLoadingStatus,
   selectTextEditingActiveWorkspace,
@@ -20,8 +21,7 @@ import {
   TextEditingActiveWorkspace,
   useAppDispatch,
   useAppSelector,
-} from '@frontend/shared-ui';
-import { LineDetectionTool } from '@frontend/ui/text-editing/line-detection';
+} from '@frontend/ui/store';
 
 interface TabPanelProps {
   children?: ReactNode;

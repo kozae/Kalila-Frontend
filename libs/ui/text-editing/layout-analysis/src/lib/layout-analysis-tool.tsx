@@ -3,6 +3,7 @@ import Stack from '@mui/material/Stack';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LayoutElementsList } from './layout-elements-list';
 import { EditLayoutElement } from './edit-layout-element';
+import { ReorderLayoutElements } from './reorder-layout-elements';
 import {
   selectAllImageElements,
   selectAllTextElements,
@@ -10,8 +11,7 @@ import {
   selectSelectedElement,
   selectTextEditingToolMode,
   useAppSelector,
-} from '@frontend/shared-ui';
-import { ReorderLayoutElements } from './reorder-layout-elements';
+} from '@frontend/ui/store';
 
 export function LayoutAnalysisTool() {
   const imageElements = useAppSelector(selectAllImageElements);

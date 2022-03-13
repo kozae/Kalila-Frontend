@@ -1,14 +1,14 @@
 import { ILine, IPoint, ITextElement } from '@frontend/domain';
 import { useContext } from 'react';
 import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
+import { createAndDispatchLineDataUrl } from './helpers';
+import { highlightColors, PolygonHelper } from '@frontend/ui/facsimile';
+import * as uuid from 'uuid';
 import {
   loadGeneratedLines,
   setTextEditingToolMode,
   useAppDispatch,
-} from '@frontend/shared-ui';
-import { createAndDispatchLineDataUrl } from './helpers';
-import { highlightColors, PolygonHelper } from '@frontend/ui/facsimile';
-import * as uuid from 'uuid';
+} from '@frontend/ui/store';
 
 function generateLines(
   element: Omit<ITextElement, 'Lines'>,

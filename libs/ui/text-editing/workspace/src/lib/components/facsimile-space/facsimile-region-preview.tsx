@@ -1,11 +1,11 @@
 import Portal from '@mui/material/Portal';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useXLargeScreenMediaQuery } from '@frontend/shared-ui';
 import {
   selectRegionDataUrlById,
   selectRegionHoveredInFacsimileSpace,
   useAppSelector,
-  useXLargeScreenMediaQuery,
-} from '@frontend/shared-ui';
+} from '@frontend/ui/store';
 
 export const FacsimileRegionPreview = () => {
   const isXLScreen = useXLargeScreenMediaQuery();

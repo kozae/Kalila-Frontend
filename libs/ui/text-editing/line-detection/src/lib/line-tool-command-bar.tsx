@@ -1,16 +1,5 @@
 import Stack from '@mui/material/Stack';
-import {
-  addLine,
-  kalilaTheme,
-  onElementSelected,
-  selectAllTextElements,
-  selectNumberOfLinesInElements,
-  selectPageHasTranscription,
-  selectTextEditingToolMode,
-  setTextEditingToolMode,
-  useAppDispatch,
-  useAppSelector,
-} from '@frontend/shared-ui';
+import { kalilaTheme } from '@frontend/shared-ui';
 import Button from '@mui/material/Button';
 import MoveUpTwoToneIcon from '@mui/icons-material/MoveUpTwoTone';
 import AddBoxTwoToneIcon from '@mui/icons-material/AddBoxTwoTone';
@@ -25,6 +14,17 @@ import { useSingleLineGenerationHandler } from './hooks';
 import * as uuid from 'uuid';
 import { ITextElement } from '@frontend/domain';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {
+  addLine,
+  onElementSelected,
+  selectAllTextElements,
+  selectNumberOfLinesInElements,
+  selectPageHasTranscription,
+  selectTextEditingToolMode,
+  setTextEditingToolMode,
+  useAppDispatch,
+  useAppSelector,
+} from '@frontend/ui/store';
 
 export const LineToolCommandBar = () => {
   const toolMode = useAppSelector(selectTextEditingToolMode);

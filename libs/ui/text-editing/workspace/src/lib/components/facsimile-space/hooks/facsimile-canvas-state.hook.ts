@@ -8,6 +8,11 @@ import {
   createRegionHighlighter,
   renderBackgroundImage,
 } from '@frontend/ui/facsimile';
+import { useWindowSize } from '@frontend/shared-ui';
+import { IFacsimileRegion } from '@frontend/domain';
+import { workspaceProcedure } from '../workspace-rendering-tasks';
+import { stringHasValue } from '@frontend/util';
+import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 import {
   onElementSelected,
   onRegionHoveredInFacsimileSpace,
@@ -18,12 +23,7 @@ import {
   TextEditingActiveWorkspace,
   useAppDispatch,
   useAppSelector,
-  useWindowSize,
-} from '@frontend/shared-ui';
-import { IFacsimileRegion } from '@frontend/domain';
-import { workspaceProcedure } from '../workspace-rendering-tasks';
-import { stringHasValue } from '@frontend/util';
-import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
+} from '@frontend/ui/store';
 
 function createPageFacsimileRenderer(data: {
   imageDisplayWidth: number;

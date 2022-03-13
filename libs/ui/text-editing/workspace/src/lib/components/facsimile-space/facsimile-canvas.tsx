@@ -7,7 +7,7 @@ import {
 import {
   selectPageDataLoadingStatus,
   useAppSelector,
-} from '@frontend/shared-ui';
+} from '@frontend/ui/store';
 
 export const FacsimileCanvas = ({ onLoaded }: { onLoaded: () => void }) => {
   const canvasState = useFacsimileCanvasState();

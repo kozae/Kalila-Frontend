@@ -4,6 +4,9 @@ import { hexToRgba } from '@frontend/util';
 import React from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   cancelCreateLine,
   deleteLine,
@@ -12,10 +15,7 @@ import {
   selectLineHasTokens,
   useAppDispatch,
   useAppSelector,
-} from '@frontend/shared-ui';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+} from '@frontend/ui/store';
 
 export interface ILineSummaryProps {
   maxHeight?: string;

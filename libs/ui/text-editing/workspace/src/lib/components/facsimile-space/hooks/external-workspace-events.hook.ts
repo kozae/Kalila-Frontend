@@ -15,7 +15,7 @@ import {
   setRegionUnderEditUrl,
   useAppDispatch,
   useAppSelector,
-} from '@frontend/shared-ui';
+} from '@frontend/ui/store';
 
 export function useExternalWorkspaceEvents(canvasState: FacsimileCanvasState) {
   const dispatch = useAppDispatch();

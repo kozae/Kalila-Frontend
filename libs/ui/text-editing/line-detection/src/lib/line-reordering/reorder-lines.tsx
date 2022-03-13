@@ -1,5 +1,13 @@
 import Stack from '@mui/material/Stack';
 import { LineToolCommandBar } from '../line-tool-command-bar';
+import { debounce, orderBy } from 'lodash';
+import Box from '@mui/material/Box';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { IFacsimileRegion, ILine } from '@frontend/domain';
+import GridLayout, { Layout } from 'react-grid-layout';
+import { ITextElementMarkProps, TextElementMark } from './text-element-mark';
+import { ISortableLineProps, SortableLine } from './sortable-line';
+import { Update } from '@reduxjs/toolkit';
 import {
   moveLines,
   onRegionHoveredInToolSpace,
@@ -9,15 +17,7 @@ import {
   updateManyLines,
   useAppDispatch,
   useAppSelector,
-} from '@frontend/shared-ui';
-import { debounce, orderBy } from 'lodash';
-import Box from '@mui/material/Box';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { IFacsimileRegion, ILine } from '@frontend/domain';
-import GridLayout, { Layout } from 'react-grid-layout';
-import { ITextElementMarkProps, TextElementMark } from './text-element-mark';
-import { ISortableLineProps, SortableLine } from './sortable-line';
-import { Update } from '@reduxjs/toolkit';
+} from '@frontend/ui/store';
 
 const toLineContainerIdMap = (urls: Record<string, string>) => {
   return (

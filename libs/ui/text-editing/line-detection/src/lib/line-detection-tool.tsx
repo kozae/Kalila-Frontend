@@ -1,13 +1,13 @@
+import { DefineLinesChoices } from './define-lines-choices';
+import { LineList } from './line-list';
+import { EditLine } from './edit-line';
+import { ReorderLines } from './line-reordering';
 import {
   selectNumberOfLines,
   selectSelectedElement,
   selectTextEditingToolMode,
   useAppSelector,
-} from '@frontend/shared-ui';
-import {DefineLinesChoices} from './define-lines-choices';
-import {LineList} from './line-list';
-import {EditLine} from './edit-line';
-import {ReorderLines} from './line-reordering';
+} from '@frontend/ui/store';
 
 // todo animate transitions
 export const LineDetectionTool = () => {

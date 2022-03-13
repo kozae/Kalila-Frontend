@@ -1,9 +1,4 @@
 import {
-  selectAllTextElements,
-  selectManyRegionDataUrlById,
-  useAppSelector,
-} from '@frontend/shared-ui';
-import {
   ILayoutElementSummaryProps,
   LayoutElementSummary,
 } from '@frontend/ui/text-editing/shared';
@@ -12,6 +7,11 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import { useLinesGenerator } from './hooks/lines-generator.hook';
 import { useFormik } from 'formik';
+import {
+  selectAllTextElements,
+  selectManyRegionDataUrlById,
+  useAppSelector,
+} from '@frontend/ui/store';
 
 export const LineGeneration = () => {
   const textElements = useAppSelector(selectAllTextElements);

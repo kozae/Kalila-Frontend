@@ -5,7 +5,7 @@ import {
   setTextEditingAccessMode,
   useAppDispatch,
   useAppSelector,
-} from '@frontend/shared-ui';
+} from '@frontend/ui/store';
 
 export function useAccessModeSettings() {
   const dispatch = useAppDispatch();
