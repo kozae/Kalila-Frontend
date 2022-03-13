@@ -23,7 +23,7 @@
         "buildTarget": "kalila:build",
         "dev": true,
         "buildLibsFromSource": true,
-        "port": 3000,
+        "port": 6000,
         "hostname": "localhost"
       },
       "configurations": {
