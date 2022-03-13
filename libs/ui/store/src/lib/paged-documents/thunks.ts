@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ThunkApi } from '@frontend/shared-ui';
 import {
   cleanObject,
   IPagination,
@@ -8,6 +7,7 @@ import {
   setAllNull,
 } from '@frontend/util';
 import { NextRouter } from 'next/router';
+import { ThunkApi } from '../config';
 
 export const changePagination = createAsyncThunk<
   void,

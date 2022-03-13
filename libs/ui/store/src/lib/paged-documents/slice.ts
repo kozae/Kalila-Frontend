@@ -99,9 +99,7 @@ export const pagedDocsSlice = createSlice({
       state.activityName = action.payload.activityName;
       state.pagination = action.payload.pagination;
     },
-    docsCleared: (state) => {
-      state = initialState;
-    },
+    docsCleared: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder.addCase(changePagination.fulfilled, () => {});

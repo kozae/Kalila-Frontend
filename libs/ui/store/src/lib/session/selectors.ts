@@ -1,5 +1,5 @@
-import { RootState } from '@frontend/shared-ui';
 import { createSelector } from '@reduxjs/toolkit';
+import { RootState } from '../config';
 
 const selectSessionState = (state: RootState) => state.session;
 

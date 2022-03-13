@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IImageElement, ITextElement } from '@frontend/domain';
-import { ThunkApi } from '@frontend/shared-ui';
 import { sleeper } from '@frontend/util';
 import { discardThunk } from './discard';
+import { ThunkApi } from '../../config';
 
 export const discardLayoutChanges = createAsyncThunk<
   {

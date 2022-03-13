@@ -15,9 +15,7 @@ import { KalilaDocument } from '@frontend/domain';
 import {
   DialogHeading,
   kalilaTheme,
-  selectEditors,
   UndrawDocumentSVG,
-  useAppSelector,
 } from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -26,6 +24,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { SxProps } from '@mui/system/styleFunctionSx';
 import SaveIcon from '@mui/icons-material/Save';
+import { selectEditors, useAppSelector } from '@frontend/ui/store';
 
 function useSkipConfigObject<T extends KalilaDocument>(
   schema: ActivitySchema,

@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IImageElement, ITextElement } from '@frontend/domain';
-import { ThunkApi } from '@frontend/shared-ui';
 import {
   deleteLayout,
   postLayout,
@@ -9,6 +8,7 @@ import {
 } from './requests';
 import { omit } from 'lodash';
 import { saveThunk } from './save';
+import { ThunkApi } from '../../config';
 
 export const saveLayoutChanges = createAsyncThunk<
   {
