@@ -2,13 +2,30 @@ import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
-import { useState } from 'react';
-import { useAutomaticLineDetectionExecution } from './hooks';
+import { useContext, useEffect, useState } from 'react';
+import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 import {
+  addDataUrl,
+  loadLines,
   selectAllTextElements,
   selectManyRegionDataUrlById,
+  useAppDispatch,
   useAppSelector,
-} from '@frontend/ui/store';
+} from '@frontend/shared-ui';
+import Tesseract, { createScheduler, createWorker, PSM } from 'tesseract.js';
+import {
+  IFacsimileRegion,
+  ILine,
+  IPoint,
+  ITextElement,
+} from '@frontend/domain';
+import {
+  createRegionsDataUrls,
+  highlightColors,
+  PolygonHelper,
+} from '@frontend/ui/facsimile';
+import * as uuid from 'uuid';
+import { useAutomaticLineDetectionExecution } from './hooks';
 
 export const AutomaticLineDetection = () => {
   const [progress, setProgress] = useState(0);

@@ -1,4 +1,4 @@
-FROM bitnami/node:16
+FROM node:16-slim
 
 RUN apt-get update
 RUN mkdir /frontend
@@ -12,4 +12,4 @@ COPY yarn.lock yarn.lock
 RUN yarn --network-timeout 100000
 COPY . .
 
-CMD ["nx", "run", "kalila:serve"]
+CMD ["nx", "run", "kalila:serve", "--port=6000 "]

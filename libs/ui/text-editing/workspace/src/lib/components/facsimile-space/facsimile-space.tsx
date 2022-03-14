@@ -1,4 +1,4 @@
-import { AnimatePresence, motion, useAnimation } from 'framer-motion';
+import { AnimatePresence, useAnimation, motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { FacsimileSpaceLoading } from './facsimile-space-loading';
 import { FacsimileCanvas } from './facsimile-canvas';
@@ -6,7 +6,7 @@ import { FacsimileRegionPreview } from './facsimile-region-preview';
 import {
   selectPageDataLoadingStatus,
   useAppSelector,
-} from '@frontend/ui/store';
+} from '@frontend/shared-ui';
 
 const animationVariants = {
   visible: { opacity: 1, x: 0 },

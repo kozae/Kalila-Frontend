@@ -1,4 +1,4 @@
-import {useNavbarMessage, withTransition} from '@frontend/shared-ui';
+import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
 
 /* eslint-disable-next-line */
 export interface EditionsProps {}

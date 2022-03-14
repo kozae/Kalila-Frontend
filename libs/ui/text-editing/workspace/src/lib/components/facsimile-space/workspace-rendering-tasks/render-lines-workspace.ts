@@ -1,9 +1,9 @@
 import { IFacsimileRegion } from '@frontend/domain';
 import { fabric } from 'fabric';
 import {
+  drawPolygons,
   addEventListeners,
   addTextToPolygons,
-  drawPolygons,
 } from '@frontend/ui/facsimile';
 
 export type LinesProcedureProps = {

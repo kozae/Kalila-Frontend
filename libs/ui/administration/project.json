@@ -6,20 +6,14 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/ui/administration/**/*.{ts,tsx,js,jsx}"
-        ]
+        "lintFilePatterns": ["libs/ui/administration/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/ui/administration"
-      ],
+      "outputs": ["coverage/libs/ui/administration"],
       "options": {
         "jestConfig": "libs/ui/administration/jest.config.js",
         "passWithNoTests": true

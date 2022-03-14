@@ -1,5 +1,5 @@
 import './index.module.scss';
-import {kalilaTheme, useNavbarMessage} from '@frontend/shared-ui';
+import { kalilaTheme, useNavbarMessage } from '@frontend/shared-ui';
 
 /* eslint-disable-next-line */
 export interface UnauthorizedProps {}

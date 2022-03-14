@@ -1,5 +1,15 @@
 import { IFacsimileRegion } from '@frontend/domain';
-import { kalilaTheme } from '@frontend/shared-ui';
+import {
+  addDataUrl,
+  cancelCreateLine,
+  kalilaTheme,
+  onElementSelected,
+  selectLineById,
+  selectRegionUnderEditUrl,
+  updateLine,
+  useAppDispatch,
+  useAppSelector,
+} from '@frontend/shared-ui';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -10,16 +20,6 @@ import {
 } from '@frontend/ui/text-editing/shared';
 import Button from '@mui/material/Button';
 import { createRegionsDataUrls } from '@frontend/ui/facsimile';
-import {
-  addDataUrl,
-  cancelCreateLine,
-  onElementSelected,
-  selectLineById,
-  selectRegionUnderEditUrl,
-  updateLine,
-  useAppDispatch,
-  useAppSelector,
-} from '@frontend/ui/store';
 
 export const EditLine = ({
   selectedLine,

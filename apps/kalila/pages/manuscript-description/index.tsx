@@ -3,6 +3,7 @@ import {
   ManuscriptDescriptionGroupToggle,
   useMediumScreenMediaQuery,
   useNavbarMessage,
+  useSchemaStore,
   withTransition,
 } from '@frontend/shared-ui';
 import React from 'react';
@@ -13,9 +14,8 @@ import {
   useSchemaFilter,
 } from '@frontend/ui/documents-detailed-view';
 import { ManuscriptDescription } from '@frontend/domain';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import { getSchema } from '@frontend/server-side-queries';
-import { useSchemaStore } from '@frontend/ui/store';
 
 export function ManuscriptDescriptionPage({ schema }) {
   useSchemaStore('ManuscriptDescription', schema);
@@ -55,11 +55,12 @@ export function ManuscriptDescriptionPage({ schema }) {
 
 export default withTransition(ManuscriptDescriptionPage, {});
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const schema = await getSchema('ManuscriptDescription');
   return {
     props: {
       schema,
     },
+    revalidate: 30,
   };
 };

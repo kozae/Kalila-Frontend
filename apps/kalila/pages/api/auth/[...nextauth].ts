@@ -1,21 +1,22 @@
-import NextAuth from 'next-auth';
-import KeycloakProvider from 'next-auth/providers/keycloak';
+import NextAuth from "next-auth"
+import KeycloakProvider from "next-auth/providers/keycloak";
+
 
 export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    jwt: async ({ token, user, account }) => {
+    jwt: async ({token, user, account}) => {
       if (user && account) {
-        token.user = user;
-        token.access = account.access_token;
+        token.user = user
+        token.access = account.access_token
       }
-      return token;
+      return token
     },
-    session: async ({ session, token }) => {
-      session.user = token.user;
-      session.access = token.access;
-      return session;
-    },
+    session: async ({session, token}) => {
+      session.user = token.user
+      session.access = token.access
+      return session
+    }
   },
   providers: [
     KeycloakProvider({
@@ -28,9 +29,9 @@ export default NextAuth({
           username: profile.preferred_username,
           name: profile.name,
           email: profile.email,
-          roles: profile.groups.join(', '),
-        };
+          roles: profile.groups.join(', ')
+        }
       },
-    }),
+    })
   ],
-});
+})

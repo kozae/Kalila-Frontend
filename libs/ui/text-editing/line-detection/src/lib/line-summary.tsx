@@ -4,18 +4,19 @@ import { hexToRgba } from '@frontend/util';
 import React from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import {
   cancelCreateLine,
   deleteLine,
   onElementSelected,
   onRegionHoveredInToolSpace,
   selectLineHasTokens,
+  selectTokensOfLine,
   useAppDispatch,
   useAppSelector,
-} from '@frontend/ui/store';
+} from '@frontend/shared-ui';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 export interface ILineSummaryProps {
   maxHeight?: string;

@@ -4,5 +4,4 @@ export function setAll(obj, val) {
   });
   return obj;
 }
-
 export const setAllNull = (obj) => setAll(obj, null);

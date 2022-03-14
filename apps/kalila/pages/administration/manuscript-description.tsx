@@ -6,19 +6,21 @@ import {
 import React from 'react';
 import { ManuscriptDescriptionAdmin } from '@frontend/domain';
 import { checkStringValueFactory, KalilaValueTypes } from '@frontend/util';
-import { useNavbarMessage } from '@frontend/shared-ui';
 import {
-  EditorCell,
+  selectEditors,
+  useAppSelector,
+  useNavbarMessage,
+} from '@frontend/shared-ui';
+import {
   GenericCell,
-  getSelectionColumn,
-  KeyValueCell,
   PrimaryGreenHeader,
   WhiteHeader,
+  getSelectionColumn,
+  EditorCell,
 } from '@frontend/ui/table';
 import { Column } from 'react-table';
 import Head from 'next/head';
-import { selectEditors, useAppSelector } from '@frontend/ui/store';
-
+import { KeyValueCell } from '@frontend/ui/table';
 export function MSDAdministration() {
   useNavbarMessage(['Administration:', 'Manuscript Description']);
   const editors = useAppSelector(selectEditors);

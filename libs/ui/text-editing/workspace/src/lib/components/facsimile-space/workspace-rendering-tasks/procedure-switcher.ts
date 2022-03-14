@@ -2,7 +2,7 @@ import { IFacsimileRegion } from '@frontend/domain';
 import { renderLayoutWorkspace } from './render-layout-workspace';
 import { fabric } from 'fabric';
 import { renderLinesWorkspace } from './render-lines-workspace';
-import { TextEditingActiveWorkspace } from '@frontend/ui/store';
+import { TextEditingActiveWorkspace } from '@frontend/shared-ui';
 
 export type WorkspaceProcedureProps = {
   activeWorkspace: TextEditingActiveWorkspace;

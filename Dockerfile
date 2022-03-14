@@ -1,4 +1,4 @@
-FROM bitnami/node:16
+FROM node:16-slim
 
 RUN apt-get update
 RUN mkdir /frontend

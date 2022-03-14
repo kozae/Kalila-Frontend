@@ -1,7 +1,7 @@
 import { IFacsimileRegion, ILine } from '@frontend/domain';
 import { fabric } from 'fabric';
+import { addDataUrl, KalilaAppDispatch } from '@frontend/shared-ui';
 import { createRegionsDataUrls } from '@frontend/ui/facsimile';
-import { addDataUrl, KalilaAppDispatch } from '@frontend/ui/store';
 
 export const createAndDispatchLineDataUrl = (
   lines: Array<Omit<ILine, 'Tokens'> & { ElementId: string }>,

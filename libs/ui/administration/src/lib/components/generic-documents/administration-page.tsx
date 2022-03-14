@@ -13,6 +13,9 @@ import {
   fetchSchema,
   NotificationBar,
   useNotificationBar,
+  usePagedDocumentsDispatch,
+  usePagedDocumentsState,
+  usePagedDocumentsStore,
   useSignalrUpdates,
 } from '@frontend/shared-ui';
 import {
@@ -27,11 +30,6 @@ import { CreateDocumentModal, EditDocumentModal } from './modals';
 import { AlertColor } from '@mui/material/Alert/Alert';
 import { Column } from 'react-table';
 import { plainToClass } from 'class-transformer';
-import {
-  usePagedDocumentsDispatch,
-  usePagedDocumentsState,
-  usePagedDocumentsStore,
-} from '@frontend/ui/store';
 
 export interface IAdministrationPageProps<T extends KalilaDocument> {
   cls: ClassConstructor<T>; // just for type inference

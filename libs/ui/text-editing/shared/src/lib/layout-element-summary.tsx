@@ -24,7 +24,7 @@ import {
   selectTextElementHasLines,
   useAppDispatch,
   useAppSelector,
-} from '@frontend/ui/store';
+} from '@frontend/shared-ui';
 
 export type ILayoutElementSummaryProps = (
   | IImageElement

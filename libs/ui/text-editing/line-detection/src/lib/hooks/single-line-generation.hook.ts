@@ -1,3 +1,8 @@
+import {
+  addDataUrl,
+  loadGeneratedLines,
+  useAppDispatch,
+} from '@frontend/shared-ui';
 import { useContext } from 'react';
 import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 import { ILine, IPoint, ITextElement } from '@frontend/domain';
@@ -6,7 +11,6 @@ import {
   highlightColors,
   PolygonHelper,
 } from '@frontend/ui/facsimile';
-import { addDataUrl, useAppDispatch } from '@frontend/ui/store';
 
 export function useSingleLineGenerationHandler() {
   const dispatch = useAppDispatch();

@@ -3,9 +3,13 @@ import {
   createAdminPageContext,
   withAdminLayout,
 } from '@frontend/ui/administration';
-import { useNavbarMessage } from '@frontend/shared-ui';
-import { GetServerSideProps } from 'next';
-import { queryServerSide, siglum } from '@frontend/server-side-queries';
+import {
+  selectEditors,
+  useAppSelector,
+  useNavbarMessage,
+} from '@frontend/shared-ui';
+import { GetStaticProps, GetStaticPaths } from 'next';
+import { queryServerSide, sigla, siglum } from '@frontend/server-side-queries';
 import Head from 'next/head';
 import { PageDescriptionAdmin } from '@frontend/domain';
 import { checkNumberValueFactory, KalilaValueTypes } from '@frontend/util';
@@ -19,7 +23,6 @@ import {
   WhiteHeader,
 } from '@frontend/ui/table';
 import { Column } from 'react-table';
-import { selectEditors, useAppSelector } from '@frontend/ui/store';
 
 function pageTitle(siglum: string): [string, string] {
   return ['Administration:', `Pages of ${siglum}`];
@@ -109,7 +112,21 @@ export function PagesAdministration({ siglum, manuscriptId }) {
 
 export default withAdminLayout(PagesAdministration, 1);
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticPaths: GetStaticPaths = async (context) => {
+  const paths: Array<
+    string | { params: { manuscript: string }; locale?: string }
+  > = [];
+  const query = await queryServerSide({ sigla });
+  for (const manuscript of query.sigla) {
+    paths.push({ params: { manuscript: manuscript.Id } });
+  }
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
   try {
     const manuscriptId = context.params['manuscript'] as string;
     console.log('generating page administration for: ', manuscriptId);
@@ -121,10 +138,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         ...query,
         manuscriptId,
       },
+      revalidate: 30,
     };
   } catch {
     return {
-      notFound: true,
+      redirect: {
+        destination: '/404',
+      },
+      props: {},
     };
   }
 };

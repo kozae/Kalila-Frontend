@@ -2,12 +2,12 @@ import { useMemo } from 'react';
 import {
   selectPageHasLines,
   selectPageHasText,
-  selectPageHasTranscription,
   selectSelectedElement,
-  selectTextEditingToolMode,
   selectWorkspaceHasChanges,
+  selectPageHasTranscription,
   useAppSelector,
-} from '@frontend/ui/store';
+  selectTextEditingToolMode,
+} from '@frontend/shared-ui';
 
 export function useTabDisabledState() {
   const selectedElement = useAppSelector(selectSelectedElement);

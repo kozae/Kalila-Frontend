@@ -16,19 +16,15 @@ $ms-depth-shadow-64: 0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22), 0 4.8px 14.4px 0 rgb
 @mixin ms-depth-0 {
   box-shadow: $ms-depth-shadow-0;
 }
-
 @mixin ms-depth-4 {
   box-shadow: $ms-depth-shadow-4;
 }
-
 @mixin ms-depth-8 {
   box-shadow: $ms-depth-shadow-8;
 }
-
 @mixin ms-depth-16 {
   box-shadow: $ms-depth-shadow-16;
 }
-
 @mixin ms-depth-64 {
   box-shadow: $ms-depth-shadow-64;
 }

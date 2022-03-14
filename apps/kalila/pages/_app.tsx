@@ -9,16 +9,16 @@ import {
   Layout,
   NavMessageBarContext,
   SignalrWrapper,
-  useNavMessageBarControls,
-  useSignalr,
+  store,
 } from '@frontend/shared-ui';
 import { AnimatePresence } from 'framer-motion';
+import { useSignalr } from '@frontend/shared-ui';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from '@mui/material';
 import { createEmotionCache } from './_document';
 import { CacheProvider, EmotionCache } from '@emotion/react';
+import { useNavMessageBarControls } from '@frontend/shared-ui';
 import { Provider as ReduxProvider } from 'react-redux';
-import { store } from '@frontend/ui/store';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -69,4 +69,4 @@ function KalilaApp(appProps: KalilaAppProps) {
 export default KalilaApp;
 
 // nx g page book-analysis --project=kalila --withTests=true --style=scss
-// nx g @nrwl/react:library store  --directory=ui --style=scss
+// nx g @nrwl/next:lib documents-detailed-view  --directory=ui --style=scss

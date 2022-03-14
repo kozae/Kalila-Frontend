@@ -1,8 +1,9 @@
 import useSWRImmutable from 'swr/immutable';
 import {
   ActivitySchema,
-  fetcher,
   IDataEntrySchema,
+  fetcher,
+  InputModes,
   IPagination,
 } from '@frontend/util';
 import { SWRResponse } from 'swr';

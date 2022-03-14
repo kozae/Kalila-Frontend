@@ -1,5 +1,10 @@
 import Stack from '@mui/material/Stack';
-import { useNavigationAwayGuard } from '@frontend/shared-ui';
+import {
+  selectWorkspaceHasChanges,
+  useAppSelector,
+  useNavigationAwayGuard,
+  useTextEditingWorkspaceStore,
+} from '@frontend/shared-ui';
 import {
   CommandBar,
   FacsimileSpace,
@@ -9,11 +14,6 @@ import {
 import { useAccessModeSettings } from './hooks/access-mode-settings.hook';
 import { useImageAsFabricObject } from './hooks';
 import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
-import {
-  selectWorkspaceHasChanges,
-  useAppSelector,
-  useTextEditingWorkspaceStore,
-} from '@frontend/ui/store';
 
 export function TextEditingWorkspace({ pageData, imageSize }: any) {
   const fabricImg = useImageAsFabricObject(pageData.FacsimileImageUrl);

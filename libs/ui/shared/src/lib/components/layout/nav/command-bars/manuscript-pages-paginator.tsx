@@ -4,12 +4,15 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useState } from 'react';
 import {
+  clearPageData,
+  selectWorkspaceHasChanges,
+  useAppDispatch,
+  useAppSelector,
   useMediumScreenMediaQuery,
   useSmallScreenMediaQuery,
   useXSmallScreenMediaQuery,
 } from '@frontend/shared-ui';
 import { useRouter } from 'next/router';
-import { selectWorkspaceHasChanges, useAppSelector } from '@frontend/ui/store';
 
 export interface IManuscriptPagesPaginatorProps {
   manuscriptId: string;

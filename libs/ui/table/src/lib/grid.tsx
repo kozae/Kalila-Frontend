@@ -9,13 +9,15 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { isOdd } from '@frontend/util';
 import { useRouter } from 'next/router';
 import {
-  changeFilter,
-  changeSort,
   selectFilter,
   selectSort,
   useAppDispatch,
   useAppSelector,
-} from '@frontend/ui/store';
+} from '@frontend/shared-ui';
+import {
+  changeFilter,
+  changeSort,
+} from '../../../shared/src/lib/store/paged-documents/thunks';
 
 export interface IGridProps<T extends object> {
   loading: boolean;

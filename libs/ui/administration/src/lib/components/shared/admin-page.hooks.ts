@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import { KalilaDocument } from '@frontend/domain';
-import { useBoolean } from '@frontend/shared-ui';
-import { IPagedDocumentsDispatch } from '@frontend/ui/store';
+import { IPagedDocumentsDispatch, useBoolean } from '@frontend/shared-ui';
 
 export function useControls() {
   const [

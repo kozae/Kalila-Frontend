@@ -1,4 +1,4 @@
-import Tesseract, { createScheduler, createWorker } from 'tesseract.js';
+import Tesseract, { createScheduler, createWorker, PSM } from 'tesseract.js';
 import { useContext, useEffect } from 'react';
 import { ILine, IPoint, ITextElement } from '@frontend/domain';
 import {
@@ -7,13 +7,13 @@ import {
   PolygonHelper,
 } from '@frontend/ui/facsimile';
 import * as uuid from 'uuid';
-import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
-import { createAndDispatchLineDataUrl } from './helpers';
 import {
   loadGeneratedLines,
   setTextEditingToolMode,
   useAppDispatch,
-} from '@frontend/ui/store';
+} from '@frontend/shared-ui';
+import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
+import { createAndDispatchLineDataUrl } from './helpers';
 
 const runDetectionFactory = (setProgress: (v: number) => void) => {
   const scheduler = createScheduler();

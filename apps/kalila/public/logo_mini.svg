@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px"
-     y="0px" width="103px" height="110px" viewBox="0 0 103 110" enable-background="new 0 0 103 110"
-     xml:space="preserve">  <image id="image0" width="103" height="110" x="0" y="0"
-                                   xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGcAAABuCAMAAAANkP0DAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="103px" height="110px" viewBox="0 0 103 110" enable-background="new 0 0 103 110" xml:space="preserve">  <image id="image0" width="103" height="110" x="0" y="0"
+    xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGcAAABuCAMAAAANkP0DAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
 AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAB11BMVEUAAAAAK2oANGcAM2YA
 M2cANGMANGYAM2YAM2gAOXEAMmYAM2YAM2YAM2YAM2YANGYAOWgAM2cAM2YANGYAJG0ANGYAAAAA
 NGgAM2YAN2oAMmgAM2YAQGAANmcALWkANWoANGwANmwAM2UANWkAOmsAM2cAM2YANGgAM2YAM2YA
@@ -28,5 +26,5 @@ vae9fcmcZ899DvTiZRKnvt/u87Zg85xXrylO6I0IM895K8PMdXIGKM7gOyFmjvN+iOIYH6SYeGf4
 J8X5OCLGxDmf5Bi4PseYL18FnWDVDPOtUpDB6NiMkz4q6bTErm1ckmmKxhxJpmRCEZzOyZ6/jPou
 1Y+JWeP99Bsq1VT8B7tOR+wXP4MLW2E1nLoAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTktMTEtMjZU
 MTg6Mzc6NDkrMDM6MDBeb/SWAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE5LTExLTI2VDE4OjM3OjQ5
-KzAzOjAwLzJMKgAAAABJRU5ErkJggg=="/>
+KzAzOjAwLzJMKgAAAABJRU5ErkJggg==" />
 </svg>

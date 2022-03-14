@@ -1,5 +1,5 @@
 import React from 'react';
-import { ISignalrData, ISignalrMethods } from './models';
+import { ISignalrMethods, ISignalrData } from './models';
 import { IWrapper } from '@frontend/util';
 
 const signalrInitialStore: IWrapper<ISignalrData, ISignalrMethods> = {

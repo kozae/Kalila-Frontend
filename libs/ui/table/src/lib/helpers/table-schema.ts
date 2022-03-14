@@ -1,5 +1,10 @@
-import { IDataEntrySchema, stringHasValue } from '@frontend/util';
+import {
+  ActivitySchema,
+  IDataEntrySchema,
+  stringHasValue,
+} from '@frontend/util';
 import * as lodash from 'lodash';
+import { fetchSchema } from '@frontend/shared-ui';
 import { useMemo } from 'react';
 
 export interface ITableSchema {

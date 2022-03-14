@@ -5,17 +5,17 @@ import InsertPhotoTwoToneIcon from '@mui/icons-material/InsertPhotoTwoTone';
 import TextSnippetTwoToneIcon from '@mui/icons-material/TextSnippetTwoTone';
 import MoveUpTwoToneIcon from '@mui/icons-material/MoveUpTwoTone';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { kalilaTheme } from '@frontend/shared-ui';
-import * as uuid from 'uuid';
-import { highlightColors } from '@frontend/ui/facsimile';
 import {
   addImageElement,
   addTextElement,
+  kalilaTheme,
   onElementSelected,
   setTextEditingToolMode,
   TextEditingToolMode,
   useAppDispatch,
-} from '@frontend/ui/store';
+} from '@frontend/shared-ui';
+import * as uuid from 'uuid';
+import { highlightColors } from '@frontend/ui/facsimile';
 
 export interface ILayoutAnalysisCommandBarProps {
   numberOfTextElements: number;

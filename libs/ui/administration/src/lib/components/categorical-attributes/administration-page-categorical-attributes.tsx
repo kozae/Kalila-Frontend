@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useMemo } from 'react';
 import {
   GenericCell,
   getSelectionColumn,
@@ -20,6 +19,9 @@ import {
   fetchSchema,
   NotificationBar,
   useNotificationBar,
+  usePagedDocumentsDispatch,
+  usePagedDocumentsState,
+  usePagedDocumentsStore,
   useSignalrUpdates,
 } from '@frontend/shared-ui';
 import { CategoricalAttribute } from '@frontend/domain';
@@ -29,11 +31,13 @@ import {
   useDeleteHandler,
   useUpdateHandler,
 } from '../shared/admin-page.hooks';
+import { useMemo } from 'react';
 import { AlertColor } from '@mui/material/Alert/Alert';
 import Stack from '@mui/material/Stack';
 import {
   ActivitySchema,
   IDataEntrySchema,
+  defaultPagination,
   InputModes,
   KalilaValueTypes,
   MediaTypes,
@@ -42,11 +46,6 @@ import { CreateAttributeModal } from './modals';
 import { EditAttributeModal } from './modals/edit-attribute-modal';
 import { Column } from 'react-table';
 import { plainToClass } from 'class-transformer';
-import {
-  usePagedDocumentsDispatch,
-  usePagedDocumentsState,
-  usePagedDocumentsStore,
-} from '@frontend/ui/store';
 
 export const AdministrationPageCategoricalAttributes: React.FC = () => {
   const router = useRouter();

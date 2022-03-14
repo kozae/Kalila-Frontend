@@ -1,19 +1,8 @@
-import { kalilaTheme } from '@frontend/shared-ui';
-import React, { useCallback, useContext, useState } from 'react';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import { IFacsimileRegion } from '@frontend/domain';
-import { TextElementInfoForm } from './text-element-info-form';
-import { ImageElementInfoForm } from './image-element-info-form';
-import { RegionDefinitionKeyboardInstructions } from '@frontend/ui/text-editing/shared';
-import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
-import { createRegionsDataUrls } from '@frontend/ui/facsimile';
 import {
   addDataUrl,
   cancelCreateImageElement,
   cancelCreateTextElement,
+  kalilaTheme,
   onElementSelected,
   selectImageElementById,
   selectRegionUnderEditUrl,
@@ -22,7 +11,18 @@ import {
   updateTextElement,
   useAppDispatch,
   useAppSelector,
-} from '@frontend/ui/store';
+} from '@frontend/shared-ui';
+import React, { useCallback, useContext, useState } from 'react';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import { IFacsimileRegion } from '@frontend/domain';
+import { TextElementInfoForm } from './text-element-info-form';
+import { ImageElementInfoForm } from './image-element-info-form';
+import { RegionDefinitionKeyboardInstructions } from '../../../shared/src/lib/region-definition-keyboard-instructions';
+import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
+import { createRegionsDataUrls } from '@frontend/ui/facsimile';
 
 export const EditLayoutElement = ({
   selectedElement,

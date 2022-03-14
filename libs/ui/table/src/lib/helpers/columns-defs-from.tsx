@@ -1,13 +1,9 @@
 import React from 'react';
 import { Column } from 'react-table';
 import { ITableSchema } from './table-schema';
-import {
-  ColumnGroupHeader,
-  GrayHeader,
-  PrimaryGreenHeader,
-  WhiteHeader,
-} from '../headers';
+import { ColumnGroupHeader } from '../headers';
 import { isOdd, KalilaValueTypes } from '@frontend/util';
+import { GrayHeader, PrimaryGreenHeader, WhiteHeader } from '../headers';
 import { CellSelector } from '../cells';
 import { KeyValueCell } from '../cells/key-value-cell';
 import { EditorCell } from '../cells/editor-cell';

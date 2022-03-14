@@ -7,7 +7,13 @@ import {
   useDocumentDetailedViewContext,
 } from './documents-detailed-view.context';
 import {
+  selectAttributes,
+  selectFields,
+  useAppSelector,
   useBoolean,
+  usePagedDocumentsDispatch,
+  usePagedDocumentsState,
+  usePagedDocumentsStore,
   useSignalrUpdates,
   useSmallScreenMediaQuery,
 } from '@frontend/shared-ui';
@@ -25,14 +31,6 @@ import Stack from '@mui/material/Stack';
 import { DocumentsDetailedViewActions } from './documents-detailed-view-actions';
 import { ConfigureColumnsModal } from './modals';
 import { useExcludedColumns } from './hooks';
-import {
-  selectAttributes,
-  selectFields,
-  useAppSelector,
-  usePagedDocumentsDispatch,
-  usePagedDocumentsState,
-  usePagedDocumentsStore,
-} from '@frontend/ui/store';
 
 export interface IDocumentsDetailedViewProps<T extends KalilaDocument> {
   cls: ClassConstructor<T>;

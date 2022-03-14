@@ -1,16 +1,17 @@
-import { kalilaTheme } from '@frontend/shared-ui';
-import Portal from '@mui/material/Portal';
-import { AnimatePresence, motion } from 'framer-motion';
-import Stack from '@mui/material/Stack';
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-import Typography from '@mui/material/Typography';
 import {
+  kalilaTheme,
   selectRegionHoveredInFacsimileSpace,
   selectTextEditingAccessMode,
   selectTextEditingActiveWorkspace,
   selectTextEditingToolMode,
   useAppSelector,
-} from '@frontend/ui/store';
+  useXLargeScreenMediaQuery,
+} from '@frontend/shared-ui';
+import Portal from '@mui/material/Portal';
+import { AnimatePresence, motion } from 'framer-motion';
+import Stack from '@mui/material/Stack';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import Typography from '@mui/material/Typography';
 
 const PulsingInfoIcon = () => (
   <motion.div

@@ -3,22 +3,22 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { AnimatePresence, motion } from 'framer-motion';
-import { kalilaTheme } from '@frontend/shared-ui';
+import {
+  kalilaTheme,
+  selectSelectedElement,
+  selectTextEditingActiveWorkspace,
+  useAppDispatch,
+  useAppSelector,
+  discardLayoutChanges,
+  saveLayoutChanges,
+  selectTextEditingToolMode,
+  discardLineChanges,
+  saveLineChanges,
+} from '@frontend/shared-ui';
 import { hexToRgba } from '@frontend/util';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { useCallback } from 'react';
-import {
-  discardLayoutChanges,
-  discardLineChanges,
-  saveLayoutChanges,
-  saveLineChanges,
-  selectSelectedElement,
-  selectTextEditingActiveWorkspace,
-  selectTextEditingToolMode,
-  useAppDispatch,
-  useAppSelector,
-} from '@frontend/ui/store';
 
 export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
   const selectedElement = useAppSelector(selectSelectedElement);

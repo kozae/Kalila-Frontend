@@ -9,14 +9,19 @@ import { ClassConstructor } from 'class-transformer/types/interfaces';
 import { KalilaForm } from '@frontend/ui/forms';
 import { KalilaDocument } from '@frontend/domain';
 import Button from '@mui/material/Button';
-import { DialogHeading, kalilaTheme, UndrawAddSVG } from '@frontend/shared-ui';
+import {
+  DialogHeading,
+  kalilaTheme,
+  selectEditors,
+  UndrawAddSVG,
+  useAppSelector,
+} from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
 import { SxProps } from '@mui/system/styleFunctionSx';
-import { selectEditors, useAppSelector } from '@frontend/ui/store';
 
 export interface ICreateModalProps<T extends KalilaDocument> {
   cls: ClassConstructor<T>; // just for type inference

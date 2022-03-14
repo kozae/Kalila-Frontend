@@ -1,6 +1,13 @@
 import Stack from '@mui/material/Stack';
 import { LineToolCommandBar } from './line-tool-command-bar';
 import {
+  kalilaTheme,
+  selectAllLines,
+  selectAllTextElements,
+  selectManyRegionDataUrlById,
+  useAppSelector,
+} from '@frontend/shared-ui';
+import {
   ILayoutElementSummaryProps,
   LayoutElementSummary,
 } from '@frontend/ui/text-editing/shared';
@@ -9,13 +16,6 @@ import { LineSummary } from './line-summary';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {
-  selectAllLines,
-  selectAllTextElements,
-  selectManyRegionDataUrlById,
-  useAppSelector,
-} from '@frontend/ui/store';
-import { kalilaTheme } from '@frontend/shared-ui';
 
 export const LineList = () => {
   const textElements = useAppSelector(selectAllTextElements);

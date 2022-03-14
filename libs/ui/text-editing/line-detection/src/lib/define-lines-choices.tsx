@@ -3,11 +3,6 @@ import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import { AutomaticLineDetection } from './automatic-line-detection';
 import { useSingleLineGenerationHandler } from './hooks';
-import { LineGeneration } from './line-generation';
-import Paper from '@mui/material/Paper';
-import React from 'react';
-import Typography from '@mui/material/Typography';
-import * as uuid from 'uuid';
 import {
   loadGeneratedLines,
   selectFirstTextElement,
@@ -15,7 +10,12 @@ import {
   setTextEditingToolMode,
   useAppDispatch,
   useAppSelector,
-} from '@frontend/ui/store';
+} from '@frontend/shared-ui';
+import { LineGeneration } from './line-generation';
+import Paper from '@mui/material/Paper';
+import React from 'react';
+import Typography from '@mui/material/Typography';
+import * as uuid from 'uuid';
 
 const OptionContainer: React.FC<{ instruction: string }> = ({
   children,

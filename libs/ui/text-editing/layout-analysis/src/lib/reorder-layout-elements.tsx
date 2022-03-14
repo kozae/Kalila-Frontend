@@ -8,14 +8,14 @@ import {
 } from '@frontend/ui/text-editing/shared';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Sortable } from '@frontend/shared-ui';
-import { useCallback, useEffect, useState } from 'react';
-import update from 'immutability-helper';
 import {
+  Sortable,
   updateImageElement,
   updateTextElement,
   useAppDispatch,
-} from '@frontend/ui/store';
+} from '@frontend/shared-ui';
+import { useCallback, useEffect, useState } from 'react';
+import update from 'immutability-helper';
 
 export interface IReorderLayoutElementsProps {
   dataUrls: Record<string, string>;
