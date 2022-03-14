@@ -1,6 +1,10 @@
 import { ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { ITextEditingPageState } from '../models';
-import { saveLayoutChanges, saveLineChanges } from '../thunks';
+import {
+  saveLayoutChanges,
+  saveLineChanges,
+  saveTokenChanges,
+} from '../thunks';
 
 export function addSaveReducers(
   builder: ActionReducerMapBuilder<ITextEditingPageState>
@@ -21,5 +25,13 @@ export function addSaveReducers(
     state.deleteLines = [];
     state.moveLines = {};
     state.linesBeforeChanges = action.payload.Lines;
+    if (action.payload.withTokens) {
+      state.postTokens = [];
+      state.tokensBeforeChanges = action.payload.Tokens;
+    }
+  });
+  builder.addCase(saveTokenChanges.fulfilled, (state, action) => {
+    state.postTokens = [];
+    state.tokensBeforeChanges = action.payload.Tokens;
   });
 }

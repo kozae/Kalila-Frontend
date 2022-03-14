@@ -1,4 +1,9 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  isFulfilled,
+  isPending,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { IFacsimileRegion } from '@frontend/domain';
 import {
   ITextEditingPageState,
@@ -12,6 +17,18 @@ import {
   addSaveReducers,
   addUpdateCollectors,
 } from './extra-reducers';
+import { saveLayoutChanges, saveLineChanges, saveTokenChanges } from './thunks';
+
+const savePending = isPending(
+  saveLineChanges,
+  saveLayoutChanges,
+  saveTokenChanges
+);
+const saveComplete = isFulfilled(
+  saveLineChanges,
+  saveLayoutChanges,
+  saveTokenChanges
+);
 
 const initialState: ITextEditingPageState = {
   accessMode: 'view',
@@ -56,6 +73,7 @@ const initialState: ITextEditingPageState = {
   putImages: [],
   putLines: [],
   putTextElements: [],
+  saving: false,
 };
 
 export const textEditingPageSlice = createSlice({
@@ -122,6 +140,12 @@ export const textEditingPageSlice = createSlice({
     addSaveReducers(builder);
     addDataBeforeChangeSetters(builder);
     addUpdateCollectors(builder);
+    builder.addMatcher(savePending, (state) => {
+      state.saving = true;
+    });
+    builder.addMatcher(saveComplete, (state) => {
+      state.saving = false;
+    });
   },
 });
 

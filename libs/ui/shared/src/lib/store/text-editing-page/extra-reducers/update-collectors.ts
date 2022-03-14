@@ -21,6 +21,7 @@ import {
   updateLine,
   updateManyLines,
 } from '../../page-transcription/lines';
+import { updateManyTokens } from '../../page-transcription/tokens';
 
 export function addUpdateCollectors(
   builder: ActionReducerMapBuilder<ITextEditingPageState>
@@ -113,6 +114,14 @@ export function addUpdateCollectors(
       } else {
         state.moveLines[update.LineId] = update.Target;
         state.putLines = state.putLines.filter((id) => id === update.LineId);
+      }
+    });
+  });
+  builder.addCase(updateManyTokens, (state, action) => {
+    action.payload.forEach((update) => {
+      const lineId = update.changes.LineId as string;
+      if (!state.postTokens.includes(lineId)) {
+        state.postTokens.push(lineId);
       }
     });
   });

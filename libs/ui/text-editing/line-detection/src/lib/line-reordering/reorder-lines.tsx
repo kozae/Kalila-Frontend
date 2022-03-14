@@ -6,14 +6,16 @@ import {
   selectAllTextElements,
   selectLinesDictionary,
   selectManyRegionDataUrlById,
+  selectTokensDictionary,
   updateManyLines,
+  updateManyTokens,
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
 import { debounce, orderBy } from 'lodash';
 import Box from '@mui/material/Box';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { IFacsimileRegion, ILine } from '@frontend/domain';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { IFacsimileRegion, ILine, IToken } from '@frontend/domain';
 import GridLayout, { Layout } from 'react-grid-layout';
 import { ITextElementMarkProps, TextElementMark } from './text-element-mark';
 import { ISortableLineProps, SortableLine } from './sortable-line';
@@ -48,6 +50,7 @@ export const ReorderLines = () => {
   const handleHover = (region: (IFacsimileRegion & { Id: string }) | null) =>
     dispatch(onRegionHoveredInToolSpace(region));
   const lines = useAppSelector(selectLinesDictionary);
+  const tokens = useAppSelector(selectTokensDictionary);
   const urls = useAppSelector((state) =>
     selectManyRegionDataUrlById(state, [
       ...textElements.map((el) => el._id),
@@ -204,9 +207,12 @@ export const ReorderLines = () => {
     return [...main, ...other];
   }, [lineToContainerMap]);
 
+  const tokenList = Object.values(tokens);
   const handleOrderChange = (l: Layout[]) => {
     const mainLines: Array<Omit<ILine, 'Tokens'> & { ElementId: string }> = [];
+    const mainTokens: Array<IToken & { LineId: string }> = [];
     const otherLines: Array<Omit<ILine, 'Tokens'> & { ElementId: string }> = [];
+    const otherTokens: Array<IToken & { LineId: string }> = [];
     let lastSeenElementMarker: string;
     orderBy(l, 'y').forEach((e) => {
       if (elementIds.includes(e.i)) {
@@ -214,10 +220,16 @@ export const ReorderLines = () => {
       } else {
         const line = lines[e.i];
         if (line) {
+          const lineTokens = tokenList.filter(
+            (t) => t && t.LineId === line._id
+          ) as Array<IToken & { LineId: string }>;
           if (mainBodyElementIds.includes(lastSeenElementMarker)) {
             mainLines.push({ ...line, ElementId: lastSeenElementMarker });
+
+            mainTokens.push(...lineTokens);
           } else {
             otherLines.push({ ...line, ElementId: lastSeenElementMarker });
+            otherTokens.push(...lineTokens);
           }
         }
       }
@@ -225,9 +237,10 @@ export const ReorderLines = () => {
     const reorderUpdates: Update<
       Omit<ILine, 'Tokens'> & { ElementId: string }
     >[] = [];
+    const tokenUpdates: Update<IToken & { LineId: string }>[] = [];
     const moveUpdates: { LineId: string; Target: string; LineOrder: number }[] =
       [];
-    const createUpdate = (
+    const createLineUpdate = (
       updatedLine: Omit<ILine, 'Tokens'> & { ElementId: string },
       index: number
     ) => {
@@ -252,12 +265,25 @@ export const ReorderLines = () => {
         });
       }
     };
-    mainLines.forEach(createUpdate);
-    otherLines.forEach(createUpdate);
+    const createTokenUpdates = (
+      updatedToken: IToken & { LineId: string },
+      index: number
+    ) => {
+      const originalToken = tokens[updatedToken._id];
+      if (originalToken && originalToken.OrderInPage !== index) {
+        tokenUpdates.push({
+          id: updatedToken._id,
+          changes: { OrderInPage: index, LineId: originalToken.LineId }, // line id is added only for keeping track
+        });
+      }
+    };
+    mainLines.forEach(createLineUpdate);
+    otherLines.forEach(createLineUpdate);
+    mainTokens.forEach(createTokenUpdates);
+    otherTokens.forEach(createTokenUpdates);
     dispatch(updateManyLines(reorderUpdates));
     dispatch(moveLines(moveUpdates));
-    // todo CHECK THE THUNK, it does not seem like it is executing requests
-    // todo reorder tokens
+    dispatch(updateManyTokens(tokenUpdates));
   };
 
   const createGrid = useCallback(

@@ -12,8 +12,9 @@ export const tokenSlice = createSlice({
   initialState,
   reducers: {
     loadTokens: tokenAdapter.setAll,
+    updateManyTokens: tokenAdapter.updateMany,
     clearTokens: tokenAdapter.removeAll,
   },
 });
 
-export const { loadTokens, clearTokens } = tokenSlice.actions;
+export const { loadTokens, clearTokens, updateManyTokens } = tokenSlice.actions;

@@ -10,6 +10,7 @@ import {
   FacsimileSpace,
   MessageBar,
   ToolSpace,
+  SavingIndicator,
 } from './components';
 import { useAccessModeSettings } from './hooks/access-mode-settings.hook';
 import { useImageAsFabricObject } from './hooks';
@@ -35,6 +36,7 @@ export function TextEditingWorkspace({ pageData, imageSize }: any) {
         <ToolSpace />
         <CommandBar hasChanges={workspaceHasChanges} />
         <MessageBar />
+        <SavingIndicator />
       </Stack>
     </TextEditingWorkspaceContext.Provider>
   );

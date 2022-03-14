@@ -14,6 +14,8 @@ import {
   selectTextEditingToolMode,
   discardLineChanges,
   saveLineChanges,
+  discardTokenChanges,
+  saveTokenChanges,
 } from '@frontend/shared-ui';
 import { hexToRgba } from '@frontend/util';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
@@ -36,6 +38,7 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
         break;
       case 'lines':
         dispatch(discardLineChanges({}));
+        dispatch(discardTokenChanges({}));
         break;
       case 'transcription':
         break;
@@ -54,7 +57,7 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
         dispatch(saveLayoutChanges({}));
         break;
       case 'lines':
-        dispatch(saveLineChanges({}));
+        dispatch(saveLineChanges({ withTokens: true }));
         break;
       case 'transcription':
         break;

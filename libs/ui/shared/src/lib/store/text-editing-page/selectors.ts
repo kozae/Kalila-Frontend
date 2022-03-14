@@ -42,6 +42,11 @@ export const selectRegionUnderEditUrl = createSelector(
   (state) => state.regionUnderEditUrl
 );
 
+export const selectIsSaving = createSelector(
+  selectTextEditingPageState,
+  (state) => state.saving
+);
+
 export const selectLayoutHasChanges = createSelector(
   selectTextEditingPageState,
   (state) =>

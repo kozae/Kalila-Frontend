@@ -28,7 +28,7 @@ export const store = configureStore({
     [unitSummariesSlice.name]: unitSummariesSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-  devTools: false,
+  devTools: true,
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

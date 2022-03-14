@@ -47,7 +47,7 @@ export interface ITextEditingPageState {
   textElementsBeforeChanges: Omit<ITextElement, 'Lines'>[];
   imageElementsBeforeChanges: IImageElement[];
   linesBeforeChanges: (Omit<ILine, 'Tokens'> & { ElementId: string })[];
-  tokensBeforeChanges: IToken[];
+  tokensBeforeChanges: (IToken & { LineId: string })[];
   unitSummariesBeforeChanges: IUnitSummary[];
   regionUnderEditUrl: string | null;
   deleteLayoutImages: string[];
@@ -57,8 +57,9 @@ export interface ITextEditingPageState {
   postLayoutImages: string[];
   postLayoutTextElements: string[];
   postLines: string[];
-  postTokens: string[];
+  postTokens: string[]; // array of line ids, whose tokens to be replaced
   putImages: string[];
   putLines: string[];
   putTextElements: string[];
+  saving: boolean;
 }
