@@ -13,7 +13,7 @@ import {
   useSchemaFilter,
 } from '@frontend/ui/documents-detailed-view';
 import { ManuscriptDescription } from '@frontend/domain';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { getSchema } from '@frontend/server-side-queries';
 import { useSchemaStore } from '@frontend/ui/store';
 
@@ -55,12 +55,11 @@ export function ManuscriptDescriptionPage({ schema }) {
 
 export default withTransition(ManuscriptDescriptionPage, {});
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const schema = await getSchema('ManuscriptDescription');
   return {
     props: {
       schema,
     },
-    revalidate: 30,
   };
 };

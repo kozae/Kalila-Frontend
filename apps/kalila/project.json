@@ -23,7 +23,7 @@
         "buildTarget": "kalila:build",
         "dev": true,
         "buildLibsFromSource": true,
-        "port": 6000,
+        "port": 6000
       },
       "configurations": {
         "production": {
