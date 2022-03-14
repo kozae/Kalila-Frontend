@@ -34,7 +34,11 @@ export function useFacsimileCanvasEffects(
         console.log('rerendering image only');
         canvasState.renderPageFacsimile(canvasState.canvas);
       }
-      if (['lines', 'layout'].includes(canvasState.regions.activeWorkspace)) {
+      if (
+        ['lines', 'layout', 'transcription'].includes(
+          canvasState.regions.activeWorkspace
+        )
+      ) {
         console.log('rerendering image and polygons');
         canvasState.renderPageFacsimile(canvasState.canvas);
         canvasState.renderPolygons(

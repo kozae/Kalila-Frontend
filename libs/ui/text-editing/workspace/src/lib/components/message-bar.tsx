@@ -67,7 +67,9 @@ export const MessageBar = () => {
     selectRegionHoveredInFacsimileSpace
   );
   const showClickToEdit =
-    regionHoveredInFacsimileSpace && accessMode === 'edit';
+    regionHoveredInFacsimileSpace &&
+    accessMode === 'edit' &&
+    ['layout', 'lines'].includes(activeWorkspace);
   const showDragElements =
     activeWorkspace === 'layout' && toolMode === 'reorder';
   const showDragLines = activeWorkspace === 'lines' && toolMode === 'reorder';

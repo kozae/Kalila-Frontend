@@ -32,8 +32,10 @@ export function workspaceProcedure({
       renderLayoutWorkspace(props);
       return;
     case 'lines':
+      renderLinesWorkspace({ ...props, clickEvents: true });
+      return;
     case 'transcription':
-      renderLinesWorkspace(props);
+      renderLinesWorkspace({ ...props, clickEvents: false });
       return;
     default:
       return;

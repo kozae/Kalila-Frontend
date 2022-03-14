@@ -22,6 +22,7 @@ import {
   useAppSelector,
 } from '@frontend/shared-ui';
 import { LineDetectionTool } from '@frontend/ui/text-editing/line-detection';
+import { TranscriptionTool } from '../../../../../transcription/src/lib/transcription-tool';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -187,7 +188,7 @@ export const ToolSpace = () => {
                 <LineDetectionTool />
               </TabPanel>
               <TabPanel value={tabIndex} index={3} dir={theme.direction}>
-                Item Four
+                <TranscriptionTool />
               </TabPanel>
               <TabPanel value={tabIndex} index={4} dir={theme.direction}>
                 Item Five

@@ -22,6 +22,7 @@ export type LinesProcedureProps = {
     id: string | null;
     region: IFacsimileRegion | null;
   }) => void;
+  clickEvents: boolean;
 };
 
 export function renderLinesWorkspace({
@@ -32,6 +33,7 @@ export function renderLinesWorkspace({
   showHighlight,
   onRegionHighlighted,
   onElementSelected,
+  clickEvents,
 }: LinesProcedureProps) {
   drawPolygons(canvas, polygons);
   addTextToPolygons(canvas, polygons, (data) => `${data.Text}`);
@@ -46,7 +48,7 @@ export function renderLinesWorkspace({
       onRegionHighlighted(null);
     },
     onClicked: (id, region) => {
-      onElementSelected({ id, region });
+      clickEvents && onElementSelected({ id, region });
     },
   });
 }
