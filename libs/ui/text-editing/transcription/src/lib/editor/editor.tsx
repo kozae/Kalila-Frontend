@@ -7,7 +7,7 @@ import {
   onRegionHoveredInToolSpace,
   useAppDispatch,
 } from '@frontend/shared-ui';
-import { ILine, IToken } from '@frontend/domain';
+import { ILine, IToken, TokenState } from '@frontend/domain';
 import { EditorLine } from './editor-line';
 import { LinePreview } from './line-preview';
 import { CommandBar } from './command-bar';
@@ -15,14 +15,7 @@ import ObjectID from 'bson-objectid';
 import { flatten } from 'lodash';
 
 type EditorTokenModel = {
-  state?:
-    | 'sound'
-    | 'corrupt'
-    | 'emended'
-    | 'illegible'
-    | 'dittography'
-    | 'cross-out'
-    | 'added';
+  state?: TokenState;
   text: string;
   id?: string | number | undefined;
 };
