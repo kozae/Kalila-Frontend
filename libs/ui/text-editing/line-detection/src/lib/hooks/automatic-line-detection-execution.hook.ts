@@ -54,7 +54,7 @@ const transformResultsToKalilaLines = (
   const lines: Array<Omit<ILine, 'Tokens'> & { ElementId: string }> = [];
   for (let [id, tesseractLines] of Object.entries(result)) {
     console.log({ tesseractLines });
-    const el = textElements.find((el) => el._id === id) as Omit<
+    const el = textElements.find((el) => el.Id === id) as Omit<
       ITextElement,
       'Lines'
     >;
@@ -68,7 +68,7 @@ const transformResultsToKalilaLines = (
     );
     lines.push(
       ...tesseractLines.map(({ bbox }, index) => ({
-        _id: 'generated_' + uuid.v4(),
+        Id: 'generated_' + uuid.v4(),
         LineOrder: index + 1,
         ElementId: id,
         HighlightColor: highlightColors[index % 13],

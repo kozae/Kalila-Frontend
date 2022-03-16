@@ -33,7 +33,7 @@ export const EditLine = ({
   const line = useAppSelector((state) =>
     selectLineById(state, selectedLine.id as string)
   );
-  const title = line && line._id.length === 24 ? 'Edit Line' : 'Define Line';
+  const title = line && line.Id.length === 24 ? 'Edit Line' : 'Define Line';
   const handleSave = useCallback(() => {
     dispatch(
       updateLine({

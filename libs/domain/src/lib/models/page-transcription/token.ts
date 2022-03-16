@@ -23,7 +23,7 @@ export type TokenState =
   | 'added_end';
 
 export interface IToken {
-  _id: string;
+  Id: string;
   RawToken: string;
   MorphemeType: string;
   SpaceFollows: boolean;

@@ -13,7 +13,7 @@ export const {
 
 export const selectAllLinesRegions = createSelector(selectAllLines, (li) =>
   li.map((l) => ({
-    Id: l._id,
+    Id: l.Id,
     HighlightColor: l.HighlightColor,
     Text: ` ${l.LineOrder + 1} `,
     ...l.FacsimileRegion,
@@ -21,7 +21,7 @@ export const selectAllLinesRegions = createSelector(selectAllLines, (li) =>
 );
 
 export const selectAllLinesIds = createSelector(selectAllLines, (li) =>
-  li.map((l) => l._id)
+  li.map((l) => l.Id)
 );
 
 export const selectNumberOfLines = createSelector(

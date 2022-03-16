@@ -1,11 +1,9 @@
 import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
 import { GetServerSideProps } from 'next';
 import {
-  queryServerSide,
   siglum,
   pages,
   pageTranscription,
-  sigla,
   getImageSize,
 } from '@frontend/server-side-queries';
 import Head from 'next/head';
@@ -27,17 +25,17 @@ export function EditPage({
   const router = useRouter();
 
   const messages = pageTitle(siglum ?? 'NotFetched');
-  // useNavbarMessage(messages, undefined, {
-  //   name: 'manuscript-pages-paginator',
-  //   data: { allPages, manuscriptId, current: pageData.Number },
-  // });
+  useNavbarMessage(messages, undefined, {
+    name: 'manuscript-pages-paginator',
+    data: { allPages, manuscriptId, current: pageData.Number },
+  });
 
   return (
     <>
       <Head>
         <title>{messages.join(' ') + ` (${pageData?.Number})`}</title>
       </Head>
-      {/*<TextEditingWorkspace pageData={pageData} imageSize={imageSize} />*/}
+      <TextEditingWorkspace pageData={pageData} imageSize={imageSize} />
     </>
   );
 }
@@ -48,15 +46,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const manuscriptId = context.params['manuscript'] as string;
   const pageId = context.params['page'] as string;
   try {
-    // const query = {
-    //   siglum: await siglum(manuscriptId),
-    // };
-    // // const imageSize = await getImageSize(query.pageData.FacsimileImageUrl);
-    //
-    // console.log({ query });
+    const query = {
+      siglum: await siglum(manuscriptId),
+      pageData: await pageTranscription(manuscriptId, pageId),
+      allPages: await pages(manuscriptId),
+    };
+    const imageSize = await getImageSize(query.pageData.FacsimileImageUrl);
 
     return {
-      props: {},
+      props: {
+        ...query,
+        manuscriptId,
+        imageSize,
+      },
     };
   } catch (err) {
     console.log({ err });

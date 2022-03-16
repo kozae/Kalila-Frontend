@@ -13,7 +13,7 @@ export const selectAllImageElementsRegions = createSelector(
   selectAllImageElements,
   (ie) =>
     ie.map((e) => ({
-      Id: e._id,
+      Id: e.Id,
       HighlightColor: e.HighlightColor,
       Text: ` ${e.Order + 1} `,
       ...e.FacsimileRegion,
@@ -22,5 +22,5 @@ export const selectAllImageElementsRegions = createSelector(
 
 export const selectAllImageElementsIds = createSelector(
   selectAllImageElements,
-  (ie) => ie.map((e) => e._id)
+  (ie) => ie.map((e) => e.Id)
 );

@@ -20,7 +20,7 @@ import Button from '@mui/material/Button';
 import { IFacsimileRegion } from '@frontend/domain';
 import { TextElementInfoForm } from './text-element-info-form';
 import { ImageElementInfoForm } from './image-element-info-form';
-import { RegionDefinitionKeyboardInstructions } from '../../../shared/src/lib/region-definition-keyboard-instructions';
+import { RegionDefinitionKeyboardInstructions } from '@frontend/ui/text-editing/shared';
 import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 import { createRegionsDataUrls } from '@frontend/ui/facsimile';
 
@@ -41,11 +41,11 @@ export const EditLayoutElement = ({
   const [position, setPosition] = useState<string>('');
 
   const title =
-    textElement && textElement._id.length === 24
+    textElement && textElement.Id.length === 24
       ? 'Edit Text Element'
-      : textElement && textElement._id.length !== 24
+      : textElement && textElement.Id.length !== 24
       ? 'Define Text Element'
-      : imageElement && imageElement._id.length === 24
+      : imageElement && imageElement.Id.length === 24
       ? 'Edit Image Element'
       : 'Define Image Element';
 

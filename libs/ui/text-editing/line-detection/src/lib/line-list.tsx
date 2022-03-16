@@ -22,14 +22,14 @@ export const LineList = () => {
   const lines = useAppSelector(selectAllLines);
   const urls = useAppSelector((state) =>
     selectManyRegionDataUrlById(state, [
-      ...textElements.map((el) => el._id),
-      ...lines.map((l) => l._id),
+      ...textElements.map((el) => el.Id),
+      ...lines.map((l) => l.Id),
     ])
   );
   const elementSummaries: ILayoutElementSummaryProps[] = orderBy(
     textElements.map((el) => ({
       ...el,
-      url: urls[el._id],
+      url: urls[el.Id],
       icon: 'text',
       maxHeight: '5vh',
       width: '90%',
@@ -54,7 +54,7 @@ export const LineList = () => {
     );
 
   const createElementLineList = (el: ILayoutElementSummaryProps) => {
-    const presentLines = linesOfElement(el._id);
+    const presentLines = linesOfElement(el.Id);
     const title =
       presentLines.length === 0
         ? 'no lines'
@@ -62,7 +62,7 @@ export const LineList = () => {
         ? `[${presentLines.length} lines]`
         : '[one line]';
     return (
-      <LayoutElementSummary key={el._id} {...el} title={title}>
+      <LayoutElementSummary key={el.Id} {...el} title={title}>
         <Stack
           sx={{
             width: '100%',
@@ -79,8 +79,8 @@ export const LineList = () => {
           {presentLines.map((l) => (
             <LineSummary
               buttons={true}
-              key={l._id}
-              url={urls[l._id]}
+              key={l.Id}
+              url={urls[l.Id]}
               line={l}
               maxHeight="5vh"
             />

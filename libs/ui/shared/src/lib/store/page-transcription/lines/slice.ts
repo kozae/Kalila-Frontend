@@ -9,7 +9,7 @@ import { discardLineChanges, saveLineChanges } from '../../text-editing-page';
 export const linesAdapter = createEntityAdapter<
   Omit<ILine, 'Tokens'> & { ElementId: string }
 >({
-  selectId: (doc) => doc._id,
+  selectId: (doc) => doc.Id,
 });
 
 const initialState = linesAdapter.getInitialState();

@@ -1,30 +1,27 @@
 import axios from 'axios';
 import { IImageElement, ITextElement } from '@frontend/domain';
 import { RootState } from '../../../../config';
-import { omit } from 'lodash';
 import { getParams, PageParams } from '../helpers';
 import { cleanObject } from '@frontend/util';
 import ObjectID from 'bson-objectid';
 
 export async function postLayout(state: RootState) {
-  const TextElements: Array<
-    Omit<ITextElement, 'Lines' | '_id'> & { Id: string }
-  > = [];
-  const Images: Array<Omit<IImageElement, '_id'> & { Id: string }> = [];
+  const TextElements: Array<Omit<ITextElement, 'Lines'>> = [];
+  const Images: Array<IImageElement> = [];
   state.textEditingPageState.postLayoutTextElements.forEach((id) => {
     TextElements.push(
       cleanObject({
-        ...omit(state.textElements.entities[id], '_id'),
+        ...state.textElements.entities[id],
         Id: ObjectID().toString(),
-      }) as Omit<ITextElement, 'Lines' | '_id'> & { Id: string }
+      }) as Omit<ITextElement, 'Lines'>
     );
   });
   state.textEditingPageState.postLayoutImages.forEach((id) => {
     Images.push(
       cleanObject({
-        ...omit(state.imageElements.entities[id], '_id'),
+        ...state.imageElements.entities[id],
         Id: ObjectID().toString(),
-      }) as Omit<IImageElement, '_id'> & { Id: string }
+      }) as IImageElement
     );
   });
   if (Images.length === 0 && TextElements.length === 0) {
@@ -43,8 +40,8 @@ export async function postLayout(state: RootState) {
 
 async function postLayoutHTTP(
   data: {
-    Images: Array<Omit<IImageElement, '_id'> & { Id: string }>;
-    TextElements: Array<Omit<ITextElement, 'Lines' | '_id'> & { Id: string }>;
+    Images: Array<IImageElement>;
+    TextElements: Array<Omit<ITextElement, 'Lines'>>;
   },
   { accessToken, manuscriptId, pageId }: PageParams
 ) {

@@ -38,7 +38,7 @@ export const LineSummary = ({
     dispatch(onElementSelected({ id, region }));
 
   const lineHasTokens = useAppSelector((state) =>
-    selectLineHasTokens(state, line._id)
+    selectLineHasTokens(state, line.Id)
   );
 
   const handleDelete = (id: string) => {
@@ -87,7 +87,7 @@ export const LineSummary = ({
           onMouseEnter={() =>
             handleHover({
               ...line.FacsimileRegion,
-              Id: line._id,
+              Id: line.Id,
             } as IFacsimileRegion & { Id: string })
           }
           onMouseLeave={() => handleHover(null)}
@@ -117,7 +117,7 @@ export const LineSummary = ({
           alignItems="center"
         >
           <IconButton
-            onClick={() => handleSelection(line._id, line.FacsimileRegion)}
+            onClick={() => handleSelection(line.Id, line.FacsimileRegion)}
             color="secondary"
             size="medium"
           >
@@ -125,7 +125,7 @@ export const LineSummary = ({
           </IconButton>
           {canDelete && (
             <IconButton
-              onClick={() => handleDelete(line._id)}
+              onClick={() => handleDelete(line.Id)}
               color="error"
               size="medium"
             >

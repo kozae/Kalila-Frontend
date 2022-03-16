@@ -27,9 +27,9 @@ export function useSingleLineGenerationHandler() {
       element.FacsimileRegion?.Points as IPoint[]
     );
     const line: Omit<ILine, 'Tokens'> & { ElementId: string } = {
-      _id: id,
+      Id: id,
       LineOrder: order,
-      ElementId: element._id,
+      ElementId: element.Id,
       HighlightColor: highlightColors[0],
       FacsimileRegion: {
         Points: PolygonHelper.getSubRegion(
@@ -49,7 +49,7 @@ export function useSingleLineGenerationHandler() {
       createRegionsDataUrls(
         [
           {
-            Id: line._id,
+            Id: line.Id,
             HighlightColor: line.HighlightColor,
             ...line.FacsimileRegion,
           },

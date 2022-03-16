@@ -22,9 +22,9 @@ function generateLines(
   const lineHeight = Math.round(Height / numberOfLines);
   for (let i = 0; i < numberOfLines; i++) {
     lines.push({
-      _id: 'generated_' + uuid.v4(),
+      Id: 'generated_' + uuid.v4(),
       LineOrder: existingLines + i + 1,
-      ElementId: element._id,
+      ElementId: element.Id,
       HighlightColor: highlightColors[(existingLines + i + 1) % 13],
       FacsimileRegion: {
         Points: PolygonHelper.getSubRegion(
@@ -58,7 +58,7 @@ export function useLinesGenerator(
         mainLines.push(
           ...generateLines(
             el,
-            linesPerElement[el._id] as number,
+            linesPerElement[el.Id] as number,
             mainLines.length
           )
         );
@@ -66,7 +66,7 @@ export function useLinesGenerator(
         glossLines.push(
           ...generateLines(
             el,
-            linesPerElement[el._id] as number,
+            linesPerElement[el.Id] as number,
             glossLines.length
           )
         );

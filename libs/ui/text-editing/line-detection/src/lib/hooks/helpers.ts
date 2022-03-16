@@ -14,7 +14,7 @@ export const createAndDispatchLineDataUrl = (
     const data = lines.map(
       (el) =>
         el && {
-          Id: el._id,
+          Id: el.Id,
           HighlightColor: el.HighlightColor,
           ...el.FacsimileRegion,
         }

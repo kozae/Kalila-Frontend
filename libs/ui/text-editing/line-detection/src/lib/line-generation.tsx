@@ -18,13 +18,13 @@ export const LineGeneration = () => {
   const urls = useAppSelector((state) =>
     selectManyRegionDataUrlById(
       state,
-      textElements.map((el) => el._id)
+      textElements.map((el) => el.Id)
     )
   );
 
   const formik = useFormik({
     initialValues: textElements.reduce((acc: Record<string, number>, el) => {
-      acc[el._id] = 1;
+      acc[el.Id] = 1;
       return acc;
     }, {}),
     onSubmit: () => {},
@@ -33,7 +33,7 @@ export const LineGeneration = () => {
   const elementSummaries: ILayoutElementSummaryProps[] = textElements.map(
     (el) => ({
       ...el,
-      url: urls[el._id],
+      url: urls[el.Id],
       icon: 'text',
       maxHeight: '10vh',
       width: '80%',
@@ -48,7 +48,7 @@ export const LineGeneration = () => {
       alignItems="center"
     >
       {elementSummaries.map((el, index) => (
-        <LayoutElementSummary key={el._id} {...el}>
+        <LayoutElementSummary key={el.Id} {...el}>
           <Stack
             sx={{
               m: '10px',
@@ -58,11 +58,11 @@ export const LineGeneration = () => {
             spacing={1}
           >
             <TextField
-              id={el._id}
-              name={el._id}
+              id={el.Id}
+              name={el.Id}
               label="number of lines"
               autoComplete="off"
-              value={formik.values[el._id]}
+              value={formik.values[el.Id]}
               onChange={formik.handleChange}
               inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
             />

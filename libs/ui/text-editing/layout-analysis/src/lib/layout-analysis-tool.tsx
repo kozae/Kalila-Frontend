@@ -21,7 +21,7 @@ export function LayoutAnalysisTool() {
   const dataUrls = useAppSelector((state) =>
     selectManyRegionDataUrlById(
       state,
-      [...imageElements, ...textElements].map((i) => i._id)
+      [...imageElements, ...textElements].map((i) => i.Id)
     )
   );
 

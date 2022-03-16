@@ -1,15 +1,16 @@
 import axios from 'axios';
-import { MediaTypes } from '@frontend/util';
+import { MediaTypes, paramsSerializer } from '@frontend/util';
 
 export async function siglum(id: string) {
   const { data } = await axios.get(
-    `http://internal-api:6001/server/api/v1/ManuscriptDescription`,
+    `http://internal-api:5504/server/api/v1/ManuscriptDescription`,
     {
       headers: {
         Accept: MediaTypes.PartialDocument,
       },
       params: { Ids: [id], SelectProps: ['Siglum'] },
+      paramsSerializer,
     }
   );
-  return data;
+  return data[0].Siglum;
 }

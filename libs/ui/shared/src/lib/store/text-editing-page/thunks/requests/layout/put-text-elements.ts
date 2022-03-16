@@ -3,18 +3,15 @@ import { ITextElement } from '@frontend/domain';
 import { RootState } from '../../../../config';
 import { getParams, PageParams } from '../helpers';
 import { cleanObject } from '@frontend/util';
-import { omit } from 'lodash';
 
 export async function putTextElements(state: RootState) {
-  const TextElements: Array<
-    Omit<ITextElement, 'Lines' | '_id'> & { Id: string }
-  > = [];
+  const TextElements: Array<Omit<ITextElement, 'Lines'>> = [];
   state.textEditingPageState.putTextElements.forEach((id) => {
     TextElements.push(
       cleanObject({
-        ...omit(state.textElements.entities[id], '_id'),
+        ...state.textElements.entities[id],
         Id: id,
-      }) as Omit<ITextElement, 'Lines' | '_id'> & { Id: string }
+      }) as Omit<ITextElement, 'Lines'>
     );
   });
 
@@ -26,7 +23,7 @@ export async function putTextElements(state: RootState) {
 }
 
 async function putTextElementsHTTP(
-  data: Array<Omit<ITextElement, 'Lines' | '_id'> & { Id: string }>,
+  data: Array<Omit<ITextElement, 'Lines'>>,
   { accessToken, manuscriptId, pageId }: PageParams
 ) {
   await axios.put('/server/api/v1/PageTranscription/TextElements', data, {

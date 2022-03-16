@@ -33,10 +33,10 @@ export function useTextEditingWorkspaceStore(
     textElements.push({ ...rest, HighlightColor: highlightColors[i % 13] });
     Lines.forEach((l, i) => {
       const { Tokens, ...rest } = l;
-      tokens.push(...Tokens.map((t) => ({ ...t, LineId: l._id })));
+      tokens.push(...Tokens.map((t) => ({ ...t, LineId: l.Id })));
       lines.push({
         ...rest,
-        ElementId: te._id,
+        ElementId: te.Id,
         HighlightColor: highlightColors[i % 13],
       });
     });
@@ -80,7 +80,7 @@ export function useTextEditingWorkspaceStore(
       const data = [...textElements, ...imageElements, ...lines].map(
         (el) =>
           el && {
-            Id: el._id,
+            Id: el.Id,
             HighlightColor: el.HighlightColor,
             ...el.FacsimileRegion,
           }

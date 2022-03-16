@@ -3,16 +3,15 @@ import { IImageElement } from '@frontend/domain';
 import { RootState } from '../../../../config';
 import { getParams, PageParams } from '../helpers';
 import { cleanObject } from '@frontend/util';
-import { omit } from 'lodash';
 
 export async function putImages(state: RootState) {
-  const Images: Array<Omit<IImageElement, '_id'> & { Id: string }> = [];
+  const Images: Array<IImageElement> = [];
   state.textEditingPageState.putImages.forEach((id) => {
     Images.push(
       cleanObject({
-        ...omit(state.imageElements.entities[id], '_id'),
+        ...state.imageElements.entities[id],
         Id: id,
-      }) as Omit<IImageElement, '_id'> & { Id: string }
+      }) as IImageElement
     );
   });
 
@@ -24,7 +23,7 @@ export async function putImages(state: RootState) {
 }
 
 async function putImagesHTTP(
-  data: Array<Omit<IImageElement, '_id'> & { Id: string }>,
+  data: Array<IImageElement>,
   { accessToken, manuscriptId, pageId }: PageParams
 ) {
   await axios.put('/server/api/v1/PageTranscription/Images', data, {

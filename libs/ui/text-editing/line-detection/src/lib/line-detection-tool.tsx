@@ -1,5 +1,4 @@
 import {
-  selectAllLines,
   selectNumberOfLines,
   selectSelectedElement,
   selectTextEditingToolMode,

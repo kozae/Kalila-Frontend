@@ -20,7 +20,7 @@ export async function deleteLines(state: RootState) {
 
   Object.keys(state.textEditingPageState.moveLines).forEach((lineId) => {
     const line = state.textEditingPageState.linesBeforeChanges.find(
-      (l) => l._id === lineId
+      (l) => l.Id === lineId
     );
     if (line) {
       lines.push({

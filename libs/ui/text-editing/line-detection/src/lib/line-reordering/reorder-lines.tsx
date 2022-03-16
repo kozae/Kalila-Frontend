@@ -28,7 +28,7 @@ export const toLineContainerIdMap = (urls: Record<string, string>) => {
   ) => {
     if (l) {
       const item: ISortableLineProps = {
-        url: urls[l._id],
+        url: urls[l.Id],
         height: '80px',
         width: '85%',
         ...l,
@@ -53,8 +53,8 @@ export const ReorderLines = () => {
   const tokens = useAppSelector(selectTokensDictionary);
   const urls = useAppSelector((state) =>
     selectManyRegionDataUrlById(state, [
-      ...textElements.map((el) => el._id),
-      ...Object.values(lines).map((l) => (l ? l._id : '')),
+      ...textElements.map((el) => el.Id),
+      ...Object.values(lines).map((l) => (l ? l.Id : '')),
     ])
   );
 
@@ -84,20 +84,20 @@ export const ReorderLines = () => {
   const elementSummaries: Omit<ITextElementMarkProps, 'grid'>[] = orderBy(
     textElements.map((el) => ({
       ...el,
-      url: urls[el._id],
+      url: urls[el.Id],
       height: '120px',
       width: '95%',
     })),
     'Order'
   );
 
-  const elementIds = elementSummaries.map((el) => el._id);
+  const elementIds = elementSummaries.map((el) => el.Id);
 
   const mainBodyElements = elementSummaries
     .filter((el) => el.Position.startsWith('main'))
     .map((el, i) => ({ ...el, Order: i + 1 }));
 
-  const mainBodyElementIds = mainBodyElements.map((el) => el._id);
+  const mainBodyElementIds = mainBodyElements.map((el) => el.Id);
 
   const otherElements = elementSummaries
     .filter((el) => !el.Position.startsWith('main'))
@@ -118,31 +118,31 @@ export const ReorderLines = () => {
           onMouseEnter={() =>
             handleHover({
               ...el.FacsimileRegion,
-              Id: el._id,
+              Id: el.Id,
             } as IFacsimileRegion & { Id: string })
           }
           onMouseLeave={() => handleHover(null)}
           alignItems="center"
-          key={el._id}
+          key={el.Id}
           data-grid={{ x: 0, y: counter, w: 1, h: 3, ...sep }}
         >
           <TextElementMark {...el} main={true} />
         </Stack>
       );
       counter++;
-      lineToContainerMap[el._id].forEach((l, lineIndex) => {
+      lineToContainerMap[el.Id].forEach((l, lineIndex) => {
         main.push(
           <Stack
             onMouseEnter={() =>
               handleHover({
                 ...l.FacsimileRegion,
-                Id: l._id,
+                Id: l.Id,
               } as IFacsimileRegion & { Id: string })
             }
             onMouseLeave={() => handleHover(null)}
             alignItems="center"
             sx={{ cursor: 'grab' }}
-            key={l._id}
+            key={l.Id}
             data-grid={{
               x: 0,
               y: counter,
@@ -164,31 +164,31 @@ export const ReorderLines = () => {
           onMouseEnter={() =>
             handleHover({
               ...el.FacsimileRegion,
-              Id: el._id,
+              Id: el.Id,
             } as IFacsimileRegion & { Id: string })
           }
           onMouseLeave={() => handleHover(null)}
           alignItems="center"
-          key={el._id}
+          key={el.Id}
           data-grid={{ x: 0, y: counter, w: 1, h: 3, ...sep }}
         >
           <TextElementMark {...el} />
         </Stack>
       );
       counter++;
-      lineToContainerMap[el._id].forEach((l, lineIndex) => {
+      lineToContainerMap[el.Id].forEach((l, lineIndex) => {
         other.push(
           <Stack
             onMouseEnter={() =>
               handleHover({
                 ...l.FacsimileRegion,
-                Id: l._id,
+                Id: l.Id,
               } as IFacsimileRegion & { Id: string })
             }
             onMouseLeave={() => handleHover(null)}
             sx={{ cursor: 'grab' }}
             alignItems="center"
-            key={l._id}
+            key={l.Id}
             data-grid={{
               x: 0,
               y: counter,
@@ -221,7 +221,7 @@ export const ReorderLines = () => {
         const line = lines[e.i];
         if (line) {
           const lineTokens = tokenList.filter(
-            (t) => t && t.LineId === line._id
+            (t) => t && t.LineId === line.Id
           ) as Array<IToken & { LineId: string }>;
           if (mainBodyElementIds.includes(lastSeenElementMarker)) {
             mainLines.push({ ...line, ElementId: lastSeenElementMarker });
@@ -244,14 +244,14 @@ export const ReorderLines = () => {
       updatedLine: Omit<ILine, 'Tokens'> & { ElementId: string },
       index: number
     ) => {
-      const originalLine = lines[updatedLine._id];
+      const originalLine = lines[updatedLine.Id];
       if (
         originalLine &&
         originalLine.LineOrder !== index &&
         originalLine.ElementId === updatedLine.ElementId
       ) {
         reorderUpdates.push({
-          id: updatedLine._id,
+          id: updatedLine.Id,
           changes: { LineOrder: index },
         });
       } else if (
@@ -259,7 +259,7 @@ export const ReorderLines = () => {
         originalLine.ElementId !== updatedLine.ElementId
       ) {
         moveUpdates.push({
-          LineId: updatedLine._id,
+          LineId: updatedLine.Id,
           Target: updatedLine.ElementId,
           LineOrder: index,
         });
@@ -269,10 +269,10 @@ export const ReorderLines = () => {
       updatedToken: IToken & { LineId: string },
       index: number
     ) => {
-      const originalToken = tokens[updatedToken._id];
+      const originalToken = tokens[updatedToken.Id];
       if (originalToken && originalToken.OrderInPage !== index) {
         tokenUpdates.push({
-          id: updatedToken._id,
+          id: updatedToken.Id,
           changes: { OrderInPage: index, LineId: originalToken.LineId }, // line id is added only for keeping track
         });
       }

@@ -9,21 +9,19 @@ export async function putLines(state: RootState) {
   if (state.textEditingPageState.putLines.length === 0) {
     return;
   }
-  const Lines: Array<
-    Omit<ILine, 'Tokens' | '_id'> & { ElementId: string; Id: string }
-  > = [];
+  const Lines: Array<Omit<ILine, 'Tokens'> & { ElementId: string }> = [];
   state.textEditingPageState.putLines.forEach((id) => {
     Lines.push(
       cleanObject({
-        ...omit(state.lines.entities[id], '_id'),
+        ...state.lines.entities[id],
         Id: id,
-      }) as Omit<ILine, 'Tokens' | '_id'> & { ElementId: string; Id: string }
+      }) as Omit<ILine, 'Tokens'> & { ElementId: string }
     );
   });
   const params = getParams(state);
   const data: {
     ElementId: string;
-    Line: Omit<ILine, 'Tokens' | '_id' | 'HighlightColor'> & {
+    Line: Omit<ILine, 'Tokens' | 'HighlightColor'> & {
       Id: string;
     };
   }[] = [];
@@ -40,9 +38,7 @@ export async function putLines(state: RootState) {
 async function putLinesHTTP(
   data: {
     ElementId: string;
-    Line: Omit<ILine, 'Tokens' | '_id' | 'HighlightColor'> & {
-      Id: string;
-    };
+    Line: Omit<ILine, 'Tokens' | 'HighlightColor'>;
   }[],
   { accessToken, manuscriptId, pageId }: PageParams
 ) {

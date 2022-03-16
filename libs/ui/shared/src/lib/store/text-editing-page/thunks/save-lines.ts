@@ -51,12 +51,7 @@ export const saveLineChanges = createAsyncThunk<
       ...Object.values(state.lines.entities).filter(
         (l: any) => !changes.Ids.includes(l._id)
       ),
-      ...changes.Lines.map(
-        (l) =>
-          ({ ...omit(l, 'Id'), _id: l.Id } as Omit<ILine, 'Tokens'> & {
-            ElementId: string;
-          })
-      ),
+      ...changes.Lines,
     ] as (Omit<ILine, 'Tokens'> & { ElementId: string })[],
     dataUrls,
     Tokens:

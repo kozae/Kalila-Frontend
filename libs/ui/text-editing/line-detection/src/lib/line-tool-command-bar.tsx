@@ -38,7 +38,7 @@ export const LineToolCommandBar = () => {
   const numberOfBodyLines = useAppSelector((state) =>
     selectNumberOfLinesInElements(
       state,
-      mainBodyElements.map((el) => el._id)
+      mainBodyElements.map((el) => el.Id)
     )
   );
 
@@ -49,7 +49,7 @@ export const LineToolCommandBar = () => {
   const numberOfOtherLines = useAppSelector((state) =>
     selectNumberOfLinesInElements(
       state,
-      otherElements.map((el) => el._id)
+      otherElements.map((el) => el.Id)
     )
   );
 
@@ -116,14 +116,14 @@ export const LineToolCommandBar = () => {
           >
             {mainBodyElements.map((el) => (
               <MenuItem
-                key={el._id}
+                key={el.Id}
                 onClick={() => handleCreateClick(el, numberOfBodyLines)}
               >{`${el.Order}. ${el.Position}`}</MenuItem>
             ))}
             <Divider />
             {otherElements.map((el) => (
               <MenuItem
-                key={el._id}
+                key={el.Id}
                 onClick={() => handleCreateClick(el, numberOfOtherLines)}
               >{`${el.Order}. ${el.Position}`}</MenuItem>
             ))}

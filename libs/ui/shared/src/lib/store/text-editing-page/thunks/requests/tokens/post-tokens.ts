@@ -11,7 +11,7 @@ export async function postTokens(state: RootState) {
   const data: {
     ElementId: string;
     LineId: string;
-    Tokens: Array<Omit<IToken, '_id'> & { Id: string }>;
+    Tokens: Array<IToken>;
   }[] = [];
 
   state.textEditingPageState.postTokens.forEach((lineId) => {
@@ -23,8 +23,8 @@ export async function postTokens(state: RootState) {
       ElementId: line?.ElementId as string,
       LineId: lineId,
       Tokens: tokens.map((t) => ({
-        ...omit(t, ['LineId', '_id']),
-        Id: t?._id as string,
+        ...omit(t, 'LineId'),
+        Id: t?.Id as string,
       })),
     });
   });
@@ -36,7 +36,7 @@ async function postTokensHTTP(
   data: {
     ElementId: string;
     LineId: string;
-    Tokens: Array<Omit<IToken, '_id'> & { Id: string }>;
+    Tokens: Array<IToken>;
   }[],
   { accessToken, manuscriptId, pageId }: PageParams
 ) {

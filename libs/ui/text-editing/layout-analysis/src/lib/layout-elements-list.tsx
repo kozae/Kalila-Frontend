@@ -19,12 +19,12 @@ export const LayoutElementsList = ({
     [
       ...textElements.map((el) => ({
         ...el,
-        url: dataUrls[el._id],
+        url: dataUrls[el.Id],
         icon: 'text',
       })),
       ...imageElements.map((el) => ({
         ...el,
-        url: dataUrls[el._id],
+        url: dataUrls[el.Id],
         icon: 'image',
       })),
     ],
@@ -44,7 +44,7 @@ export const LayoutElementsList = ({
         <Alert severity="info">No elements defined.</Alert>
       )}
       {elements.map((el) => (
-        <LayoutElementSummary buttons={true} key={el._id} {...el} />
+        <LayoutElementSummary buttons={true} key={el.Id} {...el} />
       ))}
     </Stack>
   );

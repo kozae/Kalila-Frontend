@@ -7,7 +7,6 @@ import {
   putImages,
   putTextElements,
 } from './requests';
-import { omit } from 'lodash';
 import { saveThunk } from './save';
 
 export const saveLayoutChanges = createAsyncThunk<
@@ -55,19 +54,15 @@ export const saveLayoutChanges = createAsyncThunk<
   return {
     TextElements: [
       ...Object.values(state.textElements.entities).filter(
-        (t: any) => !changes.TextElementIds.includes(t._id)
+        (t: any) => !changes.TextElementIds.includes(t.Id)
       ),
-      ...changes.TextElements.map(
-        (t) => ({ ...omit(t, 'Id'), _id: t.Id } as Omit<ITextElement, 'Lines'>)
-      ),
+      ...changes.TextElements,
     ] as Omit<ITextElement, 'Lines'>[],
     Images: [
       ...Object.values(state.imageElements.entities).filter(
-        (t: any) => !changes.ImageIds.includes(t._id)
+        (t: any) => !changes.ImageIds.includes(t.Id)
       ),
-      ...changes.Images.map(
-        (t) => ({ ...omit(t, 'Id'), _id: t.Id } as IImageElement)
-      ),
+      ...changes.Images,
     ] as IImageElement[],
     dataUrls,
   };

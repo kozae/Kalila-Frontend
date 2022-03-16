@@ -57,7 +57,7 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
     dispatch(onElementSelected({ id, region }));
 
   const elementHasLines = useAppSelector((state) =>
-    selectTextElementHasLines(state, el._id)
+    selectTextElementHasLines(state, el.Id)
   );
 
   const canDelete = !elementHasLines;
@@ -115,7 +115,7 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
             <Stack direction="row" alignItems="flex-end">
               {canDelete && (
                 <IconButton
-                  onClick={() => handleDelete(el._id)}
+                  onClick={() => handleDelete(el.Id)}
                   color="error"
                   size="small"
                 >
@@ -126,10 +126,7 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
                 color="secondary"
                 size="small"
                 onClick={() =>
-                  handleSelection(
-                    el._id,
-                    el.FacsimileRegion as IFacsimileRegion
-                  )
+                  handleSelection(el.Id, el.FacsimileRegion as IFacsimileRegion)
                 }
               >
                 <EditIcon sx={{ fontSize: '1.2rem' }} />
@@ -149,7 +146,7 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
             onMouseEnter={() =>
               handleHover({
                 ...el.FacsimileRegion,
-                Id: el._id,
+                Id: el.Id,
               } as IFacsimileRegion & { Id: string })
             }
             onMouseLeave={() => handleHover(null)}

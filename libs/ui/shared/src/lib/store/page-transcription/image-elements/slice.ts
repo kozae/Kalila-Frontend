@@ -6,7 +6,7 @@ import {
 } from '../../text-editing-page/thunks';
 
 export const imageElementsAdapter = createEntityAdapter<IImageElement>({
-  selectId: (doc) => doc._id,
+  selectId: (doc) => doc.Id,
 });
 
 const initialState = imageElementsAdapter.getInitialState();

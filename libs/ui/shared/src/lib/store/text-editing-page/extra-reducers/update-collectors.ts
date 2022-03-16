@@ -31,7 +31,7 @@ export function addUpdateCollectors(
   });
 
   builder.addCase(addTextElement, (state, action) => {
-    state.postLayoutTextElements.push(action.payload._id);
+    state.postLayoutTextElements.push(action.payload.Id);
   });
 
   builder.addCase(updateTextElement, (state, action) => {
@@ -48,7 +48,7 @@ export function addUpdateCollectors(
   });
 
   builder.addCase(addImageElement, (state, action) => {
-    state.postLayoutImages.push(action.payload._id);
+    state.postLayoutImages.push(action.payload.Id);
   });
 
   builder.addCase(updateImageElement, (state, action) => {
@@ -65,11 +65,11 @@ export function addUpdateCollectors(
     const lines = action.payload as Array<
       Omit<ILine, 'Tokens'> & { ElementId: string }
     >;
-    state.postLines.push(...lines.map((l) => l._id));
+    state.postLines.push(...lines.map((l) => l.Id));
   });
 
   builder.addCase(addLine, (state, action) => {
-    state.postLines.push(action.payload._id);
+    state.postLines.push(action.payload.Id);
   });
   builder.addCase(deleteLine, (state, action) => {
     state.deleteLines.push(action.payload as string);
@@ -100,9 +100,7 @@ export function addUpdateCollectors(
   });
   builder.addCase(moveLines, (state, action) => {
     action.payload.forEach((update) => {
-      const line = state.linesBeforeChanges.find(
-        (l) => l._id === update.LineId
-      );
+      const line = state.linesBeforeChanges.find((l) => l.Id === update.LineId);
       if (
         // returning a line to its original container
         line &&

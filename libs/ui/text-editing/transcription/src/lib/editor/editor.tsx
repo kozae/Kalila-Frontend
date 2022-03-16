@@ -49,23 +49,23 @@ export const KalilaEditor = ({
   );
   const [value, setValue] = useState<Descendant[]>(
     lines.map((l) => ({
-      id: l._id as string,
+      id: l.Id as string,
       color: l.HighlightColor as string,
       order: l.LineOrder as number,
       children:
-        tokenToLineIdMap[l._id] === undefined
+        tokenToLineIdMap[l.Id] === undefined
           ? [{ text: '', state: 'sound', id: `new_${ObjectID().toString()}` }]
           : flatten(
-              tokenToLineIdMap[l._id].map((t, index) => [
+              tokenToLineIdMap[l.Id].map((t, index) => [
                 {
                   text: t.RawToken,
                   state: t.State as any,
-                  id: t._id,
+                  id: t.Id,
                 },
                 {
                   text: ' ',
                   state: 'sound',
-                  id: `space_${t._id}`,
+                  id: `space_${t.Id}`,
                 },
               ])
             ),
@@ -77,12 +77,12 @@ export const KalilaEditor = ({
       const focusedLine = editor.selection?.anchor.path;
       if (focusedLine) {
         const line = lines[focusedLine[0]];
-        if (line._id !== focusedLineId) {
-          setFocusedLineId(line._id);
+        if (line.Id !== focusedLineId) {
+          setFocusedLineId(line.Id);
           dispatch(
             onRegionHoveredInToolSpace({
               ...line.FacsimileRegion,
-              Id: line._id,
+              Id: line.Id,
             })
           );
         }

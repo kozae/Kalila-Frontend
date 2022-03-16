@@ -34,12 +34,12 @@ export const ReorderLayoutElements = ({
       [
         ...textElements.map((el) => ({
           ...el,
-          url: dataUrls[el._id],
+          url: dataUrls[el.Id],
           icon: 'text',
         })),
         ...imageElements.map((el) => ({
           ...el,
-          url: dataUrls[el._id],
+          url: dataUrls[el.Id],
           icon: 'image',
         })),
       ],
@@ -67,12 +67,10 @@ export const ReorderLayoutElements = ({
       if (el.Order !== index + 1) {
         if (el.icon === 'image') {
           dispatch(
-            updateImageElement({ id: el._id, changes: { Order: index } })
+            updateImageElement({ id: el.Id, changes: { Order: index } })
           );
         } else {
-          dispatch(
-            updateTextElement({ id: el._id, changes: { Order: index } })
-          );
+          dispatch(updateTextElement({ id: el.Id, changes: { Order: index } }));
         }
       }
     });
@@ -84,9 +82,9 @@ export const ReorderLayoutElements = ({
         <Sortable
           move={move}
           index={index}
-          id={el._id}
+          id={el.Id}
           style={{ width: '60%' }}
-          key={el._id}
+          key={el.Id}
         >
           <LayoutElementSummary
             {...el}

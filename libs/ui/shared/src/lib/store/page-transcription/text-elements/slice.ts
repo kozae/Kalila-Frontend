@@ -8,7 +8,7 @@ import {
 export const textElementsAdapter = createEntityAdapter<
   Omit<ITextElement, 'Lines'>
 >({
-  selectId: (doc) => doc._id,
+  selectId: (doc) => doc.Id,
 });
 
 const initialState = textElementsAdapter.getInitialState();

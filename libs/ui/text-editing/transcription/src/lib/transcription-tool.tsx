@@ -9,7 +9,6 @@ import {
 } from '@frontend/shared-ui';
 import { ILine, IToken } from '@frontend/domain';
 import { orderBy } from 'lodash';
-import { Typography } from '@mui/material';
 import { TranscriptionToolContext } from './transcription-tool.context';
 
 export const TranscriptionTool = () => {
@@ -50,11 +49,11 @@ export const TranscriptionTool = () => {
     const lines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
     if (mode === 'main') {
       mainBodyElements.forEach((el) => {
-        lines.push(...linesToElementMap[el._id]);
+        lines.push(...linesToElementMap[el.Id]);
       });
     } else {
       otherElements.forEach((el) => {
-        lines.push(...linesToElementMap[el._id]);
+        lines.push(...linesToElementMap[el.Id]);
       });
     }
 

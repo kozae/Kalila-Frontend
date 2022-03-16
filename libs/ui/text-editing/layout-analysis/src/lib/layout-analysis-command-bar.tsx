@@ -35,7 +35,7 @@ export const LayoutAnalysisCommandBar = ({
     const id = uuid.v4();
     dispatch(
       addTextElement({
-        _id: id,
+        Id: id,
         Position: 'main body',
         Order: numberOfTextElements + numberOfImageElements + 1,
         HighlightColor: highlightColors[(numberOfTextElements + 1) % 15],
@@ -47,7 +47,7 @@ export const LayoutAnalysisCommandBar = ({
     const id = uuid.v4();
     dispatch(
       addImageElement({
-        _id: id,
+        Id: id,
         Position: 'image in main body',
         Order: numberOfTextElements + numberOfImageElements + 1,
         HighlightColor: highlightColors[(numberOfImageElements + 6) % 15],

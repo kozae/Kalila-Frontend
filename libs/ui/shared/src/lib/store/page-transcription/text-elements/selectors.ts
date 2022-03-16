@@ -12,7 +12,7 @@ export const selectAllTextElementsRegions = createSelector(
   selectAllTextElements,
   (te) =>
     te.map((e) => ({
-      Id: e._id,
+      Id: e.Id,
       HighlightColor: e.HighlightColor,
       Text: ` ${e.Order + 1} `,
       ...e.FacsimileRegion,
@@ -21,7 +21,7 @@ export const selectAllTextElementsRegions = createSelector(
 
 export const selectAllTextElementsIds = createSelector(
   selectAllTextElements,
-  (te) => te.map((e) => e._id)
+  (te) => te.map((e) => e.Id)
 );
 
 export const selectPageHasText = createSelector(

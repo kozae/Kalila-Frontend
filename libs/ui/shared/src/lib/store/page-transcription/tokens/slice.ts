@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { IToken } from '@frontend/domain';
 
 export const tokenAdapter = createEntityAdapter<IToken & { LineId: string }>({
-  selectId: (doc) => doc._id,
+  selectId: (doc) => doc.Id,
 });
 
 const initialState = tokenAdapter.getInitialState();

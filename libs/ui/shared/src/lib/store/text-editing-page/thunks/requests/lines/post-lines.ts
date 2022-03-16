@@ -6,11 +6,6 @@ import ObjectID from 'bson-objectid';
 import { getParams, PageParams } from '../helpers';
 import axios from 'axios';
 
-type BackEndLine = Omit<ILine, 'Tokens' | '_id'> & {
-  Id: string;
-  Tokens: Array<Omit<IToken, '_id'> & { Id: string }>;
-};
-
 export async function postLines(state: RootState) {
   if (
     state.textEditingPageState.postLines.length === 0 &&
@@ -19,29 +14,29 @@ export async function postLines(state: RootState) {
     return { Lines: [], Ids: [] };
   }
 
-  const CreatedLines: Array<BackEndLine & { ElementId: string }> = [];
+  const CreatedLines: Array<ILine & { ElementId: string }> = [];
   state.textEditingPageState.postLines.forEach((id) => {
     CreatedLines.push(
       cleanObject({
         ...omit(state.lines.entities[id], '_id'),
         Id: ObjectID().toString(),
         Tokens: [],
-      }) as BackEndLine & { ElementId: string }
+      }) as ILine & { ElementId: string }
     );
   });
 
-  const MovedLines: Array<BackEndLine & { ElementId: string }> = [];
+  const MovedLines: Array<ILine & { ElementId: string }> = [];
   Object.entries(state.textEditingPageState.moveLines).forEach(
     ([lineId, elementId]) => {
       const tokens = Object.values(state.tokens.entities).filter(
         (t) => t && t.LineId === lineId
       ) as IToken[];
       MovedLines.push({
-        ...omit(state.lines.entities[lineId], '_id'),
+        ...state.lines.entities[lineId],
         Id: lineId,
-        Tokens: tokens.map((t) => ({ ...omit(t, '_id'), Id: t._id })),
+        Tokens: tokens,
         ElementId: elementId,
-      });
+      } as ILine & { ElementId: string });
     }
   );
 
@@ -64,7 +59,7 @@ export async function postLines(state: RootState) {
 async function postLinesHTTP(
   data: {
     ElementId: string;
-    Lines: BackEndLine[];
+    Lines: ILine[];
   },
   { accessToken, manuscriptId, pageId }: PageParams
 ) {
