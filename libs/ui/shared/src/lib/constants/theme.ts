@@ -58,10 +58,10 @@ export const kalilaTheme = createTheme({
     },
     body2: {
       fontFamily: "'Noto Naskh Arabic', serif",
-      fontSize: '1rem',
+      fontSize: '1.5rem',
     },
     button: {
-      fontFamily: "'Roboto', sans-serif",
+      fontFamily: "'Noto Sans Display', sans-serif",
       fontSize: '1rem',
       fontWeight: 500,
       textTransform: 'none',

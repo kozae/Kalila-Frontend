@@ -21,7 +21,7 @@ import { ITextElementMarkProps, TextElementMark } from './text-element-mark';
 import { ISortableLineProps, SortableLine } from './sortable-line';
 import { Update } from '@reduxjs/toolkit';
 
-const toLineContainerIdMap = (urls: Record<string, string>) => {
+export const toLineContainerIdMap = (urls: Record<string, string>) => {
   return (
     acc: Record<string, ISortableLineProps[]>,
     l: (Omit<ILine, 'Tokens'> & { ElementId: string }) | undefined

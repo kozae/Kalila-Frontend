@@ -9,8 +9,6 @@
 @import "sass/mui/table-pagination";
 @import "sass/mui/dialog";
 
-* {
-  font-family: 'Noto Sans Display', sans-serif;
+body {
+  counter-reset: line;
 }
-
-
