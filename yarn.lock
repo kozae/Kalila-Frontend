@@ -2067,17 +2067,6 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@nrwl/cli@13.8.8":
-  version "13.8.8"
-  resolved "https://registry.yarnpkg.com/@nrwl/cli/-/cli-13.8.8.tgz#0c9ac4ae16f9e1f45f59db6670e2841ad7a4920c"
-  integrity sha512-PeC9n9gDE/KLA1jqhMF8bU8Q+VyPzS1t1Yk7K6yq5NvCdyupv2JQO49JMqgUtZ/00mY6buP5/Dpy0LHoNEceuw==
-  dependencies:
-    "@nrwl/tao" "13.8.8"
-    chalk "4.1.0"
-    enquirer "~2.3.6"
-    v8-compile-cache "2.3.0"
-    yargs-parser "20.0.0"
-
 "@nrwl/cli@13.9.1":
   version "13.9.1"
   resolved "https://registry.yarnpkg.com/@nrwl/cli/-/cli-13.9.1.tgz#342f794092b1b220f974292f351ad2a0c2f95ad4"
@@ -2269,28 +2258,6 @@
     semver "7.3.4"
     ts-loader "^9.2.6"
     tsconfig-paths-webpack-plugin "3.5.2"
-
-"@nrwl/tao@13.8.8":
-  version "13.8.8"
-  resolved "https://registry.yarnpkg.com/@nrwl/tao/-/tao-13.8.8.tgz#c2a03cf146cc03e1343310cfb5d4f6a814d95c7c"
-  integrity sha512-xhOAuy4s5UpiseWjfKi5CHTH2GwNooK+iCvBo1USn9BuwrbjPwfCl3pLy0+d5eCa3X4DsghskzwfcaWCUyQm7Q==
-  dependencies:
-    "@swc-node/register" "^1.4.2"
-    "@swc/core" "^1.2.146"
-    chalk "4.1.0"
-    enquirer "~2.3.6"
-    fast-glob "3.2.7"
-    fs-extra "^9.1.0"
-    ignore "^5.0.4"
-    jsonc-parser "3.0.0"
-    nx "13.8.8"
-    rxjs "^6.5.4"
-    rxjs-for-await "0.0.2"
-    semver "7.3.4"
-    tmp "~0.2.1"
-    tsconfig-paths "^3.9.0"
-    tslib "^2.3.0"
-    yargs-parser "20.0.0"
 
 "@nrwl/tao@13.9.1":
   version "13.9.1"
@@ -11988,10 +11955,10 @@ nested-error-stacks@^2.0.0, nested-error-stacks@^2.1.0:
   resolved "https://registry.yarnpkg.com/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==
 
-next-auth@^4.1.0:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.1.2.tgz#9ae50e2b6ccbbbac02b7f627a6568fd29b56ac66"
-  integrity sha512-r5Km0eIDgGad+yhegk6OpulAnf7pyxsIpLec3xYB3PIb7F3bUTsvgWm/n/wAvlT0aAF1xKQWOgqhwPjrjte89g==
+next-auth@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.3.0.tgz#93274254f9e6263c3c3edf7169a92fb13a700619"
+  integrity sha512-QcXY0EkIoCHDJ/G5n5H1wG7c/E5WlnyTsA+N4un9ys+RF26Vv/kzIuzjSrVQ/no0PkIwQti6E+ZjpqXJCBykTA==
   dependencies:
     "@babel/runtime" "^7.16.3"
     "@panva/hkdf" "^1.0.1"
@@ -12208,13 +12175,6 @@ nwsapi@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.2.0.tgz#204879a9e3d068ff2a55139c2c772780681a38b7"
   integrity sha512-h2AatdwYH+JHiZpv7pt/gSX1XoRGb7L/qSIeuqA6GwYoF9w1vP1cw42TO0aI2pNyshRK5893hNSl+1//vHK7hQ==
-
-nx@13.8.8:
-  version "13.8.8"
-  resolved "https://registry.yarnpkg.com/nx/-/nx-13.8.8.tgz#1ecff47645bc1c59030d4a1c8b7e36b5d2124597"
-  integrity sha512-v+DwRzZlxMdsCk3WzUBymKg2b4qxiNdjok+XMGaTTRAOPdLcNKXAG/UVjHu5j8wdiKcXbA64AiglupFBIAH8YA==
-  dependencies:
-    "@nrwl/cli" "13.8.8"
 
 nx@13.9.1:
   version "13.9.1"
