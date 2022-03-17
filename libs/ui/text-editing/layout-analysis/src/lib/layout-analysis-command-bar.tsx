@@ -37,24 +37,24 @@ export const LayoutAnalysisCommandBar = ({
       addTextElement({
         Id: id,
         Position: 'main body',
-        Order: numberOfTextElements + numberOfImageElements + 1,
-        HighlightColor: highlightColors[(numberOfTextElements + 1) % 15],
+        Order: numberOfTextElements + numberOfImageElements,
+        HighlightColor: highlightColors[numberOfTextElements % 13],
       })
     );
     handleElementSelected(id);
-  }, [numberOfTextElements]);
+  }, [numberOfTextElements, numberOfImageElements]);
   const createImageElement = useCallback(() => {
     const id = uuid.v4();
     dispatch(
       addImageElement({
         Id: id,
         Position: 'image in main body',
-        Order: numberOfTextElements + numberOfImageElements + 1,
-        HighlightColor: highlightColors[(numberOfImageElements + 6) % 15],
+        Order: numberOfTextElements + numberOfImageElements,
+        HighlightColor: highlightColors[(numberOfImageElements + 6) % 13],
       })
     );
     handleElementSelected(id);
-  }, [numberOfImageElements]);
+  }, [numberOfTextElements, numberOfImageElements]);
   return (
     <Stack
       sx={{

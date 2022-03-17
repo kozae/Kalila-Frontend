@@ -23,9 +23,9 @@ function generateLines(
   for (let i = 0; i < numberOfLines; i++) {
     lines.push({
       Id: 'generated_' + uuid.v4(),
-      LineOrder: existingLines + i + 1,
+      LineOrder: existingLines + i,
       ElementId: element.Id,
-      HighlightColor: highlightColors[(existingLines + i + 1) % 13],
+      HighlightColor: highlightColors[(existingLines + i) % 13],
       FacsimileRegion: {
         Points: PolygonHelper.getSubRegion(
           element.FacsimileRegion?.Points as IPoint[],

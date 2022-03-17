@@ -39,7 +39,11 @@ export function addDiscardReducers(
     state.deleteLines = [];
     state.moveLines = {};
   });
+  builder.addCase(discardTokenChanges.pending, (state) => {
+    state.toolMode = 'default';
+  });
   builder.addCase(discardTokenChanges.fulfilled, (state) => {
+    state.toolMode = 'main-body';
     state.postTokens = [];
   });
 }

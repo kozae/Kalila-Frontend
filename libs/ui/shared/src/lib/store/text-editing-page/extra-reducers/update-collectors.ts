@@ -21,7 +21,10 @@ import {
   updateLine,
   updateManyLines,
 } from '../../page-transcription/lines';
-import { updateManyTokens } from '../../page-transcription/tokens';
+import {
+  replaceLinesTokens,
+  updateManyTokens,
+} from '../../page-transcription/tokens';
 
 export function addUpdateCollectors(
   builder: ActionReducerMapBuilder<ITextEditingPageState>
@@ -122,5 +125,12 @@ export function addUpdateCollectors(
         state.postTokens.push(lineId);
       }
     });
+  });
+  builder.addCase(replaceLinesTokens, (state, action) => {
+    for (const { LineId } of action.payload) {
+      if (!state.postTokens.includes(LineId)) {
+        state.postTokens.push(LineId);
+      }
+    }
   });
 }

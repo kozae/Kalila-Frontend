@@ -1,18 +1,23 @@
-import Stack from '@mui/material/Stack';
 import { KalilaEditor } from './editor';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import {
   selectAllLines,
   selectAllTextElements,
   selectAllTokens,
+  selectTextEditingToolMode,
+  setTextEditingToolMode,
+  useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
 import { ILine, IToken } from '@frontend/domain';
 import { orderBy } from 'lodash';
-import { TranscriptionToolContext } from './transcription-tool.context';
 
 export const TranscriptionTool = () => {
-  const [mode, setMode] = useState<'main' | 'other'>('main');
+  const mode = useAppSelector(selectTextEditingToolMode);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setTextEditingToolMode('main-body'));
+  }, []);
   const textElements = useAppSelector(selectAllTextElements);
   const mainBodyElements = textElements.filter((el) =>
     el.Position.startsWith('main')
@@ -47,11 +52,11 @@ export const TranscriptionTool = () => {
   );
   const getLines = useCallback(() => {
     const lines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
-    if (mode === 'main') {
+    if (mode === 'main-body') {
       mainBodyElements.forEach((el) => {
         lines.push(...linesToElementMap[el.Id]);
       });
-    } else {
+    } else if (mode == 'secondary-text') {
       otherElements.forEach((el) => {
         lines.push(...linesToElementMap[el.Id]);
       });
@@ -59,9 +64,14 @@ export const TranscriptionTool = () => {
 
     return orderBy(lines, 'LineOrder');
   }, [mode]);
-  return (
-    <TranscriptionToolContext.Provider value={{ mode, setMode }}>
-      <KalilaEditor tokenToLineIdMap={tokenToLineIdMap} lines={getLines()} />
-    </TranscriptionToolContext.Provider>
+
+  return mode !== 'default' ? (
+    <KalilaEditor
+      key={mode}
+      tokenToLineIdMap={tokenToLineIdMap}
+      lines={getLines()}
+    />
+  ) : (
+    <></>
   );
 };

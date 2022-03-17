@@ -4,18 +4,18 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
+  discardLayoutChanges,
+  discardLineChanges,
+  discardTokenChanges,
   kalilaTheme,
+  saveLayoutChanges,
+  saveLineChanges,
+  saveTokenChanges,
   selectSelectedElement,
   selectTextEditingActiveWorkspace,
+  selectTextEditingToolMode,
   useAppDispatch,
   useAppSelector,
-  discardLayoutChanges,
-  saveLayoutChanges,
-  selectTextEditingToolMode,
-  discardLineChanges,
-  saveLineChanges,
-  discardTokenChanges,
-  saveTokenChanges,
 } from '@frontend/shared-ui';
 import { hexToRgba } from '@frontend/util';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
@@ -27,7 +27,9 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
   const activeWorkspace = useAppSelector(selectTextEditingActiveWorkspace);
   const toolMode = useAppSelector(selectTextEditingToolMode);
   const show =
-    hasChanges && selectedElement.id === null && toolMode === 'default';
+    hasChanges &&
+    selectedElement.id === null &&
+    ['default', 'main-body', 'secondary-text'].includes(toolMode);
   const dispatch = useAppDispatch();
   const handleDiscard = useCallback(() => {
     switch (activeWorkspace) {
@@ -41,6 +43,7 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
         dispatch(discardTokenChanges({}));
         break;
       case 'transcription':
+        dispatch(discardTokenChanges({}));
         break;
       case 'segmentation':
         break;
@@ -60,6 +63,7 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
         dispatch(saveLineChanges({ withTokens: true }));
         break;
       case 'transcription':
+        dispatch(saveTokenChanges({}));
         break;
       case 'segmentation':
         break;

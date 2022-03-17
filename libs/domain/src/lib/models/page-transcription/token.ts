@@ -4,22 +4,18 @@ export type TokenState =
   | 'sound'
   | 'corrupt'
   | 'emended'
-  | 'illegible'
+  | 'unintelligible'
   | 'dittography'
   | 'dittography_begin'
-  | 'dittography_in_range'
   | 'dittography_end'
   | 'cross-out'
   | 'cross-out_begin'
-  | 'cross-out_in_range'
   | 'cross-out_end'
   | 'suppletion'
   | 'suppletion_begin'
-  | 'suppletion_in_range'
   | 'suppletion_end'
   | 'added'
   | 'added_begin'
-  | 'added_in_range'
   | 'added_end';
 
 export interface IToken {
@@ -30,6 +26,6 @@ export interface IToken {
   OrderInLine: number;
   State: string | TokenState;
   OrderInPage: number;
-  MorphologyId: string;
-  Morphology: IMorphology;
+  MorphologyId?: string;
+  Morphology?: IMorphology;
 }

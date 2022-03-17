@@ -64,7 +64,7 @@ export const ReorderLayoutElements = ({
 
   useEffect(() => {
     elements.forEach((el, index) => {
-      if (el.Order !== index + 1) {
+      if (el.Order !== index) {
         if (el.icon === 'image') {
           dispatch(
             updateImageElement({ id: el.Id, changes: { Order: index } })
@@ -88,7 +88,7 @@ export const ReorderLayoutElements = ({
         >
           <LayoutElementSummary
             {...el}
-            Order={index + 1}
+            Order={index}
             maxHeight="10vh"
             width="100%"
             buttons={false}

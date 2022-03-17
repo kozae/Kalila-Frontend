@@ -11,15 +11,14 @@ import { ILine, IToken, TokenState } from '@frontend/domain';
 import { EditorLine } from './editor-line';
 import { LinePreview } from './line-preview';
 import { CommandBar } from './command-bar';
-import ObjectID from 'bson-objectid';
-import { flatten } from 'lodash';
+import { EditorText } from './editor-text';
+import { saveEditorValueToStore } from '../helpers';
 
-type EditorTokenModel = {
+export type EditorTokenModel = {
   state?: TokenState;
   text: string;
-  id?: string | number | undefined;
 };
-type EditorLineModel = {
+export type EditorLineModel = {
   id: string;
   color: string;
   order: number;
@@ -34,6 +33,20 @@ declare module 'slate' {
   }
 }
 
+const allowedKeys = [
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'Alt',
+  'Shift',
+  'Control',
+  'Meta',
+  'Enter',
+  'Backspace',
+  ' ',
+];
+
 export interface IKalilaEditorProps {
   lines: (Omit<ILine, 'Tokens'> & { ElementId: string })[];
   tokenToLineIdMap: Record<string, IToken[]>;
@@ -47,33 +60,31 @@ export const KalilaEditor = ({
   const [focusedLineId, setFocusedLineId] = useState<string | undefined>(
     undefined
   );
-  const [value, setValue] = useState<Descendant[]>(
+
+  const mapLinesToEditorValue = (
+    lines: (Omit<ILine, 'Tokens'> & { ElementId: string })[]
+  ) =>
     lines.map((l) => ({
       id: l.Id as string,
       color: l.HighlightColor as string,
       order: l.LineOrder as number,
       children:
         tokenToLineIdMap[l.Id] === undefined
-          ? [{ text: '', state: 'sound', id: `new_${ObjectID().toString()}` }]
-          : flatten(
-              tokenToLineIdMap[l.Id].map((t, index) => [
-                {
-                  text: t.RawToken,
-                  state: t.State as any,
-                  id: t.Id,
-                },
-                {
-                  text: ' ',
-                  state: 'sound',
-                  id: `space_${t.Id}`,
-                },
-              ])
-            ),
-    }))
+          ? [{ text: '', state: 'sound' }]
+          : tokenToLineIdMap[l.Id].map((t, index) => ({
+              text: t.RawToken + ' ',
+              state: t.State as any,
+            })),
+    }));
+
+  const [value, setValue] = useState<Descendant[]>(
+    mapLinesToEditorValue(lines)
   );
+
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const handleChange = useCallback(
     (value: any) => {
+      setValue(value);
       const focusedLine = editor.selection?.anchor.path;
       if (focusedLine) {
         const line = lines[focusedLine[0]];
@@ -87,16 +98,19 @@ export const KalilaEditor = ({
           );
         }
       }
-      console.log(value);
-      setValue(value);
+      saveEditorValueToStore(value, tokenToLineIdMap, dispatch);
     },
-    [editor, focusedLineId]
+    [editor, focusedLineId, tokenToLineIdMap]
   );
 
   const clearPreviews = () => {
     setFocusedLineId(undefined);
     dispatch(onRegionHoveredInToolSpace(null));
   };
+
+  const renderLeaf = useCallback((props) => {
+    return <EditorText {...props} />;
+  }, []);
 
   return (
     <Stack
@@ -122,30 +136,37 @@ export const KalilaEditor = ({
           autoCorrect="off"
           onBlur={clearPreviews}
           onKeyDown={(event) => {
-            if (event.code === 'Space') {
+            if (event.ctrlKey || event.metaKey) {
+            } else if (
+              /[\u0621-\u0652-]/.exec(event.key) === null &&
+              !allowedKeys.includes(event.key)
+            ) {
               event.preventDefault();
-              const focusedLine = editor.selection?.anchor.path as Path;
-              Transforms.insertNodes(
-                editor,
-                {
-                  state: 'sound',
-                  text: ' ',
-                  id: `new_${ObjectID().toString()}`,
-                },
-                { at: Path.next(focusedLine) }
-              );
-              Transforms.move(editor, { distance: 1, unit: 'character' });
-            }
-            if (event.key === 'Enter') {
+              console.log('preventing');
+              console.log(event.key);
+            } else if (event.key === 'Enter') {
               event.preventDefault();
               const focusedLine = editor.selection?.anchor.path;
               if (focusedLine && focusedLine[0] < lines.length) {
                 Transforms.move(editor, { distance: 1, unit: 'line' });
               }
+            } else if (event.key === 'Backspace') {
+              const { selection } = editor;
+              if (
+                selection?.anchor.offset === 0 &&
+                selection?.focus.offset === 0
+              ) {
+                event.preventDefault();
+                Transforms.move(editor, {
+                  distance: 1,
+                  unit: 'character',
+                  reverse: true,
+                });
+              }
             }
           }}
           renderElement={(props) => <EditorLine {...props} />}
-          placeholder="Enter some plain text..."
+          renderLeaf={renderLeaf}
         />
       </Slate>
     </Stack>

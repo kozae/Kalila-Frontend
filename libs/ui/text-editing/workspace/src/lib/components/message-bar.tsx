@@ -5,7 +5,6 @@ import {
   selectTextEditingActiveWorkspace,
   selectTextEditingToolMode,
   useAppSelector,
-  useXLargeScreenMediaQuery,
 } from '@frontend/shared-ui';
 import Portal from '@mui/material/Portal';
 import { AnimatePresence, motion } from 'framer-motion';

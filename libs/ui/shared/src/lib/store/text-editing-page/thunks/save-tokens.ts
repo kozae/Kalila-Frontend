@@ -1,9 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ILine, IToken } from '@frontend/domain';
+import { IToken } from '@frontend/domain';
 import { ThunkApi } from '@frontend/shared-ui';
 import { saveThunk } from './save';
-import { deleteLines, postLines, putLines } from './requests';
-import { omit } from 'lodash';
+import { postTokens } from './requests/tokens';
 
 export const saveTokenChanges = createAsyncThunk<
   {
@@ -12,7 +11,11 @@ export const saveTokenChanges = createAsyncThunk<
   any,
   ThunkApi
 >(saveThunk.tokenChanges, async ({}, { getState }) => {
+  const state = getState();
+  await postTokens(state);
   return {
-    Tokens: [],
+    Tokens: Object.values(state.tokens.entities) as (IToken & {
+      LineId: string;
+    })[],
   };
 });

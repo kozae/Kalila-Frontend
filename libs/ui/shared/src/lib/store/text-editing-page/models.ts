@@ -29,6 +29,8 @@ export type TextEditingActiveWorkspace =
 
 export type TextEditingToolMode =
   | 'default'
+  | 'main-body'
+  | 'secondary-text'
   | 'reorder'
   | 'generate'
   | 'automatic-detection';

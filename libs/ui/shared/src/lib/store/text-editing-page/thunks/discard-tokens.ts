@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ILine, IToken } from '@frontend/domain';
+import { IToken } from '@frontend/domain';
 import { ThunkApi } from '@frontend/shared-ui';
 import { sleeper } from '@frontend/util';
 import { discardThunk } from './discard';

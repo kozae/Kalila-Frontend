@@ -12,10 +12,15 @@ export async function deleteLines(state: RootState) {
   }
   const lines: { Id: string; ElementId: string }[] = [];
   state.textEditingPageState.deleteLines.forEach((id) => {
-    lines.push({
-      Id: id,
-      ElementId: state.lines.entities[id]?.ElementId as string,
-    });
+    const line = state.textEditingPageState.linesBeforeChanges.find(
+      (l) => l.Id === id
+    );
+    if (line) {
+      lines.push({
+        Id: id,
+        ElementId: line.ElementId as string,
+      });
+    }
   });
 
   Object.keys(state.textEditingPageState.moveLines).forEach((lineId) => {
