@@ -62,7 +62,11 @@ export function hideHighlightFactory(
   highlighter: fabric.Rect
 ) {
   return () => {
-    canvas.remove(highlighter);
+    try {
+      canvas.remove(highlighter);
+    } catch {
+      // highlighter already left the canvas
+    }
     const polygons = canvas.getObjects();
     polygons.forEach((p) => p.set(p.data.normal));
     canvas.renderAll();

@@ -11,13 +11,11 @@ import {
 } from '@frontend/shared-ui';
 import { ILine, IToken } from '@frontend/domain';
 import { orderBy } from 'lodash';
+import { ViewTranscription } from './view-transcription';
 
 export const TranscriptionTool = () => {
   const mode = useAppSelector(selectTextEditingToolMode);
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(setTextEditingToolMode('main-body'));
-  }, []);
   const textElements = useAppSelector(selectAllTextElements);
   const mainBodyElements = textElements.filter((el) =>
     el.Position.startsWith('main')
@@ -72,6 +70,6 @@ export const TranscriptionTool = () => {
       lines={getLines()}
     />
   ) : (
-    <></>
+    <ViewTranscription />
   );
 };

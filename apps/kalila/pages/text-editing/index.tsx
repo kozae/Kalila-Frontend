@@ -4,7 +4,7 @@ import {
   withTransition,
 } from '@frontend/shared-ui';
 import { GetStaticProps } from 'next';
-import { queryServerSide, sigla } from '@frontend/server-side-queries';
+import { sigla } from '@frontend/server-side-queries';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Alert from '@mui/material/Alert';
@@ -35,7 +35,9 @@ export function TextEditing({ sigla }) {
 export default withTransition(TextEditing, {});
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const query = await queryServerSide({ sigla });
+  const query = {
+    sigla: await sigla(),
+  };
   return {
     props: {
       ...query,

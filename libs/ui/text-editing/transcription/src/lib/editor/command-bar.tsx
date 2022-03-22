@@ -323,9 +323,6 @@ export const CommandBar = ({ editor }: ICommandBarProps) => {
         <Button color="secondary" endIcon={<ArrowDropDownIcon />} size="small">
           Insert
         </Button>
-        <Button color="secondary" endIcon={<ArrowDropDownIcon />} size="small">
-          Morphology
-        </Button>
       </Stack>
       <Stack
         sx={{ width: '100%' }}

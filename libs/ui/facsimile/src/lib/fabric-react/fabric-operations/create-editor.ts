@@ -183,7 +183,11 @@ function showEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
 function hideEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
   return () => {
     removeKeyboardEventListeners();
-    canvas.remove(...canvas.getObjects());
+    try {
+      canvas.remove(...canvas.getObjects());
+    } catch {
+      // no objects to remove
+    }
     editorRect.set(rectDefaultOptions());
     canvas.renderAll();
   };

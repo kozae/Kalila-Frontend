@@ -1,5 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { BaseEditor, createEditor, Descendant, Path, Transforms } from 'slate';
+import {
+  BaseEditor,
+  createEditor,
+  Descendant,
+  Element,
+  Transforms,
+} from 'slate';
 import { Editable, ReactEditor, Slate, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import Stack from '@mui/material/Stack';
@@ -13,6 +19,7 @@ import { LinePreview } from './line-preview';
 import { CommandBar } from './command-bar';
 import { EditorText } from './editor-text';
 import { saveEditorValueToStore } from '../helpers';
+import { withKalilaNormalization } from '../helpers/with-kalila-normalization';
 
 export type EditorTokenModel = {
   state?: TokenState;
@@ -81,9 +88,13 @@ export const KalilaEditor = ({
     mapLinesToEditorValue(lines)
   );
 
-  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const editor = useMemo(
+    () => withKalilaNormalization(withHistory(withReact(createEditor()))),
+    []
+  );
   const handleChange = useCallback(
-    (value: any) => {
+    (value: Element[]) => {
+      console.log(value);
       setValue(value);
       const focusedLine = editor.selection?.anchor.path;
       if (focusedLine) {
@@ -125,7 +136,11 @@ export const KalilaEditor = ({
     >
       <CommandBar editor={editor} />
       <LinePreview id={focusedLineId} />
-      <Slate editor={editor} value={value} onChange={handleChange}>
+      <Slate
+        editor={editor}
+        value={value}
+        onChange={(v) => handleChange(v as Element[])}
+      >
         <Editable
           style={{
             textAlign: 'right',
@@ -135,6 +150,9 @@ export const KalilaEditor = ({
           autoComplete="off"
           autoCorrect="off"
           onBlur={clearPreviews}
+          onDOMBeforeInput={(e) => {
+            console.log(e);
+          }}
           onKeyDown={(event) => {
             if (event.ctrlKey || event.metaKey) {
             } else if (

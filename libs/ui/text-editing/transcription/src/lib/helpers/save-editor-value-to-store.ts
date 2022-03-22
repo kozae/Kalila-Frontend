@@ -7,7 +7,6 @@ export function saveEditorValueToStore(
   tokenToLineIdMap: Record<string, IToken[]>,
   dispatch: AppDispatch
 ) {
-  console.log(value);
   const payload: { LineId: string; newTokens: IToken[] }[] = [];
   let orderInPageCounter: number = 0;
   for (const { children, id } of value) {
