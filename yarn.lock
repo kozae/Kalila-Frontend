@@ -7364,6 +7364,11 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
+docx-wasm@^0.0.252:
+  version "0.0.252"
+  resolved "https://registry.yarnpkg.com/docx-wasm/-/docx-wasm-0.0.252.tgz#8e688f12428a8705b24ef748219bb73960a2fc27"
+  integrity sha512-5jAeG4MYiFnw5kNJPQcnjWP/BKq6GaRhbm21IkutF1luFTgIkB0nXKJUXKXfLoEoKKdHQbEgsVJrwOMUH54/XQ==
+
 dom-accessibility-api@^0.5.9:
   version "0.5.11"
   resolved "https://registry.yarnpkg.com/dom-accessibility-api/-/dom-accessibility-api-0.5.11.tgz#79d5846c4f90eba3e617d9031e921de9324f84ed"

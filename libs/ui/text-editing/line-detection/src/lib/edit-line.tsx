@@ -1,6 +1,6 @@
 import { IFacsimileRegion } from '@frontend/domain';
 import {
-  addDataUrl,
+  addManyDataUrls,
   cancelCreateLine,
   kalilaTheme,
   onElementSelected,
@@ -43,8 +43,6 @@ export const EditLine = ({
         },
       })
     );
-    const onUrlCreated = (id: string, data: string) =>
-      dispatch(addDataUrl({ id, data }));
     if (fabricImg !== null) {
       const data = {
         Id: selectedLine.id,
@@ -53,7 +51,9 @@ export const EditLine = ({
           : kalilaTheme.palette.primary.main,
         ...selectedLine.region,
       } as IFacsimileRegion & { Id: string; HighlightColor?: string };
-      createRegionsDataUrls([data], fabricImg, onUrlCreated);
+      createRegionsDataUrls([data], fabricImg).then((values) => {
+        dispatch(addManyDataUrls(values));
+      });
     }
     dispatch(onElementSelected({ id: null, region: null }));
   }, [selectedLine]);

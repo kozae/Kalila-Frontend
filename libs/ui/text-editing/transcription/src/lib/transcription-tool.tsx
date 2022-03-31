@@ -1,11 +1,10 @@
 import { KalilaEditor } from './editor';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import {
   selectAllLines,
   selectAllTextElements,
   selectAllTokens,
   selectTextEditingToolMode,
-  setTextEditingToolMode,
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
@@ -23,6 +22,7 @@ export const TranscriptionTool = () => {
   const otherElements = textElements.filter(
     (el) => !el.Position.startsWith('main')
   );
+
   const tokens = useAppSelector(selectAllTokens);
   const tokenToLineIdMap = tokens.reduce((acc: Record<string, IToken[]>, t) => {
     const { LineId, ...token } = t;
@@ -70,6 +70,10 @@ export const TranscriptionTool = () => {
       lines={getLines()}
     />
   ) : (
-    <ViewTranscription />
+    <ViewTranscription
+      mainBodyElements={mainBodyElements}
+      otherElements={otherElements}
+      linesToElementMap={linesToElementMap}
+    />
   );
 };

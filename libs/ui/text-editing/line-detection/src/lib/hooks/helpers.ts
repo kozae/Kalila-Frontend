@@ -1,6 +1,6 @@
 import { IFacsimileRegion, ILine } from '@frontend/domain';
 import { fabric } from 'fabric';
-import { addDataUrl, KalilaAppDispatch } from '@frontend/shared-ui';
+import { addManyDataUrls, KalilaAppDispatch } from '@frontend/shared-ui';
 import { createRegionsDataUrls } from '@frontend/ui/facsimile';
 
 export const createAndDispatchLineDataUrl = (
@@ -8,8 +8,6 @@ export const createAndDispatchLineDataUrl = (
   fabricImg: fabric.Image | null,
   dispatch: KalilaAppDispatch
 ) => {
-  const onUrlCreated = (id: string, data: string) =>
-    dispatch(addDataUrl({ id, data }));
   if (fabricImg !== null) {
     const data = lines.map(
       (el) =>
@@ -19,6 +17,8 @@ export const createAndDispatchLineDataUrl = (
           ...el.FacsimileRegion,
         }
     ) as Array<IFacsimileRegion & { Id: string; HighlightColor?: string }>;
-    createRegionsDataUrls(data, fabricImg, onUrlCreated);
+    createRegionsDataUrls(data, fabricImg).then((values) => {
+      dispatch(addManyDataUrls(values));
+    });
   }
 };

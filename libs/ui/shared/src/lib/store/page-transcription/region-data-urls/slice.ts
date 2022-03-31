@@ -16,6 +16,7 @@ export const regionDataUrlsSlice = createSlice({
   reducers: {
     loadDataUrls: regionDataUrlAdapter.setAll,
     addDataUrl: regionDataUrlAdapter.upsertOne,
+    addManyDataUrls: regionDataUrlAdapter.upsertMany,
     clearDataUrls: regionDataUrlAdapter.removeAll,
   },
   extraReducers: (builder) => {
@@ -28,5 +29,5 @@ export const regionDataUrlsSlice = createSlice({
   },
 });
 
-export const { loadDataUrls, addDataUrl, clearDataUrls } =
+export const { loadDataUrls, addDataUrl, addManyDataUrls, clearDataUrls } =
   regionDataUrlsSlice.actions;

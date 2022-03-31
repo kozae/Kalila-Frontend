@@ -1,5 +1,5 @@
 import {
-  addDataUrl,
+  addManyDataUrls,
   cancelCreateImageElement,
   cancelCreateTextElement,
   kalilaTheme,
@@ -20,8 +20,10 @@ import Button from '@mui/material/Button';
 import { IFacsimileRegion } from '@frontend/domain';
 import { TextElementInfoForm } from './text-element-info-form';
 import { ImageElementInfoForm } from './image-element-info-form';
-import { RegionDefinitionKeyboardInstructions } from '@frontend/ui/text-editing/shared';
-import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
+import {
+  RegionDefinitionKeyboardInstructions,
+  TextEditingWorkspaceContext,
+} from '@frontend/ui/text-editing/shared';
 import { createRegionsDataUrls } from '@frontend/ui/facsimile';
 
 export const EditLayoutElement = ({
@@ -74,9 +76,6 @@ export const EditLayoutElement = ({
       );
     }
 
-    const onUrlCreated = (id: string, data: string) =>
-      dispatch(addDataUrl({ id, data }));
-
     if (fabricImg !== null) {
       const data = {
         Id: selectedElement.id,
@@ -87,7 +86,9 @@ export const EditLayoutElement = ({
           : kalilaTheme.palette.primary.main,
         ...selectedElement.region,
       } as IFacsimileRegion & { Id: string; HighlightColor?: string };
-      createRegionsDataUrls([data], fabricImg, onUrlCreated);
+      createRegionsDataUrls([data], fabricImg).then((values) => {
+        dispatch(addManyDataUrls(values));
+      });
     }
 
     dispatch(onElementSelected({ id: null, region: null }));

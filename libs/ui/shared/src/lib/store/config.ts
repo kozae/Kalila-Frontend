@@ -11,6 +11,7 @@ import { attributesSlice } from './schema/attributes';
 import { fieldsSlice } from './schema/fields';
 import { regionDataUrlsSlice } from './page-transcription/region-data-urls';
 import { textEditingPageSlice } from './text-editing-page';
+import { morphologySlice } from './page-transcription/morphologies';
 
 export const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ export const store = configureStore({
     [linesSlice.name]: linesSlice.reducer,
     [textElementsSlice.name]: textElementsSlice.reducer,
     [tokenSlice.name]: tokenSlice.reducer,
+    [morphologySlice.name]: morphologySlice.reducer,
     [unitSummariesSlice.name]: unitSummariesSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),

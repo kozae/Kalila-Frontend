@@ -77,20 +77,24 @@ export function createDataUrlFromRect(
 
 export function createRegionsDataUrls(
   regions: Array<IFacsimileRegion & { Id: string; HighlightColor?: string }>,
-  img: fabric.Image,
-  onCreate: (id: string, data: string) => void
+  img: fabric.Image
 ) {
-  regions.forEach((r) => {
-    const rect = {
-      ...r.Points[0],
-      ...PolygonHelper.getWidthAndHeight(r.Points),
-      Rotation: r.Rotation,
-      HighlightColor: r.HighlightColor,
-    };
-    createDataUrlFromRect(rect, img, (dataUrl) => {
-      onCreate(r.Id, dataUrl);
-    });
-  });
+  return Promise.all(
+    regions.map((r) => {
+      const rect = {
+        ...r.Points[0],
+        ...PolygonHelper.getWidthAndHeight(r.Points),
+        Rotation: r.Rotation,
+        HighlightColor: r.HighlightColor,
+      };
+
+      return new Promise<{ id: string; data: string }>((resolve) => {
+        createDataUrlFromRect(rect, img, (dataUrl) => {
+          resolve({ id: r.Id, data: dataUrl });
+        });
+      });
+    })
+  );
 }
 
 function createMask(d: {

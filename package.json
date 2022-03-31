@@ -33,6 +33,7 @@
     "bson-objectid": "^2.0.2",
     "class-transformer": "^0.5.1",
     "core-js": "^3.6.5",
+    "docx-wasm": "^0.0.252",
     "es6-shim": "^0.35.6",
     "fabric": "^5.1.0",
     "formik": "^2.2.9",

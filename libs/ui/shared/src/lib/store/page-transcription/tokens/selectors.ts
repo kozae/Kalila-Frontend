@@ -23,3 +23,12 @@ export const selectTokensOfLine = createSelector(
   [selectAllTokens, (state, id: string) => id],
   (tokens, lineId) => tokens.filter((t) => t.LineId === lineId)
 );
+
+export const selectTokenCountsOfLinesAsMapOfOrder = createSelector(
+  [selectAllTokens, (state, lines: [string, number][]) => lines],
+  (tokens, lines) =>
+    lines.reduce((acc: Record<number, number>, [id, order]) => {
+      acc[order] = tokens.filter((t) => t.LineId === id).length;
+      return acc;
+    }, {})
+);

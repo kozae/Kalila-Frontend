@@ -1,6 +1,7 @@
 import {
   IFacsimileRegion,
   ILine,
+  IMorphology,
   IPageTranscription,
   ITextElement,
   IToken,
@@ -11,12 +12,13 @@ import { clearImageElements, loadImageElements } from './image-elements';
 import { clearTextElements, loadTextElements } from './text-elements';
 import { clearLines, loadLines } from './lines';
 import { clearTokens, loadTokens } from './tokens';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { clearPageData, loadPageData, pageDataLoaded } from './page-data';
-import { addDataUrl, clearDataUrls } from './region-data-urls';
+import { addManyDataUrls, clearDataUrls } from './region-data-urls';
 import { createRegionsDataUrls, highlightColors } from '@frontend/ui/facsimile';
 import { clearTextEditingPageStore } from '../text-editing-page';
 import { fabric } from 'fabric';
+import { clearMorphologies, loadMorphologies } from './morphologies';
 
 export function useTextEditingWorkspaceStore(
   data: IPageTranscription,
@@ -28,12 +30,23 @@ export function useTextEditingWorkspaceStore(
   const textElements: Omit<ITextElement, 'Lines'>[] = [];
   const lines: Array<Omit<ILine, 'Tokens'> & { ElementId: string }> = [];
   const tokens: (IToken & { LineId: string })[] = [];
+  const morphologies: (Partial<IMorphology> & {
+    LineId: string;
+    TokenOrder: number;
+  })[] = [];
   TextElements.forEach((te, i) => {
     const { Lines, ...rest } = te;
     textElements.push({ ...rest, HighlightColor: highlightColors[i % 13] });
     Lines.forEach((l, i) => {
       const { Tokens, ...rest } = l;
       tokens.push(...Tokens.map((t) => ({ ...t, LineId: l.Id })));
+      morphologies.push(
+        ...Tokens.filter((t) => t.Morphology !== undefined).map((t) => ({
+          ...t.Morphology,
+          LineId: l.Id,
+          TokenOrder: t.OrderInLine,
+        }))
+      );
       lines.push({
         ...rest,
         ElementId: te.Id,
@@ -56,6 +69,7 @@ export function useTextEditingWorkspaceStore(
     dispatch(clearTextElements());
     dispatch(clearLines());
     dispatch(clearTokens());
+    dispatch(clearMorphologies());
   };
 
   useEffect(() => {
@@ -65,6 +79,7 @@ export function useTextEditingWorkspaceStore(
     dispatch(loadTextElements(textElements));
     dispatch(loadLines(lines));
     dispatch(loadTokens(tokens));
+    dispatch(loadMorphologies(morphologies));
 
     setTimeout(() => {
       dispatch(pageDataLoaded());
@@ -73,8 +88,6 @@ export function useTextEditingWorkspaceStore(
     return clearAll;
   }, [data, imageSize]);
 
-  const onUrlCreated = (id: string, data: string) =>
-    dispatch(addDataUrl({ id, data }));
   useEffect(() => {
     if (fabricImg !== null) {
       const data = [...textElements, ...imageElements, ...lines].map(
@@ -85,7 +98,9 @@ export function useTextEditingWorkspaceStore(
             ...el.FacsimileRegion,
           }
       ) as Array<IFacsimileRegion & { Id: string; HighlightColor?: string }>;
-      createRegionsDataUrls(data, fabricImg, onUrlCreated);
+      createRegionsDataUrls(data, fabricImg).then((values) => {
+        dispatch(addManyDataUrls(values));
+      });
     }
   }, [data, fabricImg]);
 

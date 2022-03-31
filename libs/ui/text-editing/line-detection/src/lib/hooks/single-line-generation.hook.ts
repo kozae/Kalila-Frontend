@@ -1,8 +1,4 @@
-import {
-  addDataUrl,
-  loadGeneratedLines,
-  useAppDispatch,
-} from '@frontend/shared-ui';
+import { addManyDataUrls, useAppDispatch } from '@frontend/shared-ui';
 import { useContext } from 'react';
 import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 import { ILine, IPoint, ITextElement } from '@frontend/domain';
@@ -15,8 +11,6 @@ import {
 export function useSingleLineGenerationHandler() {
   const dispatch = useAppDispatch();
   const { fabricImg } = useContext(TextEditingWorkspaceContext);
-  const onUrlCreated = (id: string, data: string) =>
-    dispatch(addDataUrl({ id, data }));
 
   return (
     element: Omit<ITextElement, 'Lines'>,
@@ -54,9 +48,10 @@ export function useSingleLineGenerationHandler() {
             ...line.FacsimileRegion,
           },
         ],
-        fabricImg,
-        onUrlCreated
-      );
+        fabricImg
+      ).then((values) => {
+        dispatch(addManyDataUrls(values));
+      });
     }
     return line;
   };

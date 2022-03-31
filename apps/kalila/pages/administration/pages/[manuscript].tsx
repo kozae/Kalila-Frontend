@@ -116,22 +116,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const manuscriptId = context.params['manuscript'] as string;
     console.log('generating page administration for: ', manuscriptId);
-    const query = {
-      siglum: await siglum(manuscriptId),
-    };
     return {
       props: {
-        ...query,
+        siglum: await siglum(manuscriptId),
         manuscriptId,
       },
-      revalidate: 30,
     };
   } catch {
     return {
-      redirect: {
-        destination: '/404',
-      },
-      props: {},
+      notFound: true,
     };
   }
 };
