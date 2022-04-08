@@ -1,30 +1,38 @@
 import Popper from '@mui/material/Popper';
-import Box from '@mui/material/Box';
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import {
-  ISelectedToken,
   IViewTranscriptionProps,
   ViewTranscriptionContext,
 } from '../view-transcription';
 import Mousetrap from 'mousetrap';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import { flatten } from 'lodash';
-import { ITextElement } from '@frontend/domain';
+import { IMorphology, ITextElement } from '@frontend/domain';
 import {
   selectTokenCountsOfLinesAsMapOfOrder,
+  upsertTokenMorphology,
+  useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
-
-type ITokenCounts = Record<'main' | 'other', Record<number, number>>;
+import { MorphologyPopperContent } from './morphology-popper-content';
+import {
+  getNextTokenDown,
+  getNextTokenLeft,
+  getNextTokenRight,
+  getNextTokenUp,
+  ITokenCounts,
+} from './util';
 
 export const MorphologyAnnotation = ({
   mainBodyElements,
   otherElements,
   linesToElementMap,
 }: IViewTranscriptionProps) => {
-  const { morphologyPopperAnchor, setSelectedToken, morphologyData } =
-    useContext(ViewTranscriptionContext);
+  const {
+    morphologyPopperAnchor,
+    setMorphologyPopperAnchor,
+    setSelectedToken,
+    selectedToken,
+  } = useContext(ViewTranscriptionContext);
   const morphologyPopperOpen = Boolean(morphologyPopperAnchor);
 
   const createLinesSummary = (elements: Omit<ITextElement, 'Lines'>[]) =>
@@ -35,6 +43,12 @@ export const MorphologyAnnotation = ({
         )
       )
     );
+
+  useEffect(() => {
+    if (selectedToken.line === undefined || selectedToken.token === undefined) {
+      setMorphologyPopperAnchor(null);
+    }
+  }, [selectedToken]);
 
   const tokenCounts: ITokenCounts = {
     main: useAppSelector((state) =>
@@ -50,83 +64,76 @@ export const MorphologyAnnotation = ({
       )
     ),
   };
-  console.log({ tokenCounts });
+  const moveUp = () =>
+    setSelectedToken &&
+    setSelectedToken((current) => getNextTokenUp(current, tokenCounts));
+  const moveDown = () =>
+    setSelectedToken &&
+    setSelectedToken((current) => getNextTokenDown(current, tokenCounts));
+  const moveLeft = () =>
+    setSelectedToken &&
+    setSelectedToken((current) => getNextTokenLeft(current, tokenCounts));
+  const moveRight = () =>
+    setSelectedToken &&
+    setSelectedToken((current) => getNextTokenRight(current, tokenCounts));
   useEffect(() => {
-    if (setSelectedToken) {
-      Mousetrap.bind('up', (e) => {
-        e.preventDefault();
-        console.log('calling custom event');
-        setSelectedToken(({ line, token, elementType }: ISelectedToken) => {
-          return {
-            line: line !== undefined && line > 0 ? line - 1 : undefined,
-            token,
-            elementType,
-          };
-        });
-      });
-      Mousetrap.bind('down', (e) => {
-        e.preventDefault();
-        setSelectedToken(({ line, token, elementType }: ISelectedToken) => {
-          return {
-            line: line !== undefined ? line + 1 : undefined,
-            token,
-            elementType,
-          };
-        });
-      });
-      Mousetrap.bind('left', (e) => {
-        e.preventDefault();
-        setSelectedToken(({ line, token, elementType }: ISelectedToken) => {
-          return {
-            line,
-            token: token !== undefined ? token + 1 : undefined,
-            elementType,
-          };
-        });
-      });
-      Mousetrap.bind('right', (e) => {
-        e.preventDefault();
-        setSelectedToken(({ line, token, elementType }: ISelectedToken) => {
-          return {
-            line,
-            token: token !== undefined && token > 0 ? token - 1 : undefined,
-            elementType,
-          };
-        });
-      });
-    }
+    Mousetrap.bind('up', (e) => {
+      e.preventDefault();
+      moveUp();
+    });
+    Mousetrap.bind('down', (e) => {
+      e.preventDefault();
+      moveDown();
+    });
+    Mousetrap.bind('left', (e) => {
+      e.preventDefault();
+      moveLeft();
+    });
+    Mousetrap.bind('right', (e) => {
+      e.preventDefault();
+      moveRight();
+    });
 
     return () => {
       Mousetrap.reset();
     };
   }, []);
 
+  const dispatch = useAppDispatch();
+  const handleSelection = useCallback(
+    (d: IMorphology) => {
+      if (
+        selectedToken &&
+        selectedToken.line !== undefined &&
+        selectedToken.token !== undefined
+      ) {
+        const LineId =
+          tokenCounts[selectedToken.elementType][selectedToken.line].id;
+        const TokenOrder = selectedToken.token;
+        dispatch(upsertTokenMorphology({ ...d, LineId, TokenOrder }));
+      }
+
+      moveLeft();
+    },
+    [selectedToken]
+  );
+
   return (
     <Popper
       open={morphologyPopperOpen}
       anchorEl={morphologyPopperAnchor}
       placement="top"
+      style={{ zIndex: 20 }}
     >
-      <Box
-        sx={{ border: 1, p: 1, bgcolor: 'background.paper', width: '300px' }}
-      >
-        {morphologyData.length === 0 && <p>No Results</p>}
-        <Stack
-          direction="row"
-          flexWrap="wrap"
-          sx={{ width: '100%' }}
-          spacing={0.5}
-          justifyContent="center"
-        >
-          {morphologyData.map((d, i) => (
-            <Box key={d.Id} sx={{ p: '5px' }}>
-              <Typography variant="body2">
-                {i + 1}. {d.Word}
-              </Typography>
-            </Box>
-          ))}
-        </Stack>
-      </Box>
+      <MorphologyPopperContent
+        key={`${selectedToken.elementType}_${selectedToken.line}_${selectedToken.token}`}
+        onMoveUp={moveUp}
+        onMoveDown={moveDown}
+        onMoveLeft={moveLeft}
+        onMoveRight={moveRight}
+        onSkip={moveLeft}
+        onSelected={handleSelection}
+      />
     </Popper>
   );
 };

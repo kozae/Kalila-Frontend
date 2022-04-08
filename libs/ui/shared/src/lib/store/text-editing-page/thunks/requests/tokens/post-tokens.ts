@@ -1,6 +1,6 @@
 import { RootState } from '@frontend/shared-ui';
 import { getParams, PageParams } from '../helpers';
-import { IToken } from '@frontend/domain';
+import { IMorphology, IToken } from '@frontend/domain';
 import axios from 'axios';
 import { omit } from 'lodash';
 
@@ -18,13 +18,19 @@ export async function postTokens(state: RootState) {
     const line = state.lines.entities[lineId];
     const tokens = Object.values(state.tokens.entities).filter(
       (t) => t && t.LineId === lineId
-    );
+    ) as (IToken & { LineId: string })[];
     data.push({
       ElementId: line?.ElementId as string,
       LineId: lineId,
       Tokens: tokens.map((t) => ({
         ...omit(t, 'LineId'),
-        Id: t?.Id as string,
+        Id: t.Id as string,
+        Morphology: state.morphologies.entities[`${t.LineId}_${t.OrderInLine}`]
+          ? (omit(state.morphologies.entities[`${t.LineId}_${t.OrderInLine}`], [
+              'LineId',
+              'TokenOrder',
+            ]) as IMorphology)
+          : undefined,
       })),
     });
   });

@@ -5,6 +5,7 @@ import { hexToRgba } from '@frontend/util';
 import { darken } from '@mui/material';
 import { selectTokensOfLine, useAppSelector } from '@frontend/shared-ui';
 import { Token } from './token';
+import { useRef } from 'react';
 
 export interface ILineProps {
   d: Omit<ILine, 'Tokens'> & { ElementId: string };
@@ -12,6 +13,7 @@ export interface ILineProps {
 }
 
 export const Line = ({ d, elementType }: ILineProps) => {
+  const ref = useRef<HTMLDivElement>(null);
   const tokens = useAppSelector((state) => selectTokensOfLine(state, d.Id));
   return (
     <Stack
@@ -27,6 +29,7 @@ export const Line = ({ d, elementType }: ILineProps) => {
       }}
       alignItems="center"
       direction="row-reverse"
+      ref={ref}
     >
       <Typography sx={{ p: '5px' }} variant="h1">
         {d.LineOrder + 1}
@@ -47,6 +50,7 @@ export const Line = ({ d, elementType }: ILineProps) => {
             elementType={elementType}
             key={t.Id}
             d={t}
+            lineRef={ref}
           />
         ))}
       </Stack>

@@ -40,6 +40,7 @@ export function useTextEditingWorkspaceStore(
     Lines.forEach((l, i) => {
       const { Tokens, ...rest } = l;
       tokens.push(...Tokens.map((t) => ({ ...t, LineId: l.Id })));
+      console.log(Tokens);
       morphologies.push(
         ...Tokens.filter((t) => t.Morphology !== undefined).map((t) => ({
           ...t.Morphology,

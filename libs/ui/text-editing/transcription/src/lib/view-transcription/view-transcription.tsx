@@ -3,7 +3,14 @@ import Stack from '@mui/material/Stack';
 import { ILine, IMorphology, ITextElement } from '@frontend/domain';
 import Typography from '@mui/material/Typography';
 import { TextElement } from './text-element';
-import { createContext, Dispatch, SetStateAction, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useRef,
+  useState,
+} from 'react';
 import { MorphologyAnnotation } from './morphology-annotation';
 
 export interface IViewTranscriptionProps {
@@ -30,6 +37,7 @@ export const ViewTranscription = ({
   otherElements,
   linesToElementMap,
 }: IViewTranscriptionProps) => {
+  const ref = useRef<HTMLDivElement>(null);
   const [annotation, setAnnotation] = useState<VisibleAnnotation>('none');
   const [selectedToken, setSelectedToken] = useState<ISelectedToken>({
     elementType: 'main',
@@ -40,6 +48,7 @@ export const ViewTranscription = ({
   return (
     <ViewTranscriptionContext.Provider
       value={{
+        containerRef: ref,
         annotation,
         setAnnotation,
         morphologyPopperAnchor,
@@ -60,6 +69,7 @@ export const ViewTranscription = ({
           mt: '10px',
         }}
         alignItems="center"
+        ref={ref}
       >
         <CommandBar />
         <Stack sx={{ width: '100%', mt: '10px' }} alignItems="center">
@@ -121,6 +131,7 @@ export interface IViewTranscriptionContext {
   setMorphologyPopperAnchor: (el: any) => void;
   morphologyData: IMorphology[];
   setMorphologyData: (d: IMorphology[]) => void;
+  containerRef?: RefObject<HTMLDivElement>;
 }
 
 export const ViewTranscriptionContext =

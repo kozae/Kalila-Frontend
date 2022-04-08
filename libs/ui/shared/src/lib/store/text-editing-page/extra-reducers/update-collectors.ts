@@ -25,6 +25,7 @@ import {
   replaceLinesTokens,
   updateManyTokens,
 } from '../../page-transcription/tokens';
+import { upsertTokenMorphology } from '../../page-transcription/morphologies';
 
 export function addUpdateCollectors(
   builder: ActionReducerMapBuilder<ITextEditingPageState>
@@ -125,6 +126,11 @@ export function addUpdateCollectors(
         state.postTokens.push(lineId);
       }
     });
+  });
+  builder.addCase(upsertTokenMorphology, (state, action) => {
+    if (!state.postTokens.includes(action.payload.LineId)) {
+      state.postTokens.push(action.payload.LineId);
+    }
   });
   builder.addCase(replaceLinesTokens, (state, action) => {
     for (const { LineId } of action.payload) {

@@ -1,4 +1,8 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { IMorphology } from '@frontend/domain';
 
 export const morphologyAdapter = createEntityAdapter<
@@ -14,8 +18,10 @@ export const morphologySlice = createSlice({
   initialState,
   reducers: {
     loadMorphologies: morphologyAdapter.setAll,
+    upsertTokenMorphology: morphologyAdapter.upsertOne,
     clearMorphologies: morphologyAdapter.removeAll,
   },
 });
 
-export const { loadMorphologies, clearMorphologies } = morphologySlice.actions;
+export const { loadMorphologies, clearMorphologies, upsertTokenMorphology } =
+  morphologySlice.actions;

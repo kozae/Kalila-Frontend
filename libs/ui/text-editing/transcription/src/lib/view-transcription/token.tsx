@@ -2,26 +2,35 @@ import { IMorphology, IToken } from '@frontend/domain';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { ViewTranscriptionContext } from './view-transcription';
-import { useCallback, useContext, useEffect, useRef } from 'react';
+import { RefObject, useCallback, useContext, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { selectAccessToken, useAppSelector } from '@frontend/shared-ui';
+import {
+  selectAccessToken,
+  selectMorphologyByLineAndToken,
+  useAppSelector,
+} from '@frontend/shared-ui';
 import { paramsSerializer } from '@frontend/util';
 
 export interface ITokenProps {
   d: IToken & { LineId: string };
   lineOrder: number;
   elementType: 'main' | 'other';
+  lineRef: RefObject<HTMLDivElement>;
 }
 
-export const Token = ({ d, lineOrder, elementType }: ITokenProps) => {
-  const ref = useRef(null);
+export const Token = ({ d, lineOrder, elementType, lineRef }: ITokenProps) => {
+  const ref = useRef<HTMLDivElement>(null);
   const accessToken = useAppSelector(selectAccessToken);
+  const morphology = useAppSelector((state) =>
+    selectMorphologyByLineAndToken(state, `${d.LineId}_${d.OrderInLine}`)
+  );
   const {
     annotation,
     selectedToken,
     setMorphologyPopperAnchor,
     setSelectedToken,
     setMorphologyData,
+    containerRef,
   } = useContext(ViewTranscriptionContext);
   useEffect(() => {
     if (
@@ -31,6 +40,11 @@ export const Token = ({ d, lineOrder, elementType }: ITokenProps) => {
       ref
     ) {
       setMorphologyPopperAnchor(ref.current);
+      if (containerRef && lineRef && lineRef.current && containerRef.current) {
+        containerRef.current.scrollTo({
+          top: lineRef.current.offsetTop - 100,
+        });
+      }
       axios
         .get<Record<string, IMorphology[]>>('/server/api/v1/Morphology/Word', {
           headers: {
@@ -43,28 +57,28 @@ export const Token = ({ d, lineOrder, elementType }: ITokenProps) => {
     }
   }, [selectedToken]);
   const getAnnotation = useCallback(() => {
-    if (d.Morphology === undefined) {
+    if (morphology === undefined) {
       return d.RawToken;
     }
     switch (annotation) {
       case 'vocalized':
-        return d.Morphology?.Word;
+        return morphology?.Word;
       case 'rasm':
-        return d.Morphology?.Rasm;
+        return morphology?.Rasm;
       case 'root':
-        return d.Morphology?.Root;
+        return morphology?.Root;
       case 'pos':
-        return d.Morphology?.PartOfSpeech;
+        return morphology?.PartOfSpeech;
       case 'type':
-        return d.Morphology?.Type;
+        return morphology?.Type;
       case 'stem':
-        return d.Morphology?.Stem;
+        return morphology?.Stem;
       case 'wazn':
-        return d.Morphology?.PatLemma;
+        return morphology.Canonic;
       default:
         return d.RawToken;
     }
-  }, [annotation, d]);
+  }, [annotation, d, morphology]);
   const handleClick = () => {
     if (setSelectedToken) {
       setSelectedToken({ line: lineOrder, token: d.OrderInLine, elementType });
@@ -80,6 +94,7 @@ export const Token = ({ d, lineOrder, elementType }: ITokenProps) => {
           pb: '3px',
           fontWeight:
             selectedToken.line === lineOrder &&
+            selectedToken.elementType === elementType &&
             selectedToken.token === d.OrderInLine
               ? 'bold'
               : 'normal',
