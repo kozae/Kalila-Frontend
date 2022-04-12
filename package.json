@@ -11,6 +11,7 @@
   },
   "private": true,
   "dependencies": {
+    "@builder.io/partytown": "^0.5.2",
     "@emotion/react": "11.8.2",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "11.8.1",
