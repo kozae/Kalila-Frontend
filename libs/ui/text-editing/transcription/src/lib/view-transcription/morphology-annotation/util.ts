@@ -12,7 +12,10 @@ export function getNextTokenUp(
   if (current.line === undefined || current.token === undefined) {
     return current;
   }
-  if (current.line === 0) {
+  if (
+    current.line === 0 ||
+    counts[current.elementType][current.line - 1] === undefined
+  ) {
     if (current.elementType === 'main') {
       return { elementType: 'main' };
     } else {
@@ -44,7 +47,7 @@ export function getNextTokenDown(
   if (current.line === undefined || current.token === undefined) {
     return current;
   }
-  if (current.line === Object.keys(counts[current.elementType]).length - 1) {
+  if (counts[current.elementType][current.line + 1] === undefined) {
     if (current.elementType === 'main') {
       return { line: 0, token: 0, elementType: 'other' };
     }

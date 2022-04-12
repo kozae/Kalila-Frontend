@@ -8,8 +8,8 @@ export interface IUnitSummary {
   StartsInPageNumber: number;
   StartsInLineNumber: number;
   FirstTokenOrderInLine: number;
-  Order: number;
-  EndsInPageNumber: number;
-  EndsInLineNumber: number;
-  LastTokenOrderInLine: number;
+  Order?: number;
+  EndsInPageNumber?: number;
+  EndsInLineNumber?: number;
+  LastTokenOrderInLine?: number;
 }

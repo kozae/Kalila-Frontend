@@ -22,7 +22,8 @@ import {
   useAppSelector,
 } from '@frontend/shared-ui';
 import { LineDetectionTool } from '@frontend/ui/text-editing/line-detection';
-import { TranscriptionTool } from '../../../../../transcription/src/lib/transcription-tool';
+import { TranscriptionTool } from '@frontend/ui/text-editing/transcription';
+import { TextSegmentationTool } from '@frontend/ui/text-editing/text-segmentation';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -191,7 +192,7 @@ export const ToolSpace = () => {
                 <TranscriptionTool />
               </TabPanel>
               <TabPanel value={tabIndex} index={4} dir={theme.direction}>
-                Item Five
+                <TextSegmentationTool />
               </TabPanel>
             </SwipeableViews>
           </motion.div>

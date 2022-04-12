@@ -13,6 +13,7 @@ import {
 } from '@frontend/shared-ui';
 import Tooltip from '@mui/material/Tooltip';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import PreviewTwoToneIcon from '@mui/icons-material/PreviewTwoTone';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
@@ -83,6 +84,10 @@ export const CommandBar = ({ editor }: ICommandBarProps) => {
     },
     [editor]
   );
+
+  const backToView = () => {
+    dispatch(setTextEditingToolMode('default'));
+  };
 
   return (
     <Stack
@@ -343,6 +348,15 @@ export const CommandBar = ({ editor }: ICommandBarProps) => {
         <Typography variant="h2">
           {mode === 'main-body' ? 'Main Body' : 'Legends and Marginalia'}
         </Typography>
+        <Button
+          startIcon={<PreviewTwoToneIcon />}
+          size="small"
+          color="secondary"
+          sx={{ position: 'absolute', left: 0 }}
+          onClick={backToView}
+        >
+          Back to view & annotate
+        </Button>
       </Stack>
     </Stack>
   );

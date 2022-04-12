@@ -10,6 +10,7 @@ export * from './page-transcription/text-elements';
 export * from './page-transcription/image-elements';
 export * from './page-transcription/tokens';
 export * from './page-transcription/morphologies';
+export * from './page-transcription/units-summary';
 export * from './paged-documents';
 export * from './text-editing-page';
 export * from './config';

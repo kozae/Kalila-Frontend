@@ -1,4 +1,8 @@
-import { kalilaTheme } from '@frontend/shared-ui';
+import {
+  kalilaTheme,
+  setTextEditingToolMode,
+  useAppDispatch,
+} from '@frontend/shared-ui';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import KeyboardAltTwoToneIcon from '@mui/icons-material/KeyboardAltTwoTone';
@@ -45,6 +49,10 @@ export const CommandBar = ({}: ICommandBarProps) => {
       }
     }
   }, [selectedToken]);
+  const dispatch = useAppDispatch();
+  const showEditor = () => {
+    dispatch(setTextEditingToolMode('main-body'));
+  };
   return (
     <Stack
       sx={{
@@ -68,6 +76,7 @@ export const CommandBar = ({}: ICommandBarProps) => {
           startIcon={<KeyboardAltTwoToneIcon />}
           color="secondary"
           size={'small'}
+          onClick={showEditor}
         >
           Edit Transcription
         </Button>

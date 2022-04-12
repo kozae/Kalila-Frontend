@@ -18,6 +18,16 @@ export const selectCurrentPageId = createSelector(
   (state) => state.pageInfo.Id
 );
 
+export const selectCurrentPageManuscriptId = createSelector(
+  selectPageDataState,
+  (state) => state.pageInfo.ManuscriptId
+);
+
+export const selectCurrentPageNumber = createSelector(
+  selectPageDataState,
+  (state) => state.pageInfo.Number
+);
+
 export const selectCurrentPageFacsimileData = createSelector(
   [
     selectPageDataState,

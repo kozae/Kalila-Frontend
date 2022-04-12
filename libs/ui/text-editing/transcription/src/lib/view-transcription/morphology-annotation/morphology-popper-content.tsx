@@ -11,10 +11,12 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import Typography from '@mui/material/Typography';
 import { IMorphology } from '@frontend/domain';
+import { useKeyboardControls } from './hooks/keyboard-controls-hook';
 
 interface IMorphologyPopperContentProps {
   onSelected: (d: IMorphology) => void;
   onSkip: () => void;
+  onClose: () => void;
   onMoveUp: () => void;
   onMoveDown: () => void;
   onMoveLeft: () => void;
@@ -24,6 +26,7 @@ interface IMorphologyPopperContentProps {
 export const MorphologyPopperContent = ({
   onSelected,
   onSkip,
+  onClose,
   onMoveUp,
   onMoveDown,
   onMoveLeft,
@@ -49,6 +52,33 @@ export const MorphologyPopperContent = ({
   const firstPage = () => {
     setCurrentPage(0);
   };
+  const getMorphology = useCallback(
+    (index: number) => {
+      return morphologyData[index];
+    },
+    [morphologyData]
+  );
+  useKeyboardControls({
+    moveUp: onMoveUp,
+    moveDown: onMoveDown,
+    moveLeft: onMoveLeft,
+    moveRight: onMoveRight,
+    gotoFirstPage: firstPage,
+    gotoNextPage: nextPage,
+    closePopper: onClose,
+    skipToken: onSkip,
+    selectChoice: useCallback(
+      (n) => {
+        const choice = getMorphology(currentPage * pageSize + n - 1);
+        console.log('choice', choice);
+        onSkip();
+        // if (choice !== undefined) {
+        //   onSelected(choice);
+        // }
+      },
+      [currentPage, pageSize, getMorphology]
+    ),
+  });
   return (
     <Stack
       sx={{
@@ -141,7 +171,7 @@ export const MorphologyPopperContent = ({
             onClick={nextPage}
             variant="contained"
           >
-            M. more...
+            M. more choices...
           </Button>
         )}
         {pages > 1 && currentPage == pages - 1 && (
@@ -151,12 +181,9 @@ export const MorphologyPopperContent = ({
             onClick={firstPage}
             variant="contained"
           >
-            B. back...
+            F. to first page...
           </Button>
         )}
-        <Button disableElevation variant="contained" size="small">
-          C. create...
-        </Button>
         <Button
           onClick={onSkip}
           disableElevation
@@ -164,6 +191,14 @@ export const MorphologyPopperContent = ({
           size="small"
         >
           S. skip
+        </Button>
+        <Button
+          onClick={onClose}
+          color="warning"
+          variant="outlined"
+          size="small"
+        >
+          X. close
         </Button>
       </Stack>
     </Stack>

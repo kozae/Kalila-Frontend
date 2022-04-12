@@ -12,9 +12,10 @@ export const unitSummariesSlice = createSlice({
   initialState,
   reducers: {
     loadUnitSummaries: unitSummariesAdapter.setAll,
+    insertUnit: unitSummariesAdapter.addOne,
     clearUnitSummaries: unitSummariesAdapter.removeAll,
   },
 });
 
-export const { loadUnitSummaries, clearUnitSummaries } =
+export const { loadUnitSummaries, clearUnitSummaries, insertUnit } =
   unitSummariesSlice.actions;

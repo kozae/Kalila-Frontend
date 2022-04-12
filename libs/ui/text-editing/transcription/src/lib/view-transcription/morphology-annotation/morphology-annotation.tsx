@@ -64,6 +64,14 @@ export const MorphologyAnnotation = ({
       )
     ),
   };
+  const onClose = () => {
+    setSelectedToken &&
+      setSelectedToken({
+        line: undefined,
+        token: undefined,
+        elementType: 'main',
+      });
+  };
   const moveUp = () =>
     setSelectedToken &&
     setSelectedToken((current) => getNextTokenUp(current, tokenCounts));
@@ -76,28 +84,6 @@ export const MorphologyAnnotation = ({
   const moveRight = () =>
     setSelectedToken &&
     setSelectedToken((current) => getNextTokenRight(current, tokenCounts));
-  useEffect(() => {
-    Mousetrap.bind('up', (e) => {
-      e.preventDefault();
-      moveUp();
-    });
-    Mousetrap.bind('down', (e) => {
-      e.preventDefault();
-      moveDown();
-    });
-    Mousetrap.bind('left', (e) => {
-      e.preventDefault();
-      moveLeft();
-    });
-    Mousetrap.bind('right', (e) => {
-      e.preventDefault();
-      moveRight();
-    });
-
-    return () => {
-      Mousetrap.reset();
-    };
-  }, []);
 
   const dispatch = useAppDispatch();
   const handleSelection = useCallback(
@@ -122,7 +108,7 @@ export const MorphologyAnnotation = ({
     <Popper
       open={morphologyPopperOpen}
       anchorEl={morphologyPopperAnchor}
-      placement="top"
+      placement="bottom"
       style={{ zIndex: 20 }}
     >
       <MorphologyPopperContent
@@ -132,6 +118,7 @@ export const MorphologyAnnotation = ({
         onMoveLeft={moveLeft}
         onMoveRight={moveRight}
         onSkip={moveLeft}
+        onClose={onClose}
         onSelected={handleSelection}
       />
     </Popper>

@@ -14,7 +14,6 @@ import { ViewTranscription } from './view-transcription';
 
 export const TranscriptionTool = () => {
   const mode = useAppSelector(selectTextEditingToolMode);
-  const dispatch = useAppDispatch();
   const textElements = useAppSelector(selectAllTextElements);
   const mainBodyElements = textElements.filter((el) =>
     el.Position.startsWith('main')

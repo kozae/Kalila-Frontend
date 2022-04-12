@@ -1,1 +1,1 @@
-export * from './lib/ui-text-editing-text-segmentation';
+export * from './lib/text-segmentation-tool';
