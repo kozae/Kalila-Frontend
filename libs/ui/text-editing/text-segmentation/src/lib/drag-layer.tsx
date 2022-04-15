@@ -1,14 +1,18 @@
-import { useDragLayer, XYCoord } from 'react-dnd';
-import Box from '@mui/material/Box';
-import Portal from '@mui/material/Portal';
+import { useDragLayer, XYCoord } from "react-dnd";
+import Box from "@mui/material/Box";
+import Portal from "@mui/material/Portal";
 import {
   InsertableEndTagDragPreview,
-  InsertableUnitDragPreview,
-} from './draggables';
+  InsertableUnitDragPreview
+} from "./draggables";
+import { MovableUnitStartDragPreview } from "./draggables/movable-unit-start";
+import { MovableUnitEndDragPreview } from "./draggables/movable-unit-end";
 
 export enum Draggables {
-  insertableUnit = 'insertableUnit',
-  insertableEndTag = 'insertableEndTag',
+  insertableUnit = "insertableUnit",
+  movableUnit = "movableUnit",
+  insertableEndTag = "insertableEndTag",
+  movableEndTag = "movableEndTag",
 }
 
 export interface IItemData {
@@ -22,16 +26,16 @@ function getItemStyles(
 ) {
   if (!initialOffset || !currentOffset) {
     return {
-      display: 'none',
+      display: "none"
     };
   }
   let { x, y } = currentOffset;
 
   const transform = `translate(${x}px, ${y}px)`;
   return {
-    width: 'fit-content',
+    width: "fit-content",
     transform,
-    WebkitTransform: transform,
+    WebkitTransform: transform
   };
 }
 
@@ -42,7 +46,7 @@ export const DragLayer = () => {
       itemType: monitor.getItemType(),
       initialOffset: monitor.getInitialSourceClientOffset(),
       currentOffset: monitor.getSourceClientOffset(),
-      isDragging: monitor.isDragging(),
+      isDragging: monitor.isDragging()
     }));
 
   const renderItem = () => {
@@ -51,6 +55,10 @@ export const DragLayer = () => {
         return <InsertableUnitDragPreview d={item.data} />;
       case Draggables.insertableEndTag:
         return <InsertableEndTagDragPreview />;
+      case Draggables.movableUnit:
+        return <MovableUnitStartDragPreview d={item.data} />;
+      case Draggables.movableEndTag:
+        return <MovableUnitEndDragPreview d={item.data} />;
       default:
         return null;
     }
@@ -63,14 +71,14 @@ export const DragLayer = () => {
     <Portal>
       <Box
         sx={{
-          position: 'fixed',
-          pointerEvents: 'none',
+          position: "fixed",
+          pointerEvents: "none",
           zIndex: 200,
           left: 0,
           top: 0,
-          width: '100vw',
-          height: '100vh',
-          cursor: 'grabbing',
+          width: "100vw",
+          height: "100vh",
+          cursor: "grabbing"
         }}
       >
         <div style={getItemStyles(initialOffset, currentOffset)}>

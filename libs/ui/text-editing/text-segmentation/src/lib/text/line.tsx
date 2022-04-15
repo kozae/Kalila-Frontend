@@ -8,9 +8,9 @@ import { selectTokensOfLine, useAppSelector } from '@frontend/shared-ui';
 import { useCallback } from 'react';
 import { getLineItems } from './helpers';
 import { Token } from './token';
-import { UnitStart } from './unit-start';
-import { UnitEnd } from './unit-end';
 import { UnitFromPreviousPage } from './unit-from-previous-page';
+import { MovableUnitStart } from "../draggables/movable-unit-start";
+import { MovableUnitEnd } from "../draggables/movable-unit-end";
 
 export interface ILineProps {
   d: Omit<ILine, 'Tokens'> & { ElementId: string };
@@ -25,19 +25,18 @@ export const Line = ({ d, units, currentPageNumber }: ILineProps) => {
     return items.map((item) => {
       switch (item.type) {
         case 'start':
-          return <UnitStart d={item} key={item.Id} />;
+          return <MovableUnitStart d={item} key={item.Id} />;
         case 'end':
-          return <UnitEnd key={item.Id} />;
+          return <MovableUnitEnd d={item} key={`${item.Id}_End`} />;
         case 'from previous':
           return <UnitFromPreviousPage d={item} key={item.Id} />;
-        case 'blocking':
-        case 'token':
+        default:
           return (
             <Token
               d={item}
               currentPageNumber={currentPageNumber}
               lineOrder={d.LineOrder}
-              key={item.Id}
+              key={`${item.Id}_${item.type}`}
             />
           );
       }

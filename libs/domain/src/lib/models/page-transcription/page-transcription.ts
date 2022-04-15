@@ -1,6 +1,6 @@
-import { ITextElement } from './text-element';
-import { IImageElement } from './image-element';
-import { IUnitSummary } from '../manuscript-unit';
+import { ITextElement } from "./text-element";
+import { IImageElement } from "./image-element";
+import { IUnitSummary } from "../manuscript-unit";
 
 export interface IPageInfo {
   ManuscriptSiglum: string;
@@ -19,10 +19,12 @@ export interface IPageInfo {
   Body: string;
   CreatedAt?: Date;
   Version?: Date;
+  NearestOpenUnit?: IUnitSummary;
 }
 
 export interface IPageTranscription extends IPageInfo {
   TextElements: ITextElement[];
   ImageElements: IImageElement[];
   Units: IUnitSummary[];
+
 }

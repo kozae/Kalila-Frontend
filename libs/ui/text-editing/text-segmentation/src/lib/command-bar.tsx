@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { CHAPTERS, IChapter } from '@frontend/domain';
 
 export const CommandBar = () => {
-  const [chapter, setChapter] = useState<IChapter | null>(CHAPTERS[2]);
+  const [chapter, setChapter] = useState<IChapter | null>(CHAPTERS[1]);
   return (
     <Stack
       sx={{

@@ -9,11 +9,10 @@ export const UnitFromPreviousPage = ({ d }: IUnitFromPreviousPageProps) => {
   return (
     <Typography
       sx={{
-        bgcolor: 'secondary.dark',
-        color: 'white',
         p: '.4rem',
         ml: '.4rem',
         borderRadius: '5px',
+        border: '1px solid black',
       }}
       fontWeight={'600'}
       letterSpacing="0.08rem"

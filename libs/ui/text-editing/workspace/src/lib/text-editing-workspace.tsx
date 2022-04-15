@@ -22,6 +22,7 @@ export function TextEditingWorkspace({ pageData, imageSize }: any) {
   useAccessModeSettings();
   const workspaceHasChanges = useAppSelector(selectWorkspaceHasChanges);
   useNavigationAwayGuard(workspaceHasChanges);
+
   return (
     <TextEditingWorkspaceContext.Provider value={{ fabricImg }}>
       <Stack

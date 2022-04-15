@@ -27,7 +27,7 @@ export const InsertableEndTag = () => {
       }}
       ref={drag}
     >
-      End
+      (End)
     </Box>
   );
 };

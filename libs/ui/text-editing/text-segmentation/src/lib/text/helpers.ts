@@ -6,7 +6,10 @@ export type IUnitTag = IUnitSummary & {
 
 export type ILineItem =
   | IUnitTag
-  | (IToken & { LineId: string; type: 'token' | 'blocking' });
+  | (IToken & {
+      LineId: string;
+      type: 'token' | 'block-start' | 'block-end' | 'block-all';
+    });
 
 export function getLineItems(
   tokens: (IToken & { LineId: string })[],
@@ -18,6 +21,10 @@ export function getLineItems(
   const unitStartingInLine = units.filter(
     (u) =>
       u.StartsInPageNumber === pageNumber && u.StartsInLineNumber === lineOrder
+  );
+
+  const unitEndingInLine = units.filter(
+    (u) => u.EndsInPageNumber === pageNumber && u.EndsInLineNumber === lineOrder
   );
 
   if (lineOrder === 0) {
@@ -37,34 +44,43 @@ export function getLineItems(
     const unitStart = unitStartingInLine.find(
       (u) => u.FirstTokenOrderInLine === token.OrderInLine
     );
+    const unitEnd = unitEndingInLine.find(
+      (u) => u.LastTokenOrderInLine === token.OrderInLine
+    );
+
     if (unitStart) {
       items.push({ ...unitStart, type: 'start' });
-      items.push({ ...token, type: 'blocking' });
-    } else {
+      if (unitEnd === undefined) {
+        items.push({ ...token, type: 'block-start' });
+      }
+    }
+
+    if (unitEnd === undefined && unitStart === undefined) {
       items.push({ ...token, type: 'token' });
     }
 
-    const unitEnd = units.findIndex(
-      (u) =>
-        u.EndsInPageNumber == pageNumber &&
-        u.EndsInLineNumber === lineOrder &&
-        u.LastTokenOrderInLine === token.OrderInLine
-    );
-
-    if (unitEnd !== -1 && units[unitEnd + 1] !== undefined) {
-      if (
-        units[unitEnd].EndsInLineNumber ===
-          units[unitEnd + 1].StartsInLineNumber &&
-        units[unitEnd].LastTokenOrderInLine !==
-          units[unitEnd + 1].FirstTokenOrderInLine - 1
-      ) {
-        items.push({ ...units[unitEnd], type: 'end' });
-      } else if (
-        units[unitEnd].EndsInLineNumber !==
-          units[unitEnd + 1].StartsInLineNumber &&
-        units[unitEnd + 1].FirstTokenOrderInLine !== 0
-      ) {
-        items.push({ ...units[unitEnd], type: 'end' });
+    if (unitEnd) {
+      if (unitStart) {
+        items.push({ ...token, type: 'block-all' });
+      } else {
+        items.push({ ...token, type: 'block-end' });
+      }
+      const unitAtTheNextToken =
+        i === tokens.length - 1
+          ? units.find(
+              (u) =>
+                u.StartsInPageNumber === pageNumber &&
+                u.StartsInLineNumber === lineOrder + 1 &&
+                u.FirstTokenOrderInLine === 0
+            )
+          : units.find(
+              (u) =>
+                u.StartsInPageNumber === pageNumber &&
+                u.StartsInLineNumber === lineOrder &&
+                u.FirstTokenOrderInLine === token.OrderInLine + 1
+            );
+      if (unitAtTheNextToken === undefined) {
+        items.push({ ...unitEnd, type: 'end' });
       }
     }
   });
