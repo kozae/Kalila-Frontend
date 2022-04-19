@@ -1,4 +1,4 @@
-FROM node:16-slim
+FROM bitnami/node:16
 
 RUN apt-get update
 RUN mkdir /frontend
@@ -11,5 +11,5 @@ COPY yarn.lock yarn.lock
 
 RUN yarn --network-timeout 100000
 COPY . .
-
-CMD ["NODE_OPTIONS=--max_old_space_size=4096","nx", "run", "kalila:serve"]
+ENV NODE_OPTIONS='--max_old_space_size=4096'
+CMD ["nx", "run", "kalila:serve"]

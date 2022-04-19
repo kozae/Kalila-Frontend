@@ -12,4 +12,5 @@ COPY yarn.lock yarn.lock
 RUN yarn --network-timeout 100000
 COPY . .
 RUN nx build kalila --verbose
-CMD ["NODE_OPTIONS=--max_old_space_size=4096", "nx", "run", "kalila:serve", "--prod" ,"--port=6000 "]
+ENV NODE_OPTIONS='--max_old_space_size=4096'
+CMD ["nx", "run", "kalila:serve", "--prod" ,"--port=6000 "]
