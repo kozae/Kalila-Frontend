@@ -72,12 +72,18 @@ export const selectTranscriptionHaveChanges = createSelector(
   (state) => state.postTokens.length !== 0
 );
 
+export const selectTextSegmentationTouched= createSelector(
+  selectTextEditingPageState,
+  (state) => state.textSegmentationTouched
+);
+
 export const selectWorkspaceHasChanges = createSelector(
   [
     selectLayoutHasChanges,
     selectLinesHaveChanges,
     selectTranscriptionHaveChanges,
+    selectTextSegmentationTouched
   ],
-  (layoutHasChanges, linesHaveChanges, transcriptionHasChanges) =>
-    layoutHasChanges || linesHaveChanges || transcriptionHasChanges
+  (layoutHasChanges, linesHaveChanges, transcriptionHasChanges, textSegmentationTouched) =>
+    layoutHasChanges || linesHaveChanges || transcriptionHasChanges || textSegmentationTouched
 );

@@ -57,6 +57,7 @@ const initialState: ITextEditingPageState = {
     TranscriptionFinalized: false,
     Version: undefined,
   },
+  textSegmentationTouched: false,
   imageElementsBeforeChanges: [],
   linesBeforeChanges: [],
   textElementsBeforeChanges: [],

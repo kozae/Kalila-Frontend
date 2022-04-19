@@ -39,6 +39,7 @@ export const tokenSlice = createSlice({
     },
     clearTokens: tokenAdapter.removeAll,
   },
+  // todo add the reducers for discard and save thunks
 });
 
 export const { loadTokens, replaceLinesTokens, clearTokens, updateManyTokens } =

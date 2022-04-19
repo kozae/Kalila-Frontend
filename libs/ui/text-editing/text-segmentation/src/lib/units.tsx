@@ -101,12 +101,6 @@ export const Units = ({ chapter }: IUnitsProps) => {
                   <IconButton color="primary" size="small">
                     <EditTwoToneIcon fontSize="small" />
                   </IconButton>
-                  {msUnitsMap.get(d.Id)?.StartsInPageNumber ===
-                    currentPageNumber && (
-                    <IconButton color="warning" size="small">
-                      <DeleteIcon fontSize="small" />
-                    </IconButton>
-                  )}
                 </Stack>
               );
             } else {

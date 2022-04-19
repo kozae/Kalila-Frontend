@@ -4,19 +4,21 @@ import { DragSourceMonitor, useDrag } from "react-dnd";
 import { Draggables } from "../drag-layer";
 import { useEffect } from "react";
 import { getEmptyImage } from "react-dnd-html5-backend";
+import { removeUnit, useAppDispatch } from "@frontend/shared-ui";
 
 export interface IMovableUnitStartProps {
   d: IUnitSummary;
 }
 
 export const MovableUnitStart = ({ d }: IMovableUnitStartProps) => {
-  const [{isDragging}, drag, dragPreview] = useDrag<any, any, any>(
+  const dispatch = useAppDispatch();
+  const [{ isDragging }, drag, dragPreview] = useDrag<any, any, any>(
     () => ({
       type: Draggables.movableUnit,
       item: { data: d, type: Draggables.movableUnit },
       collect: (monitor: DragSourceMonitor) => ({
-        isDragging: monitor.isDragging(),
-      }),
+        isDragging: monitor.isDragging()
+      })
     }),
     [d]
   );
@@ -26,6 +28,9 @@ export const MovableUnitStart = ({ d }: IMovableUnitStartProps) => {
   return (
     <Typography
       ref={drag}
+      onDoubleClick={() => {
+        dispatch(removeUnit(d.Id));
+      }}
       sx={{
         bgcolor: "secondary.main",
         color: "white",
@@ -33,7 +38,7 @@ export const MovableUnitStart = ({ d }: IMovableUnitStartProps) => {
         ml: ".4rem",
         borderRadius: "5px",
         cursor: "grab",
-        opacity: isDragging ? 0.5 : 1,
+        opacity: isDragging ? 0.5 : 1
       }}
       fontWeight={"600"}
       letterSpacing="0.08rem"

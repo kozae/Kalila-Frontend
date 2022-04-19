@@ -4,12 +4,14 @@ import { DragSourceMonitor, useDrag } from "react-dnd";
 import { Draggables } from "../drag-layer";
 import { useEffect } from "react";
 import { getEmptyImage } from "react-dnd-html5-backend";
+import { removeUnit, removeUnitEndTag, useAppDispatch } from "@frontend/shared-ui";
 
 export interface IUnitEndProps {
   d: IUnitSummary;
 }
 
 export const MovableUnitEnd = ({ d }: IUnitEndProps) => {
+  const dispatch = useAppDispatch();
   const [{ isDragging }, drag, dragPreview] = useDrag<any, any, any>(
     () => ({
       type: Draggables.movableEndTag,
@@ -26,6 +28,9 @@ export const MovableUnitEnd = ({ d }: IUnitEndProps) => {
   return (
     <Typography
       ref={drag}
+      onDoubleClick={() => {
+        dispatch(removeUnitEndTag(d.Id));
+      }}
       sx={{
         bgcolor: "primary.dark",
         color: "white",

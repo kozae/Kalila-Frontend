@@ -19,6 +19,9 @@ const nextConfig = (phase) => ({
     PHASE_DEVELOPMENT_SERVER: PHASE_DEVELOPMENT_SERVER,
     phase,
   },
+  experimental: {
+    esmExternals: false,
+  },
   nx: {
     // Set this to true if you would like to to use SVGR
     // See: https://github.com/gregberge/svgr

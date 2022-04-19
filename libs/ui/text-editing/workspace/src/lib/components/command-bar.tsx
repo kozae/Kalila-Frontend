@@ -1,9 +1,10 @@
-import Portal from '@mui/material/Portal';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import { AnimatePresence, motion } from 'framer-motion';
+import Portal from "@mui/material/Portal";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import { AnimatePresence, motion } from "framer-motion";
 import {
+  discardSegmentationChanges,
   discardLayoutChanges,
   discardLineChanges,
   discardTokenChanges,
@@ -11,16 +12,18 @@ import {
   saveLayoutChanges,
   saveLineChanges,
   saveTokenChanges,
+  saveSegmentation,
   selectSelectedElement,
   selectTextEditingActiveWorkspace,
   selectTextEditingToolMode,
   useAppDispatch,
-  useAppSelector,
-} from '@frontend/shared-ui';
-import { hexToRgba } from '@frontend/util';
-import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import { useCallback } from 'react';
+  useAppSelector
+} from "@frontend/shared-ui";
+import { hexToRgba } from "@frontend/util";
+import SaveTwoToneIcon from "@mui/icons-material/SaveTwoTone";
+import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
+import { useCallback } from "react";
+
 
 export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
   const selectedElement = useAppSelector(selectSelectedElement);
@@ -29,23 +32,24 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
   const show =
     hasChanges &&
     selectedElement.id === null &&
-    ['default', 'main-body', 'secondary-text'].includes(toolMode);
+    ["default", "main-body", "secondary-text"].includes(toolMode);
   const dispatch = useAppDispatch();
   const handleDiscard = useCallback(() => {
     switch (activeWorkspace) {
-      case 'description':
+      case "description":
         break;
-      case 'layout':
+      case "layout":
         dispatch(discardLayoutChanges({}));
         break;
-      case 'lines':
+      case "lines":
         dispatch(discardLineChanges({}));
         dispatch(discardTokenChanges({}));
         break;
-      case 'transcription':
+      case "transcription":
         dispatch(discardTokenChanges({}));
         break;
-      case 'segmentation':
+      case "segmentation":
+        dispatch(discardSegmentationChanges({}));
         break;
       default:
         break;
@@ -54,18 +58,19 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
 
   const handleSave = useCallback(() => {
     switch (activeWorkspace) {
-      case 'description':
+      case "description":
         break;
-      case 'layout':
+      case "layout":
         dispatch(saveLayoutChanges({}));
         break;
-      case 'lines':
+      case "lines":
         dispatch(saveLineChanges({ withTokens: true }));
         break;
-      case 'transcription':
+      case "transcription":
         dispatch(saveTokenChanges({}));
         break;
-      case 'segmentation':
+      case "segmentation":
+        dispatch(saveSegmentation({closeNearestOpenUnit: true}));
         break;
       default:
         break;
@@ -77,31 +82,31 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
         {show && (
           <motion.div
             style={{
-              position: 'fixed',
+              position: "fixed",
               left: 0,
               top: 60,
-              width: '100vw',
-              height: '50px',
-              backgroundColor: hexToRgba(kalilaTheme.palette.primary.main, 0.5),
+              width: "100vw",
+              height: "50px",
+              backgroundColor: hexToRgba(kalilaTheme.palette.primary.main, 0.5)
             }}
             initial={{ opacity: 0, scale: 0.1 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.1 }}
-            transition={{ duration: 0.5, ease: 'easeIn' }}
+            transition={{ duration: 0.5, ease: "easeIn" }}
           >
             <Box
               sx={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
               }}
             >
               <Stack
                 justifyContent="space-around"
                 direction="row"
-                sx={{ width: '30%', bgcolor: kalilaTheme.palette.primary.main }}
+                sx={{ width: "30%", bgcolor: kalilaTheme.palette.primary.main }}
               >
                 <Button
                   disableElevation

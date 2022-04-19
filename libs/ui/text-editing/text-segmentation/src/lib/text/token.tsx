@@ -2,7 +2,7 @@ import { IToken } from "@frontend/domain";
 import Typography from "@mui/material/Typography";
 import { useDrop } from "react-dnd";
 import { Draggables, IItemData } from "../drag-layer";
-import { insertUnit, useAppDispatch, closeUnit, updateUnit } from "@frontend/shared-ui";
+import { insertUnit, useAppDispatch, closeUnit, updateUnit, moveUnit } from "@frontend/shared-ui";
 import { v4 } from "uuid";
 
 export interface ITokenProps {
@@ -49,26 +49,27 @@ export const Token = ({ d, currentPageNumber, lineOrder }: ITokenProps) => {
           dispatch(closeUnit({ data: { page: currentPageNumber, line: lineOrder, token: d.OrderInLine } }));
           break;
         case Draggables.movableUnit:
-          dispatch(updateUnit({
-            id: item.data.Id,
-            changes: {
+          dispatch(moveUnit({
+            unit: item.data, newLocation: {
               StartsInPageNumber: currentPageNumber,
               StartsInLineNumber: lineOrder,
               FirstTokenOrderInLine: d.OrderInLine
             }
           }));
-          // TODO make into a thunk: 1) find the unit before. 2) if it ends at the token in the previous location, move the end as well.
           break;
         case Draggables.movableEndTag:
-          dispatch(updateUnit({
-            id: item.data.Id,
-            changes: {
-              EndsInPageNumber: currentPageNumber,
-              EndsInLineNumber: lineOrder,
-              LastTokenOrderInLine: d.OrderInLine
-            }
-          }));
-          // Todo add double click to delete tags
+          if (lineOrder > item.data.StartsInLineNumber
+            || (lineOrder === item.data.StartsInLineNumber && d.OrderInLine > item.data.FirstTokenOrderInLine)) {
+            dispatch(updateUnit({
+              id: item.data.Id,
+              changes: {
+                EndsInPageNumber: currentPageNumber,
+                EndsInLineNumber: lineOrder,
+                LastTokenOrderInLine: d.OrderInLine
+              }
+            }));
+          }
+
           break;
       }
     },
