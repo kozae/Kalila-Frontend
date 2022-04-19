@@ -14,8 +14,3 @@ services:
     ports:
       - '6000:6000'
 
-networks:
-  default:
-    external: true
-    name: kalila_kalilanet
-#  docker logs -f kalila-frontend
