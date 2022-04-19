@@ -13,8 +13,4 @@ services:
       - .env
     ports:
       - '6000:6000'
-
-
-networks:
-  default:
-    driver: host
+    network_mode: host
