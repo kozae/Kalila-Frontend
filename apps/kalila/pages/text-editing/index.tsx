@@ -3,7 +3,7 @@ import {
   useNavbarMessage,
   withTransition,
 } from '@frontend/shared-ui';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from "next";
 import { sigla } from '@frontend/server-side-queries';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -34,7 +34,7 @@ export function TextEditing({ sigla }) {
 
 export default withTransition(TextEditing, {});
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const query = {
     sigla: await sigla(),
   };
@@ -42,6 +42,5 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       ...query,
     },
-    revalidate: 30,
   };
 };

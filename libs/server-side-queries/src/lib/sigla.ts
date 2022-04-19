@@ -3,7 +3,7 @@ import { MediaTypes, paramsSerializer } from '@frontend/util';
 
 export async function sigla() {
   const { data } = await axios.get(
-    `http://internal-api:5504/server/api/v1/ManuscriptDescription`,
+    `http://localhost:6688/server/api/v1/ManuscriptDescription`,
     {
       headers: {
         Accept: MediaTypes.PartialDocument,
