@@ -2,6 +2,7 @@ FROM bitnami/node:16
 
 RUN apt-get update
 RUN mkdir /frontend
+RUN chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
 RUN apt-get install yarn -y
 RUN npm install -g @nrwl/cli
 
