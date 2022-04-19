@@ -10,6 +10,7 @@ const {
  **/
 const nextConfig = (phase) => ({
   swcMinify: true,
+  staticPageGenerationTimeout: 120,
   images: {
     domains: ['kalila.kozae.de'],
   },
