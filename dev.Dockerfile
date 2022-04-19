@@ -12,4 +12,4 @@ COPY yarn.lock yarn.lock
 RUN yarn --network-timeout 100000
 COPY . .
 ENV NODE_OPTIONS='--max_old_space_size=4096'
-CMD ["nx", "run", "kalila:serve"]
+CMD ["yarn", "nx", "run", "kalila:serve"]
