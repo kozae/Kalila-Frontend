@@ -25,6 +25,7 @@
       "@frontend/ui/documents-detailed-view": [
         "libs/ui/documents-detailed-view/src/index.ts"
       ],
+      "@frontend/ui/editions": ["libs/ui/editions/src/index.ts"],
       "@frontend/ui/facsimile": ["libs/ui/facsimile/src/index.ts"],
       "@frontend/ui/forms": ["libs/ui/forms/src/index.ts"],
       "@frontend/ui/table": ["libs/ui/table/src/index.ts"],
@@ -48,6 +49,9 @@
       ],
       "@frontend/ui/text-editing/workspace": [
         "libs/ui/text-editing/workspace/src/index.ts"
+      ],
+      "@frontend/ui/visualizations/dissemination-map": [
+        "libs/ui/visualizations/dissemination-map/src/index.ts"
       ],
       "@frontend/util": ["libs/util/src/index.ts"]
     }

@@ -4,5 +4,6 @@ export enum MediaTypes {
   FullDescriptionDocument = "application/vnd.kalila.full+json",
   ManuscriptUnitContent = "application/vnd.kalila.unitcontent+json",
   PartialDocument = "application/vnd.kalila.partial+json",
-  AdminDocument = "application/vnd.kalila.admin+json"
+  AdminDocument = "application/vnd.kalila.admin+json",
+  JSON = "application/json",
 }

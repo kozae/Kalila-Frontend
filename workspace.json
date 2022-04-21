@@ -8,6 +8,7 @@
     "shared-ui": "libs/ui/shared",
     "ui-administration": "libs/ui/administration",
     "ui-documents-detailed-view": "libs/ui/documents-detailed-view",
+    "ui-editions": "libs/ui/editions",
     "ui-facsimile": "libs/ui/facsimile",
     "ui-forms": "libs/ui/forms",
     "ui-table": "libs/ui/table",
@@ -18,6 +19,7 @@
     "ui-text-editing-text-segmentation": "libs/ui/text-editing/text-segmentation",
     "ui-text-editing-transcription": "libs/ui/text-editing/transcription",
     "ui-text-editing-workspace": "libs/ui/text-editing/workspace",
+    "ui-visualizations-dissemination-map": "libs/ui/visualizations/dissemination-map",
     "util": "libs/util"
   }
 }

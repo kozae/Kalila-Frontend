@@ -13,7 +13,6 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import { useBookUnits, useManuscriptUnits } from './hooks';
 import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { InsertableEndTag, InsertableUnit } from './draggables';
@@ -24,7 +23,6 @@ export interface IUnitsProps {
 
 export const Units = ({ chapter }: IUnitsProps) => {
   const accessToken = useAppSelector(selectAccessToken);
-  const currentPageNumber = useAppSelector(selectCurrentPageNumber);
   const {
     filter,
     bookUnitQuery,

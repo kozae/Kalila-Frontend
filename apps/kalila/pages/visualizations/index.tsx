@@ -1,16 +1,10 @@
-import './index.module.scss';
-import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
+import "./index.module.scss";
+import { useNavbarMessage, withTransition } from "@frontend/shared-ui";
+import { DisseminationMap } from "@frontend/ui/visualizations/dissemination-map";
 
-/* eslint-disable-next-line */
-export interface VisualizationsProps {}
-
-export function Visualizations(props: VisualizationsProps) {
-  useNavbarMessage(['Visualizations', undefined]);
-  return (
-    <div>
-      <h1>Welcome to Visualizations!</h1>
-    </div>
-  );
+export function Visualizations() {
+  useNavbarMessage(["Visualizations", undefined]);
+  return <DisseminationMap />;
 }
 
 export default withTransition(Visualizations, {});
