@@ -1,5 +1,4 @@
-
-export const Arrows = {
+export const Arrows: Record<string, any> = {
   'Nagpur-Yazd': {
     phase: 2,
     order: 0,
@@ -336,5 +335,4 @@ export const Arrows = {
     source: 'Kuala Lumpur',
     target: 'Surabaya',
   },
-
 };
