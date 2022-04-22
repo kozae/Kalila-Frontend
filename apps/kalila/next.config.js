@@ -25,12 +25,12 @@ const nextConfig = (phase) => ({
   },
   webpack(config) {
     config.experiments = {
-      syncWebAssembly: true,
+      asyncWebAssembly: true,
     };
 
     config.module.rules.push({
       test: /\.wasm$/,
-      type: 'webassembly/sync',
+      type: 'webassembly/async',
     });
     return config;
   },
