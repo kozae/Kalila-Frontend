@@ -42,7 +42,7 @@
     "formik": "^2.2.9",
     "formik-mui": "^4.0.0-alpha.3",
     "formik-mui-lab": "^1.0.0-alpha.3",
-    "framer-motion": "^5.5.6",
+    "framer-motion": "^6.3.0",
     "image-size": "^1.0.1",
     "immutability-helper": "^3.1.1",
     "jwt-decode": "^3.1.2",
