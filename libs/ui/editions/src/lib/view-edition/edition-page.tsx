@@ -1,14 +1,23 @@
 import { IEdition } from '@frontend/domain';
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useVirtual, VirtualItem } from 'react-virtual';
 import { EditionUnitTitle } from './edition-unit-title';
 import { EditionManuscriptBar } from './edition-manuscript-bar';
 import { EditionRow } from './edition-row';
 import { getUnits } from '../helpers';
+import dynamic from 'next/dynamic';
 
 export interface IEditionPageProps {
   edition: IEdition;
 }
+
+const WasmComponent = dynamic({
+  loader: async () => {
+    const wasmModule = await import('../store');
+    wasmModule.greet('Mahmoud');
+    return () => <></>;
+  },
+});
 
 export const EditionPage = ({ edition }: IEditionPageProps) => {
   const parentRef = useRef<HTMLDivElement>(null);
@@ -69,6 +78,7 @@ export const EditionPage = ({ edition }: IEditionPageProps) => {
         overflow: 'auto',
       }}
     >
+      <WasmComponent />
       <EditionManuscriptBar manuscripts={edition.Manuscripts} />
       <div
         style={{

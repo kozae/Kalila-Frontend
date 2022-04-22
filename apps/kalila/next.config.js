@@ -6,7 +6,7 @@ const {
 } = require('next/constants');
 
 /**
- * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
+ * @type {import("@nrwl/next/plugins/with-nx").WithNxOptions}
  **/
 const nextConfig = (phase) => ({
   swcMinify: true,
@@ -22,6 +22,11 @@ const nextConfig = (phase) => ({
   },
   experimental: {
     esmExternals: false,
+  },
+  webpack(config) {
+    config.output.webassemblyModuleFilename = 'static/wasm/[modulehash].wasm';
+    config.experiments = { asyncWebAssembly: true };
+    return config;
   },
   nx: {
     // Set this to true if you would like to to use SVGR
