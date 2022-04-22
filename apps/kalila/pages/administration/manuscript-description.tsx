@@ -18,7 +18,6 @@ import {
   getSelectionColumn,
   EditorCell,
 } from '@frontend/ui/table';
-import { Column } from 'react-table';
 import Head from 'next/head';
 import { KeyValueCell } from '@frontend/ui/table';
 export function MSDAdministration() {
@@ -26,43 +25,42 @@ export function MSDAdministration() {
   const editors = useAppSelector(selectEditors);
   const AdminPageContext = createAdminPageContext<ManuscriptDescriptionAdmin>();
   const initialValues = new ManuscriptDescriptionAdmin();
-  const columns: ReadonlyArray<Column<ManuscriptDescriptionAdmin>> =
-    React.useMemo(
-      () => [
-        getSelectionColumn<ManuscriptDescriptionAdmin>(),
-        {
-          Header: PrimaryGreenHeader,
-          accessor: 'Siglum',
-          f: {
-            FieldNamePascalCase: 'Siglum',
-            FieldDisplay: 'Siglum',
-            KalilaValueType: KalilaValueTypes.String,
-          },
-          Cell: KeyValueCell,
+  const columns: ReadonlyArray<any> = React.useMemo(
+    () => [
+      getSelectionColumn<ManuscriptDescriptionAdmin>(),
+      {
+        Header: PrimaryGreenHeader,
+        accessor: 'Siglum',
+        f: {
+          FieldNamePascalCase: 'Siglum',
+          FieldDisplay: 'Siglum',
+          KalilaValueType: KalilaValueTypes.String,
         },
-        {
-          Header: PrimaryGreenHeader,
-          accessor: 'Editor',
-          f: {
-            FieldNamePascalCase: 'Editor',
-            FieldDisplay: 'Editor',
-            KalilaValueType: KalilaValueTypes.String,
-          },
-          Cell: EditorCell,
+        Cell: KeyValueCell,
+      },
+      {
+        Header: PrimaryGreenHeader,
+        accessor: 'Editor',
+        f: {
+          FieldNamePascalCase: 'Editor',
+          FieldDisplay: 'Editor',
+          KalilaValueType: KalilaValueTypes.String,
         },
-        {
-          Header: WhiteHeader,
-          accessor: 'EditionProgress',
-          f: {
-            FieldNamePascalCase: 'EditionProgress',
-            FieldDisplay: 'EditionProgress',
-            KalilaValueType: KalilaValueTypes.String,
-          },
-          Cell: GenericCell,
+        Cell: EditorCell,
+      },
+      {
+        Header: WhiteHeader,
+        accessor: 'EditionProgress',
+        f: {
+          FieldNamePascalCase: 'EditionProgress',
+          FieldDisplay: 'EditionProgress',
+          KalilaValueType: KalilaValueTypes.String,
         },
-      ],
-      []
-    );
+        Cell: GenericCell,
+      },
+    ],
+    []
+  );
   return (
     <>
       <Head>
