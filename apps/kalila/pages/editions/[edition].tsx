@@ -5,7 +5,7 @@ import { EditionPage } from '@frontend/ui/editions';
 export function Edition({ data }) {
   useNavbarMessage(['Edition', undefined]);
 
-  return <EditionPage edition={data} />;
+  return data ? <EditionPage edition={data} /> : <h1>Loading...</h1>;
 }
 
 export default withTransition(Edition, {});
