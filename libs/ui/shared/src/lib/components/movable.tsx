@@ -1,8 +1,9 @@
 import React, { CSSProperties, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import type { XYCoord, Identifier } from 'dnd-core';
+import { IChildrenProp } from '../util';
 
-export interface IMovableProps {
+export interface IMovableProps extends IChildrenProp {
   id: string;
   containerId: string;
   index: number;

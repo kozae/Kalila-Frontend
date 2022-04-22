@@ -16,10 +16,15 @@ import {
   faSortAmountUpAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const filterIcon = <FilterAltIcon fontSize="inherit" />;
-const ascSortIcon = <FontAwesomeIcon size="xs" icon={faSortAmountUpAlt} />;
-const descSortIcon = <FontAwesomeIcon size="sm" icon={faSortAmountDown} />;
+const ascSortIcon = (
+  <FontAwesomeIcon size="xs" icon={faSortAmountUpAlt.iconName as IconProp} />
+);
+const descSortIcon = (
+  <FontAwesomeIcon size="sm" icon={faSortAmountDown.iconName as IconProp} />
+);
 const useBadge = (activeFilter: any, activeSort: any, f: any) =>
   useMemo(() => {
     const isSortActive = activeSort.OrderBy === f.FieldNamePascalCase;
