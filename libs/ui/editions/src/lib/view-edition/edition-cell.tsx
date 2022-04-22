@@ -15,18 +15,17 @@ export const EditionCell = ({ tokens, width }: IEditionCellProps) => {
   return (
     <Stack
       alignItems="flex-start"
-      justifyContent="flex-start"
-      sx={{ width }}
+      justifyContent="space-evenly"
+      sx={{ width, p: '5px' }}
       direction="row-reverse"
       flexWrap="wrap"
-      component="p"
     >
       {renderedTokens.map((token, index) => (
         <Typography
           key={`${token}_${index}`}
           fontSize="1rem"
           variant="body2"
-          component="span"
+          component="p"
           sx={{ p: '3px' }}
         >
           {token}

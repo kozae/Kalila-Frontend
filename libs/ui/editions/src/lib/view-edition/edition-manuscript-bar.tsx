@@ -11,9 +11,14 @@ export const EditionManuscriptBar = ({
 }: IEditionManuscriptBarProps) => {
   return (
     <Stack
-      sx={{ position: 'sticky', top: 0, bgcolor: 'white' }}
+      sx={{
+        position: 'sticky',
+        top: 0,
+        bgcolor: 'white',
+        width: 'fit-content',
+        zIndex: 1,
+      }}
       alignItems="flex-start"
-      spacing={1}
       direction="row"
     >
       {manuscripts.map((m) => (
@@ -22,7 +27,7 @@ export const EditionManuscriptBar = ({
           alignItems="center"
           justifyContent="center"
           sx={{
-            width: `${Math.floor(100 / manuscripts.length)}vw`,
+            width: '200px',
             bgcolor: 'white',
           }}
         >

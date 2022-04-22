@@ -1,100 +1,84 @@
-import { IEdition, IEditionBookUnit, IEditionUnit } from '@frontend/domain';
-import { useCallback } from 'react';
-import Stack from '@mui/material/Stack';
-import { EditionRow } from './edition-row';
-import { flatten } from 'lodash';
+import { IEdition } from '@frontend/domain';
+import { useCallback, useRef } from 'react';
+import { useVirtual, VirtualItem } from 'react-virtual';
+import { EditionUnitTitle } from './edition-unit-title';
 import { EditionManuscriptBar } from './edition-manuscript-bar';
+import { EditionRow } from './edition-row';
+import { getUnits } from '../helpers';
 
 export interface IEditionPageProps {
   edition: IEdition;
 }
 
 export const EditionPage = ({ edition }: IEditionPageProps) => {
-  const getUnits = useCallback(
-    (bu: IEditionBookUnit) => {
-      const units: {
-        id: string;
-        manuscriptId: string;
-        siglum: string;
-        tokens: string[];
-      }[] = [];
+  const parentRef = useRef<HTMLDivElement>(null);
+  const rowVirtualizer = useVirtual({
+    size: edition.BookUnits.length * 2,
+    parentRef,
+  });
 
-      edition.Manuscripts.forEach((m) => {
-        const unit = m.Units.find((u) => u.BuID === bu.Id) as IEditionUnit;
-        if (unit) {
-          const tokens = m.Text.filter(
-            (page) => page.PageNumber >= unit.SP && page.PageNumber <= unit.EP
-          ).map((page) => {
-            if (unit.EP !== unit.SP) {
-              if (page.PageNumber !== unit.EP && page.PageNumber !== unit.SP) {
-                return flatten(page.Lines) as string[];
-              }
-              if (page.PageNumber === unit.EP) {
-                const lines = page.Lines.slice(0, unit.EL + 1);
-                lines[lines.length - 1] = lines[lines.length - 1].slice(
-                  0,
-                  unit.LT + 1
-                );
-                return flatten(lines) as string[];
-              }
-              if (page.PageNumber === unit.SP) {
-                const lines = page.Lines.slice(unit.SL);
-                lines[0] = lines[0].slice(unit.FT);
-                return flatten(lines) as string[];
-              }
-            }
-            if (unit.EL === unit.SL) {
-              return page.Lines[unit.EL].slice(unit.FT, unit.LT + 1);
-            }
-
-            const lines = page.Lines.slice(unit.SL, unit.EL + 1);
-            lines[0] = lines[0].slice(unit.FT);
-            lines[lines.length - 1] = lines[lines.length - 1].slice(
-              0,
-              unit.LT + 1
-            );
-            return flatten(lines) as string[];
-          });
-
-          units.push({
-            id: unit.Id,
-            manuscriptId: m.Id,
-            siglum: m.Siglum,
-            tokens: flatten(tokens),
-          });
-        } else {
-          units.push({
-            id: 'missing',
-            manuscriptId: m.Id,
-            siglum: m.Siglum,
-            tokens: [],
-          });
-        }
-      });
-
-      return units;
+  const getRow = useCallback(
+    (row: VirtualItem) => {
+      const bu = edition.BookUnits[Math.floor(row.index / 2)];
+      if (row.index % 2 === 0) {
+        return (
+          <div
+            key={row.index}
+            ref={row.measureRef}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              transform: `translateY(${row.start}px)`,
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <EditionUnitTitle bookUnit={bu} />
+          </div>
+        );
+      }
+      return (
+        <div
+          key={row.index}
+          ref={row.measureRef}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            transform: `translateY(${row.start}px)`,
+            display: 'flex',
+            alignItems: 'flex-start',
+          }}
+        >
+          <EditionRow bookUnit={bu} units={getUnits(bu, edition)} />
+        </div>
+      );
     },
     [edition]
   );
+
   return (
-    <Stack sx={{ width: '100%', height: 'calc(100vh - 110px)' }}>
-      <Stack
-        sx={{
-          maxWidth: '100%',
-          maxHeight: '100%',
-          overflowX: 'scroll',
-          overflowY: 'scroll',
-          width: 'fit-content',
-          height: 'fit-content',
+    <div
+      ref={parentRef}
+      style={{
+        width: '100%',
+        height: 'calc(100vh - 110px)',
+        overflow: 'auto',
+      }}
+    >
+      <EditionManuscriptBar manuscripts={edition.Manuscripts} />
+      <div
+        style={{
+          height: rowVirtualizer.totalSize,
+          width: `${200 * edition.Manuscripts.length}px`,
+          position: 'relative',
         }}
-        justifyContent={'flex-start'}
-        alignItems={'flex-start'}
       >
-        <EditionManuscriptBar manuscripts={edition.Manuscripts} />
-        {edition.BookUnits.map((bu) => (
-          <EditionRow key={bu.Id} bookUnit={bu} units={getUnits(bu)} />
-        ))}
-      </Stack>
-    </Stack>
+        {rowVirtualizer.virtualItems.map(getRow)}
+      </div>
+    </div>
   );
 };

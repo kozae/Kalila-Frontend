@@ -61,7 +61,7 @@
     "react-swipeable-views": "^0.14.0",
     "react-table": "^7.7.0",
     "react-test-renderer": "18.0.0",
-    "react-virtual": "^2.10.0",
+    "react-virtual": "^2.10.4",
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
     "slate": "^0.73.1",
