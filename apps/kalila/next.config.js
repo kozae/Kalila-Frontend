@@ -24,8 +24,14 @@ const nextConfig = (phase) => ({
     esmExternals: false,
   },
   webpack(config) {
-    config.output.webassemblyModuleFilename = 'static/wasm/[modulehash].wasm';
-    config.experiments = { asyncWebAssembly: true };
+    config.experiments = {
+      syncWebAssembly: true,
+    };
+
+    config.module.rules.push({
+      test: /\.wasm$/,
+      type: 'webassembly/sync',
+    });
     return config;
   },
   nx: {

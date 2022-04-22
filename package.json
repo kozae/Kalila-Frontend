@@ -72,7 +72,8 @@
     "tslib": "^2.0.0",
     "uuid": "^8.3.2",
     "yarn": "^1.22.17",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "edition-page-store": "file:./wasm/edition-page-store"
   },
   "devDependencies": {
     "@babel/core": "7.12.13",

@@ -11,14 +11,6 @@ export interface IEditionPageProps {
   edition: IEdition;
 }
 
-const WasmComponent = dynamic({
-  loader: async () => {
-    const wasmModule = await import('../store');
-    wasmModule.greet('Mahmoud');
-    return () => <></>;
-  },
-});
-
 export const EditionPage = ({ edition }: IEditionPageProps) => {
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualizer = useVirtual({
@@ -78,7 +70,6 @@ export const EditionPage = ({ edition }: IEditionPageProps) => {
         overflow: 'auto',
       }}
     >
-      <WasmComponent />
       <EditionManuscriptBar manuscripts={edition.Manuscripts} />
       <div
         style={{
