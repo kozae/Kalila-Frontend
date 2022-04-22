@@ -1,9 +1,8 @@
 import React, { CSSProperties, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import type { XYCoord, Identifier } from 'dnd-core';
-import { IChildrenProp } from '../util';
 
-export interface ISortableProps extends IChildrenProp {
+export interface ISortableProps {
   id: string;
   index: number;
   move: (dragIndex: number, hoverIndex: number) => void;

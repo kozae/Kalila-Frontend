@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import { AutomaticLineDetection } from './automatic-line-detection';
 import { useSingleLineGenerationHandler } from './hooks';
 import {
-  IChildrenProp,
   loadGeneratedLines,
   selectFirstTextElement,
   selectTextEditingToolMode,
@@ -18,7 +17,7 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import * as uuid from 'uuid';
 
-const OptionContainer: React.FC<{ instruction: string } & IChildrenProp> = ({
+const OptionContainer: React.FC<{ instruction: string }> = ({
   children,
   instruction,
 }) => {

@@ -1,15 +1,12 @@
 import React, { CSSProperties } from 'react';
 import styles from './framer-animations.module.scss';
 import { motion, AnimatePresence } from 'framer-motion';
-import { IChildrenProp } from '../../util';
 
-export const FramerFadeInOut: React.FC<
-  {
-    visibleWhen: boolean;
-    className?: string;
-    style?: CSSProperties;
-  } & IChildrenProp
-> = ({ children, className, visibleWhen, style }) => {
+export const FramerFadeInOut: React.FC<{
+  visibleWhen: boolean;
+  className?: string;
+  style?: CSSProperties;
+}> = ({ children, className, visibleWhen, style }) => {
   return (
     <AnimatePresence>
       {visibleWhen && (

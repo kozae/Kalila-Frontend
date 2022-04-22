@@ -2,9 +2,8 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { SxProps } from '@mui/system/styleFunctionSx';
 import { useDrag } from 'react-dnd';
-import { IChildrenProp } from '../util';
 
-export interface IDraggableProps extends IChildrenProp {
+export interface IDraggableProps {
   sx: SxProps;
   itemType: string;
   data: any;

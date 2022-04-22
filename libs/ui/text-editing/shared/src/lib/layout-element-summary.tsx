@@ -17,7 +17,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {
   cancelCreateImageElement,
   cancelCreateTextElement,
-  IChildrenProp,
   onElementSelected,
   onRegionHoveredInToolSpace,
   removeImageElement,
@@ -38,7 +37,7 @@ export type ILayoutElementSummaryProps = (
   maxHeight?: string;
   color?: string;
   width?: string;
-} & IChildrenProp;
+};
 
 export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
   children,

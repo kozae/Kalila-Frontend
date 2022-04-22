@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './framer-animations.module.scss';
 import { motion } from 'framer-motion';
-import { IChildrenProp } from '../../util';
 
-export const FramerSlideUpDown: React.FC<
-  { className?: string } & IChildrenProp
-> = ({ children, className }) => {
+export const FramerSlideUpDown: React.FC<{ className?: string }> = ({
+  children,
+  className,
+}) => {
   return (
     <motion.div
       className={className ?? styles['transition-container']}

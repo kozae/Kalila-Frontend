@@ -34,7 +34,7 @@ export function PagesAdministration({ siglum, manuscriptId }) {
   const editors = useAppSelector(selectEditors);
   const AdminPageContext = createAdminPageContext<PageDescriptionAdmin>();
   const initialValues = new PageDescriptionAdmin();
-  const columns: ReadonlyArray<any> = React.useMemo(
+  const columns: ReadonlyArray<Column<PageDescriptionAdmin>> = React.useMemo(
     () => [
       getSelectionColumn<PageDescriptionAdmin>(),
       {

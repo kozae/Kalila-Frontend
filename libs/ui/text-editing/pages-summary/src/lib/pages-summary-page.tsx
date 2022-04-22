@@ -43,7 +43,7 @@ export function PagesSummaryPage({ manuscript }: IPagesSummaryPage) {
     usePagedDocumentsState(PageTranscriptionSummary);
   const dispatchers = usePagedDocumentsDispatch();
 
-  const columns: ReadonlyArray<any> = useMemo(
+  const columns: ReadonlyArray<Column<PageTranscriptionSummary>> = useMemo(
     () => [
       getSelectionColumn<PageTranscriptionSummary>('single'),
       {

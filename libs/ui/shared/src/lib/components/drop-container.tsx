@@ -2,9 +2,8 @@ import React from 'react';
 import { SxProps } from '@mui/system/styleFunctionSx';
 import Box from '@mui/material/Box';
 import { useDrop } from 'react-dnd';
-import { IChildrenProp } from '../util';
 
-export interface IDropContainerProps extends IChildrenProp {
+export interface IDropContainerProps {
   accept: string;
   name: string;
   sx: SxProps;

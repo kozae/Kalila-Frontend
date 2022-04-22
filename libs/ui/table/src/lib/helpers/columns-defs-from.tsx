@@ -1,16 +1,19 @@
 import React from 'react';
+import { Column } from 'react-table';
 import { ITableSchema } from './table-schema';
 import { ColumnGroupHeader } from '../headers';
 import { isOdd, KalilaValueTypes } from '@frontend/util';
 import { GrayHeader, PrimaryGreenHeader, WhiteHeader } from '../headers';
-import { CellSelector, EditorCell, KeyValueCell } from '../cells';
+import { CellSelector } from '../cells';
+import { KeyValueCell } from '../cells/key-value-cell';
+import { EditorCell } from '../cells/editor-cell';
 
 export const columnsDefsFrom = (
   tableSchema: ITableSchema | null
-): ReadonlyArray<any> => {
+): ReadonlyArray<Column<any>> => {
   if (tableSchema === null) return [];
 
-  const columns: any[] = [
+  const columns: Column<any>[] = [
     {
       Header: () => (
         <ColumnGroupHeader bgcolor="primary.main" color="white" text="" />

@@ -1,10 +1,9 @@
 import styles from './layout.module.scss';
 import React from 'react';
 import { Nav } from './nav';
-import { useKalilaSession } from '../../store';
-import { IChildrenProp } from '../../util';
+import { useKalilaSession } from '../../store/session';
 
-export const Layout: React.FC<IChildrenProp> = ({ children }) => {
+export const Layout: React.FC = ({ children }) => {
   useKalilaSession();
   return (
     <>

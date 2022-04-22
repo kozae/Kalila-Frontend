@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { IChildrenProp } from '@frontend/shared-ui';
+import Typography from '@mui/material/Typography';
 
-export const CellContainer: React.FC<IChildrenProp> = ({ children }) => (
+export const CellContainer: React.FC = ({ children }) => (
   <Box
     sx={{
       width: '200px',

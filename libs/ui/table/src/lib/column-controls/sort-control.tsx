@@ -7,7 +7,6 @@ import * as React from 'react';
 import { IHeaderProps } from '../headers';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 export interface ISortControlProps {
   activeSort: any;
@@ -24,12 +23,7 @@ export const SortControl = ({
     <Stack sx={{ width: '100%', mt: '.5rem' }} spacing={0.5}>
       <Button
         size="small"
-        startIcon={
-          <FontAwesomeIcon
-            size="lg"
-            icon={faSortAmountUpAlt.iconName as IconProp}
-          />
-        }
+        startIcon={<FontAwesomeIcon size="lg" icon={faSortAmountUpAlt} />}
         disableElevation
         variant="contained"
         onClick={() => onSort({ OrderBy: colId })}
@@ -38,12 +32,7 @@ export const SortControl = ({
       </Button>
       <Button
         size="small"
-        startIcon={
-          <FontAwesomeIcon
-            size="lg"
-            icon={faSortAmountDown.iconName as IconProp}
-          />
-        }
+        startIcon={<FontAwesomeIcon size="lg" icon={faSortAmountDown} />}
         disableElevation
         variant="contained"
         onClick={() => onSort({ OrderBy: colId, SortDirection: 'desc' })}
