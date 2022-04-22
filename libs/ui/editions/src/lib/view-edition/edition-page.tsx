@@ -1,11 +1,10 @@
 import { IEdition } from '@frontend/domain';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { useVirtual, VirtualItem } from 'react-virtual';
 import { EditionUnitTitle } from './edition-unit-title';
 import { EditionManuscriptBar } from './edition-manuscript-bar';
 import { EditionRow } from './edition-row';
 import { getUnits } from '../helpers';
-import dynamic from 'next/dynamic';
 
 export interface IEditionPageProps {
   edition: IEdition;
