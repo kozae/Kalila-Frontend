@@ -19,15 +19,25 @@ export const EditionCell = ({ tokens, width }: IEditionCellProps) => {
       sx={{ width }}
       direction="row-reverse"
       flexWrap="wrap"
+      component="p"
     >
-      <Typography
-        align="right"
-        sx={{ pl: '3px' }}
-        fontSize="1rem"
-        variant="body2"
-      >
-        {renderedTokens.join(' ')}
-      </Typography>
+      {renderedTokens.map((token, index) => (
+        <Typography
+          key={`${token}_${index}`}
+          fontSize="1rem"
+          variant="body2"
+          component="span"
+          sx={{ p: '3px' }}
+        >
+          {token}
+        </Typography>
+      ))}
+      {renderedTokens.length === 0 && (
+        <Typography align="right" fontSize="1rem" variant="body2">
+          [ absent ]
+        </Typography>
+      )}
+      <Box sx={{ flexGrow: 1 }} />
     </Stack>
   );
 };

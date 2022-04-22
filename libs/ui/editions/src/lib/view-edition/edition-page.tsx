@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import Stack from '@mui/material/Stack';
 import { EditionRow } from './edition-row';
 import { flatten } from 'lodash';
+import { EditionManuscriptBar } from './edition-manuscript-bar';
 
 export interface IEditionPageProps {
   edition: IEdition;
@@ -29,13 +30,30 @@ export const EditionPage = ({ edition }: IEditionPageProps) => {
                 return flatten(page.Lines) as string[];
               }
               if (page.PageNumber === unit.EP) {
-                return flatten(page.Lines.slice(0, unit.EL)) as string[];
+                const lines = page.Lines.slice(0, unit.EL + 1);
+                lines[lines.length - 1] = lines[lines.length - 1].slice(
+                  0,
+                  unit.LT + 1
+                );
+                return flatten(lines) as string[];
               }
               if (page.PageNumber === unit.SP) {
-                return flatten(page.Lines.slice(unit.SL)) as string[];
+                const lines = page.Lines.slice(unit.SL);
+                lines[0] = lines[0].slice(unit.FT);
+                return flatten(lines) as string[];
               }
             }
-            return flatten(page.Lines.slice(unit.SL, unit.EL)) as string[];
+            if (unit.EL === unit.SL) {
+              return page.Lines[unit.EL].slice(unit.FT, unit.LT + 1);
+            }
+
+            const lines = page.Lines.slice(unit.SL, unit.EL + 1);
+            lines[0] = lines[0].slice(unit.FT);
+            lines[lines.length - 1] = lines[lines.length - 1].slice(
+              0,
+              unit.LT + 1
+            );
+            return flatten(lines) as string[];
           });
 
           units.push({
@@ -72,6 +90,7 @@ export const EditionPage = ({ edition }: IEditionPageProps) => {
         justifyContent={'flex-start'}
         alignItems={'flex-start'}
       >
+        <EditionManuscriptBar manuscripts={edition.Manuscripts} />
         {edition.BookUnits.map((bu) => (
           <EditionRow key={bu.Id} bookUnit={bu} units={getUnits(bu)} />
         ))}
