@@ -37,7 +37,6 @@
     "core-js": "^3.22.2",
     "d3": "^7.4.4",
     "docx-wasm": "^0.0.255",
-    "edition-page-store": "file:./wasm/edition-page-store",
     "es6-shim": "^0.35.6",
     "fabric": "^5.2.1",
     "formik": "^2.2.9",
