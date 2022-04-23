@@ -24,14 +24,10 @@ const nextConfig = (phase) => ({
     esmExternals: false,
   },
   webpack(config) {
+    console.log('applying webpack config');
     config.experiments = {
       asyncWebAssembly: true,
     };
-
-    config.module.rules.push({
-      test: /\.wasm$/,
-      type: 'webassembly/async',
-    });
     return config;
   },
   nx: {

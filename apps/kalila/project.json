@@ -22,6 +22,7 @@
       "options": {
         "buildTarget": "kalila:build",
         "dev": true,
+        "nextConfig": "apps/kalila/next.config.js",
         "buildLibsFromSource": true,
         "port": 6000,
         "hostname": "0.0.0.0"
@@ -29,6 +30,7 @@
       "configurations": {
         "production": {
           "buildTarget": "kalila:build:production",
+          "nextConfig": "apps/kalila/next.config.js",
           "dev": false,
           "buildLibsFromSource": true
         }

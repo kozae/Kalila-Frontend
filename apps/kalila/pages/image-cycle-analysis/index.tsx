@@ -1,16 +1,21 @@
 import './index.module.scss';
 import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
-import * as store from 'edition-page-store';
+import { useEffect } from 'react';
 /* eslint-disable-next-line */
 export interface ImageCycleAnalysisProps {}
 
 export function ImageCycleAnalysis(props: ImageCycleAnalysisProps) {
   useNavbarMessage(['Image Cycle Analysis:', 'Select Tool']);
 
+  useEffect(() => {
+    import('edition-page-store').then(({ greet }) => {
+      greet('Web');
+    });
+  }, []);
+
   return (
     <div>
       <h1>Welcome to ImageCycleAnalysis!</h1>
-      <button onClick={() => store.greet('Mahmoud')}>Click me!</button>
     </div>
   );
 }
