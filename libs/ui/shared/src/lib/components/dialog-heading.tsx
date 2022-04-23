@@ -3,8 +3,9 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
 import { kalilaTheme } from '../constants';
+import { IChildrenProp } from '../util';
 
-export interface IDialogHeadingProps {
+export interface IDialogHeadingProps extends IChildrenProp {
   onDismiss: () => void;
   color?: 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
 }

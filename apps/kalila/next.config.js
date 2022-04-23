@@ -1,40 +1,28 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const withNx = require('@nrwl/next/plugins/with-nx');
-const {
-  PHASE_DEVELOPMENT_SERVER,
-  PHASE_PRODUCTION_BUILD,
-} = require('next/constants');
 
 /**
  * @type {import("@nrwl/next/plugins/with-nx").WithNxOptions}
  **/
-const nextConfig = (phase) => ({
-  swcMinify: true,
-  staticPageGenerationTimeout: 480,
-  images: {
-    domains: ['kalila.kozae.de'],
-  },
-  env: {
-    production: phase === PHASE_PRODUCTION_BUILD,
-    PHASE_PRODUCTION_BUILD: PHASE_PRODUCTION_BUILD,
-    PHASE_DEVELOPMENT_SERVER: PHASE_DEVELOPMENT_SERVER,
-    phase,
-  },
-  experimental: {
-    esmExternals: false,
-  },
+const nextConfig = {
   webpack(config) {
     console.log('applying webpack config');
-    config.experiments = {
-      asyncWebAssembly: true,
-    };
+    config.experiments = config.experiments
+      ? { ...config.experiments, asyncWebAssembly: true }
+      : { asyncWebAssembly: true };
+
     return config;
+  },
+  swcMinify: true,
+  staticPageGenerationTimeout: 480,
+  experimental: {
+    esmExternals: false,
   },
   nx: {
     // Set this to true if you would like to to use SVGR
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
-});
+};
 
 module.exports = withNx(nextConfig);

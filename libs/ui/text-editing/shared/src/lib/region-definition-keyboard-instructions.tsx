@@ -20,12 +20,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import KeyboardAltTwoToneIcon from '@mui/icons-material/KeyboardAltTwoTone';
 import React, { useState } from 'react';
+import { IChildrenProp } from '@frontend/shared-ui';
 
-const KeyboardInstruction: React.FC<{ i: string; k: string }> = ({
-  children,
-  i,
-  k,
-}) => (
+const KeyboardInstruction: React.FC<
+  { i: string; k: string } & IChildrenProp
+> = ({ children, i, k }) => (
   <Stack
     justifyContent="space-between"
     alignItems="center"

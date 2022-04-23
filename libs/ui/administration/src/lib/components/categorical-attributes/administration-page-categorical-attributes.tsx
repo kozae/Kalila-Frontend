@@ -116,7 +116,7 @@ export const AdministrationPageCategoricalAttributes: React.FC = () => {
     dispatchers,
     hideDeleteModal
   );
-  const columns: ReadonlyArray<Column<CategoricalAttribute>> = React.useMemo(
+  const columns: ReadonlyArray<any> = React.useMemo(
     () => [
       getSelectionColumn<CategoricalAttribute>('single'),
       {

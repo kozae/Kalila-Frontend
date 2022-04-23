@@ -1,5 +1,4 @@
 import React from 'react';
-import { Column } from 'react-table';
 import { ITableSchema } from './table-schema';
 import { ColumnGroupHeader } from '../headers';
 import { isOdd, KalilaValueTypes } from '@frontend/util';
@@ -10,10 +9,10 @@ import { EditorCell } from '../cells/editor-cell';
 
 export const columnsDefsFrom = (
   tableSchema: ITableSchema | null
-): ReadonlyArray<Column<any>> => {
+): ReadonlyArray<any> => {
   if (tableSchema === null) return [];
 
-  const columns: Column<any>[] = [
+  const columns: any[] = [
     {
       Header: () => (
         <ColumnGroupHeader bgcolor="primary.main" color="white" text="" />
