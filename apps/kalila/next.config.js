@@ -8,8 +8,8 @@ const nextConfig = {
   webpack(config) {
     console.log('applying webpack config');
     config.experiments = config.experiments
-      ? { ...config.experiments, asyncWebAssembly: true }
-      : { asyncWebAssembly: true };
+      ? { ...config.experiments, syncWebAssembly: true }
+      : { syncWebAssembly: true };
 
     return config;
   },
