@@ -2133,7 +2133,7 @@
     url-loader "^4.1.1"
     webpack-merge "^5.8.0"
 
-"@nrwl/node@14.0.2":
+"@nrwl/node@^14.0.2":
   version "14.0.2"
   resolved "https://registry.yarnpkg.com/@nrwl/node/-/node-14.0.2.tgz#c43cadbeda9aa8af51ddf724618cc03c3f4faa8d"
   integrity sha512-RoA/XtVk2sgktnCiMKkJmbwVMz4WaAWwJJ21fkijjLWRIAvqqKpgqq6+nHobIPvrYkxNT111jZA52q2LKeMzAg==
