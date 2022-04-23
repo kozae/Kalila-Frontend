@@ -50,7 +50,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/kalila"],
       "options": {
-        "jestConfig": "apps/kalila/jest.config.js",
+        "jestConfig": "apps/kalila/jest.config.ts",
         "passWithNoTests": true
       }
     },

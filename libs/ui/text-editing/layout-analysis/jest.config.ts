@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'ui-documents-detailed-view',
-  preset: '../../../jest.preset.js',
+  displayName: 'ui-text-editing-layout-analysis',
+
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -10,5 +10,7 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../coverage/libs/ui/documents-detailed-view',
+  coverageDirectory:
+    '../../../../coverage/libs/ui/text-editing/layout-analysis',
+  preset: '../../../../jest.preset.ts',
 };

@@ -1,9 +1,10 @@
 module.exports = {
-  displayName: 'ui-forms',
-  preset: '../../../jest.preset.js',
+  displayName: 'ui-table',
+
   transform: {
     '^.+\\.[tj]sx?$': 'babel-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../coverage/libs/ui/forms',
+  coverageDirectory: '../../../coverage/libs/ui/table',
+  preset: '../../../jest.preset.ts',
 };

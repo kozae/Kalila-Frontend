@@ -17,7 +17,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/ui/text-editing/pages-summary"],
       "options": {
-        "jestConfig": "libs/ui/text-editing/pages-summary/jest.config.js",
+        "jestConfig": "libs/ui/text-editing/pages-summary/jest.config.ts",
         "passWithNoTests": true
       }
     }

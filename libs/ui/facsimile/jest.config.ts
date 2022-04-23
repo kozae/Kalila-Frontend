@@ -1,15 +1,15 @@
 module.exports = {
-  displayName: 'domain',
-  preset: '../../jest.preset.js',
+  displayName: 'ui-facsimile',
+
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
-  testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/libs/domain',
+  coverageDirectory: '../../../coverage/libs/ui/facsimile',
+  preset: '../../../jest.preset.ts',
 };

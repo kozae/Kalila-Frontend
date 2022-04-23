@@ -17,7 +17,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/ui/text-editing/text-segmentation"],
       "options": {
-        "jestConfig": "libs/ui/text-editing/text-segmentation/jest.config.js",
+        "jestConfig": "libs/ui/text-editing/text-segmentation/jest.config.ts",
         "passWithNoTests": true
       }
     }

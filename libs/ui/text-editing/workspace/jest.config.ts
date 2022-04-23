@@ -1,15 +1,15 @@
 module.exports = {
-  displayName: 'server-side-queries',
-  preset: '../../jest.preset.js',
+  displayName: 'ui-text-editing-workspace',
+
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
-  testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/libs/server-side-queries',
+  coverageDirectory: '../../../../coverage/libs/ui/text-editing/workspace',
+  preset: '../../../../jest.preset.ts',
 };

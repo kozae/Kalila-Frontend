@@ -1,9 +1,10 @@
 module.exports = {
-  displayName: 'ui-table',
-  preset: '../../../jest.preset.js',
+  displayName: 'shared-ui',
+
   transform: {
     '^.+\\.[tj]sx?$': 'babel-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../coverage/libs/ui/table',
+  coverageDirectory: '../../../coverage/libs/ui/shared',
+  preset: '../../../jest.preset.ts',
 };

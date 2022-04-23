@@ -17,7 +17,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/ui/text-editing/layout-analysis"],
       "options": {
-        "jestConfig": "libs/ui/text-editing/layout-analysis/jest.config.js",
+        "jestConfig": "libs/ui/text-editing/layout-analysis/jest.config.ts",
         "passWithNoTests": true
       }
     }

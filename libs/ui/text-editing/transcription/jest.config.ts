@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'ui-text-editing-pages-summary',
-  preset: '../../../../jest.preset.js',
+  displayName: 'ui-text-editing-transcription',
+
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -10,5 +10,6 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../../coverage/libs/ui/text-editing/pages-summary',
+  coverageDirectory: '../../../../coverage/libs/ui/text-editing/transcription',
+  preset: '../../../../jest.preset.ts',
 };

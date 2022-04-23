@@ -15,7 +15,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/ui/text-editing/shared"],
       "options": {
-        "jestConfig": "libs/ui/text-editing/shared/jest.config.js",
+        "jestConfig": "libs/ui/text-editing/shared/jest.config.ts",
         "passWithNoTests": true
       }
     }

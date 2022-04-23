@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'ui-text-editing-workspace',
-  preset: '../../../../jest.preset.js',
+  displayName: 'ui-text-editing-shared',
+
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -10,5 +10,6 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../../coverage/libs/ui/text-editing/workspace',
+  coverageDirectory: '../../../../coverage/libs/ui/text-editing/shared',
+  preset: '../../../../jest.preset.ts',
 };

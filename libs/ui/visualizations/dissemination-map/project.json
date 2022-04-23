@@ -17,7 +17,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/ui/visualizations/dissemination-map"],
       "options": {
-        "jestConfig": "libs/ui/visualizations/dissemination-map/jest.config.js",
+        "jestConfig": "libs/ui/visualizations/dissemination-map/jest.config.ts",
         "passWithNoTests": true
       }
     }

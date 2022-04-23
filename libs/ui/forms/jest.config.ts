@@ -1,9 +1,10 @@
 module.exports = {
-  displayName: 'shared-ui',
-  preset: '../../../jest.preset.js',
+  displayName: 'ui-forms',
+
   transform: {
     '^.+\\.[tj]sx?$': 'babel-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../coverage/libs/ui/shared',
+  coverageDirectory: '../../../coverage/libs/ui/forms',
+  preset: '../../../jest.preset.ts',
 };

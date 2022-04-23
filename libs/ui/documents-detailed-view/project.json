@@ -17,7 +17,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/ui/documents-detailed-view"],
       "options": {
-        "jestConfig": "libs/ui/documents-detailed-view/jest.config.js",
+        "jestConfig": "libs/ui/documents-detailed-view/jest.config.ts",
         "passWithNoTests": true
       }
     }

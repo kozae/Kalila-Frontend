@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'ui-facsimile',
-  preset: '../../../jest.preset.js',
+  displayName: 'ui-text-editing-pages-summary',
+
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -10,5 +10,6 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../coverage/libs/ui/facsimile',
+  coverageDirectory: '../../../../coverage/libs/ui/text-editing/pages-summary',
+  preset: '../../../../jest.preset.ts',
 };

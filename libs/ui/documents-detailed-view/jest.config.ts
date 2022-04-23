@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'ui-text-editing-text-segmentation',
-  preset: '../../../../jest.preset.js',
+  displayName: 'ui-documents-detailed-view',
+
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -10,6 +10,6 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory:
-    '../../../../coverage/libs/ui/text-editing/text-segmentation',
+  coverageDirectory: '../../../coverage/libs/ui/documents-detailed-view',
+  preset: '../../../jest.preset.ts',
 };

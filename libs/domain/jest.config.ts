@@ -1,15 +1,16 @@
 module.exports = {
-  displayName: 'ui-visualizations-dissemination-map',
-  preset: '../../../../jest.preset.js',
+  displayName: 'domain',
+
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
+  testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory:
-    '../../../../coverage/libs/ui/visualizations/dissemination-map',
+  coverageDirectory: '../../coverage/libs/domain',
+  preset: '../../jest.preset.ts',
 };

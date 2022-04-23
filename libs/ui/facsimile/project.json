@@ -15,7 +15,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/ui/facsimile"],
       "options": {
-        "jestConfig": "libs/ui/facsimile/jest.config.js",
+        "jestConfig": "libs/ui/facsimile/jest.config.ts",
         "passWithNoTests": true
       }
     }

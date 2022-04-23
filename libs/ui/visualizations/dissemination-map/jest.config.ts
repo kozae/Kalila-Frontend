@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'ui-editions',
-  preset: '../../../jest.preset.js',
+  displayName: 'ui-visualizations-dissemination-map',
+
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -10,5 +10,7 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../coverage/libs/ui/editions',
+  coverageDirectory:
+    '../../../../coverage/libs/ui/visualizations/dissemination-map',
+  preset: '../../../../jest.preset.ts',
 };
