@@ -7,9 +7,9 @@ $marking-color-red: #CC0000;
 }
 
 .country {
-  fill: $secondary-color;
+  fill: #d7ece0;
   stroke: black;
-  stroke-width: .1;
+  stroke-width: .5;
 }
 
 .d3-highlight {
@@ -22,9 +22,9 @@ $marking-color-red: #CC0000;
 
 .orthodome {
   &-p2 {
-    fill: none;
-    stroke: rgba(0, 0, 0, .3);
-    stroke-width: 5;
+    fill: rgba(0, 0, 0, .3);
+    stroke: none;
+    stroke-width: 10;
 
     &:hover {
       stroke: rgba(0, 0, 0, 1);

@@ -1,5 +1,5 @@
 import { IDisseminationMapState } from './init-state';
-import { zoomIdentity } from 'd3';
+import { TransitionLike, zoomIdentity, Selection, ZoomTransform } from 'd3';
 import { Arrows } from '../data/arrows';
 
 const resetZoom = zoomIdentity.translate(0, 0).scale(1),
@@ -53,8 +53,66 @@ const resetZoom = zoomIdentity.translate(0, 0).scale(1),
     'Surabaya',
   ];
 
-export function changePhase(step: number, {}: IDisseminationMapState) {
+const transitionDelay = 100;
+export function changePhase(step: number, state: IDisseminationMapState) {
+  const { zoom, svg, globe, cities, geoPath } = state;
+  if (zoom === null || svg === null || globe === null) {
+    return;
+  }
   let lines;
+  switch (step) {
+    case 0:
+      zoomTo(zoom, svg, resetZoom);
+      [
+        'Nagpur',
+        'Yazd',
+        'Baghdad',
+        'Sanliurfa',
+        ...phase5NearEastCities,
+        ...phase5EuropeCities,
+        ...phase4Cities,
+      ].forEach((cityName) => hideLanguage(cityName, globe));
+      removeLines(globe);
+      break;
+    case 1:
+      zoomTo(zoom, svg, zoomToIndia);
+      addLanguage('Nagpur', globe);
+      break;
+    case 2:
+      zoomTo(zoom, svg, zoomToIndiaIran);
+      addLanguage('Yazd', globe);
+      addline('Nagpur-Yazd', state);
+      break;
+    case 3:
+      zoomTo(zoom, svg, zoomToIndiaIranArabia);
+      addLanguage('Baghdad', globe);
+      addLanguage('Sanliurfa', globe);
+      addline('Yazd-Baghdad', state);
+      addline('Yazd-Sanliurfa', state);
+      addline('Baghdad-Sanliurfa', state);
+      break;
+    case 4:
+      zoomTo(zoom, svg, zoomEuropeAndNearEast);
+      phase4Cities.forEach((cityName) => addLanguage(cityName, globe));
+      lines = Object.values(Arrows).filter((item) => item.phase === 4);
+      lines.forEach((item) => addline(item.path, state));
+      break;
+    case 5:
+      zoomTo(zoom, svg, zoomToEurope);
+      phase5EuropeCities.forEach((cityName) => addLanguage(cityName, globe));
+      lines = Object.values(Arrows).filter((item) => item.phase === 5);
+      lines.forEach((item) => addline(item.path, state));
+      break;
+    case 6:
+      zoomTo(zoom, svg, zoomToNearEast);
+      phase5NearEastCities.forEach((cityName) => addLanguage(cityName, globe));
+      lines = Object.values(Arrows).filter((item) => item.phase === 6);
+      lines.forEach((item) => addline(item.path, state));
+      break;
+    case 7:
+      zoomTo(zoom, svg, resetZoom);
+      break;
+  }
 }
 
 function addline(
@@ -79,12 +137,7 @@ function addline(
   globe
     ?.append('g')
     .datum(lineString(Arrows[lineId], cities))
-    .attr(
-      'class',
-      `arrow orthodome-p${Arrows[lineId].phase} animated fadeIn delay-${
-        Arrows[lineId].order + 1
-      }s`
-    )
+    .attr('class', `arrow orthodome-p${Arrows[lineId].phase}`)
     .attr('marker-end', `url(#${lineId})`)
     .append('path')
     //@ts-ignore
@@ -107,4 +160,22 @@ function lineString(d: any, cities: any[]) {
 
 function removeLines(globe: any) {
   globe.selectAll('g.arrow').remove();
+}
+
+function addLanguage(
+  cityName: string,
+  globe: Selection<SVGGElement, any, any, any>
+) {
+  globe.select(`#${cityName}`).attr('visibility', 'visible');
+}
+
+function hideLanguage(
+  cityName: string,
+  globe: Selection<SVGGElement, any, any, any>
+) {
+  globe.select(`#${cityName}`).attr('visibility', 'hidden');
+}
+
+function zoomTo(zoom: any, svg: any, transform: ZoomTransform) {
+  zoom.transform(svg.transition().duration(transitionDelay), transform);
 }

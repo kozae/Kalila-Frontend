@@ -1,11 +1,10 @@
 import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
 import { edition } from '@frontend/server-side-queries';
-import { EditionPage } from '@frontend/ui/editions';
+import { EditionPageWasm } from '@frontend/ui/editions';
 
 export function Edition({ data }) {
   useNavbarMessage(['Edition', undefined]);
-
-  return data ? <EditionPage edition={data} /> : <h1>Loading...</h1>;
+  return data ? <EditionPageWasm edition={data} /> : <h1>Loading...</h1>;
 }
 
 export default withTransition(Edition, {});

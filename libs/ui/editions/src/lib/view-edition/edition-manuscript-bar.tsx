@@ -1,13 +1,17 @@
 import Stack from '@mui/material/Stack';
-import { IManuscriptEdition } from '@frontend/domain';
 import Typography from '@mui/material/Typography';
+import { range } from 'lodash';
+import { EditionStore } from '../store';
+import { kalilaTheme } from '@frontend/shared-ui';
 
 export interface IEditionManuscriptBarProps {
-  manuscripts: IManuscriptEdition[];
+  manuscripts: number;
+  store: EditionStore;
 }
 
 export const EditionManuscriptBar = ({
   manuscripts,
+  store,
 }: IEditionManuscriptBarProps) => {
   return (
     <Stack
@@ -17,22 +21,23 @@ export const EditionManuscriptBar = ({
         bgcolor: 'white',
         width: 'fit-content',
         zIndex: 1,
+        boxShadow: kalilaTheme.shadows[4],
       }}
       alignItems="flex-start"
       direction="row"
     >
-      {manuscripts.map((m) => (
+      {range(manuscripts).map((m) => (
         <Stack
-          key={m.Id}
+          key={m}
           alignItems="center"
           justifyContent="center"
           sx={{
             width: '200px',
-            bgcolor: 'white',
+            bgcolor: m % 2 ? 'white' : '#F1F1F1',
           }}
         >
-          <Typography p=".5rem" fontSize="1rem">
-            {m.Siglum}
+          <Typography p=".5rem" fontSize="1.5rem" fontWeight={600}>
+            {store.get_ms_siglum(m)}
           </Typography>
         </Stack>
       ))}

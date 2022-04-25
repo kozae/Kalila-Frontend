@@ -1,3 +1,5 @@
+import { IFacsimileRegion } from './page-transcription';
+
 export interface IEditionBookUnit {
   Id: string;
   Order: number;
@@ -8,25 +10,28 @@ export interface IEditionUnit {
   Id: string;
   BuID: string;
   Type: string;
-  SP: number;
-  SL: number;
-  FT: number;
-  EP: number;
-  EL: number;
-  LT: number;
+  Tokens: string[];
+  States: string[];
+  Pages: number[];
+  Lines: number[];
 }
 
-export interface IEditionText {
-  Id: string;
+export interface IEditionFacsimile {
   PageNumber: number;
-  Lines: string[][];
+  Url: string;
+  Lines: IEditionLine[];
+}
+
+export interface IEditionLine {
+  Order: number;
+  Region: IFacsimileRegion;
 }
 
 export interface IManuscriptEdition {
   Id: string;
   Siglum: string;
   Units: IEditionUnit[];
-  Text: IEditionText[];
+  Facsimiles: IEditionFacsimile[];
 }
 
 export interface IEdition {

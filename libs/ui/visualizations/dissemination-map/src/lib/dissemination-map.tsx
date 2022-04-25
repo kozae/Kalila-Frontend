@@ -5,6 +5,7 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 import { IDisseminationMapState, InitState } from './operations';
 import { createMap } from './operations/create-map';
 import styles from './styles.module.scss';
+import { changePhase } from './operations/change-phase';
 
 export const DisseminationMap = () => {
   const ref = useRef<SVGSVGElement>() as RefObject<SVGSVGElement>;
@@ -27,9 +28,15 @@ export const DisseminationMap = () => {
     createMap(state);
   }, [state]);
 
+  useEffect(() => {
+    if (state.svg) {
+      changePhase(step, state);
+    }
+  }, [step, state.svg]);
+
   const nextStep = () => {
     setStep((prevStep) => {
-      if (prevStep < 7) {
+      if (prevStep < 2) {
         return prevStep + 1;
       } else {
         return 0;

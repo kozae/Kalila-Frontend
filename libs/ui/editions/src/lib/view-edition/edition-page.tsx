@@ -1,25 +1,45 @@
 import { IEdition } from '@frontend/domain';
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useVirtual, VirtualItem } from 'react-virtual';
 import { EditionUnitTitle } from './edition-unit-title';
 import { EditionManuscriptBar } from './edition-manuscript-bar';
 import { EditionRow } from './edition-row';
-import { getUnits } from '../helpers';
+import dynamic from 'next/dynamic';
+import { EditionStore, ImageStore } from '../store';
+
+export const EditionPageWasm = dynamic({
+  loader: async () => {
+    const { EditionStore } = await import('../store');
+    return ({ edition }: { edition: IEdition }) => {
+      return (
+        <EditionPage
+          edition={EditionStore.load(edition)}
+          imageStore={ImageStore.new()}
+        />
+      );
+    };
+  },
+});
 
 export interface IEditionPageProps {
-  edition: IEdition;
+  edition: EditionStore;
+  imageStore: ImageStore;
 }
 
-export const EditionPage = ({ edition }: IEditionPageProps) => {
+export const EditionPage = ({ edition, imageStore }: IEditionPageProps) => {
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualizer = useVirtual({
-    size: edition.BookUnits.length * 2,
+    size: edition.get_no_book_units() * 2,
     parentRef,
   });
 
+  const numberOfManuscripts = useMemo(
+    () => edition.get_no_manuscripts(),
+    [edition]
+  );
   const getRow = useCallback(
     (row: VirtualItem) => {
-      const bu = edition.BookUnits[Math.floor(row.index / 2)];
+      const unitIndex = Math.floor(row.index / 2);
       if (row.index % 2 === 0) {
         return (
           <div
@@ -31,11 +51,11 @@ export const EditionPage = ({ edition }: IEditionPageProps) => {
               left: 0,
               width: '100%',
               transform: `translateY(${row.start}px)`,
-              display: 'flex',
-              justifyContent: 'center',
             }}
           >
-            <EditionUnitTitle bookUnit={bu} />
+            <EditionUnitTitle
+              display={edition.get_book_unit_display_title(unitIndex)}
+            />
           </div>
         );
       }
@@ -50,15 +70,27 @@ export const EditionPage = ({ edition }: IEditionPageProps) => {
             width: '100%',
             transform: `translateY(${row.start}px)`,
             display: 'flex',
-            alignItems: 'flex-start',
+            alignItems: 'stretch',
           }}
         >
-          <EditionRow bookUnit={bu} units={getUnits(bu, edition)} />
+          <EditionRow
+            unitId={edition.get_book_unit_id(unitIndex)}
+            unitIdx={unitIndex}
+            manuscripts={numberOfManuscripts}
+            store={edition}
+          />
         </div>
       );
     },
     [edition]
   );
+
+  useEffect(() => {
+    return () => {
+      edition.free();
+      imageStore.free();
+    };
+  }, []);
 
   return (
     <div
@@ -69,11 +101,11 @@ export const EditionPage = ({ edition }: IEditionPageProps) => {
         overflow: 'auto',
       }}
     >
-      <EditionManuscriptBar manuscripts={edition.Manuscripts} />
+      <EditionManuscriptBar manuscripts={numberOfManuscripts} store={edition} />
       <div
         style={{
           height: rowVirtualizer.totalSize,
-          width: `${200 * edition.Manuscripts.length}px`,
+          width: `${200 * numberOfManuscripts}px`,
           position: 'relative',
         }}
       >

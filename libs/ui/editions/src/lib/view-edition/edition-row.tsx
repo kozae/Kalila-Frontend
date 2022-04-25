@@ -1,28 +1,41 @@
-import { IEditionBookUnit } from '@frontend/domain';
 import { EditionCell } from './edition-cell';
+import { EditionStore } from '../store';
+import { range } from 'lodash';
 
 export interface IEditionRowProps {
-  bookUnit: IEditionBookUnit;
-  units: {
-    id: string;
-    manuscriptId: string;
-    siglum: string;
-    tokens: string[];
-  }[];
+  manuscripts: number;
+  unitId: string;
+  unitIdx: number;
+  store: EditionStore;
 }
 
-export const EditionRow = ({ bookUnit, units }: IEditionRowProps) => {
+export const EditionRow = ({
+  manuscripts,
+  unitId,
+  unitIdx,
+  store,
+}: IEditionRowProps) => {
   return (
     <>
-      {units.map((u) => (
-        <EditionCell
-          key={u.manuscriptId}
-          tokens={u.tokens}
-          unitId={u.id}
-          manuscriptId={u.manuscriptId}
-          width="200px"
-        />
-      ))}
+      {range(manuscripts)
+        .map((manuscriptIndex) => store.get_cell(unitId, manuscriptIndex))
+        .map((cellData, index) => (
+          <EditionCell
+            key={cellData.get_key()}
+            bgcolor={
+              index % 2
+                ? unitIdx % 2 === 0
+                  ? 'white'
+                  : '#F1F1F1'
+                : unitIdx % 2
+                ? 'white'
+                : '#F1F1F1'
+            }
+            data={cellData}
+            store={store}
+            width="200px"
+          />
+        ))}
     </>
   );
 };
