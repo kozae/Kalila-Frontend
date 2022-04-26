@@ -1,1 +1,3 @@
-export * from './lib/dissemination-map';
+import { DisseminationMap } from './lib/dissemination-map';
+
+export default DisseminationMap;
