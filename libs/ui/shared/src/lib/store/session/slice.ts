@@ -1,25 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { KalilaSessionContextValue } from '@frontend/util';
 
 interface ISessionState {
-  session: KalilaSessionContextValue;
+  session: any;
+  status: string;
+  accessToken: string | null;
 }
 
 const initialState: ISessionState = {
-  session: { session: null, status: 'unauthenticated', accessToken: null },
+  session: null,
+  status: 'unauthenticated',
+  accessToken: null,
 };
 
 export const sessionSlice = createSlice({
   name: 'session',
   initialState,
   reducers: {
-    loadSession: {
-      reducer: (state, action: PayloadAction<KalilaSessionContextValue>) => {
-        state.session = action.payload;
-      },
-      prepare: (value?: KalilaSessionContextValue) => ({
-        payload: value || initialState.session,
-      }),
+    loadSession: (state, action: PayloadAction<ISessionState>) => {
+      state.session = action.payload.session;
+      state.status = action.payload.status;
+      state.accessToken = action.payload.accessToken;
     },
     clearSession: (state) => {
       state.session = initialState.session;

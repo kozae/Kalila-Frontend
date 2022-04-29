@@ -11,7 +11,6 @@ export * from './lib/pagination-header';
 export * from './lib/params-serializer';
 export * from './lib/regex';
 export * from './lib/schema';
-export * from './lib/transform-session';
 export * from './lib/search-insert-position';
 export * from './lib/set-all-null';
 export * from './lib/sleeper';

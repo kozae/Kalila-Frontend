@@ -2,7 +2,6 @@ import styles from './nav.module.scss';
 import React, { useContext } from 'react';
 import { stringHasValue } from '@frontend/util';
 import { NavbarStore } from './store';
-import { signIn, signOut } from 'next-auth/react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import LoginIcon from '@mui/icons-material/Login';
@@ -74,10 +73,7 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({ loggedUser }) => {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu">
-                  <MenuItem
-                    sx={{ fontSize: '1rem' }}
-                    onClick={() => signOut().catch()}
-                  >
+                  <MenuItem sx={{ fontSize: '1rem' }} onClick={() => {}}>
                     <ExitToAppIcon color="warning" /> &nbsp; Sign out
                   </MenuItem>
                   <MenuItem
@@ -105,7 +101,7 @@ export const NavUserControls: React.FC = () => {
   const logInButton = () => (
     <div className={styles['nav__control-bar__user-controls']}>
       <Button
-        onClick={() => signIn()}
+        onClick={() => {}}
         variant="contained"
         disableElevation
         endIcon={<LoginIcon />}

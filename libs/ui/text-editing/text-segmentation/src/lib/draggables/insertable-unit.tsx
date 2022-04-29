@@ -54,7 +54,7 @@ export const InsertableUnit = ({ d, onEdit }: IInsertableUnitProps) => {
   );
 };
 
-export const InsertableUnitDragPreview = ({ d }: IInsertableUnitProps) => {
+export const InsertableUnitDragPreview = ({ d }: { d: any }) => {
   return (
     <Box
       sx={{

@@ -13,7 +13,6 @@ import {
 } from '@frontend/shared-ui';
 import { AnimatePresence } from 'framer-motion';
 import { useSignalr } from '@frontend/shared-ui';
-import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from '@mui/material';
 import { createEmotionCache } from './_document';
 import { CacheProvider, EmotionCache } from '@emotion/react';
@@ -36,31 +35,25 @@ function KalilaApp(appProps: KalilaAppProps) {
   } = appProps;
   const signalrState = useSignalr();
   const navMessageContextValue = useNavMessageBarControls();
-  const { session } = pageProps;
   return (
     <CacheProvider value={emotionCache}>
       <SignalrWrapper.Provider value={{ ...signalrState }}>
-        <SessionProvider session={session}>
-          <Head>
-            <meta
-              name="viewport"
-              content="initial-scale=1, width=device-width"
-            />
-            <link rel="shortcut icon" href={'/favicon.ico'} />
-            <title>Kalila</title>
-          </Head>
-          <ThemeProvider theme={kalilaTheme}>
-            <ReduxProvider store={store}>
-              <NavMessageBarContext.Provider value={navMessageContextValue}>
-                <Layout>
-                  <AnimatePresence exitBeforeEnter>
-                    <Component {...pageProps} key={router.route} />
-                  </AnimatePresence>
-                </Layout>
-              </NavMessageBarContext.Provider>
-            </ReduxProvider>
-          </ThemeProvider>
-        </SessionProvider>
+        <Head>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+          <link rel="shortcut icon" href={'/favicon.ico'} />
+          <title>Kalila</title>
+        </Head>
+        <ThemeProvider theme={kalilaTheme}>
+          <ReduxProvider store={store}>
+            <NavMessageBarContext.Provider value={navMessageContextValue}>
+              <Layout>
+                <AnimatePresence exitBeforeEnter>
+                  <Component {...pageProps} key={router.route} />
+                </AnimatePresence>
+              </Layout>
+            </NavMessageBarContext.Provider>
+          </ReduxProvider>
+        </ThemeProvider>
       </SignalrWrapper.Provider>
     </CacheProvider>
   );
