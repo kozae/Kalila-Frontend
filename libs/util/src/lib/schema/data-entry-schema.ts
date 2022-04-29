@@ -23,5 +23,5 @@ export interface IDataEntrySchema {
   ConnectsToEntity?: string;
   ConnectsToField?: string;
   InputMode: InputModes;
-  CategoricalAttributeType: string;
+  CategoricalAttributeType?: string;
 }

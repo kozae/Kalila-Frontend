@@ -31,7 +31,7 @@ export function useFacsimileCanvasEffects(
         canvasState.renderPageFacsimile(canvasState.canvas);
       }
       if (
-        ['lines', 'layout', 'transcription'].includes(
+        ['lines', 'layout', 'transcription', 'segmentation'].includes(
           canvasState.regions.activeWorkspace
         )
       ) {

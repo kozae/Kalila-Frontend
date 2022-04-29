@@ -22,7 +22,6 @@ import {
   PrimaryGreenHeader,
   WhiteHeader,
 } from '@frontend/ui/table';
-import { Column } from 'react-table';
 
 function pageTitle(siglum: string): [string, string] {
   return ['Administration:', `Pages of ${siglum}`];

@@ -16,7 +16,7 @@ const spaceToGroupMap: Record<
   'layout' | 'lines' | undefined
 > = {
   description: undefined,
-  segmentation: undefined,
+  segmentation: 'lines',
   layout: 'layout',
   lines: 'lines',
   transcription: 'lines',

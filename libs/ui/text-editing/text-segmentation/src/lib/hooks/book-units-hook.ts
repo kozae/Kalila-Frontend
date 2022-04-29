@@ -32,13 +32,14 @@ export function useBookUnits(
     passFilterToQuery();
   }, [filter]);
 
-  const { data: bookUnits, isValidating: bookUnitsLoading } = getBookUnits(
-    chapter,
-    accessToken,
-    bookUnitQuery
-  );
+  const {
+    data: bookUnits,
+    isValidating: bookUnitsLoading,
+    mutate,
+  } = getBookUnits(chapter, accessToken, bookUnitQuery);
 
   return {
+    mutate,
     filter,
     bookUnitQuery,
     handleFilterChange,

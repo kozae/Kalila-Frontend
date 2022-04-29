@@ -1,21 +1,24 @@
 import Stack from '@mui/material/Stack';
-import { IChapter } from '@frontend/domain';
+import { BookUnit, IChapter } from '@frontend/domain';
 import TextField from '@mui/material/TextField';
 import Pagination from '@mui/material/Pagination';
 import LinearProgress from '@mui/material/LinearProgress';
 import InputAdornment from '@mui/material/InputAdornment';
 import {
   selectAccessToken,
-  selectCurrentPageNumber,
   useAppSelector,
+  useBoolean,
 } from '@frontend/shared-ui';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { useBookUnits, useManuscriptUnits } from './hooks';
 import IconButton from '@mui/material/IconButton';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { InsertableEndTag, InsertableUnit } from './draggables';
+import { EditBookUnitDialog } from './dialogs';
+import axios from 'axios';
+import { paramsSerializer } from '@frontend/util';
 
 export interface IUnitsProps {
   chapter: IChapter | null;
@@ -23,6 +26,10 @@ export interface IUnitsProps {
 
 export const Units = ({ chapter }: IUnitsProps) => {
   const accessToken = useAppSelector(selectAccessToken);
+  const [
+    editBookUnitDialogIsOpen,
+    { setTrue: openEditBookUnitDialog, setFalse: dismissBookUnitDialog },
+  ] = useBoolean(false);
   const {
     filter,
     bookUnitQuery,
@@ -30,8 +37,44 @@ export const Units = ({ chapter }: IUnitsProps) => {
     handlePageChange,
     bookUnits,
     bookUnitsLoading,
+    mutate,
   } = useBookUnits(chapter, accessToken);
   const msUnitsMap = useManuscriptUnits(chapter, accessToken);
+  const [selectedBookUnit, setSelectedBookUnit] = useState<BookUnit | null>(
+    null
+  );
+  const handleEditBookUnit = (d: any) => {
+    setSelectedBookUnit(
+      new BookUnit(d.Id, chapter?.abbr, d.OrderInChapter, d.Title ?? '')
+    );
+    setTimeout(() => {
+      openEditBookUnitDialog();
+    }, 100);
+  };
+
+  const handleSubmit = useCallback(
+    async (values: BookUnit) => {
+      dismissBookUnitDialog();
+      const newTitle = values.Title?.trim();
+      await updateBookUnit(
+        values.Id as string,
+        {
+          Title:
+            newTitle && selectedBookUnit?.Title !== newTitle ? newTitle : null,
+          OrderInChapter:
+            selectedBookUnit?.OrderInChapter !== values.OrderInChapter
+              ? values.OrderInChapter
+              : null,
+          Chapter: values.Chapter,
+        },
+        accessToken as string
+      );
+      setTimeout(() => {
+        mutate();
+      }, 1000);
+    },
+    [mutate, accessToken, selectedBookUnit]
+  );
 
   return (
     <Stack alignItems="center">
@@ -96,17 +139,46 @@ export const Units = ({ chapter }: IUnitsProps) => {
                     ({d.OrderInChapter}) {d.Title} [
                     {msUnitsMap.get(d.Id)?.StartsInPageNumber}]
                   </Typography>
-                  <IconButton color="primary" size="small">
-                    <EditTwoToneIcon fontSize="small" />
+                  <IconButton
+                    size="small"
+                    onClick={() => handleEditBookUnit(d)}
+                  >
+                    <EditTwoToneIcon fontSize="small" color="primary" />
                   </IconButton>
                 </Stack>
               );
             } else {
-              return <InsertableUnit d={d} key={d.Id} />;
+              return (
+                <InsertableUnit
+                  onEdit={() => handleEditBookUnit(d)}
+                  d={d}
+                  key={d.Id}
+                />
+              );
             }
           })}
         <InsertableEndTag />
       </Stack>
+      {selectedBookUnit && (
+        <EditBookUnitDialog
+          value={selectedBookUnit}
+          isOpen={editBookUnitDialogIsOpen}
+          onClose={dismissBookUnitDialog}
+          onSubmit={handleSubmit}
+        />
+      )}
     </Stack>
   );
 };
+
+async function updateBookUnit(id: string, update: any, accessToken: string) {
+  await axios.patch(`/server/api/v1/BookUnit/Admin`, update, {
+    params: {
+      Ids: [id],
+    },
+    paramsSerializer,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+}

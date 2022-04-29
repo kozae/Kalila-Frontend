@@ -1,11 +1,12 @@
-import { IEditionBookUnit } from '@frontend/domain';
 import Typography from '@mui/material/Typography';
+import { EditionRowTitle } from '../store';
 
 export interface IEditionUnitTitleProps {
-  display: string;
+  data: EditionRowTitle;
 }
 
-export const EditionUnitTitle = ({ display }: IEditionUnitTitleProps) => {
+export const EditionUnitTitle = ({ data }: IEditionUnitTitleProps) => {
+  const display = data.get_display();
   return (
     <Typography
       letterSpacing=".2rem"

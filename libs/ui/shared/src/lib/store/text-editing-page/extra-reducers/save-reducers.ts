@@ -3,6 +3,7 @@ import { ITextEditingPageState } from '../models';
 import {
   saveLayoutChanges,
   saveLineChanges,
+  saveSegmentation,
   saveTokenChanges,
 } from '../thunks';
 
@@ -33,5 +34,9 @@ export function addSaveReducers(
   builder.addCase(saveTokenChanges.fulfilled, (state, action) => {
     state.postTokens = [];
     state.tokensBeforeChanges = action.payload.Tokens;
+  });
+  builder.addCase(saveSegmentation.fulfilled, (state, action) => {
+    state.textSegmentationTouched = false;
+    state.unitSummariesBeforeChanges = action.payload.units;
   });
 }

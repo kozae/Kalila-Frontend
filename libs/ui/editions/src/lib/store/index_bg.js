@@ -119,25 +119,9 @@ function takeObject(idx) {
 function _assertNum(n) {
     if (typeof(n) !== 'number') throw new Error('expected a number argument');
 }
-/**
-*/
-export class BookUnit {
 
-    constructor() {
-        throw new Error('cannot invoke `new` directly');
-    }
-
-    __destroy_into_raw() {
-        const ptr = this.ptr;
-        this.ptr = 0;
-
-        return ptr;
-    }
-
-    free() {
-        const ptr = this.__destroy_into_raw();
-        wasm.__wbg_bookunit_free(ptr);
-    }
+function isLikeNone(x) {
+    return x === undefined || x === null;
 }
 /**
 */
@@ -166,14 +150,103 @@ export class EditionCellData {
         wasm.__wbg_editioncelldata_free(ptr);
     }
     /**
-    * @returns {string}
+    * @returns {number}
     */
-    get_key() {
+    get_token_count() {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
+        const ret = wasm.editioncelldata_get_token_count(this.ptr);
+        return ret >>> 0;
+    }
+    /**
+    * @returns {number | undefined}
+    */
+    get_unit_idx() {
         try {
             if (this.ptr == 0) throw new Error('Attempt to use a moved value');
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
             _assertNum(this.ptr);
-            wasm.editioncelldata_get_key(retptr, this.ptr);
+            wasm.editioncelldata_get_unit_idx(retptr, this.ptr);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            return r0 === 0 ? undefined : r1 >>> 0;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+    * @returns {number}
+    */
+    get_manuscript_idx() {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
+        const ret = wasm.editioncelldata_get_manuscript_idx(this.ptr);
+        return ret >>> 0;
+    }
+    /**
+    * @returns {number}
+    */
+    get_unit_order() {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
+        const ret = wasm.editioncelldata_get_unit_order(this.ptr);
+        return ret;
+    }
+    /**
+    * @param {number} idx
+    * @returns {string}
+    */
+    get_token(idx) {
+        try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            _assertNum(this.ptr);
+            _assertNum(idx);
+            wasm.editioncelldata_get_token(retptr, this.ptr, idx);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_free(r0, r1);
+        }
+    }
+}
+/**
+*/
+export class EditionRowTitle {
+
+    constructor() {
+        throw new Error('cannot invoke `new` directly');
+    }
+
+    static __wrap(ptr) {
+        const obj = Object.create(EditionRowTitle.prototype);
+        obj.ptr = ptr;
+
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.ptr;
+        this.ptr = 0;
+
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_editionrowtitle_free(ptr);
+    }
+    /**
+    * @returns {string}
+    */
+    get_display() {
+        try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            _assertNum(this.ptr);
+            wasm.editionrowtitle_get_display(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
@@ -183,31 +256,23 @@ export class EditionCellData {
         }
     }
     /**
-    * @returns {number}
+    * @param {number} index
+    * @param {string | undefined} title
+    * @param {number | undefined} order
+    * @returns {EditionRowTitle}
     */
-    get_token_count() {
+    update_row(index, title, order) {
         if (this.ptr == 0) throw new Error('Attempt to use a moved value');
-        _assertNum(this.ptr);
-        const ret = wasm.editioncelldata_get_token_count(this.ptr);
-        return ret;
-    }
-    /**
-    * @returns {number}
-    */
-    get_unit_idx() {
-        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
-        _assertNum(this.ptr);
-        const ret = wasm.editioncelldata_get_unit_idx(this.ptr);
-        return ret;
-    }
-    /**
-    * @returns {number}
-    */
-    get_manuscript_idx() {
-        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
-        _assertNum(this.ptr);
-        const ret = wasm.editioncelldata_get_manuscript_idx(this.ptr);
-        return ret;
+        const ptr = this.__destroy_into_raw();
+        _assertNum(ptr);
+        _assertNum(index);
+        var ptr0 = isLikeNone(title) ? 0 : passStringToWasm0(title, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        var len0 = WASM_VECTOR_LEN;
+        if (!isLikeNone(order)) {
+            _assertNum(order);
+        }
+        const ret = wasm.editionrowtitle_update_row(ptr, index, ptr0, len0, !isLikeNone(order), isLikeNone(order) ? 0 : order);
+        return EditionRowTitle.__wrap(ret);
     }
 }
 /**
@@ -235,6 +300,19 @@ export class EditionStore {
     free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_editionstore_free(ptr);
+    }
+    /**
+    * @param {number} unit_idx
+    * @param {number} manuscript_idx
+    * @returns {EditionCellData}
+    */
+    build_cell(unit_idx, manuscript_idx) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
+        _assertNum(unit_idx);
+        _assertNum(manuscript_idx);
+        const ret = wasm.editionstore_build_cell(this.ptr, unit_idx, manuscript_idx);
+        return EditionCellData.__wrap(ret);
     }
     /**
     * @param {any} data
@@ -296,7 +374,7 @@ export class EditionStore {
         if (this.ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.ptr);
         const ret = wasm.editionstore_get_no_manuscripts(this.ptr);
-        return ret;
+        return ret >>> 0;
     }
     /**
     * @param {number} idx
@@ -320,252 +398,41 @@ export class EditionStore {
     /**
     * @returns {number}
     */
-    get_no_book_units() {
+    get_no_rows() {
         if (this.ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.ptr);
-        const ret = wasm.editionstore_get_no_book_units(this.ptr);
-        return ret;
+        const ret = wasm.editionstore_get_no_rows(this.ptr);
+        return ret >>> 0;
     }
     /**
     * @param {number} index
-    * @returns {string}
+    * @returns {EditionRowTitle}
     */
-    get_book_unit_display_title(index) {
-        try {
-            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            _assertNum(this.ptr);
-            _assertNum(index);
-            wasm.editionstore_get_book_unit_display_title(retptr, this.ptr, index);
-            var r0 = getInt32Memory0()[retptr / 4 + 0];
-            var r1 = getInt32Memory0()[retptr / 4 + 1];
-            return getStringFromWasm0(r0, r1);
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-            wasm.__wbindgen_free(r0, r1);
-        }
-    }
-    /**
-    * @param {number} index
-    * @returns {string}
-    */
-    get_book_unit_id(index) {
-        try {
-            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            _assertNum(this.ptr);
-            _assertNum(index);
-            wasm.editionstore_get_book_unit_id(retptr, this.ptr, index);
-            var r0 = getInt32Memory0()[retptr / 4 + 0];
-            var r1 = getInt32Memory0()[retptr / 4 + 1];
-            return getStringFromWasm0(r0, r1);
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-            wasm.__wbindgen_free(r0, r1);
-        }
-    }
-    /**
-    * @param {string} unit_id
-    * @param {number} manuscript_idx
-    * @returns {EditionCellData}
-    */
-    get_cell(unit_id, manuscript_idx) {
+    build_row(index) {
         if (this.ptr == 0) throw new Error('Attempt to use a moved value');
         _assertNum(this.ptr);
-        const ptr0 = passStringToWasm0(unit_id, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        const len0 = WASM_VECTOR_LEN;
-        _assertNum(manuscript_idx);
-        const ret = wasm.editionstore_get_cell(this.ptr, ptr0, len0, manuscript_idx);
-        return EditionCellData.__wrap(ret);
+        _assertNum(index);
+        const ret = wasm.editionstore_build_row(this.ptr, index);
+        return EditionRowTitle.__wrap(ret);
     }
     /**
-    * @param {number} unit_idx
-    * @param {number} manuscript_idx
-    * @param {number} token_idx
-    * @returns {string}
+    * @param {string} id
+    * @returns {number | undefined}
     */
-    get_token(unit_idx, manuscript_idx, token_idx) {
+    get_row_index(id) {
         try {
             if (this.ptr == 0) throw new Error('Attempt to use a moved value');
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
             _assertNum(this.ptr);
-            _assertNum(unit_idx);
-            _assertNum(manuscript_idx);
-            _assertNum(token_idx);
-            wasm.editionstore_get_token(retptr, this.ptr, unit_idx, manuscript_idx, token_idx);
+            const ptr0 = passStringToWasm0(id, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.editionstore_get_row_index(retptr, this.ptr, ptr0, len0);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
-            return getStringFromWasm0(r0, r1);
+            return r0 === 0 ? undefined : r1 >>> 0;
         } finally {
             wasm.__wbindgen_add_to_stack_pointer(16);
-            wasm.__wbindgen_free(r0, r1);
         }
-    }
-    /**
-    * @param {string} file
-    * @param {number} manuscript_idx
-    * @param {number} page_number
-    */
-    static store_image_data(file, manuscript_idx, page_number) {
-        const ptr0 = passStringToWasm0(file, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        const len0 = WASM_VECTOR_LEN;
-        _assertNum(manuscript_idx);
-        _assertNum(page_number);
-        wasm.editionstore_store_image_data(ptr0, len0, manuscript_idx, page_number);
-    }
-}
-/**
-*/
-export class Facsimile {
-
-    constructor() {
-        throw new Error('cannot invoke `new` directly');
-    }
-
-    __destroy_into_raw() {
-        const ptr = this.ptr;
-        this.ptr = 0;
-
-        return ptr;
-    }
-
-    free() {
-        const ptr = this.__destroy_into_raw();
-        wasm.__wbg_facsimile_free(ptr);
-    }
-}
-/**
-*/
-export class ImageStore {
-
-    constructor() {
-        throw new Error('cannot invoke `new` directly');
-    }
-
-    static __wrap(ptr) {
-        const obj = Object.create(ImageStore.prototype);
-        obj.ptr = ptr;
-
-        return obj;
-    }
-
-    __destroy_into_raw() {
-        const ptr = this.ptr;
-        this.ptr = 0;
-
-        return ptr;
-    }
-
-    free() {
-        const ptr = this.__destroy_into_raw();
-        wasm.__wbg_imagestore_free(ptr);
-    }
-    /**
-    * @returns {ImageStore}
-    */
-    static new() {
-        const ret = wasm.imagestore_new();
-        return ImageStore.__wrap(ret);
-    }
-}
-/**
-*/
-export class Line {
-
-    constructor() {
-        throw new Error('cannot invoke `new` directly');
-    }
-
-    __destroy_into_raw() {
-        const ptr = this.ptr;
-        this.ptr = 0;
-
-        return ptr;
-    }
-
-    free() {
-        const ptr = this.__destroy_into_raw();
-        wasm.__wbg_line_free(ptr);
-    }
-}
-/**
-*/
-export class Manuscript {
-
-    constructor() {
-        throw new Error('cannot invoke `new` directly');
-    }
-
-    __destroy_into_raw() {
-        const ptr = this.ptr;
-        this.ptr = 0;
-
-        return ptr;
-    }
-
-    free() {
-        const ptr = this.__destroy_into_raw();
-        wasm.__wbg_manuscript_free(ptr);
-    }
-}
-/**
-*/
-export class Point {
-
-    constructor() {
-        throw new Error('cannot invoke `new` directly');
-    }
-
-    __destroy_into_raw() {
-        const ptr = this.ptr;
-        this.ptr = 0;
-
-        return ptr;
-    }
-
-    free() {
-        const ptr = this.__destroy_into_raw();
-        wasm.__wbg_point_free(ptr);
-    }
-}
-/**
-*/
-export class Region {
-
-    constructor() {
-        throw new Error('cannot invoke `new` directly');
-    }
-
-    __destroy_into_raw() {
-        const ptr = this.ptr;
-        this.ptr = 0;
-
-        return ptr;
-    }
-
-    free() {
-        const ptr = this.__destroy_into_raw();
-        wasm.__wbg_region_free(ptr);
-    }
-}
-/**
-*/
-export class Unit {
-
-    constructor() {
-        throw new Error('cannot invoke `new` directly');
-    }
-
-    __destroy_into_raw() {
-        const ptr = this.ptr;
-        this.ptr = 0;
-
-        return ptr;
-    }
-
-    free() {
-        const ptr = this.__destroy_into_raw();
-        wasm.__wbg_unit_free(ptr);
     }
 }
 

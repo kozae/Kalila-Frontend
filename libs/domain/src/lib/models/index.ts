@@ -1,3 +1,4 @@
+export * from './book-unit';
 export * from './kalila-document';
 export * from './iiif-info';
 export * from './categorical-attribute';

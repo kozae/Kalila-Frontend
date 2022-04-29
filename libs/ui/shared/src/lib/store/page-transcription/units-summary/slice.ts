@@ -1,16 +1,21 @@
-import { createEntityAdapter, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUnitSummary } from "@frontend/domain";
-import { closeUnit, moveUnit } from "./thunks";
-import { discardSegmentationChanges } from "../../text-editing-page/thunks/discard-segmentation";
+import {
+  createEntityAdapter,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
+import { IUnitSummary } from '@frontend/domain';
+import { closeUnit, moveUnit } from './thunks';
+import { discardSegmentationChanges } from '../../text-editing-page/thunks/discard-segmentation';
+import { saveSegmentation } from '../../text-editing-page';
 
 export const unitSummariesAdapter = createEntityAdapter<IUnitSummary>({
-  selectId: (doc) => doc.Id
+  selectId: (doc) => doc.Id,
 });
 
 const initialState = unitSummariesAdapter.getInitialState();
 
 export const unitSummariesSlice = createSlice({
-  name: "unitSummaries",
+  name: 'unitSummaries',
   initialState,
   reducers: {
     loadUnitSummaries: unitSummariesAdapter.setAll,
@@ -23,11 +28,11 @@ export const unitSummariesSlice = createSlice({
         changes: {
           EndsInPageNumber: undefined,
           EndsInLineNumber: undefined,
-          LastTokenOrderInLine: undefined
-        }
+          LastTokenOrderInLine: undefined,
+        },
       });
     },
-    clearUnitSummaries: unitSummariesAdapter.removeAll
+    clearUnitSummaries: unitSummariesAdapter.removeAll,
   },
   extraReducers: (builder) => {
     builder.addCase(closeUnit.fulfilled, (state, action) => {
@@ -41,8 +46,17 @@ export const unitSummariesSlice = createSlice({
     builder.addCase(discardSegmentationChanges.fulfilled, (state, action) => {
       unitSummariesAdapter.setAll(state, action.payload.units);
     });
-  }
+    builder.addCase(saveSegmentation.fulfilled, (state, action) => {
+      unitSummariesAdapter.setAll(state, action.payload.units);
+    });
+  },
 });
 
-export const { loadUnitSummaries, clearUnitSummaries, insertUnit, updateUnit, removeUnit, removeUnitEndTag } =
-  unitSummariesSlice.actions;
+export const {
+  loadUnitSummaries,
+  clearUnitSummaries,
+  insertUnit,
+  updateUnit,
+  removeUnit,
+  removeUnitEndTag,
+} = unitSummariesSlice.actions;

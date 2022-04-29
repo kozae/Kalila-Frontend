@@ -1,5 +1,7 @@
 import { IPageInfo } from '@frontend/domain';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { saveSegmentation } from '../../text-editing-page';
+import { unitSummariesAdapter } from '../units-summary';
 
 const initialState: {
   pageInfo: IPageInfo;
@@ -49,6 +51,13 @@ export const pageDataSlice = createSlice({
       state.loading = false;
     },
     clearPageData: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(saveSegmentation.fulfilled, (state, action) => {
+      if (action.payload.nearestOpenUnitClosed) {
+        state.pageInfo.NearestOpenUnit = undefined;
+      }
+    });
   },
 });
 

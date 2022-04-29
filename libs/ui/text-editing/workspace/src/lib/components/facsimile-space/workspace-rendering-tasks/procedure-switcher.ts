@@ -35,6 +35,7 @@ export function workspaceProcedure({
       renderLinesWorkspace({ ...props, clickEvents: true });
       return;
     case 'transcription':
+    case 'segmentation':
       renderLinesWorkspace({ ...props, clickEvents: false });
       return;
     default:

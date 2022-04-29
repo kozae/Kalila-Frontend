@@ -2,34 +2,56 @@
 /* eslint-disable */
 /**
 */
-export class BookUnit {
-  free(): void;
-}
-/**
-*/
 export class EditionCellData {
   free(): void;
-/**
-* @returns {string}
-*/
-  get_key(): string;
 /**
 * @returns {number}
 */
   get_token_count(): number;
 /**
-* @returns {number}
+* @returns {number | undefined}
 */
-  get_unit_idx(): number;
+  get_unit_idx(): number | undefined;
 /**
 * @returns {number}
 */
   get_manuscript_idx(): number;
+/**
+* @returns {number}
+*/
+  get_unit_order(): number;
+/**
+* @param {number} idx
+* @returns {string}
+*/
+  get_token(idx: number): string;
+}
+/**
+*/
+export class EditionRowTitle {
+  free(): void;
+/**
+* @returns {string}
+*/
+  get_display(): string;
+/**
+* @param {number} index
+* @param {string | undefined} title
+* @param {number | undefined} order
+* @returns {EditionRowTitle}
+*/
+  update_row(index: number, title?: string, order?: number): EditionRowTitle;
 }
 /**
 */
 export class EditionStore {
   free(): void;
+/**
+* @param {number} unit_idx
+* @param {number} manuscript_idx
+* @returns {EditionCellData}
+*/
+  build_cell(unit_idx: number, manuscript_idx: number): EditionCellData;
 /**
 * @param {any} data
 * @returns {EditionStore}
@@ -55,73 +77,15 @@ export class EditionStore {
 /**
 * @returns {number}
 */
-  get_no_book_units(): number;
+  get_no_rows(): number;
 /**
 * @param {number} index
-* @returns {string}
+* @returns {EditionRowTitle}
 */
-  get_book_unit_display_title(index: number): string;
+  build_row(index: number): EditionRowTitle;
 /**
-* @param {number} index
-* @returns {string}
+* @param {string} id
+* @returns {number | undefined}
 */
-  get_book_unit_id(index: number): string;
-/**
-* @param {string} unit_id
-* @param {number} manuscript_idx
-* @returns {EditionCellData}
-*/
-  get_cell(unit_id: string, manuscript_idx: number): EditionCellData;
-/**
-* @param {number} unit_idx
-* @param {number} manuscript_idx
-* @param {number} token_idx
-* @returns {string}
-*/
-  get_token(unit_idx: number, manuscript_idx: number, token_idx: number): string;
-/**
-* @param {string} file
-* @param {number} manuscript_idx
-* @param {number} page_number
-*/
-  static store_image_data(file: string, manuscript_idx: number, page_number: number): void;
-}
-/**
-*/
-export class Facsimile {
-  free(): void;
-}
-/**
-*/
-export class ImageStore {
-  free(): void;
-/**
-* @returns {ImageStore}
-*/
-  static new(): ImageStore;
-}
-/**
-*/
-export class Line {
-  free(): void;
-}
-/**
-*/
-export class Manuscript {
-  free(): void;
-}
-/**
-*/
-export class Point {
-  free(): void;
-}
-/**
-*/
-export class Region {
-  free(): void;
-}
-/**
-*/
-export class Unit {
-  free(): void;
+  get_row_index(id: string): number | undefined;
 }

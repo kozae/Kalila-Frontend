@@ -10,9 +10,10 @@ import Box from '@mui/material/Box';
 
 export interface IInsertableUnitProps {
   d: any; // TODO make interface fro bookunit
+  onEdit: () => void;
 }
 
-export const InsertableUnit = ({ d }: IInsertableUnitProps) => {
+export const InsertableUnit = ({ d, onEdit }: IInsertableUnitProps) => {
   const [collected, drag, dragPreview] = useDrag<any, any, any>(
     () => ({
       type: Draggables.insertableUnit,
@@ -45,7 +46,7 @@ export const InsertableUnit = ({ d }: IInsertableUnitProps) => {
       </Typography>
 
       {!collected.isDragging && (
-        <IconButton color="primary" size="small">
+        <IconButton onClick={onEdit} color="primary" size="small">
           <EditTwoToneIcon fontSize="small" />
         </IconButton>
       )}

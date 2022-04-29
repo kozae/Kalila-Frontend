@@ -3,6 +3,8 @@ import Typography from '@mui/material/Typography';
 import { range } from 'lodash';
 import { EditionStore } from '../store';
 import { kalilaTheme } from '@frontend/shared-ui';
+import { useContext } from 'react';
+import { ViewEditionContext, WIDTH_OPTIONS } from './view-edition-context';
 
 export interface IEditionManuscriptBarProps {
   manuscripts: number;
@@ -13,6 +15,8 @@ export const EditionManuscriptBar = ({
   manuscripts,
   store,
 }: IEditionManuscriptBarProps) => {
+  const { size } = useContext(ViewEditionContext);
+
   return (
     <Stack
       sx={{
@@ -32,7 +36,7 @@ export const EditionManuscriptBar = ({
           alignItems="center"
           justifyContent="center"
           sx={{
-            width: '200px',
+            width: WIDTH_OPTIONS[size],
             bgcolor: m % 2 ? 'white' : '#F1F1F1',
           }}
         >

@@ -4,7 +4,7 @@ import { EditionPageWasm } from '@frontend/ui/editions';
 
 export function Edition({ data }) {
   useNavbarMessage(['Edition', undefined]);
-  return data ? <EditionPageWasm edition={data} /> : <h1>Loading...</h1>;
+  return data ? <EditionPageWasm data={data} /> : <h1>Loading...</h1>;
 }
 
 export default withTransition(Edition, {});

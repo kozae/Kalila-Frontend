@@ -5,6 +5,7 @@ import {
   ICommonFieldProps,
   InputOneInteger,
   InputOneString,
+  InputOneFloat,
   SelectOne,
 } from './fields';
 import { useCommonFieldProps } from './create-form-field.hooks';
@@ -36,6 +37,10 @@ export function createFormField(
       }
       if (field.KalilaValueType === KalilaValueTypes.Int) {
         return <InputOneInteger {...props} />;
+      }
+
+      if (field.KalilaValueType === KalilaValueTypes.Float) {
+        return <InputOneFloat {...props} />;
       }
       break;
     case InputModes.InputMultiple:
