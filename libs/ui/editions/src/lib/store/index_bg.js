@@ -1,12 +1,10 @@
 import * as wasm from './index_bg.wasm';
 
-const heap = new Array(32).fill(undefined);
+const lTextDecoder = typeof TextDecoder === 'undefined' ? (0, module.require)('util').TextDecoder : TextDecoder;
 
-heap.push(undefined, null, true, false);
+let cachedTextDecoder = new lTextDecoder('utf-8', { ignoreBOM: true, fatal: true });
 
-function getObject(idx) { return heap[idx]; }
-
-let WASM_VECTOR_LEN = 0;
+cachedTextDecoder.decode();
 
 let cachegetUint8Memory0 = null;
 function getUint8Memory0() {
@@ -15,6 +13,31 @@ function getUint8Memory0() {
     }
     return cachegetUint8Memory0;
 }
+
+function getStringFromWasm0(ptr, len) {
+    return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
+}
+
+const heap = new Array(32).fill(undefined);
+
+heap.push(undefined, null, true, false);
+
+let heap_next = heap.length;
+
+function addHeapObject(obj) {
+    if (heap_next === heap.length) heap.push(heap.length + 1);
+    const idx = heap_next;
+    heap_next = heap[idx];
+
+    if (typeof(heap_next) !== 'number') throw new Error('corrupt heap');
+
+    heap[idx] = obj;
+    return idx;
+}
+
+function getObject(idx) { return heap[idx]; }
+
+let WASM_VECTOR_LEN = 0;
 
 const lTextEncoder = typeof TextEncoder === 'undefined' ? (0, module.require)('util').TextEncoder : TextEncoder;
 
@@ -34,6 +57,8 @@ const encodeString = (typeof cachedTextEncoder.encodeInto === 'function'
 });
 
 function passStringToWasm0(arg, malloc, realloc) {
+
+    if (typeof(arg) !== 'string') throw new Error('expected a string argument');
 
     if (realloc === undefined) {
         const buf = cachedTextEncoder.encode(arg);
@@ -63,7 +88,7 @@ function passStringToWasm0(arg, malloc, realloc) {
         ptr = realloc(ptr, len, len = offset + arg.length * 3);
         const view = getUint8Memory0().subarray(ptr + offset, ptr + len);
         const ret = encodeString(arg, view);
-
+        if (ret.read !== arg.length) throw new Error('failed to pass whole string');
         offset += ret.written;
     }
 
@@ -79,27 +104,6 @@ function getInt32Memory0() {
     return cachegetInt32Memory0;
 }
 
-const lTextDecoder = typeof TextDecoder === 'undefined' ? (0, module.require)('util').TextDecoder : TextDecoder;
-
-let cachedTextDecoder = new lTextDecoder('utf-8', { ignoreBOM: true, fatal: true });
-
-cachedTextDecoder.decode();
-
-function getStringFromWasm0(ptr, len) {
-    return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
-}
-
-let heap_next = heap.length;
-
-function addHeapObject(obj) {
-    if (heap_next === heap.length) heap.push(heap.length + 1);
-    const idx = heap_next;
-    heap_next = heap[idx];
-
-    heap[idx] = obj;
-    return idx;
-}
-
 function dropObject(idx) {
     if (idx < 36) return;
     heap[idx] = heap_next;
@@ -112,12 +116,20 @@ function takeObject(idx) {
     return ret;
 }
 
+function _assertNum(n) {
+    if (typeof(n) !== 'number') throw new Error('expected a number argument');
+}
+
 function isLikeNone(x) {
     return x === undefined || x === null;
 }
 /**
 */
 export class EditionCellData {
+
+    constructor() {
+        throw new Error('cannot invoke `new` directly');
+    }
 
     static __wrap(ptr) {
         const obj = Object.create(EditionCellData.prototype);
@@ -141,6 +153,8 @@ export class EditionCellData {
     * @returns {number}
     */
     get_token_count() {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
         const ret = wasm.editioncelldata_get_token_count(this.ptr);
         return ret >>> 0;
     }
@@ -149,7 +163,9 @@ export class EditionCellData {
     */
     get_unit_idx() {
         try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            _assertNum(this.ptr);
             wasm.editioncelldata_get_unit_idx(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -162,6 +178,8 @@ export class EditionCellData {
     * @returns {number}
     */
     get_manuscript_idx() {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
         const ret = wasm.editioncelldata_get_manuscript_idx(this.ptr);
         return ret >>> 0;
     }
@@ -169,6 +187,8 @@ export class EditionCellData {
     * @returns {number}
     */
     get_unit_order() {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
         const ret = wasm.editioncelldata_get_unit_order(this.ptr);
         return ret;
     }
@@ -178,7 +198,10 @@ export class EditionCellData {
     */
     get_state(idx) {
         try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            _assertNum(this.ptr);
+            _assertNum(idx);
             wasm.editioncelldata_get_state(retptr, this.ptr, idx);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -194,7 +217,10 @@ export class EditionCellData {
     */
     get_token(idx) {
         try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            _assertNum(this.ptr);
+            _assertNum(idx);
             wasm.editioncelldata_get_token(retptr, this.ptr, idx);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -233,6 +259,10 @@ export class EditionCellData {
 */
 export class EditionRowTitle {
 
+    constructor() {
+        throw new Error('cannot invoke `new` directly');
+    }
+
     static __wrap(ptr) {
         const obj = Object.create(EditionRowTitle.prototype);
         obj.ptr = ptr;
@@ -256,7 +286,9 @@ export class EditionRowTitle {
     */
     get_display() {
         try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            _assertNum(this.ptr);
             wasm.editionrowtitle_get_display(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -273,9 +305,15 @@ export class EditionRowTitle {
     * @returns {EditionRowTitle}
     */
     update_row(index, title, order) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
         const ptr = this.__destroy_into_raw();
+        _assertNum(ptr);
+        _assertNum(index);
         var ptr0 = isLikeNone(title) ? 0 : passStringToWasm0(title, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         var len0 = WASM_VECTOR_LEN;
+        if (!isLikeNone(order)) {
+            _assertNum(order);
+        }
         const ret = wasm.editionrowtitle_update_row(ptr, index, ptr0, len0, !isLikeNone(order), isLikeNone(order) ? 0 : order);
         return EditionRowTitle.__wrap(ret);
     }
@@ -283,6 +321,10 @@ export class EditionRowTitle {
 /**
 */
 export class EditionStore {
+
+    constructor() {
+        throw new Error('cannot invoke `new` directly');
+    }
 
     static __wrap(ptr) {
         const obj = Object.create(EditionStore.prototype);
@@ -303,54 +345,15 @@ export class EditionStore {
         wasm.__wbg_editionstore_free(ptr);
     }
     /**
-    * @param {number} index
-    * @returns {EditionRowTitle}
-    */
-    build_row(index) {
-        const ret = wasm.editionstore_build_row(this.ptr, index);
-        return EditionRowTitle.__wrap(ret);
-    }
-    /**
-    * @param {string} id
-    * @returns {number | undefined}
-    */
-    get_row_index(id) {
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            const ptr0 = passStringToWasm0(id, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-            const len0 = WASM_VECTOR_LEN;
-            wasm.editionstore_get_row_index(retptr, this.ptr, ptr0, len0);
-            var r0 = getInt32Memory0()[retptr / 4 + 0];
-            var r1 = getInt32Memory0()[retptr / 4 + 1];
-            return r0 === 0 ? undefined : r1 >>> 0;
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-        }
-    }
-    /**
-    * @param {number} idx
-    * @returns {EditionStore}
-    */
-    delete_row(idx) {
-        const ptr = this.__destroy_into_raw();
-        const ret = wasm.editionstore_delete_row(ptr, idx);
-        return EditionStore.__wrap(ret);
-    }
-    /**
-    * @param {any} update
-    * @returns {EditionStore}
-    */
-    insert_row(update) {
-        const ptr = this.__destroy_into_raw();
-        const ret = wasm.editionstore_insert_row(ptr, addHeapObject(update));
-        return EditionStore.__wrap(ret);
-    }
-    /**
     * @param {number} unit_idx
     * @param {number} manuscript_idx
     * @returns {EditionCellData}
     */
     build_cell(unit_idx, manuscript_idx) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
+        _assertNum(unit_idx);
+        _assertNum(manuscript_idx);
         const ret = wasm.editionstore_build_cell(this.ptr, unit_idx, manuscript_idx);
         return EditionCellData.__wrap(ret);
     }
@@ -360,7 +363,10 @@ export class EditionStore {
     * @returns {EditionStore}
     */
     update_cells(update, manuscript_idx) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
         const ptr = this.__destroy_into_raw();
+        _assertNum(ptr);
+        _assertNum(manuscript_idx);
         const ret = wasm.editionstore_update_cells(ptr, addHeapObject(update), manuscript_idx);
         return EditionStore.__wrap(ret);
     }
@@ -388,7 +394,9 @@ export class EditionStore {
     */
     get_name() {
         try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            _assertNum(this.ptr);
             wasm.editionstore_get_name(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -403,7 +411,9 @@ export class EditionStore {
     */
     get_id() {
         try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            _assertNum(this.ptr);
             wasm.editionstore_get_id(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -417,6 +427,8 @@ export class EditionStore {
     * @returns {number}
     */
     get_no_manuscripts() {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
         const ret = wasm.editionstore_get_no_manuscripts(this.ptr);
         return ret >>> 0;
     }
@@ -426,7 +438,10 @@ export class EditionStore {
     */
     get_ms_siglum(idx) {
         try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            _assertNum(this.ptr);
+            _assertNum(idx);
             wasm.editionstore_get_ms_siglum(retptr, this.ptr, idx);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
@@ -440,6 +455,8 @@ export class EditionStore {
     * @returns {number}
     */
     get_no_rows() {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
         const ret = wasm.editionstore_get_no_rows(this.ptr);
         return ret >>> 0;
     }
@@ -449,7 +466,9 @@ export class EditionStore {
     */
     get_manuscript_idx(id) {
         try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            _assertNum(this.ptr);
             const ptr0 = passStringToWasm0(id, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
             const len0 = WASM_VECTOR_LEN;
             wasm.editionstore_get_manuscript_idx(retptr, this.ptr, ptr0, len0);
@@ -466,10 +485,72 @@ export class EditionStore {
     * @returns {boolean}
     */
     is_page_in_edition(manuscript_idx, page_number) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
+        _assertNum(manuscript_idx);
+        _assertNum(page_number);
         const ret = wasm.editionstore_is_page_in_edition(this.ptr, manuscript_idx, page_number);
         return ret !== 0;
     }
+    /**
+    * @param {number} index
+    * @returns {EditionRowTitle}
+    */
+    build_row(index) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        _assertNum(this.ptr);
+        _assertNum(index);
+        const ret = wasm.editionstore_build_row(this.ptr, index);
+        return EditionRowTitle.__wrap(ret);
+    }
+    /**
+    * @param {string} id
+    * @returns {number | undefined}
+    */
+    get_row_index(id) {
+        try {
+            if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            _assertNum(this.ptr);
+            const ptr0 = passStringToWasm0(id, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.editionstore_get_row_index(retptr, this.ptr, ptr0, len0);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            return r0 === 0 ? undefined : r1 >>> 0;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+    * @param {number} idx
+    * @returns {EditionStore}
+    */
+    delete_row(idx) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        const ptr = this.__destroy_into_raw();
+        _assertNum(ptr);
+        _assertNum(idx);
+        const ret = wasm.editionstore_delete_row(ptr, idx);
+        return EditionStore.__wrap(ret);
+    }
+    /**
+    * @param {any} update
+    * @returns {EditionStore}
+    */
+    insert_row(update) {
+        if (this.ptr == 0) throw new Error('Attempt to use a moved value');
+        const ptr = this.__destroy_into_raw();
+        _assertNum(ptr);
+        const ret = wasm.editionstore_insert_row(ptr, addHeapObject(update));
+        return EditionStore.__wrap(ret);
+    }
 }
+
+export function __wbindgen_string_new(arg0, arg1) {
+    const ret = getStringFromWasm0(arg0, arg1);
+    return addHeapObject(ret);
+};
 
 export function __wbindgen_json_serialize(arg0, arg1) {
     const obj = getObject(arg1);
@@ -478,11 +559,6 @@ export function __wbindgen_json_serialize(arg0, arg1) {
     const len0 = WASM_VECTOR_LEN;
     getInt32Memory0()[arg0 / 4 + 1] = len0;
     getInt32Memory0()[arg0 / 4 + 0] = ptr0;
-};
-
-export function __wbindgen_string_new(arg0, arg1) {
-    const ret = getStringFromWasm0(arg0, arg1);
-    return addHeapObject(ret);
 };
 
 export function __wbindgen_object_drop_ref(arg0) {
