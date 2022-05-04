@@ -1,6 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
+export function editionstore_build_row(a: number, b: number): number;
+export function editionstore_get_row_index(a: number, b: number, c: number, d: number): void;
+export function editionstore_delete_row(a: number, b: number): number;
+export function editionstore_insert_row(a: number, b: number): number;
+export function editionrowtitle_get_display(a: number, b: number): void;
+export function editionrowtitle_update_row(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function __wbg_editioncelldata_free(a: number): void;
 export function __wbg_editionrowtitle_free(a: number): void;
 export function __wbg_editionstore_free(a: number): void;
@@ -21,12 +27,6 @@ export function editionstore_get_ms_siglum(a: number, b: number, c: number): voi
 export function editionstore_get_no_rows(a: number): number;
 export function editionstore_get_manuscript_idx(a: number, b: number, c: number, d: number): void;
 export function editionstore_is_page_in_edition(a: number, b: number, c: number): number;
-export function editionstore_build_row(a: number, b: number): number;
-export function editionstore_get_row_index(a: number, b: number, c: number, d: number): void;
-export function editionstore_delete_row(a: number, b: number): number;
-export function editionstore_insert_row(a: number, b: number): number;
-export function editionrowtitle_get_display(a: number, b: number): void;
-export function editionrowtitle_update_row(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function __wbindgen_malloc(a: number): number;
 export function __wbindgen_realloc(a: number, b: number, c: number): number;
 export function __wbindgen_add_to_stack_pointer(a: number): number;
