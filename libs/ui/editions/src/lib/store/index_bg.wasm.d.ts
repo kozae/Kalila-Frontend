@@ -16,6 +16,7 @@ export function editioncelldata_get_token_count(a: number): number;
 export function editioncelldata_get_unit_idx(a: number, b: number): void;
 export function editioncelldata_get_manuscript_idx(a: number): number;
 export function editioncelldata_get_unit_order(a: number): number;
+export function editioncelldata_get_state(a: number, b: number, c: number): void;
 export function editioncelldata_get_token(a: number, b: number, c: number): void;
 export function editioncelldata_get_unit(a: number, b: number): void;
 export function editionstore_load(a: number, b: number): void;

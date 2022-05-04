@@ -1,7 +1,7 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { EditionCellData, EditionStore } from '../store';
+import { EditionCellData } from '../store';
 import { range } from 'lodash';
 import { useContext, useMemo } from 'react';
 import {

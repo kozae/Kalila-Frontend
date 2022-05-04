@@ -94,7 +94,6 @@ export const KalilaEditor = ({
   );
   const handleChange = useCallback(
     (value: Element[]) => {
-      console.log(value);
       setValue(value);
       const focusedLine = editor.selection?.anchor.path;
       if (focusedLine) {

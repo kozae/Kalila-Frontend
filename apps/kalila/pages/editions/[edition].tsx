@@ -23,5 +23,6 @@ export async function getStaticProps(context) {
   console.log(data.Manuscripts.length);
   return {
     props: { data },
+    revalidate: 60,
   };
 }

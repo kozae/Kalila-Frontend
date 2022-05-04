@@ -24,6 +24,11 @@ export class EditionCellData {
 * @param {number} idx
 * @returns {string}
 */
+  get_state(idx: number): string;
+/**
+* @param {number} idx
+* @returns {string}
+*/
   get_token(idx: number): string;
 /**
 * @param {any} update
