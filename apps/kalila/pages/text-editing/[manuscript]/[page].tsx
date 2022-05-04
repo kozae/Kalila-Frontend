@@ -1,4 +1,8 @@
-import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
+import {
+  useAuthGuard,
+  useNavbarMessage,
+  withTransition,
+} from '@frontend/shared-ui';
 import { GetServerSideProps } from 'next';
 import {
   siglum,
@@ -9,7 +13,6 @@ import {
 import Head from 'next/head';
 import React from 'react';
 import { TextEditingWorkspace } from '@frontend/ui/text-editing/workspace';
-import { useRouter } from 'next/router';
 
 function pageTitle(siglum: string): [string, string] {
   return ['Text Editing:', `Pages of ${siglum}`];
@@ -22,7 +25,7 @@ export function EditPage({
   allPages,
   imageSize,
 }) {
-  const router = useRouter();
+  useAuthGuard();
 
   const messages = pageTitle(siglum ?? 'NotFetched');
   useNavbarMessage(messages, undefined, {

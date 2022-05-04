@@ -8,8 +8,7 @@ import {
   verifyAdmin,
 } from '@frontend/shared-ui';
 import { INavbarState } from '../store';
-import { getSessionSWR } from '@frontend/util';
-import { selectSessionStatus, selectUser } from '../../../../store/session';
+import { selectSessionStatus, selectUser } from '@frontend/shared-ui';
 
 export function useRouteState(
   init: INavbarState,
@@ -32,7 +31,7 @@ export function useRouteState(
 }
 
 export function useNavSessionState(init: INavbarState) {
-  const status = useAppSelector(selectSessionStatus);
+  const authenticated = useAppSelector(selectSessionStatus);
   const user = useAppSelector(selectUser);
   const [links, setLinks] = useState<INavbarLink[]>(init.links);
   const [loggedUser, setLoggedUser] = useState<string | undefined | null>(
@@ -40,26 +39,23 @@ export function useNavSessionState(init: INavbarState) {
   );
   const [isAdmin, setIsAdmin] = useState<boolean>(init.isAdmin);
   useEffect(() => {
-    switch (status) {
-      case 'authenticated':
-        setLoggedUser(user.name);
-        if (verifyAdmin(user)) {
-          setIsAdmin(true);
-          setLinks([
-            ...NavbarLinksConfiguration.UserLinks,
-            ...NavbarLinksConfiguration.AdminLinks,
-          ]);
-        } else {
-          setIsAdmin(false);
-          setLinks(NavbarLinksConfiguration.UserLinks);
-        }
-        break;
-      default:
-        setLoggedUser(undefined);
-        setLinks([]);
-        break;
+    if (authenticated) {
+      setLoggedUser(user.name);
+      if (verifyAdmin(user)) {
+        setIsAdmin(true);
+        setLinks([
+          ...NavbarLinksConfiguration.UserLinks,
+          ...NavbarLinksConfiguration.AdminLinks,
+        ]);
+      } else {
+        setIsAdmin(false);
+        setLinks(NavbarLinksConfiguration.UserLinks);
+      }
+    } else {
+      setLoggedUser(undefined);
+      setLinks([]);
     }
-  }, [status]);
+  }, [authenticated]);
 
   return { links, loggedUser, isAdmin };
 }

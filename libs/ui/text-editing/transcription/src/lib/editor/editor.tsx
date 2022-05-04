@@ -119,7 +119,7 @@ export const KalilaEditor = ({
     dispatch(onRegionHoveredInToolSpace(null));
   };
 
-  const renderLeaf = useCallback((props) => {
+  const renderLeaf = useCallback((props: any) => {
     return <EditorText {...props} />;
   }, []);
 

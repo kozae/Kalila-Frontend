@@ -5,18 +5,21 @@ const selectSessionState = (state: RootState) => state.session;
 
 export const selectAccessToken = createSelector(
   selectSessionState,
-  (state) => state.accessToken
+  (state) => state.session?.AccessToken
 );
 
 export const selectSessionStatus = createSelector(
   selectSessionState,
-  (state) => state.status
+  (state) => state.authenticated
 );
 
 export const selectUser = createSelector(selectSessionState, (state) => {
-  if (state.session.session?.user) {
-    const { name, username, roles } = state.session.user;
-    return { name, username, roles };
+  if (state.session) {
+    return {
+      name: `${state.session.FirstName} ${state.session.FamilyName}`,
+      username: state.session.Username,
+      roles: state.session.Roles,
+    };
   }
   return { name: null, username: null, roles: null };
 });

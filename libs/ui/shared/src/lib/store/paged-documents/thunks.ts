@@ -92,7 +92,7 @@ export const createDocument = createAsyncThunk<
   'pagedDocuments/createDocument',
   async (doc, { getState, rejectWithValue }) => {
     const state = getState();
-    const accessToken = state.session.session.accessToken;
+    const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     try {
       await axios.post(`/server/api/v1/${activityName}`, doc, {
@@ -115,7 +115,7 @@ export const updateDocuments = createAsyncThunk<
   'pagedDocuments/updateDocuments',
   async ({ update, params }, { getState, rejectWithValue }) => {
     const state = getState();
-    const accessToken = state.session.session.accessToken;
+    const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     try {
       await axios.patch(`/server/api/v1/${activityName}`, update, {
@@ -139,7 +139,7 @@ export const updateOneDocument = createAsyncThunk<
   'pagedDocuments/updateOneDocument',
   async ({ update, params }, { getState, rejectWithValue }) => {
     const state = getState();
-    const accessToken = state.session.session.accessToken;
+    const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     try {
       await axios.patch(`/server/api/v1/${activityName}/One`, update, {
@@ -163,7 +163,7 @@ export const adminUpdateDocuments = createAsyncThunk<
   'pagedDocuments/adminUpdateDocuments',
   async ({ update, params }, { getState, rejectWithValue }) => {
     const state = getState();
-    const accessToken = state.session.session.accessToken;
+    const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     try {
       await axios.patch(`/server/api/v1/${activityName}/Admin`, update, {
@@ -188,7 +188,7 @@ export const deleteDocument = createAsyncThunk<
   'pagedDocuments/deleteDocument',
   async ({ id, additionalParams }, { getState, rejectWithValue }) => {
     const state = getState();
-    const accessToken = state.session.session.accessToken;
+    const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     additionalParams = additionalParams ?? {};
     try {

@@ -30,7 +30,7 @@ export function checkNumberValueFactory(
     return axios
       .get<boolean>(`/server/api/v1/${activityName}/Check`, {
         params: {
-          [`${fieldName}Eq`]: value,
+          [`${fieldName}Eq`]: `${value}`,
           ...additionalParams,
         },
       })

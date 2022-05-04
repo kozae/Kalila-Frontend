@@ -1,12 +1,29 @@
-import { useAppDispatch } from '@frontend/shared-ui';
+import { clearSession, useAppDispatch } from '@frontend/shared-ui';
 import { useEffect } from 'react';
 import { loadSession } from './slice';
+import useSWR from 'swr';
+import axios from 'axios';
 
-export function useKalilaSession<R extends boolean>() {
-  // const { data, status } = useSession(options);
-  // const session = transformSession(data, status);
-  // const dispatch = useAppDispatch();
-  // useEffect(() => {
-  //   dispatch(loadSession(session));
-  // }, [session]);
+export function useKalilaSession() {
+  const { data: session } = useSWR(
+    'SessionData',
+    () => axios.get('/server/web/Session').then(({ data }) => data),
+    {
+      refreshInterval: 300000,
+    }
+  );
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (session) {
+      dispatch(
+        loadSession({
+          session: session,
+          authenticated: !!session.Username,
+        })
+      );
+    } else {
+      dispatch(clearSession);
+    }
+  }, [session]);
 }

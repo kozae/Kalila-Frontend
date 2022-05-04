@@ -9,7 +9,7 @@ export interface IBookUnitQuery {
 
 export function getBookUnits(
   chapter: IChapter | null,
-  accessToken: string | null,
+  accessToken: string | null | undefined,
   query: IBookUnitQuery
 ) {
   return useSWR(
@@ -28,9 +28,10 @@ export function getBookUnits(
       : null,
     fetcher,
     {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
+      revalidateIfStale: true,
+      revalidateOnFocus: true,
       revalidateOnReconnect: true,
+      revalidateOnMount: true,
     }
   );
 }

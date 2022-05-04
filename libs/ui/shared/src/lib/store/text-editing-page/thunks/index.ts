@@ -6,3 +6,4 @@ export * from './save-layout';
 export * from './save-lines';
 export * from './save-tokens';
 export * from './save-segmentation';
+export type { IPageUnitsUpdate, IUnitUpdate } from './requests';

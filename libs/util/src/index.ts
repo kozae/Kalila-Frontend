@@ -14,3 +14,4 @@ export * from './lib/schema';
 export * from './lib/search-insert-position';
 export * from './lib/set-all-null';
 export * from './lib/sleeper';
+export * from './lib/session-model';

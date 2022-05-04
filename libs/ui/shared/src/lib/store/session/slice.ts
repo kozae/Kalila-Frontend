@@ -1,15 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ISession } from '@frontend/util';
 
 interface ISessionState {
-  session: any;
-  status: string;
-  accessToken: string | null;
+  session: ISession | null;
+  authenticated: boolean;
 }
 
 const initialState: ISessionState = {
   session: null,
-  status: 'unauthenticated',
-  accessToken: null,
+  authenticated: false,
 };
 
 export const sessionSlice = createSlice({
@@ -18,11 +17,11 @@ export const sessionSlice = createSlice({
   reducers: {
     loadSession: (state, action: PayloadAction<ISessionState>) => {
       state.session = action.payload.session;
-      state.status = action.payload.status;
-      state.accessToken = action.payload.accessToken;
+      state.authenticated = action.payload.authenticated;
     },
     clearSession: (state) => {
-      state.session = initialState.session;
+      state.session = null;
+      state.authenticated = false;
     },
   },
 });

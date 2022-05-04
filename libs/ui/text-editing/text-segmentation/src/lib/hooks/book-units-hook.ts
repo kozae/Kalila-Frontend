@@ -5,7 +5,7 @@ import { IChapter } from '@frontend/domain';
 
 export function useBookUnits(
   chapter: IChapter | null,
-  accessToken: string | null
+  accessToken?: string | null
 ) {
   const [filter, setFilter] = useState<string>('');
   const [bookUnitQuery, setBookUnitQuery] = useState<IBookUnitQuery>({

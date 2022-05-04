@@ -130,32 +130,34 @@ export const ReorderLines = () => {
         </Stack>
       );
       counter++;
-      lineToContainerMap[el.Id].forEach((l, lineIndex) => {
-        main.push(
-          <Stack
-            onMouseEnter={() =>
-              handleHover({
-                ...l.FacsimileRegion,
-                Id: l.Id,
-              } as IFacsimileRegion & { Id: string })
-            }
-            onMouseLeave={() => handleHover(null)}
-            alignItems="center"
-            sx={{ cursor: 'grab' }}
-            key={l.Id}
-            data-grid={{
-              x: 0,
-              y: counter,
-              w: 1,
-              h: 2,
-              isResizable: false,
-            }}
-          >
-            <SortableLine {...l} />
-          </Stack>
-        );
-        counter++;
-      });
+      if (lineToContainerMap[el.Id] !== undefined) {
+        lineToContainerMap[el.Id].forEach((l, lineIndex) => {
+          main.push(
+            <Stack
+              onMouseEnter={() =>
+                handleHover({
+                  ...l.FacsimileRegion,
+                  Id: l.Id,
+                } as IFacsimileRegion & { Id: string })
+              }
+              onMouseLeave={() => handleHover(null)}
+              alignItems="center"
+              sx={{ cursor: 'grab' }}
+              key={l.Id}
+              data-grid={{
+                x: 0,
+                y: counter,
+                w: 1,
+                h: 2,
+                isResizable: false,
+              }}
+            >
+              <SortableLine {...l} />
+            </Stack>
+          );
+          counter++;
+        });
+      }
     });
     const other: JSX.Element[] = [];
     otherElements.forEach((el, elIndex) => {

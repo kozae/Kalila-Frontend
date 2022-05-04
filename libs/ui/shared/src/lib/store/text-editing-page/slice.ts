@@ -17,17 +17,24 @@ import {
   addSaveReducers,
   addUpdateCollectors,
 } from './extra-reducers';
-import { saveLayoutChanges, saveLineChanges, saveTokenChanges } from './thunks';
+import {
+  saveLayoutChanges,
+  saveLineChanges,
+  saveSegmentation,
+  saveTokenChanges,
+} from './thunks';
 
 const savePending = isPending(
   saveLineChanges,
   saveLayoutChanges,
-  saveTokenChanges
+  saveTokenChanges,
+  saveSegmentation
 );
 const saveComplete = isFulfilled(
   saveLineChanges,
   saveLayoutChanges,
-  saveTokenChanges
+  saveTokenChanges,
+  saveSegmentation
 );
 
 const initialState: ITextEditingPageState = {

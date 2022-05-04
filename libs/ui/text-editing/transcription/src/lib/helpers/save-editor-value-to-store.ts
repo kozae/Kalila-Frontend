@@ -14,13 +14,12 @@ export function saveEditorValueToStore(
       LineId: id,
       newTokens: [],
     };
-
+    let orderInLineCounter: number = 0;
     for (const { text, state } of children) {
       const tokens = text
         .trim()
         .split(/\s+/)
         .filter((t) => t.length !== 0);
-      let orderInLineCounter: number = 0;
       for (const token of tokens) {
         update.newTokens.push({
           RawToken: token,

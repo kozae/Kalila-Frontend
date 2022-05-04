@@ -73,7 +73,10 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({ loggedUser }) => {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu">
-                  <MenuItem sx={{ fontSize: '1rem' }} onClick={() => {}}>
+                  <MenuItem
+                    sx={{ fontSize: '1rem' }}
+                    onClick={() => push('/server/web/LogOut')}
+                  >
                     <ExitToAppIcon color="warning" /> &nbsp; Sign out
                   </MenuItem>
                   <MenuItem
@@ -98,10 +101,11 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({ loggedUser }) => {
 
 export const NavUserControls: React.FC = () => {
   const { loggedUser } = useContext(NavbarStore).data;
+  const { push } = useRouter();
   const logInButton = () => (
     <div className={styles['nav__control-bar__user-controls']}>
       <Button
-        onClick={() => {}}
+        onClick={() => push('/server/web/Login')}
         variant="contained"
         disableElevation
         endIcon={<LoginIcon />}

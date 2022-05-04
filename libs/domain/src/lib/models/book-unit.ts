@@ -18,8 +18,8 @@ export class BookUnit extends KalilaDocument {
   constructor(
     public Id: string | undefined = undefined,
     public Chapter: string | undefined = undefined,
-    public OrderInChapter: number | undefined = undefined,
-    public Title: string | undefined = undefined,
+    public OrderInChapter: number | undefined = 0,
+    public Title: string | undefined = '',
     public Editor: string = undefined,
     public CreatedAt: Date | undefined = undefined,
     public Version: Date | undefined = undefined
@@ -51,7 +51,7 @@ export class BookUnit extends KalilaDocument {
                 'checkConvention',
                 'Unit title must start with the chapter abbreviation',
                 (value, ctx) => {
-                  return value.startsWith(ctx.parent.Chapter);
+                  return value && value.startsWith(ctx.parent.Chapter);
                 }
               )
               .test(
@@ -87,7 +87,7 @@ export class BookUnit extends KalilaDocument {
               'same number is assigned to another unit',
               async (value: number) => {
                 if (
-                  config.skip.OrderInChapter &&
+                  config.skip.OrderInChapter !== undefined &&
                   (config.skip.OrderInChapter.length === 0 ||
                     config.skip.OrderInChapter.includes(value))
                 ) {
@@ -100,25 +100,37 @@ export class BookUnit extends KalilaDocument {
           };
           break;
         case 'create':
-        default:
           shape = {
-            Title: Yup.string().test(
-              'checkDuplication',
-              'same title exists',
-              async (value: string) => {
-                if (config.skip.Title && config.skip.Title.includes(value)) {
-                  return true;
+            Title: Yup.string()
+              .test(
+                'checkConvention',
+                'Unit title must start with the chapter abbreviation',
+                (value, ctx) => {
+                  return value && value.startsWith(ctx.parent.Chapter);
                 }
-                return await validators['Title'](value);
-              }
-            ),
+              )
+              .test(
+                'checkDuplication',
+                'same title exists',
+                async (value: string) => {
+                  if (
+                    config.skip.Title &&
+                    (config.skip.Title.length === 0 ||
+                      config.skip.Title.includes(value))
+                  ) {
+                    return true;
+                  }
+                  return await validators['Title'](value);
+                }
+              ),
             Chapter: Yup.string().test(
               'checkExistence',
               'chapter does not exist',
               async (value: string) => {
                 if (
                   config.skip.Chapter &&
-                  config.skip.Chapter.includes(value)
+                  (config.skip.Chapter.length === 0 ||
+                    config.skip.Chapter.includes(value))
                 ) {
                   return true;
                 }
@@ -130,12 +142,13 @@ export class BookUnit extends KalilaDocument {
               'same number is assigned to another unit',
               async (value: number) => {
                 if (
-                  config.skip.Chapter &&
-                  config.skip.Chapter.includes(value)
+                  config.skip.OrderInChapter !== undefined &&
+                  (config.skip.OrderInChapter.length === 0 ||
+                    config.skip.OrderInChapter.includes(value))
                 ) {
                   return true;
                 }
-                return await validators['Chapter'](value);
+                return await validators['OrderInChapter'](value);
               }
             ),
             ...adminPropValidation(editors),

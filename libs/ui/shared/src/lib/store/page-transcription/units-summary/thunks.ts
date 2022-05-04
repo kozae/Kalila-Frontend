@@ -1,30 +1,38 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IUnitSummary } from "@frontend/domain";
-import { ThunkApi } from "../../config";
-import { maxBy, orderBy } from "lodash";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { IUnitSummary } from '@frontend/domain';
+import { ThunkApi } from '../../config';
+import { orderBy } from 'lodash';
+import {
+  determineEndBasedOnNextUnit,
+  determinePrevUnitEnd,
+  getOrderedUnits,
+  getPrevUnit,
+} from './helpers';
 
-export const closeUnit = createAsyncThunk<{ data?: IUnitSummary },
+export const closeUnit = createAsyncThunk<
+  { data?: IUnitSummary },
   { data: { page: number; line: number; token: number } },
-  ThunkApi>("unitSummaries/closeUnit", async ({ data }, { getState }) => {
+  ThunkApi
+>('unitSummaries/closeUnit', async ({ data }, { getState }) => {
   const state = getState();
-  const units = orderBy(Object.values(state.unitSummaries.entities).filter(
-    (unit) => unit
-      && (
-        unit.StartsInPageNumber < data.page
-        || (
-          unit.StartsInPageNumber === data.page
-          && unit.StartsInLineNumber < data.line
-        )
-        || (
-          unit.StartsInPageNumber === data.page
-          && unit.StartsInLineNumber === data.line
-          && unit.FirstTokenOrderInLine < data.token
-        )
-      )
-  ), ["StartsInPageNumber", "StartsInLineNumber", "FirstTokenOrderInLine"], ["desc", "desc", "desc"]);
+  const units = orderBy(
+    Object.values(state.unitSummaries.entities).filter(
+      (unit) =>
+        unit &&
+        (unit.StartsInPageNumber < data.page ||
+          (unit.StartsInPageNumber === data.page &&
+            unit.StartsInLineNumber < data.line) ||
+          (unit.StartsInPageNumber === data.page &&
+            unit.StartsInLineNumber === data.line &&
+            unit.FirstTokenOrderInLine < data.token))
+    ),
+    ['StartsInPageNumber', 'StartsInLineNumber', 'FirstTokenOrderInLine'],
+    ['desc', 'desc', 'desc']
+  );
 
-
-  const unitToUpdate = units[0] ?? state.pageData.pageInfo.NearestOpenUnit as IUnitSummary | undefined;
+  const unitToUpdate =
+    units[0] ??
+    (state.pageData.pageInfo.NearestOpenUnit as IUnitSummary | undefined);
 
   if (unitToUpdate) {
     return {
@@ -32,77 +40,49 @@ export const closeUnit = createAsyncThunk<{ data?: IUnitSummary },
         ...unitToUpdate,
         EndsInPageNumber: data.page,
         EndsInLineNumber: data.line,
-        LastTokenOrderInLine: data.token
-      }
+        LastTokenOrderInLine: data.token,
+      },
     };
   }
 
   return {};
 });
 
-
-export const moveUnit = createAsyncThunk<{ data: IUnitSummary[] },
+export const moveUnit = createAsyncThunk<
+  { data: IUnitSummary[] },
   {
-    unit: IUnitSummary,
+    unit: IUnitSummary;
     newLocation: {
-      StartsInPageNumber: number,
-      StartsInLineNumber: number,
-      FirstTokenOrderInLine: number
-    }
+      StartsInPageNumber: number;
+      StartsInLineNumber: number;
+      FirstTokenOrderInLine: number;
+    };
   },
-  ThunkApi>("unitSummaries/moveUnit", async ({ unit, newLocation }, { getState }) => {
+  ThunkApi
+>('unitSummaries/moveUnit', async ({ unit, newLocation }, { getState }) => {
   const state = getState();
-  // find if a unit was closed by the moved-unit start tag
-  let prevUnit: IUnitSummary | undefined = undefined;
-  if (unit.FirstTokenOrderInLine !== 0) {
-    prevUnit = Object.values(state.unitSummaries.entities)
-      .find((u) => u
-        && u.EndsInLineNumber === unit.StartsInLineNumber
-        && u.LastTokenOrderInLine === unit.FirstTokenOrderInLine - 1);
-  } else {
-    prevUnit = maxBy(Object.values(state.unitSummaries.entities)
-      .filter((u) => u
-        && u.EndsInLineNumber === unit.StartsInLineNumber - 1), "LastTokenOrderInLine");
+
+  const orderedUnits = getOrderedUnits(state);
+  const current = orderedUnits.findIndex((u) => u.Id === unit.Id);
+  if (current > orderedUnits.length - 1) {
+    const nextUnit = orderedUnits[current + 1];
+    unit = determineEndBasedOnNextUnit(unit, nextUnit, state);
   }
+  // find if a unit was closed by the moved-unit start tag
+  let prevUnit = getPrevUnit(unit, state);
 
   if (prevUnit !== undefined) {
-    if (newLocation.FirstTokenOrderInLine !== 0) {
+    prevUnit = determinePrevUnitEnd(prevUnit, newLocation, state);
+    if (prevUnit !== undefined) {
       return {
         data: [
           {
             ...unit,
-            ...newLocation
+            ...newLocation,
           },
-          {
-            ...prevUnit,
-            EndsInPageNumber: newLocation.StartsInPageNumber,
-            EndsInLineNumber: newLocation.StartsInLineNumber,
-            LastTokenOrderInLine: newLocation.FirstTokenOrderInLine - 1
-          }
-        ]
+          prevUnit,
+        ],
       };
-    } else {
-      const line = Object.values(state.lines.entities).find((l) =>
-        l && l.LineOrder === newLocation.StartsInLineNumber - 1);
-      if (line) {
-        const tokenCount = Object.values(state.tokens.entities)
-          .filter((t) => t && t.LineId === line.Id).length;
-        return {
-          data: [
-            {
-              ...unit,
-              ...newLocation
-            },
-            {
-              ...prevUnit,
-              EndsInPageNumber: newLocation.StartsInPageNumber,
-              EndsInLineNumber: newLocation.StartsInLineNumber - 1,
-              LastTokenOrderInLine: tokenCount - 1
-            }
-          ]
-        };
-      }
-
     }
   }
 

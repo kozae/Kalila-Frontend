@@ -29,30 +29,38 @@ export const EditionPageWasm = dynamic({
   loader: async () => {
     const { EditionStore } = await import('../store');
     return ({ data }: { data: IEdition }) => {
-      const edition = EditionStore.load(data);
+      const [edition, setEdition] = useState(EditionStore.load(data));
       const [rows, setRows] = useState(getRows(edition));
       const [cells, setCells] = useState(getCells(edition));
-      return <EditionPage {...{ edition, rows, setRows, cells, setCells }} />;
+      return (
+        <EditionPage
+          {...{ edition, rows, cells, setCells, setRows, setEdition }}
+        />
+      );
     };
   },
 });
 
 export interface IEditionPageProps {
   edition: EditionStore;
-  rows: EditionRowTitle[];
+  setEdition: Dispatch<SetStateAction<EditionStore>>;
   cells: EditionCellData[][];
-  setCells: Dispatch<SetStateAction<EditionCellData[][]>>;
+  rows: EditionRowTitle[];
   setRows: Dispatch<SetStateAction<EditionRowTitle[]>>;
+  setCells: Dispatch<SetStateAction<EditionCellData[][]>>;
 }
 
 export const EditionPage = ({
   edition,
-  rows,
+  setEdition,
   cells,
+  rows,
+  setCells,
   setRows,
 }: IEditionPageProps) => {
   const [size, setSize] = useState<EditionFontSize>('s');
   const [font, setFont] = useState<EditionFontFamily>('n');
+  const [updateTime, setUpdateTime] = useState(Date.now());
   const [facsimilePreview, setFacsimilePreview] = useState<boolean>(false);
   const [realTimeUpdates, setRealTimeUpdates] = useState<boolean>(false);
   const [structureViz, setStructureViz] = useState<boolean>(false);
@@ -102,10 +110,12 @@ export const EditionPage = ({
             alignItems: 'stretch',
           }}
         >
-          <EditionRow
-            manuscripts={numberOfManuscripts}
-            data={cells[unitIndex]}
-          />
+          {cells[unitIndex] && (
+            <EditionRow
+              manuscripts={numberOfManuscripts}
+              data={cells[unitIndex]}
+            />
+          )}
         </div>
       );
     },
@@ -125,7 +135,17 @@ export const EditionPage = ({
     return cellWidth * numberOfManuscripts;
   }, [size, numberOfManuscripts]);
 
-  useSignalrEditionUpdates(edition, rows, cells, setRows);
+  useSignalrEditionUpdates(
+    {
+      edition,
+      setEdition,
+      rows,
+      cells,
+      setRows,
+      setCells,
+    },
+    setUpdateTime
+  );
 
   return (
     <>
@@ -159,7 +179,7 @@ export const EditionPage = ({
             store={edition}
           />
           <div
-            key={`${size}.${font}`}
+            key={`${size}.${font}.${updateTime}`}
             style={{
               height: rowVirtualizer.totalSize,
               width: `${getWidth()}px`,

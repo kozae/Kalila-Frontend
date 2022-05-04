@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import Portal from '@mui/material/Portal';
 import Stack from '@mui/material/Stack';
 import { SxProps } from '@mui/system/styleFunctionSx';
-import { BookUnit } from '@frontend/domain';
+import { BookUnit, IChapter } from '@frontend/domain';
 import Button from '@mui/material/Button';
 import SaveIcon from '@mui/icons-material/Save';
 import { KalilaForm } from '@frontend/ui/forms';
@@ -17,6 +17,7 @@ import {
   checkNumberValueFactory,
   checkStringValueFactory,
 } from '@frontend/util';
+import ObjectID from 'bson-objectid';
 
 const style: SxProps = {
   position: 'absolute' as 'absolute',
@@ -30,24 +31,25 @@ const style: SxProps = {
   borderRadius: '10px',
 };
 
-export interface IEditBookUnitDialogProps {
-  value: BookUnit;
+export interface ICreateBookUnitDialogProps {
+  chapter: IChapter;
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (v: BookUnit) => Promise<void>;
 }
 
-export const EditBookUnitDialog = ({
-  value,
+export const CreateBookUnitDialog = ({
+  chapter,
   isOpen,
   onClose,
   onSubmit,
-}: IEditBookUnitDialogProps) => {
+}: ICreateBookUnitDialogProps) => {
   const [canSubmit, setCanSubmit] = useState(false);
+  const value = new BookUnit(ObjectID().toString(), chapter.abbr, 0, '');
   const validationSchemaFactory = value.validationSchemaFactory([], {
     Title: checkStringValueFactory('BookUnit', 'Title'),
     OrderInChapter: checkNumberValueFactory('BookUnit', 'OrderInChapter', {
-      ChapterCn: value.Chapter,
+      ChapterCn: chapter.abbr,
     }),
   });
 
@@ -57,7 +59,7 @@ export const EditBookUnitDialog = ({
         <Stack alignItems="center" sx={style}>
           <DialogHeading onDismiss={onClose}>
             <Typography color="white" variant="h5">
-              Edit Book Unit
+              Create Book Unit
             </Typography>
           </DialogHeading>
           <KalilaForm
@@ -71,11 +73,9 @@ export const EditBookUnitDialog = ({
             onCanSubmit={(v) => setCanSubmit(v)}
             validationSchema={
               validationSchemaFactory({
-                mode: 'edit',
+                mode: 'create',
                 skip: {
                   Chapter: [],
-                  OrderInChapter: [value.OrderInChapter],
-                  Title: [value.Title],
                 },
               }) as ObjectSchema<Record<any, AnySchema>>
             }
@@ -90,7 +90,7 @@ export const EditBookUnitDialog = ({
                 disabled={!canSubmit}
                 type="submit"
               >
-                Update
+                Create
               </Button>
             </div>
           </KalilaForm>

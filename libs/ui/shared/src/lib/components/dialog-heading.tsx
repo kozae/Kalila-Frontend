@@ -34,7 +34,7 @@ export const DialogHeading: React.FC<IDialogHeadingProps> = ({
       <Button
         size={'large'}
         onClick={onDismiss}
-        sx={{ bgcolor: kalilaTheme.palette[color].dark }}
+        sx={{ bgcolor: `${color}.dark` }}
         variant="contained"
         disableElevation
         aria-label="createDocument"

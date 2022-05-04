@@ -1,50 +1,23 @@
 import { RootState } from '../../../../config';
-import { orderBy } from 'lodash';
 import { IUnitSummary } from '@frontend/domain';
 import ObjectID from 'bson-objectid';
+import {
+  determineEndBasedOnNextUnit,
+  getOrderedUnits,
+} from '../../../../page-transcription/units-summary';
 
 export function processUnits(state: RootState) {
-  const unitsInStore = orderBy(
-    Object.values(state.unitSummaries.entities).filter(
-      (unit) => unit !== undefined
-    ),
-    ['StartsInPageNumber', 'StartsInLineNumber', 'FirstTokenOrderInLine'],
-    ['asc', 'asc', 'asc']
-  ) as IUnitSummary[];
+  const orderedUnits = getOrderedUnits(state);
 
-  return unitsInStore.slice().map((unit, index) => {
+  return orderedUnits.slice().map((unit, index) => {
     if (unit && unitHasOpenEnd(unit)) {
       return unit;
-    } else if (index === unitsInStore.length - 1) {
+    } else if (index === orderedUnits.length - 1) {
       return unit;
     } else {
-      const nextUnit: IUnitSummary | undefined = unitsInStore[index + 1];
+      const nextUnit: IUnitSummary | undefined = orderedUnits[index + 1];
       if (nextUnit) {
-        if (nextUnit.FirstTokenOrderInLine !== 0) {
-          return {
-            ...unit,
-            EndsInPageNumber: nextUnit.StartsInPageNumber,
-            EndsInLineNumber: nextUnit.StartsInLineNumber,
-            LastTokenOrderInLine: nextUnit.FirstTokenOrderInLine - 1,
-          };
-        } else {
-          const line = Object.values(state.lines.entities).find(
-            (l) => l && l.LineOrder === nextUnit.StartsInLineNumber - 1
-          );
-          if (line) {
-            const tokens = Object.values(state.tokens.entities).filter(
-              (t) => t && t.LineId === line.Id
-            );
-            return {
-              ...unit,
-              EndsInPageNumber: nextUnit.StartsInPageNumber,
-              EndsInLineNumber: nextUnit.StartsInLineNumber - 1,
-              LastTokenOrderInLine: tokens.length - 1,
-            };
-          }
-
-          return unit;
-        }
+        return determineEndBasedOnNextUnit(unit, nextUnit, state);
       }
 
       return unit;
@@ -52,9 +25,10 @@ export function processUnits(state: RootState) {
   });
 }
 
-export function identifyChangeType(units: IUnitSummary[], state: RootState) {
+export function identifyChanges(units: IUnitSummary[], state: RootState) {
   const newUnits: IUnitSummary[] = [];
   const updatedUnits: IUnitSummary[] = [];
+  const deletedUnits: string[] = [];
 
   units.forEach((unit) => {
     if (unit.Id.length !== 24) {
@@ -64,13 +38,18 @@ export function identifyChangeType(units: IUnitSummary[], state: RootState) {
         state.textEditingPageState.unitSummariesBeforeChanges.find(
           (u) => u.Id === unit.Id
         );
-      if (unitBeforeChange && unitChanged(unit, unitBeforeChange)) {
+      if (!unitUnchanged(unit, unitBeforeChange)) {
         updatedUnits.push(unit);
       }
     }
   });
+  state.textEditingPageState.unitSummariesBeforeChanges.forEach((unit) => {
+    if (state.unitSummaries.entities[unit.Id] === undefined) {
+      deletedUnits.push(unit.Id);
+    }
+  });
 
-  return { newUnits, updatedUnits };
+  return { newUnits, updatedUnits, deletedUnits };
 }
 
 function unitHasOpenEnd(unit: IUnitSummary) {
@@ -81,13 +60,13 @@ function unitHasOpenEnd(unit: IUnitSummary) {
   );
 }
 
-function unitChanged(u1: IUnitSummary, u2: IUnitSummary) {
+function unitUnchanged(u1: IUnitSummary, u2: IUnitSummary | undefined) {
   return (
-    u1.StartsInPageNumber !== u2.StartsInPageNumber ||
-    u1.StartsInLineNumber !== u2.StartsInLineNumber ||
-    u1.FirstTokenOrderInLine !== u2.FirstTokenOrderInLine ||
-    u1.EndsInPageNumber !== u2.EndsInPageNumber ||
-    u2.EndsInLineNumber !== u2.EndsInLineNumber ||
-    u2.LastTokenOrderInLine !== u2.LastTokenOrderInLine
+    u1.StartsInPageNumber === u2?.StartsInPageNumber &&
+    u1.StartsInLineNumber === u2?.StartsInLineNumber &&
+    u1.FirstTokenOrderInLine === u2?.FirstTokenOrderInLine &&
+    u1.EndsInPageNumber === u2?.EndsInPageNumber &&
+    u1.EndsInLineNumber === u2?.EndsInLineNumber &&
+    u1.LastTokenOrderInLine === u2?.LastTokenOrderInLine
   );
 }

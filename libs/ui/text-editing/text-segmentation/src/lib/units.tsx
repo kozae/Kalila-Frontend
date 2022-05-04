@@ -1,11 +1,13 @@
 import Stack from '@mui/material/Stack';
-import { BookUnit, IChapter } from '@frontend/domain';
+import { BookUnit, IChapter, IUnitSummary } from '@frontend/domain';
 import TextField from '@mui/material/TextField';
 import Pagination from '@mui/material/Pagination';
 import LinearProgress from '@mui/material/LinearProgress';
 import InputAdornment from '@mui/material/InputAdornment';
 import {
   selectAccessToken,
+  selectUnitByBuId,
+  selectUnitById,
   useAppSelector,
   useBoolean,
 } from '@frontend/shared-ui';
@@ -28,8 +30,12 @@ export const Units = ({ chapter }: IUnitsProps) => {
   const accessToken = useAppSelector(selectAccessToken);
   const [
     editBookUnitDialogIsOpen,
-    { setTrue: openEditBookUnitDialog, setFalse: dismissBookUnitDialog },
+    { setTrue: openEditBookUnitDialog, setFalse: dismissEditBookUnitDialog },
   ] = useBoolean(false);
+  const [selectedBookUnit, setSelectedBookUnit] = useState<BookUnit | null>(
+    null
+  );
+
   const {
     filter,
     bookUnitQuery,
@@ -39,11 +45,7 @@ export const Units = ({ chapter }: IUnitsProps) => {
     bookUnitsLoading,
     mutate,
   } = useBookUnits(chapter, accessToken);
-  const msUnitsMap = useManuscriptUnits(chapter, accessToken);
-  const [selectedBookUnit, setSelectedBookUnit] = useState<BookUnit | null>(
-    null
-  );
-  const handleEditBookUnit = (d: any) => {
+  const handleEditBookUnitClicked = (d: any) => {
     setSelectedBookUnit(
       new BookUnit(d.Id, chapter?.abbr, d.OrderInChapter, d.Title ?? '')
     );
@@ -52,9 +54,9 @@ export const Units = ({ chapter }: IUnitsProps) => {
     }, 100);
   };
 
-  const handleSubmit = useCallback(
+  const handleSubmitUpdate = useCallback(
     async (values: BookUnit) => {
-      dismissBookUnitDialog();
+      dismissEditBookUnitDialog();
       const newTitle = values.Title?.trim();
       await updateBookUnit(
         values.Id as string,
@@ -120,55 +122,56 @@ export const Units = ({ chapter }: IUnitsProps) => {
       >
         {bookUnits &&
           bookUnits.content &&
-          bookUnits.content.map((d: any) => {
-            if (msUnitsMap && msUnitsMap.get(d.Id)) {
-              return (
-                <Stack
-                  key={d.Id}
-                  sx={{
-                    p: '.1rem',
-                    m: '.1rem',
-                    borderRadius: '5px',
-                    bgcolor: 'secondary.main',
-                    color: 'secondary.contrastText',
-                  }}
-                  direction="row"
-                  alignItems="center"
-                >
-                  <Typography variant="body1">
-                    ({d.OrderInChapter}) {d.Title} [
-                    {msUnitsMap.get(d.Id)?.StartsInPageNumber}]
-                  </Typography>
-                  <IconButton
-                    size="small"
-                    onClick={() => handleEditBookUnit(d)}
-                  >
-                    <EditTwoToneIcon fontSize="small" color="primary" />
-                  </IconButton>
-                </Stack>
-              );
-            } else {
-              return (
-                <InsertableUnit
-                  onEdit={() => handleEditBookUnit(d)}
-                  d={d}
-                  key={d.Id}
-                />
-              );
-            }
-          })}
+          bookUnits.content.map((d: any) => (
+            <UnitTag
+              key={d.Id}
+              d={d}
+              handleEditBookUnit={handleEditBookUnitClicked}
+            />
+          ))}
         <InsertableEndTag />
       </Stack>
       {selectedBookUnit && (
         <EditBookUnitDialog
           value={selectedBookUnit}
           isOpen={editBookUnitDialogIsOpen}
-          onClose={dismissBookUnitDialog}
-          onSubmit={handleSubmit}
+          onClose={dismissEditBookUnitDialog}
+          onSubmit={handleSubmitUpdate}
         />
       )}
     </Stack>
   );
+};
+
+export const UnitTag = ({ d, handleEditBookUnit }: any) => {
+  const unitInStore = useAppSelector((state) => selectUnitByBuId(state, d.Id));
+  if (unitInStore !== undefined) {
+    return (
+      <Stack
+        key={d.Id}
+        sx={{
+          p: '.1rem',
+          m: '.1rem',
+          borderRadius: '5px',
+          bgcolor: 'secondary.main',
+          color: 'secondary.contrastText',
+        }}
+        direction="row"
+        alignItems="center"
+      >
+        <Typography variant="body1">
+          ({d.OrderInChapter}) {d.Title} [{unitInStore.StartsInPageNumber}]
+        </Typography>
+        <IconButton size="small" onClick={() => handleEditBookUnit(d)}>
+          <EditTwoToneIcon fontSize="small" color="primary" />
+        </IconButton>
+      </Stack>
+    );
+  } else {
+    return (
+      <InsertableUnit onEdit={() => handleEditBookUnit(d)} d={d} key={d.Id} />
+    );
+  }
 };
 
 async function updateBookUnit(id: string, update: any, accessToken: string) {
