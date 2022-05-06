@@ -4,17 +4,10 @@ RUN apt-get update
 RUN mkdir /frontend
 RUN apt-get install yarn -y
 RUN npm install -g @nrwl/cli
-RUN apt-get install -y \
-    build-essential \
-    curl
 
 # Update new packages
 RUN apt-get update
 
-# Get Rust
-RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
-RUN echo 'source $HOME/.cargo/env' >> $HOME/.bashrc
-RUN cargo install wasm-pack
 
 WORKDIR /frontend
 COPY package.json package.json
