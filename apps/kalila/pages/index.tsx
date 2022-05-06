@@ -16,7 +16,7 @@ export function Index() {
 
   return (
     <div style={{ padding: '1rem', minWidth: '200px' }}>
-      <KalilaLogo />
+      {/*<KalilaLogo />*/}
       <canvas id="canvas" tabIndex={0} height="600" width="600">
         Your browser does not support the canvas.
       </canvas>
