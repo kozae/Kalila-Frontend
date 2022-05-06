@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const withNx = require('@nrwl/next/plugins/with-nx');
+const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
+const { resolve } = require('path');
 
 /**
  * @type {import("@nrwl/next/plugins/with-nx").WithNxOptions}
@@ -19,6 +21,15 @@ const nextConfig = {
     // Ensure the filename for the .wasm bundle is the same on both the client
     // and the server (as in any other mode the ID's won't match)
     config.optimization.moduleIds = 'named';
+    config.plugins.push(
+      new WasmPackPlugin({
+        crateDirectory: path.resolve(
+          __dirname,
+          '../../wasm-libs/facsimile-highlighter/'
+        ),
+        outDir: './wasm-libs/facsimile-highlighter/',
+      })
+    );
     return config;
   },
   swcMinify: true,
