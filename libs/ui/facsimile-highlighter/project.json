@@ -1,0 +1,25 @@
+{
+  "root": "libs/ui/facsimile-highlighter",
+  "sourceRoot": "libs/ui/facsimile-highlighter/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui/facsimile-highlighter/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ui/facsimile-highlighter"],
+      "options": {
+        "jestConfig": "libs/ui/facsimile-highlighter/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

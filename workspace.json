@@ -10,6 +10,7 @@
     "ui-documents-detailed-view": "libs/ui/documents-detailed-view",
     "ui-editions": "libs/ui/editions",
     "ui-facsimile": "libs/ui/facsimile",
+    "ui-facsimile-highlighter": "libs/ui/facsimile-highlighter",
     "ui-forms": "libs/ui/forms",
     "ui-table": "libs/ui/table",
     "ui-text-editing-layout-analysis": "libs/ui/text-editing/layout-analysis",

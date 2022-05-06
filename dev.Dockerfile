@@ -13,6 +13,7 @@ RUN apt-get update
 
 # Get Rust
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
 RUN echo 'source $HOME/.cargo/env' >> $HOME/.bashrc
 WORKDIR /frontend

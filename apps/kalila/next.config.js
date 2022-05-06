@@ -27,7 +27,10 @@ const nextConfig = {
           __dirname,
           '../../wasm-libs/facsimile-highlighter/'
         ),
-        outDir: path.resolve(__dirname, './wasm-libs/facsimile-highlighter/'),
+        outDir: path.resolve(
+          __dirname,
+          '../../libs/ui/facsimile-highlighter/src/lib/wasm'
+        ),
       })
     );
     return config;

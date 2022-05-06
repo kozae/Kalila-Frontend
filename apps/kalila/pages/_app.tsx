@@ -62,4 +62,4 @@ function KalilaApp(appProps: KalilaAppProps) {
 export default KalilaApp;
 
 // nx g page book-analysis --project=kalila --withTests=true --style=scss
-// nx g @nrwl/next:lib documents-detailed-view  --directory=ui --style=scss
+// nx g @nrwl/next:lib facsimile-highlighter  --directory=ui --style=scss

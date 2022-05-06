@@ -27,6 +27,9 @@
       ],
       "@frontend/ui/editions": ["libs/ui/editions/src/index.ts"],
       "@frontend/ui/facsimile": ["libs/ui/facsimile/src/index.ts"],
+      "@frontend/ui/facsimile-highlighter": [
+        "libs/ui/facsimile-highlighter/src/index.ts"
+      ],
       "@frontend/ui/forms": ["libs/ui/forms/src/index.ts"],
       "@frontend/ui/table": ["libs/ui/table/src/index.ts"],
       "@frontend/ui/text-editing/layout-analysis": [
