@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const withNx = require('@nrwl/next/plugins/with-nx');
 const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin');
-const { resolve } = require('path');
+const path = require('path');
 
 /**
  * @type {import("@nrwl/next/plugins/with-nx").WithNxOptions}
@@ -27,7 +27,7 @@ const nextConfig = {
           __dirname,
           '../../wasm-libs/facsimile-highlighter/'
         ),
-        outDir: './wasm-libs/facsimile-highlighter/',
+        outDir: path.resolve(__dirname, './wasm-libs/facsimile-highlighter/'),
       })
     );
     return config;
