@@ -3,7 +3,7 @@ mod rect;
 mod transforms;
 
 use crate::rect::Rect;
-use crate::transforms::{crop_region, rotate};
+use crate::transforms::{add_frame, crop_region, rotate};
 use base64::{decode, encode};
 use image::imageops::{crop, replace};
 use image::ImageOutputFormat::Png;
@@ -65,13 +65,20 @@ impl FacsimileCropper {
         .to_image()
     }
 
-    pub fn get_region(&self, p: &[u32], r: f32, padding_percentage: Option<f32>) -> String {
+    pub fn get_region(
+        &self,
+        p: &[u32],
+        r: f32,
+        frame_color: &[u32],
+        padding_percentage: Option<f32>,
+    ) -> String {
         console_error_panic_hook::set_once();
         let rect = Rect::from_polygon(p);
         let padding = rect.calculate_padding(padding_percentage);
         let bounding_area = self.crop_bounding_area(&rect, r, padding);
         let rotated = rotate(bounding_area, -r as f32);
-        let region = crop_region(rotated, rect.width, rect.height, padding);
+        let mut region = crop_region(rotated, rect.width, rect.height, padding);
+        add_frame(&mut region, rect.width, rect.height, padding, frame_color);
         let mut cursor = Cursor::new(Vec::new());
         region.write_to(&mut cursor, Png).unwrap();
         let encoded_img = encode(cursor.get_ref());

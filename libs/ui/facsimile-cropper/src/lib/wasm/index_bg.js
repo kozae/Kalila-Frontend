@@ -180,15 +180,18 @@ export class FacsimileCropper {
     /**
     * @param {Uint32Array} p
     * @param {number} r
+    * @param {Uint32Array} frame_color
     * @param {number | undefined} padding_percentage
     * @returns {string}
     */
-    get_region(p, r, padding_percentage) {
+    get_region(p, r, frame_color, padding_percentage) {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
             const ptr0 = passArray32ToWasm0(p, wasm.__wbindgen_malloc);
             const len0 = WASM_VECTOR_LEN;
-            wasm.facsimilecropper_get_region(retptr, this.ptr, ptr0, len0, r, !isLikeNone(padding_percentage), isLikeNone(padding_percentage) ? 0 : padding_percentage);
+            const ptr1 = passArray32ToWasm0(frame_color, wasm.__wbindgen_malloc);
+            const len1 = WASM_VECTOR_LEN;
+            wasm.facsimilecropper_get_region(retptr, this.ptr, ptr0, len0, r, ptr1, len1, !isLikeNone(padding_percentage), isLikeNone(padding_percentage) ? 0 : padding_percentage);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);

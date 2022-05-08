@@ -1,7 +1,10 @@
 use image::imageops::crop;
 use image::{Rgb, RgbImage};
 use imageproc::drawing::Canvas;
+use imageproc::map::map_pixels_mut;
+use imageproc::pixelops::interpolate;
 use std::cmp;
+
 pub fn rotate(src: RgbImage, degree: f32) -> RgbImage {
     let w1 = src.width() as i32;
     let h1 = src.height() as i32;
@@ -71,4 +74,17 @@ pub fn crop_region(mut src: RgbImage, w: u32, h: u32, p: u32) -> RgbImage {
     let y = (src.height() - h) / 2;
 
     crop(&mut src, x, y, w, h).to_image()
+}
+
+pub fn add_frame(src: &mut RgbImage, w: u32, h: u32, pad: u32, frame_color: &[u32]) {
+    let color = Rgb::from([
+        frame_color[0] as u8,
+        frame_color[1] as u8,
+        frame_color[2] as u8,
+    ]);
+    let is_pixel_in_frame = |x: u32, y: u32| y < pad || y > pad + h || x < pad || x > pad + w;
+    map_pixels_mut(src, |x, y, p| match is_pixel_in_frame(x, y) {
+        true => interpolate(color, p, 0.7),
+        false => p,
+    });
 }

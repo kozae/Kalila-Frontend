@@ -1,6 +1,8 @@
 import styles from './facsimile-cropper.module.scss';
 import { useCallback, useEffect, useState } from 'react';
 import { FacsimileCropper } from '../wasm';
+import { hexToRgbUint32Array } from '@frontend/util';
+import { highlightColors } from '@frontend/ui/facsimile';
 
 async function useFacsimileCropper(url: string): Promise<FacsimileCropper> {
   const app = await import('../wasm');
@@ -37,7 +39,9 @@ export function FacsimileCropperPlayground({
 }: IFacsimileCropperProps) {
   const [image, setImage] = useState<null | string>(null);
   const [wasmImg, setWasmImg] = useState<FacsimileCropper | null>(null);
-  const [regions, setRegions] = useState<[Uint32Array[], number]>([[], 0]);
+  const [regions, setRegions] = useState<[Uint32Array, number, Uint32Array][]>(
+    []
+  );
   useEffect(() => {
     useFacsimileCropper(`/${fileName}.jpeg`)
       .then((imgCrp) => {
@@ -48,9 +52,9 @@ export function FacsimileCropperPlayground({
 
     fetch(`/${fileName}.json`)
       .then((res) => res.json())
-      .then(({ TextElements }: any) => {
+      .then(({ TextElements }: { TextElements: any[] }) => {
         setRegions(
-          TextElements.map(({ FacsimileRegion }: any) => {
+          TextElements.map(({ FacsimileRegion }: any, i) => {
             const p = new Uint32Array(8);
             p[0] = FacsimileRegion.Points[0].X;
             p[1] = FacsimileRegion.Points[0].Y;
@@ -60,7 +64,8 @@ export function FacsimileCropperPlayground({
             p[5] = FacsimileRegion.Points[2].Y;
             p[6] = FacsimileRegion.Points[3].X;
             p[7] = FacsimileRegion.Points[3].Y;
-            return [p, FacsimileRegion.Rotation];
+            const color = hexToRgbUint32Array(highlightColors[i]);
+            return [p, FacsimileRegion.Rotation, color];
           })
         );
       });
@@ -78,7 +83,9 @@ export function FacsimileCropperPlayground({
         const p = regions[i][0] as Uint32Array;
         //@ts-ignore
         const r = regions[i][1] as number;
-        setImage(wasmImg.get_region(p, r));
+        //@ts-ignore
+        const color = regions[i][2];
+        setImage(wasmImg.get_region(p, r, color));
       }
     },
     [wasmImg, regions]
