@@ -4,7 +4,6 @@ import {
   kalilaTheme,
   selectAllLines,
   selectAllTextElements,
-  selectManyRegionDataUrlById,
   useAppSelector,
 } from '@frontend/shared-ui';
 import {
@@ -20,16 +19,10 @@ import Box from '@mui/material/Box';
 export const LineList = () => {
   const textElements = useAppSelector(selectAllTextElements);
   const lines = useAppSelector(selectAllLines);
-  const urls = useAppSelector((state) =>
-    selectManyRegionDataUrlById(state, [
-      ...textElements.map((el) => el.Id),
-      ...lines.map((l) => l.Id),
-    ])
-  );
+
   const elementSummaries: ILayoutElementSummaryProps[] = orderBy(
     textElements.map((el) => ({
       ...el,
-      url: urls[el.Id],
       icon: 'text',
       maxHeight: '5vh',
       width: '90%',
@@ -77,13 +70,7 @@ export const LineList = () => {
             </Typography>
           )}
           {presentLines.map((l) => (
-            <LineSummary
-              buttons={true}
-              key={l.Id}
-              url={urls[l.Id]}
-              line={l}
-              maxHeight="5vh"
-            />
+            <LineSummary buttons={true} key={l.Id} line={l} maxHeight="5vh" />
           ))}
         </Stack>
       </LayoutElementSummary>

@@ -5,13 +5,11 @@ import { orderBy } from 'lodash';
 import { LayoutElementSummary } from '@frontend/ui/text-editing/shared';
 
 export interface ILayoutElementsListProps {
-  dataUrls: Record<string, string>;
   textElements: Omit<ITextElement, 'Lines'>[];
   imageElements: IImageElement[];
 }
 
 export const LayoutElementsList = ({
-  dataUrls,
   textElements,
   imageElements,
 }: ILayoutElementsListProps) => {
@@ -19,12 +17,10 @@ export const LayoutElementsList = ({
     [
       ...textElements.map((el) => ({
         ...el,
-        url: dataUrls[el.Id],
         icon: 'text',
       })),
       ...imageElements.map((el) => ({
         ...el,
-        url: dataUrls[el.Id],
         icon: 'image',
       })),
     ],

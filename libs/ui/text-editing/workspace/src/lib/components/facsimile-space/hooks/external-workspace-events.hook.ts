@@ -1,17 +1,11 @@
 import { useCallback, useEffect } from 'react';
-import {
-  createDataUrlFromRect,
-  defaultEditRegion,
-  PolygonHelper,
-} from '@frontend/ui/facsimile';
+import { PolygonHelper } from '@frontend/ui/facsimile';
 import { IEvent } from 'fabric/fabric-impl';
-import { fabric } from 'fabric';
 import { FacsimileCanvasState } from './facsimile-canvas-state.hook';
 import {
   useAppSelector,
   selectRegionHoveredInToolSpace,
   useAppDispatch,
-  setRegionUnderEditUrl,
   onRegionHoveredInFacsimileSpace,
   onRegionHoveredInToolSpace,
   setRegionUnderEditPolygon,
@@ -39,9 +33,8 @@ export function useExternalWorkspaceEvents(canvasState: FacsimileCanvasState) {
 
   const round = Math.round;
   const startEditor = useCallback(
-    ({ id, region }) => {
+    ({ id }: any) => {
       const handleChange = (e: IEvent) => {
-        dispatch(setRegionUnderEditUrl(null));
         const rectWidth = ((e.target?.width as number) *
           (e?.target?.scaleX as number)) as number;
         const rectHeight = ((e.target?.height as number) *
@@ -63,55 +56,14 @@ export function useExternalWorkspaceEvents(canvasState: FacsimileCanvasState) {
             Rotation: round(rectDimensions.Rotation),
           })
         );
-
-        createDataUrlFromRect(
-          rectDimensions,
-          canvasState.fabricImg as fabric.Image,
-          (url) => dispatch(setRegionUnderEditUrl(url))
-        );
       };
 
       canvasState.hideHighlight(); // make sure the highlight is hidden
       dispatch(onRegionHoveredInFacsimileSpace(null));
       dispatch(onRegionHoveredInToolSpace(null));
-      if (region) {
-        const rect = {
-          ...region.Points[0],
-          ...PolygonHelper.getWidthAndHeight(region.Points),
-          Rotation: region.Rotation,
-          HighlightColor: region.HighlightColor,
-        };
-        createDataUrlFromRect(
-          rect,
-          canvasState.fabricImg as fabric.Image,
-          (url) => dispatch(setRegionUnderEditUrl(url))
-        );
-        canvasState.showEditor(
-          id,
-          canvasState.scaleRatio,
-          handleChange,
-          region
-        );
-      } else {
-        const rect = {
-          ...defaultEditRegion.Points[0],
-          ...PolygonHelper.getWidthAndHeight(defaultEditRegion.Points),
-          Rotation: defaultEditRegion.Rotation,
-        };
-        createDataUrlFromRect(
-          rect,
-          canvasState.fabricImg as fabric.Image,
-          (url) => dispatch(setRegionUnderEditUrl(url))
-        );
-        canvasState.showEditor(id, canvasState.scaleRatio, handleChange);
-      }
+      canvasState.showEditor(id, canvasState.scaleRatio, handleChange);
     },
-    [
-      canvasState.showEditor,
-      canvasState.hideHighlight,
-      canvasState.fabricImg,
-      canvasState.scaleRatio,
-    ]
+    [canvasState.showEditor, canvasState.hideHighlight, canvasState.scaleRatio]
   );
 
   const recreatePolygons = () =>

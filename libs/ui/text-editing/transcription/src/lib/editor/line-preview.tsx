@@ -1,17 +1,27 @@
 import Portal from '@mui/material/Portal';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
-  selectRegionDataUrlById,
+  selectLineById,
   useAppSelector,
   useXLargeScreenMediaQuery,
 } from '@frontend/shared-ui';
+import { useContext } from 'react';
+import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
+import useSWR from 'swr';
+import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
 
 export const LinePreview = ({ id }: { id?: string }) => {
   const isXLScreen = useXLargeScreenMediaQuery();
-  const regionPreview = useAppSelector((state) =>
-    selectRegionDataUrlById(state, id ?? '')
-  );
-  const url = regionPreview?.data;
+  const line = useAppSelector((state) => selectLineById(state, id ?? ''));
+  const { facsimileCropper } = useContext(TextEditingWorkspaceContext);
+  const { data: url } = useSWR(line?.Id, () => {
+    if (line) {
+      const [p, r] = mapDataForCropper(line.FacsimileRegion);
+      return facsimileCropper?.get_region(p, r);
+    }
+
+    return undefined;
+  });
   return (
     <Portal>
       <AnimatePresence exitBeforeEnter>

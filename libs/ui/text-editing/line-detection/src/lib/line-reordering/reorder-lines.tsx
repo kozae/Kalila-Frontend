@@ -5,7 +5,6 @@ import {
   onRegionHoveredInToolSpace,
   selectAllTextElements,
   selectLinesDictionary,
-  selectManyRegionDataUrlById,
   selectTokensDictionary,
   updateManyLines,
   updateManyTokens,
@@ -21,14 +20,13 @@ import { ITextElementMarkProps, TextElementMark } from './text-element-mark';
 import { ISortableLineProps, SortableLine } from './sortable-line';
 import { Update } from '@reduxjs/toolkit';
 
-export const toLineContainerIdMap = (urls: Record<string, string>) => {
+export const toLineContainerIdMap = () => {
   return (
     acc: Record<string, ISortableLineProps[]>,
     l: (Omit<ILine, 'Tokens'> & { ElementId: string }) | undefined
   ) => {
     if (l) {
       const item: ISortableLineProps = {
-        url: urls[l.Id],
         height: '80px',
         width: '85%',
         ...l,
@@ -51,12 +49,6 @@ export const ReorderLines = () => {
     dispatch(onRegionHoveredInToolSpace(region));
   const lines = useAppSelector(selectLinesDictionary);
   const tokens = useAppSelector(selectTokensDictionary);
-  const urls = useAppSelector((state) =>
-    selectManyRegionDataUrlById(state, [
-      ...textElements.map((el) => el.Id),
-      ...Object.values(lines).map((l) => (l ? l.Id : '')),
-    ])
-  );
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState<number>(200);
@@ -84,7 +76,6 @@ export const ReorderLines = () => {
   const elementSummaries: Omit<ITextElementMarkProps, 'grid'>[] = orderBy(
     textElements.map((el) => ({
       ...el,
-      url: urls[el.Id],
       height: '120px',
       width: '95%',
     })),
@@ -104,7 +95,7 @@ export const ReorderLines = () => {
     .map((el, i) => ({ ...el, Order: i + 1 }));
 
   const lineToContainerMap = orderBy(Object.values(lines), 'LineOrder').reduce(
-    toLineContainerIdMap(urls),
+    toLineContainerIdMap(),
     {}
   );
 

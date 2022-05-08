@@ -18,13 +18,11 @@ import { useCallback, useEffect, useState } from 'react';
 import update from 'immutability-helper';
 
 export interface IReorderLayoutElementsProps {
-  dataUrls: Record<string, string>;
   textElements: Omit<ITextElement, 'Lines'>[];
   imageElements: IImageElement[];
 }
 
 export const ReorderLayoutElements = ({
-  dataUrls,
   textElements,
   imageElements,
 }: IReorderLayoutElementsProps) => {
@@ -34,12 +32,10 @@ export const ReorderLayoutElements = ({
       [
         ...textElements.map((el) => ({
           ...el,
-          url: dataUrls[el.Id],
           icon: 'text',
         })),
         ...imageElements.map((el) => ({
           ...el,
-          url: dataUrls[el.Id],
           icon: 'image',
         })),
       ],

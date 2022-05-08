@@ -1,4 +1,4 @@
-import Tesseract, { createScheduler, createWorker, PSM } from 'tesseract.js';
+import Tesseract, { createScheduler, createWorker } from 'tesseract.js';
 import { useContext, useEffect } from 'react';
 import { ILine, IPoint, ITextElement } from '@frontend/domain';
 import {
@@ -13,7 +13,6 @@ import {
   useAppDispatch,
 } from '@frontend/shared-ui';
 import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
-import { createAndDispatchLineDataUrl } from './helpers';
 
 const runDetectionFactory = (setProgress: (v: number) => void) => {
   const scheduler = createScheduler();
@@ -98,14 +97,12 @@ export function useAutomaticLineDetectionExecution(
   urls: Record<string, string>,
   setProgress: (v: number) => void
 ) {
-  const { fabricImg } = useContext(TextEditingWorkspaceContext);
   const runDetection = runDetectionFactory(setProgress);
   const dispatch = useAppDispatch();
   useEffect(() => {
     runDetection(urls).then((result) => {
       const lines = transformResultsToKalilaLines(result, textElements);
       dispatch(loadGeneratedLines(lines));
-      createAndDispatchLineDataUrl(lines, fabricImg, dispatch);
       dispatch(setTextEditingToolMode('default'));
     });
   }, []);

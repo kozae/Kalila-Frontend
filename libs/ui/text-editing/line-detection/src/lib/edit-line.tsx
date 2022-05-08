@@ -1,11 +1,9 @@
 import { IFacsimileRegion } from '@frontend/domain';
 import {
-  addManyDataUrls,
   cancelCreateLine,
   kalilaTheme,
   onElementSelected,
   selectLineById,
-  selectRegionUnderEditUrl,
   updateLine,
   useAppDispatch,
   useAppSelector,
@@ -13,27 +11,34 @@ import {
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {
   RegionDefinitionKeyboardInstructions,
   TextEditingWorkspaceContext,
 } from '@frontend/ui/text-editing/shared';
 import Button from '@mui/material/Button';
-import { createRegionsDataUrls } from '@frontend/ui/facsimile';
+import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
 
 export const EditLine = ({
   selectedLine,
 }: {
   selectedLine: { id: string | null; region: IFacsimileRegion | null };
 }) => {
-  const { fabricImg } = useContext(TextEditingWorkspaceContext);
-
-  const regionUnderEditUrl = useAppSelector(selectRegionUnderEditUrl);
   const dispatch = useAppDispatch();
+  const [regionUnderEditUrl, setRegionUnderEditUrl] = useState('');
+  const { facsimileCropper } = useContext(TextEditingWorkspaceContext);
   const line = useAppSelector((state) =>
     selectLineById(state, selectedLine.id as string)
   );
   const title = line && line.Id.length === 24 ? 'Edit Line' : 'Define Line';
+
+  useEffect(() => {
+    if (facsimileCropper !== null && selectedLine.region) {
+      const [p, r] = mapDataForCropper(selectedLine.region);
+      setRegionUnderEditUrl(facsimileCropper.get_region(p, r));
+    }
+  }, [selectedLine]);
+
   const handleSave = useCallback(() => {
     dispatch(
       updateLine({
@@ -43,18 +48,6 @@ export const EditLine = ({
         },
       })
     );
-    if (fabricImg !== null) {
-      const data = {
-        Id: selectedLine.id,
-        HighlightColor: line
-          ? line.HighlightColor
-          : kalilaTheme.palette.primary.main,
-        ...selectedLine.region,
-      } as IFacsimileRegion & { Id: string; HighlightColor?: string };
-      createRegionsDataUrls([data], fabricImg).then((values) => {
-        dispatch(addManyDataUrls(values));
-      });
-    }
     dispatch(onElementSelected({ id: null, region: null }));
   }, [selectedLine]);
 

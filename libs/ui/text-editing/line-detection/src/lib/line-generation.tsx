@@ -1,8 +1,4 @@
-import {
-  selectAllTextElements,
-  selectManyRegionDataUrlById,
-  useAppSelector,
-} from '@frontend/shared-ui';
+import { selectAllTextElements, useAppSelector } from '@frontend/shared-ui';
 import {
   ILayoutElementSummaryProps,
   LayoutElementSummary,
@@ -15,12 +11,6 @@ import { useFormik } from 'formik';
 
 export const LineGeneration = () => {
   const textElements = useAppSelector(selectAllTextElements);
-  const urls = useAppSelector((state) =>
-    selectManyRegionDataUrlById(
-      state,
-      textElements.map((el) => el.Id)
-    )
-  );
 
   const formik = useFormik({
     initialValues: textElements.reduce((acc: Record<string, number>, el) => {
@@ -33,7 +23,6 @@ export const LineGeneration = () => {
   const elementSummaries: ILayoutElementSummaryProps[] = textElements.map(
     (el) => ({
       ...el,
-      url: urls[el.Id],
       icon: 'text',
       maxHeight: '10vh',
       width: '80%',

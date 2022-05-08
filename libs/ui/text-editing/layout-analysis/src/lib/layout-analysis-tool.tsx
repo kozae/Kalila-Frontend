@@ -6,7 +6,6 @@ import { EditLayoutElement } from './edit-layout-element';
 import {
   selectAllImageElements,
   selectAllTextElements,
-  selectManyRegionDataUrlById,
   selectSelectedElement,
   selectTextEditingToolMode,
   useAppSelector,
@@ -18,12 +17,6 @@ export function LayoutAnalysisTool() {
   const textElements = useAppSelector(selectAllTextElements);
   const selectedElement = useAppSelector(selectSelectedElement);
   const toolMode = useAppSelector(selectTextEditingToolMode);
-  const dataUrls = useAppSelector((state) =>
-    selectManyRegionDataUrlById(
-      state,
-      [...imageElements, ...textElements].map((i) => i.Id)
-    )
-  );
 
   return (
     <Stack
@@ -57,14 +50,12 @@ export function LayoutAnalysisTool() {
             />
             {toolMode === 'default' && (
               <LayoutElementsList
-                dataUrls={dataUrls}
                 imageElements={imageElements}
                 textElements={textElements}
               />
             )}
             {toolMode === 'reorder' && (
               <ReorderLayoutElements
-                dataUrls={dataUrls}
                 imageElements={imageElements}
                 textElements={textElements}
               />

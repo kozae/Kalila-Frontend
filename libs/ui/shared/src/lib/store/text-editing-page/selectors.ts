@@ -37,11 +37,6 @@ export const selectSelectedElement = createSelector(
   })
 );
 
-export const selectRegionUnderEditUrl = createSelector(
-  selectTextEditingPageState,
-  (state) => state.regionUnderEditUrl
-);
-
 export const selectIsSaving = createSelector(
   selectTextEditingPageState,
   (state) => state.saving
@@ -72,7 +67,7 @@ export const selectTranscriptionHaveChanges = createSelector(
   (state) => state.postTokens.length !== 0
 );
 
-export const selectTextSegmentationTouched= createSelector(
+export const selectTextSegmentationTouched = createSelector(
   selectTextEditingPageState,
   (state) => state.textSegmentationTouched
 );
@@ -82,8 +77,16 @@ export const selectWorkspaceHasChanges = createSelector(
     selectLayoutHasChanges,
     selectLinesHaveChanges,
     selectTranscriptionHaveChanges,
-    selectTextSegmentationTouched
+    selectTextSegmentationTouched,
   ],
-  (layoutHasChanges, linesHaveChanges, transcriptionHasChanges, textSegmentationTouched) =>
-    layoutHasChanges || linesHaveChanges || transcriptionHasChanges || textSegmentationTouched
+  (
+    layoutHasChanges,
+    linesHaveChanges,
+    transcriptionHasChanges,
+    textSegmentationTouched
+  ) =>
+    layoutHasChanges ||
+    linesHaveChanges ||
+    transcriptionHasChanges ||
+    textSegmentationTouched
 );

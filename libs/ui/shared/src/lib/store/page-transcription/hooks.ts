@@ -1,5 +1,4 @@
 import {
-  IFacsimileRegion,
   ILine,
   IMorphology,
   IPageTranscription,
@@ -14,16 +13,13 @@ import { clearLines, loadLines } from './lines';
 import { clearTokens, loadTokens } from './tokens';
 import { useEffect } from 'react';
 import { clearPageData, loadPageData, pageDataLoaded } from './page-data';
-import { addManyDataUrls, clearDataUrls } from './region-data-urls';
-import { createRegionsDataUrls, highlightColors } from '@frontend/ui/facsimile';
+import { highlightColors } from '@frontend/ui/facsimile';
 import { clearTextEditingPageStore } from '../text-editing-page';
-import { fabric } from 'fabric';
 import { clearMorphologies, loadMorphologies } from './morphologies';
 
 export function useTextEditingWorkspaceStore(
   data: IPageTranscription,
-  imageSize: { Width: number; Height: number },
-  fabricImg: fabric.Image | null
+  imageSize: { Width: number; Height: number }
 ) {
   const dispatch = useAppDispatch();
   const { TextElements, ImageElements, Units, ...pageInfo } = data;
@@ -63,7 +59,6 @@ export function useTextEditingWorkspaceStore(
     console.log('clearing page transcription store');
     dispatch(clearPageData());
     dispatch(clearTextEditingPageStore());
-    dispatch(clearDataUrls());
     dispatch(clearUnitSummaries());
     dispatch(clearImageElements());
     dispatch(clearTextElements());
@@ -87,22 +82,6 @@ export function useTextEditingWorkspaceStore(
 
     return clearAll;
   }, [data, imageSize]);
-
-  useEffect(() => {
-    if (fabricImg !== null) {
-      const data = [...textElements, ...imageElements, ...lines].map(
-        (el) =>
-          el && {
-            Id: el.Id,
-            HighlightColor: el.HighlightColor,
-            ...el.FacsimileRegion,
-          }
-      ) as Array<IFacsimileRegion & { Id: string; HighlightColor?: string }>;
-      createRegionsDataUrls(data, fabricImg).then((values) => {
-        dispatch(addManyDataUrls(values));
-      });
-    }
-  }, [data, fabricImg]);
 
   useEffect(() => {
     return clearAll;

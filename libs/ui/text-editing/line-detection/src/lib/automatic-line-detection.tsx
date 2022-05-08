@@ -3,23 +3,17 @@ import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useState } from 'react';
-import {
-  selectAllTextElements,
-  selectManyRegionDataUrlById,
-  useAppSelector,
-} from '@frontend/shared-ui';
+import { selectAllTextElements, useAppSelector } from '@frontend/shared-ui';
 
 import { useAutomaticLineDetectionExecution } from './hooks';
 
 export const AutomaticLineDetection = () => {
   const [progress, setProgress] = useState(0);
   const textElements = useAppSelector(selectAllTextElements);
-  const urls = useAppSelector((state) =>
-    selectManyRegionDataUrlById(
-      state,
-      textElements.map((el) => el.Id)
-    )
-  );
+
+  // TODO get urls from cropper
+  const urls: Record<string, string> = {};
+
   // improve transfotmation pipeline from tesseract.Line.bbox to Kalila.ILine
   useAutomaticLineDetectionExecution(textElements, urls, setProgress);
 

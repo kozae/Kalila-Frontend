@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import { IFacsimileRegion, ILine } from '@frontend/domain';
 import { hexToRgba } from '@frontend/util';
-import React from 'react';
+import React, { useContext } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import {
@@ -10,28 +10,36 @@ import {
   onElementSelected,
   onRegionHoveredInToolSpace,
   selectLineHasTokens,
-  selectTokensOfLine,
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
+import useSWR from 'swr';
+import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
 
 export interface ILineSummaryProps {
   maxHeight?: string;
   line: Omit<ILine, 'Tokens'> & { ElementId: string };
-  url: string;
   buttons: boolean;
 }
 
 export const LineSummary = ({
   maxHeight,
   line,
-  url,
   buttons,
 }: ILineSummaryProps) => {
   const dispatch = useAppDispatch();
+  const { facsimileCropper } = useContext(TextEditingWorkspaceContext);
+  const { data: url } = useSWR(line?.Id, () => {
+    if (line.FacsimileRegion) {
+      const [p, r] = mapDataForCropper(line.FacsimileRegion);
+      return facsimileCropper?.get_region(p, r);
+    }
+    return undefined;
+  });
   const handleHover = (region: (IFacsimileRegion & { Id: string }) | null) =>
     dispatch(onRegionHoveredInToolSpace(region));
   const handleSelection = (id: string | null, region: IFacsimileRegion) =>

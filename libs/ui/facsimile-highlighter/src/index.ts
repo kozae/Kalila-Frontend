@@ -1,1 +1,1 @@
-export * from './lib/ui-facsimile-highlighter';
+export * from './lib/facsimile-highlighter';

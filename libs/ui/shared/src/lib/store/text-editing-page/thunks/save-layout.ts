@@ -13,10 +13,6 @@ export const saveLayoutChanges = createAsyncThunk<
   {
     TextElements: Omit<ITextElement, 'Lines'>[];
     Images: IImageElement[];
-    dataUrls: {
-      id: string;
-      data: string;
-    }[];
   },
   any,
   ThunkApi
@@ -26,31 +22,6 @@ export const saveLayoutChanges = createAsyncThunk<
   await deleteLayout(state);
   await putTextElements(state);
   await putImages(state);
-  const dataUrls: {
-    id: string;
-    data: string;
-  }[] = [];
-  Object.values(state.regionDataUrls.entities).forEach((item) => {
-    if (item) {
-      const textElIndex = changes.TextElementIds.indexOf(item.id);
-      if (textElIndex !== -1) {
-        dataUrls.push({
-          id: changes.TextElements[textElIndex].Id,
-          data: item.data,
-        });
-        return;
-      }
-      const imageElIndex = changes.ImageIds.indexOf(item.id);
-      if (imageElIndex !== -1) {
-        dataUrls.push({
-          id: changes.Images[imageElIndex].Id,
-          data: item.data,
-        });
-        return;
-      }
-      dataUrls.push(item);
-    }
-  });
   return {
     TextElements: [
       ...Object.values(state.textElements.entities).filter(
@@ -64,6 +35,5 @@ export const saveLayoutChanges = createAsyncThunk<
       ),
       ...changes.Images,
     ] as IImageElement[],
-    dataUrls,
   };
 });

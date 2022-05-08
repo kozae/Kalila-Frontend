@@ -1,26 +1,35 @@
 import { ILine } from '@frontend/domain';
-import React from 'react';
+import React, { useContext } from 'react';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { hexToRgba } from '@frontend/util';
+import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
+import useSWR from 'swr';
+import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
 
 export type ISortableLineProps = (Omit<ILine, 'Tokens'> & {
   ElementId: string;
 }) & {
-  url: string;
   title?: string;
   height: string;
   width?: string;
 };
 
 export const SortableLine: React.FC<ISortableLineProps> = ({
-  url,
   height,
   width,
   title,
   ...line
 }) => {
+  const { facsimileCropper } = useContext(TextEditingWorkspaceContext);
+  const { data: url } = useSWR(line?.Id, () => {
+    if (line.FacsimileRegion) {
+      const [p, r] = mapDataForCropper(line.FacsimileRegion);
+      return facsimileCropper?.get_region(p, r);
+    }
+    return undefined;
+  });
   return (
     <Box
       sx={{

@@ -1,0 +1,3231 @@
+{
+  "TextElements": [
+    {
+      "Id": "626c1d146d603a78104bc78c",
+      "Position": "legend",
+      "Order": 0,
+      "FacsimileRegion": {
+        "Rotation": 90,
+        "Points": [
+          {
+            "X": 104,
+            "Y": 771
+          },
+          {
+            "X": 104,
+            "Y": 1328
+          },
+          {
+            "X": 2,
+            "Y": 1328
+          },
+          {
+            "X": 2,
+            "Y": 771
+          }
+        ]
+      },
+      "Lines": [
+        {
+          "Id": "626c1d146d603a78104bc795",
+          "LineOrder": 4,
+          "FacsimileRegion": {
+            "Rotation": 90,
+            "Points": [
+              {
+                "X": 108,
+                "Y": 772
+              },
+              {
+                "X": 108,
+                "Y": 1333
+              },
+              {
+                "X": 46,
+                "Y": 1333
+              },
+              {
+                "X": 45.66325378417969,
+                "Y": 772.0155029296875
+              }
+            ]
+          },
+          "LineText": "وهذه صورة كسرى أنوشروان وقد حضر إليه برزويه الحكيم",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc79c",
+              "RawToken": "وهذه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 9000
+            },
+            {
+              "Id": "626c1d146d603a78104bc79a",
+              "RawToken": "صورة",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 9001
+            },
+            {
+              "Id": "626c1d146d603a78104bc796",
+              "RawToken": "كسرى",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 9002
+            },
+            {
+              "Id": "626c1d146d603a78104bc79b",
+              "RawToken": "أنوشروان",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 9003
+            },
+            {
+              "Id": "626c1d146d603a78104bc79e",
+              "RawToken": "وقد",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 9004
+            },
+            {
+              "Id": "626c1d146d603a78104bc797",
+              "RawToken": "حضر",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 9005
+            },
+            {
+              "Id": "626c1d146d603a78104bc798",
+              "RawToken": "إليه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 9006
+            },
+            {
+              "Id": "626c1d146d603a78104bc79d",
+              "RawToken": "برزويه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 9007
+            },
+            {
+              "Id": "626c1d146d603a78104bc799",
+              "RawToken": "الحكيم",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 9008
+            }
+          ]
+        },
+        {
+          "Id": "626c1d146d603a78104bc78d",
+          "LineOrder": 5,
+          "FacsimileRegion": {
+            "Rotation": 90,
+            "Points": [
+              {
+                "X": 57,
+                "Y": 771
+              },
+              {
+                "X": 57,
+                "Y": 1328
+              },
+              {
+                "X": 2,
+                "Y": 1328
+              },
+              {
+                "X": 2,
+                "Y": 771
+              }
+            ]
+          },
+          "LineText": "من بلاد الهند وهو جالسٌ بين يديه",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc78f",
+              "RawToken": "من",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 9009
+            },
+            {
+              "Id": "626c1d146d603a78104bc792",
+              "RawToken": "بلاد",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 9010
+            },
+            {
+              "Id": "626c1d146d603a78104bc78e",
+              "RawToken": "الهند",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 9011
+            },
+            {
+              "Id": "626c1d146d603a78104bc794",
+              "RawToken": "وهو",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 9012
+            },
+            {
+              "Id": "626c1d146d603a78104bc790",
+              "RawToken": "جالسٌ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 9013
+            },
+            {
+              "Id": "626c1d146d603a78104bc791",
+              "RawToken": "بين",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 9014
+            },
+            {
+              "Id": "626c1d146d603a78104bc793",
+              "RawToken": "يديه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 9015
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "626c1d146d603a78104bc79f",
+      "Position": "main text in margin",
+      "Order": 1,
+      "FacsimileRegion": {
+        "Rotation": 270,
+        "Points": [
+          {
+            "X": 774,
+            "Y": 1348
+          },
+          {
+            "X": 774,
+            "Y": 138
+          },
+          {
+            "X": 982,
+            "Y": 138
+          },
+          {
+            "X": 982,
+            "Y": 1348
+          }
+        ]
+      },
+      "Lines": [
+        {
+          "Id": "626c1d146d603a78104bc7c6",
+          "LineOrder": 12,
+          "FacsimileRegion": {
+            "Rotation": 270,
+            "Points": [
+              {
+                "X": 778,
+                "Y": 1352
+              },
+              {
+                "X": 777.671630859375,
+                "Y": 189.93447875976562
+              },
+              {
+                "X": 881,
+                "Y": 190
+              },
+              {
+                "X": 881,
+                "Y": 1352
+              }
+            ]
+          },
+          "LineText": "يأخذ ما أحبّ ويحمل ما أراد فسجد برزويه وقال أكرم الله تعالى المَلك كرامةً يجمع له فيها شرف الدنيا والآخرة إنّي قد أغناني الله تعالى بحسن رأي المَلك",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc7d9",
+              "RawToken": "يأخذ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 179
+            },
+            {
+              "Id": "626c1d146d603a78104bc7cf",
+              "RawToken": "ما",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 180
+            },
+            {
+              "Id": "626c1d146d603a78104bc7d4",
+              "RawToken": "أحبّ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 181
+            },
+            {
+              "Id": "626c1d146d603a78104bc7d8",
+              "RawToken": "ويحمل",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 182
+            },
+            {
+              "Id": "626c1d146d603a78104bc7cd",
+              "RawToken": "ما",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 183
+            },
+            {
+              "Id": "626c1d146d603a78104bc7da",
+              "RawToken": "أراد",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 184
+            },
+            {
+              "Id": "626c1d146d603a78104bc7d5",
+              "RawToken": "فسجد",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 185
+            },
+            {
+              "Id": "626c1d146d603a78104bc7c8",
+              "RawToken": "برزويه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 186
+            },
+            {
+              "Id": "626c1d146d603a78104bc7c7",
+              "RawToken": "وقال",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 187
+            },
+            {
+              "Id": "626c1d146d603a78104bc7db",
+              "RawToken": "أكرم",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 188
+            },
+            {
+              "Id": "626c1d146d603a78104bc7d3",
+              "RawToken": "الله",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 189
+            },
+            {
+              "Id": "626c1d146d603a78104bc7e0",
+              "RawToken": "تعالى",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 11,
+              "State": "sound",
+              "OrderInPage": 190
+            },
+            {
+              "Id": "626c1d146d603a78104bc7cc",
+              "RawToken": "المَلك",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 12,
+              "State": "sound",
+              "OrderInPage": 191
+            },
+            {
+              "Id": "626c1d146d603a78104bc7c9",
+              "RawToken": "كرامةً",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 13,
+              "State": "sound",
+              "OrderInPage": 192
+            },
+            {
+              "Id": "626c1d146d603a78104bc7ca",
+              "RawToken": "يجمع",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 14,
+              "State": "sound",
+              "OrderInPage": 193
+            },
+            {
+              "Id": "626c1d146d603a78104bc7df",
+              "RawToken": "له",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 15,
+              "State": "sound",
+              "OrderInPage": 194
+            },
+            {
+              "Id": "626c1d146d603a78104bc7de",
+              "RawToken": "فيها",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 16,
+              "State": "sound",
+              "OrderInPage": 195
+            },
+            {
+              "Id": "626c1d146d603a78104bc7dd",
+              "RawToken": "شرف",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 17,
+              "State": "sound",
+              "OrderInPage": 196
+            },
+            {
+              "Id": "626c1d146d603a78104bc7cb",
+              "RawToken": "الدنيا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 18,
+              "State": "sound",
+              "OrderInPage": 197
+            },
+            {
+              "Id": "626c1d146d603a78104bc7d6",
+              "RawToken": "والآخرة",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 19,
+              "State": "sound",
+              "OrderInPage": 198
+            },
+            {
+              "Id": "626c1d146d603a78104bc7d7",
+              "RawToken": "إنّي",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 20,
+              "State": "sound",
+              "OrderInPage": 199
+            },
+            {
+              "Id": "626c1d146d603a78104bc7d1",
+              "RawToken": "قد",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 21,
+              "State": "sound",
+              "OrderInPage": 200
+            },
+            {
+              "Id": "626c1d146d603a78104bc7d2",
+              "RawToken": "أغناني",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 22,
+              "State": "sound",
+              "OrderInPage": 201
+            },
+            {
+              "Id": "626c1d146d603a78104bc7ce",
+              "RawToken": "الله",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 23,
+              "State": "sound",
+              "OrderInPage": 202
+            },
+            {
+              "Id": "626c1d146d603a78104bc7dc",
+              "RawToken": "تعالى",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 24,
+              "State": "sound",
+              "OrderInPage": 203
+            },
+            {
+              "Id": "626c1d146d603a78104bc7d0",
+              "RawToken": "بحسن",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 25,
+              "State": "sound",
+              "OrderInPage": 204
+            },
+            {
+              "Id": "626c1d146d603a78104bc7e2",
+              "RawToken": "رأي",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 26,
+              "State": "sound",
+              "OrderInPage": 205
+            },
+            {
+              "Id": "626c1d146d603a78104bc7e1",
+              "RawToken": "المَلك",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 27,
+              "State": "sound",
+              "OrderInPage": 206
+            }
+          ]
+        },
+        {
+          "Id": "626c1d146d603a78104bc7ab",
+          "LineOrder": 13,
+          "FacsimileRegion": {
+            "Rotation": 270,
+            "Points": [
+              {
+                "X": 835,
+                "Y": 1344
+              },
+              {
+                "X": 835.2874755859375,
+                "Y": 175.84584045410156
+              },
+              {
+                "X": 927,
+                "Y": 176
+              },
+              {
+                "X": 927,
+                "Y": 1344
+              }
+            ]
+          },
+          "LineText": "عن عروض الدنيا فلا حاجة لي إلى مالٍ ولا كسوةٍ وإنّ الإنسان إذا كان ذا عقلٍ وأدبٍ فأُكرم وأُعطي وأُحسن إليه وجب عليه أن يتشكرّ كذلك",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc7ba",
+              "RawToken": "عن",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 207
+            },
+            {
+              "Id": "626c1d146d603a78104bc7b1",
+              "RawToken": "عروض",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 208
+            },
+            {
+              "Id": "626c1d146d603a78104bc7b3",
+              "RawToken": "الدنيا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 209
+            },
+            {
+              "Id": "626c1d146d603a78104bc7b8",
+              "RawToken": "فلا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 210
+            },
+            {
+              "Id": "626c1d146d603a78104bc7c0",
+              "RawToken": "حاجة",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 211
+            },
+            {
+              "Id": "626c1d146d603a78104bc7b7",
+              "RawToken": "لي",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 212
+            },
+            {
+              "Id": "626c1d146d603a78104bc7c3",
+              "RawToken": "إلى",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 213
+            },
+            {
+              "Id": "626c1d146d603a78104bc7c4",
+              "RawToken": "مالٍ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 214
+            },
+            {
+              "Id": "626c1d146d603a78104bc7c2",
+              "RawToken": "ولا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 215
+            },
+            {
+              "Id": "626c1d146d603a78104bc7c1",
+              "RawToken": "كسوةٍ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 216
+            },
+            {
+              "Id": "626c1d146d603a78104bc7b4",
+              "RawToken": "وإنّ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 217
+            },
+            {
+              "Id": "626c1d146d603a78104bc7ae",
+              "RawToken": "الإنسان",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 11,
+              "State": "sound",
+              "OrderInPage": 218
+            },
+            {
+              "Id": "626c1d146d603a78104bc7ac",
+              "RawToken": "إذا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 12,
+              "State": "sound",
+              "OrderInPage": 219
+            },
+            {
+              "Id": "626c1d146d603a78104bc7b6",
+              "RawToken": "كان",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 13,
+              "State": "sound",
+              "OrderInPage": 220
+            },
+            {
+              "Id": "626c1d146d603a78104bc7b2",
+              "RawToken": "ذا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 14,
+              "State": "sound",
+              "OrderInPage": 221
+            },
+            {
+              "Id": "626c1d146d603a78104bc7b5",
+              "RawToken": "عقلٍ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 15,
+              "State": "sound",
+              "OrderInPage": 222
+            },
+            {
+              "Id": "626c1d146d603a78104bc7c5",
+              "RawToken": "وأدبٍ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 16,
+              "State": "sound",
+              "OrderInPage": 223
+            },
+            {
+              "Id": "626c1d146d603a78104bc7bf",
+              "RawToken": "فأُكرم",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 17,
+              "State": "sound",
+              "OrderInPage": 224
+            },
+            {
+              "Id": "626c1d146d603a78104bc7be",
+              "RawToken": "وأُعطي",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 18,
+              "State": "sound",
+              "OrderInPage": 225
+            },
+            {
+              "Id": "626c1d146d603a78104bc7b9",
+              "RawToken": "وأُحسن",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 19,
+              "State": "sound",
+              "OrderInPage": 226
+            },
+            {
+              "Id": "626c1d146d603a78104bc7bb",
+              "RawToken": "إليه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 20,
+              "State": "sound",
+              "OrderInPage": 227
+            },
+            {
+              "Id": "626c1d146d603a78104bc7b0",
+              "RawToken": "وجب",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 21,
+              "State": "sound",
+              "OrderInPage": 228
+            },
+            {
+              "Id": "626c1d146d603a78104bc7bd",
+              "RawToken": "عليه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 22,
+              "State": "sound",
+              "OrderInPage": 229
+            },
+            {
+              "Id": "626c1d146d603a78104bc7bc",
+              "RawToken": "أن",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 23,
+              "State": "sound",
+              "OrderInPage": 230
+            },
+            {
+              "Id": "626c1d146d603a78104bc7af",
+              "RawToken": "يتشكرّ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 24,
+              "State": "sound",
+              "OrderInPage": 231
+            },
+            {
+              "Id": "626c1d146d603a78104bc7ad",
+              "RawToken": "كذلك",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 25,
+              "State": "sound",
+              "OrderInPage": 232
+            }
+          ]
+        },
+        {
+          "Id": "626c1d146d603a78104bc7a0",
+          "LineOrder": 14,
+          "FacsimileRegion": {
+            "Rotation": 270,
+            "Points": [
+              {
+                "X": 897,
+                "Y": 1021
+              },
+              {
+                "X": 897,
+                "Y": 476
+              },
+              {
+                "X": 969,
+                "Y": 476
+              },
+              {
+                "X": 969,
+                "Y": 1021
+              }
+            ]
+          },
+          "LineText": "وإنّي للمَلك شاكرٌ إن شاء الله تعالى له دوام السرور",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc7a5",
+              "RawToken": "وإنّي",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 233
+            },
+            {
+              "Id": "626c1d146d603a78104bc7a9",
+              "RawToken": "للمَلك",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 234
+            },
+            {
+              "Id": "626c1d146d603a78104bc7a3",
+              "RawToken": "شاكرٌ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 235
+            },
+            {
+              "Id": "626c1d146d603a78104bc7a4",
+              "RawToken": "إن",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 236
+            },
+            {
+              "Id": "626c1d146d603a78104bc7a8",
+              "RawToken": "شاء",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 237
+            },
+            {
+              "Id": "626c1d146d603a78104bc7a1",
+              "RawToken": "الله",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 238
+            },
+            {
+              "Id": "626c1d146d603a78104bc7a2",
+              "RawToken": "تعالى",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 239
+            },
+            {
+              "Id": "626c1d146d603a78104bc7a7",
+              "RawToken": "له",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 240
+            },
+            {
+              "Id": "626c1d146d603a78104bc7a6",
+              "RawToken": "دوام",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 241
+            },
+            {
+              "Id": "626c1d146d603a78104bc7aa",
+              "RawToken": "السرور",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 242
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "626c1d146d603a78104bc7e3",
+      "Position": "main body",
+      "Order": 2,
+      "FacsimileRegion": {
+        "Rotation": 0,
+        "Points": [
+          {
+            "X": 72,
+            "Y": 214
+          },
+          {
+            "X": 799,
+            "Y": 214
+          },
+          {
+            "X": 799,
+            "Y": 760
+          },
+          {
+            "X": 72,
+            "Y": 760
+          }
+        ]
+      },
+      "Lines": [
+        {
+          "Id": "626c1d146d603a78104bc857",
+          "LineOrder": 0,
+          "FacsimileRegion": {
+            "Rotation": 0,
+            "Points": [
+              {
+                "X": 72,
+                "Y": 214
+              },
+              {
+                "X": 799,
+                "Y": 214
+              },
+              {
+                "X": 799,
+                "Y": 275
+              },
+              {
+                "X": 72,
+                "Y": 275
+              }
+            ]
+          },
+          "LineText": "[[وأطال]] وأطال فيه فكره وسهر فيه ليله وأذهب فيه نهاره فلمّا فرغ من كتابته كَتَب",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc85c",
+              "RawToken": "وأطال",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "cross-out",
+              "OrderInPage": 0
+            },
+            {
+              "Id": "626c1d146d603a78104bc866",
+              "RawToken": "وأطال",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 1
+            },
+            {
+              "Id": "626c1d146d603a78104bc865",
+              "RawToken": "فيه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 2
+            },
+            {
+              "Id": "626c1d146d603a78104bc85a",
+              "RawToken": "فكره",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 3
+            },
+            {
+              "Id": "626c1d146d603a78104bc859",
+              "RawToken": "وسهر",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 4
+            },
+            {
+              "Id": "626c1d146d603a78104bc85b",
+              "RawToken": "فيه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 5
+            },
+            {
+              "Id": "626c1d146d603a78104bc858",
+              "RawToken": "ليله",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 6
+            },
+            {
+              "Id": "626c1d146d603a78104bc85d",
+              "RawToken": "وأذهب",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 7
+            },
+            {
+              "Id": "626c1d146d603a78104bc862",
+              "RawToken": "فيه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 8
+            },
+            {
+              "Id": "626c1d146d603a78104bc864",
+              "RawToken": "نهاره",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 9
+            },
+            {
+              "Id": "626c1d146d603a78104bc861",
+              "RawToken": "فلمّا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 10
+            },
+            {
+              "Id": "626c1d146d603a78104bc863",
+              "RawToken": "فرغ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 11,
+              "State": "sound",
+              "OrderInPage": 11
+            },
+            {
+              "Id": "626c1d146d603a78104bc85f",
+              "RawToken": "من",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 12,
+              "State": "sound",
+              "OrderInPage": 12
+            },
+            {
+              "Id": "626c1d146d603a78104bc860",
+              "RawToken": "كتابته",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 13,
+              "State": "sound",
+              "OrderInPage": 13
+            },
+            {
+              "Id": "626c1d146d603a78104bc85e",
+              "RawToken": "كَتَب",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 14,
+              "State": "sound",
+              "OrderInPage": 14
+            }
+          ]
+        },
+        {
+          "Id": "626c1d146d603a78104bc876",
+          "LineOrder": 1,
+          "FacsimileRegion": {
+            "Rotation": 0,
+            "Points": [
+              {
+                "X": 72,
+                "Y": 267
+              },
+              {
+                "X": 799,
+                "Y": 267
+              },
+              {
+                "X": 799,
+                "Y": 335
+              },
+              {
+                "X": 72,
+                "Y": 335
+              }
+            ]
+          },
+          "LineText": "إلى كسرى أنوشروان يعلمه بما لقي من النصب وأنّه قد قضى حاجته فلمّا وصل إليه الكتاب",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc87a",
+              "RawToken": "إلى",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 15
+            },
+            {
+              "Id": "626c1d146d603a78104bc881",
+              "RawToken": "كسرى",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 16
+            },
+            {
+              "Id": "626c1d146d603a78104bc87c",
+              "RawToken": "أنوشروان",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 17
+            },
+            {
+              "Id": "626c1d146d603a78104bc880",
+              "RawToken": "يعلمه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 18
+            },
+            {
+              "Id": "626c1d146d603a78104bc879",
+              "RawToken": "بما",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 19
+            },
+            {
+              "Id": "626c1d146d603a78104bc883",
+              "RawToken": "لقي",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 20
+            },
+            {
+              "Id": "626c1d146d603a78104bc878",
+              "RawToken": "من",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 21
+            },
+            {
+              "Id": "626c1d146d603a78104bc87d",
+              "RawToken": "النصب",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 22
+            },
+            {
+              "Id": "626c1d146d603a78104bc882",
+              "RawToken": "وأنّه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 23
+            },
+            {
+              "Id": "626c1d146d603a78104bc886",
+              "RawToken": "قد",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 24
+            },
+            {
+              "Id": "626c1d146d603a78104bc87f",
+              "RawToken": "قضى",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 25
+            },
+            {
+              "Id": "626c1d146d603a78104bc87b",
+              "RawToken": "حاجته",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 11,
+              "State": "sound",
+              "OrderInPage": 26
+            },
+            {
+              "Id": "626c1d146d603a78104bc877",
+              "RawToken": "فلمّا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 12,
+              "State": "sound",
+              "OrderInPage": 27
+            },
+            {
+              "Id": "626c1d146d603a78104bc885",
+              "RawToken": "وصل",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 13,
+              "State": "sound",
+              "OrderInPage": 28
+            },
+            {
+              "Id": "626c1d146d603a78104bc884",
+              "RawToken": "إليه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 14,
+              "State": "sound",
+              "OrderInPage": 29
+            },
+            {
+              "Id": "626c1d146d603a78104bc87e",
+              "RawToken": "الكتاب",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 15,
+              "State": "sound",
+              "OrderInPage": 30
+            }
+          ]
+        },
+        {
+          "Id": "626c1d146d603a78104bc867",
+          "LineOrder": 2,
+          "FacsimileRegion": {
+            "Rotation": 0,
+            "Points": [
+              {
+                "X": 72,
+                "Y": 323
+              },
+              {
+                "X": 799,
+                "Y": 323
+              },
+              {
+                "X": 799,
+                "Y": 383
+              },
+              {
+                "X": 72,
+                "Y": 383
+              }
+            ]
+          },
+          "LineText": "فرح فرحًا شديدًا وأعاد الجواب يأمره بالمسير فلمّا قرأ برزويه الكتاب تجهّز وسار حتّى",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc875",
+              "RawToken": "فرح",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 31
+            },
+            {
+              "Id": "626c1d146d603a78104bc86d",
+              "RawToken": "فرحًا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 32
+            },
+            {
+              "Id": "626c1d146d603a78104bc868",
+              "RawToken": "شديدًا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 33
+            },
+            {
+              "Id": "626c1d146d603a78104bc870",
+              "RawToken": "وأعاد",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 34
+            },
+            {
+              "Id": "626c1d146d603a78104bc86b",
+              "RawToken": "الجواب",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 35
+            },
+            {
+              "Id": "626c1d146d603a78104bc86e",
+              "RawToken": "يأمره",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 36
+            },
+            {
+              "Id": "626c1d146d603a78104bc86f",
+              "RawToken": "بالمسير",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 37
+            },
+            {
+              "Id": "626c1d146d603a78104bc86c",
+              "RawToken": "فلمّا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 38
+            },
+            {
+              "Id": "626c1d146d603a78104bc869",
+              "RawToken": "قرأ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 39
+            },
+            {
+              "Id": "626c1d146d603a78104bc872",
+              "RawToken": "برزويه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 40
+            },
+            {
+              "Id": "626c1d146d603a78104bc873",
+              "RawToken": "الكتاب",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 41
+            },
+            {
+              "Id": "626c1d146d603a78104bc874",
+              "RawToken": "تجهّز",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 11,
+              "State": "sound",
+              "OrderInPage": 42
+            },
+            {
+              "Id": "626c1d146d603a78104bc86a",
+              "RawToken": "وسار",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 12,
+              "State": "sound",
+              "OrderInPage": 43
+            },
+            {
+              "Id": "626c1d146d603a78104bc871",
+              "RawToken": "حتّى",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 13,
+              "State": "sound",
+              "OrderInPage": 44
+            }
+          ]
+        },
+        {
+          "Id": "626c1d146d603a78104bc803",
+          "LineOrder": 3,
+          "FacsimileRegion": {
+            "Rotation": 0,
+            "Points": [
+              {
+                "X": 72,
+                "Y": 372
+              },
+              {
+                "X": 799,
+                "Y": 372
+              },
+              {
+                "X": 799,
+                "Y": 435
+              },
+              {
+                "X": 72,
+                "Y": 435
+              }
+            ]
+          },
+          "LineText": "قدم على كسرى أنوشروان فأخبروه بقدومه فأمر بإحضاره فلمّا صار بين يديّ المَلك قال",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc809",
+              "RawToken": "قدم",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 45
+            },
+            {
+              "Id": "626c1d146d603a78104bc807",
+              "RawToken": "على",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 46
+            },
+            {
+              "Id": "626c1d146d603a78104bc804",
+              "RawToken": "كسرى",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 47
+            },
+            {
+              "Id": "626c1d146d603a78104bc808",
+              "RawToken": "أنوشروان",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 48
+            },
+            {
+              "Id": "626c1d146d603a78104bc80c",
+              "RawToken": "فأخبروه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 49
+            },
+            {
+              "Id": "626c1d146d603a78104bc80a",
+              "RawToken": "بقدومه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 50
+            },
+            {
+              "Id": "626c1d146d603a78104bc80d",
+              "RawToken": "فأمر",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 51
+            },
+            {
+              "Id": "626c1d146d603a78104bc806",
+              "RawToken": "بإحضاره",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 52
+            },
+            {
+              "Id": "626c1d146d603a78104bc80f",
+              "RawToken": "فلمّا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 53
+            },
+            {
+              "Id": "626c1d146d603a78104bc810",
+              "RawToken": "صار",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 54
+            },
+            {
+              "Id": "626c1d146d603a78104bc805",
+              "RawToken": "بين",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 55
+            },
+            {
+              "Id": "626c1d146d603a78104bc80b",
+              "RawToken": "يديّ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 11,
+              "State": "sound",
+              "OrderInPage": 56
+            },
+            {
+              "Id": "626c1d146d603a78104bc811",
+              "RawToken": "المَلك",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 12,
+              "State": "sound",
+              "OrderInPage": 57
+            },
+            {
+              "Id": "626c1d146d603a78104bc80e",
+              "RawToken": "قال",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 13,
+              "State": "sound",
+              "OrderInPage": 58
+            }
+          ]
+        },
+        {
+          "Id": "626c1d146d603a78104bc812",
+          "LineOrder": 4,
+          "FacsimileRegion": {
+            "Rotation": 0,
+            "Points": [
+              {
+                "X": 72,
+                "Y": 431
+              },
+              {
+                "X": 798,
+                "Y": 431
+              },
+              {
+                "X": 798,
+                "Y": 493
+              },
+              {
+                "X": 72,
+                "Y": 493
+              }
+            ]
+          },
+          "LineText": "له أبشر أيّها العبد الطائع لمولاه والناصح له والباذل نفسه في مرضاته وستجني حلاوة",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc816",
+              "RawToken": "له",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 59
+            },
+            {
+              "Id": "626c1d146d603a78104bc819",
+              "RawToken": "أبشر",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 60
+            },
+            {
+              "Id": "626c1d146d603a78104bc818",
+              "RawToken": "أيّها",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 61
+            },
+            {
+              "Id": "626c1d146d603a78104bc813",
+              "RawToken": "العبد",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 62
+            },
+            {
+              "Id": "626c1d146d603a78104bc815",
+              "RawToken": "الطائع",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 63
+            },
+            {
+              "Id": "626c1d146d603a78104bc817",
+              "RawToken": "لمولاه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 64
+            },
+            {
+              "Id": "626c1d146d603a78104bc81b",
+              "RawToken": "والناصح",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 65
+            },
+            {
+              "Id": "626c1d146d603a78104bc81a",
+              "RawToken": "له",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 66
+            },
+            {
+              "Id": "626c1d146d603a78104bc814",
+              "RawToken": "والباذل",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 67
+            },
+            {
+              "Id": "626c1d146d603a78104bc81d",
+              "RawToken": "نفسه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 68
+            },
+            {
+              "Id": "626c1d146d603a78104bc820",
+              "RawToken": "في",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 69
+            },
+            {
+              "Id": "626c1d146d603a78104bc81e",
+              "RawToken": "مرضاته",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 11,
+              "State": "sound",
+              "OrderInPage": 70
+            },
+            {
+              "Id": "626c1d146d603a78104bc81c",
+              "RawToken": "وستجني",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 12,
+              "State": "sound",
+              "OrderInPage": 71
+            },
+            {
+              "Id": "626c1d146d603a78104bc81f",
+              "RawToken": "حلاوة",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 13,
+              "State": "sound",
+              "OrderInPage": 72
+            }
+          ]
+        },
+        {
+          "Id": "626c1d146d603a78104bc7f4",
+          "LineOrder": 5,
+          "FacsimileRegion": {
+            "Rotation": 0,
+            "Points": [
+              {
+                "X": 72,
+                "Y": 480
+              },
+              {
+                "X": 798,
+                "Y": 480
+              },
+              {
+                "X": 798,
+                "Y": 545
+              },
+              {
+                "X": 72,
+                "Y": 545
+              }
+            ]
+          },
+          "LineText": "ثمرة نصحك فقرّ عينًا فإنّك قد استوجبت الشكر من جميع الخاصّة والعامّة وعظيم المكافأة",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc7f9",
+              "RawToken": "ثمرة",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 73
+            },
+            {
+              "Id": "626c1d146d603a78104bc7fe",
+              "RawToken": "نصحك",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 74
+            },
+            {
+              "Id": "626c1d146d603a78104bc7fa",
+              "RawToken": "فقرّ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 75
+            },
+            {
+              "Id": "626c1d146d603a78104bc7ff",
+              "RawToken": "عينًا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 76
+            },
+            {
+              "Id": "626c1d146d603a78104bc801",
+              "RawToken": "فإنّك",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 77
+            },
+            {
+              "Id": "626c1d146d603a78104bc7f5",
+              "RawToken": "قد",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 78
+            },
+            {
+              "Id": "626c1d146d603a78104bc7f6",
+              "RawToken": "استوجبت",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 79
+            },
+            {
+              "Id": "626c1d146d603a78104bc7f7",
+              "RawToken": "الشكر",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 80
+            },
+            {
+              "Id": "626c1d146d603a78104bc7fc",
+              "RawToken": "من",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 81
+            },
+            {
+              "Id": "626c1d146d603a78104bc800",
+              "RawToken": "جميع",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 82
+            },
+            {
+              "Id": "626c1d146d603a78104bc7fb",
+              "RawToken": "الخاصّة",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 83
+            },
+            {
+              "Id": "626c1d146d603a78104bc802",
+              "RawToken": "والعامّة",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 11,
+              "State": "sound",
+              "OrderInPage": 84
+            },
+            {
+              "Id": "626c1d146d603a78104bc7f8",
+              "RawToken": "وعظيم",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 12,
+              "State": "sound",
+              "OrderInPage": 85
+            },
+            {
+              "Id": "626c1d146d603a78104bc7fd",
+              "RawToken": "المكافأة",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 13,
+              "State": "sound",
+              "OrderInPage": 86
+            }
+          ]
+        },
+        {
+          "Id": "626c1d146d603a78104bc845",
+          "LineOrder": 6,
+          "FacsimileRegion": {
+            "Rotation": 0,
+            "Points": [
+              {
+                "X": 72,
+                "Y": 531
+              },
+              {
+                "X": 798,
+                "Y": 531
+              },
+              {
+                "X": 798,
+                "Y": 596
+              },
+              {
+                "X": 72,
+                "Y": 596
+              }
+            ]
+          },
+          "LineText": "ثمّ أمره أن يريح نفسه وبدنه مدّة سبعة أيّامٍ ويأتيه بعد ذلك فلمّا كان في اليوم الثامن",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc84e",
+              "RawToken": "ثمّ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 87
+            },
+            {
+              "Id": "626c1d146d603a78104bc84d",
+              "RawToken": "أمره",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 88
+            },
+            {
+              "Id": "626c1d146d603a78104bc84f",
+              "RawToken": "أن",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 89
+            },
+            {
+              "Id": "626c1d146d603a78104bc855",
+              "RawToken": "يريح",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 90
+            },
+            {
+              "Id": "626c1d146d603a78104bc84c",
+              "RawToken": "نفسه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 91
+            },
+            {
+              "Id": "626c1d146d603a78104bc847",
+              "RawToken": "وبدنه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 92
+            },
+            {
+              "Id": "626c1d146d603a78104bc851",
+              "RawToken": "مدّة",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 93
+            },
+            {
+              "Id": "626c1d146d603a78104bc848",
+              "RawToken": "سبعة",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 94
+            },
+            {
+              "Id": "626c1d146d603a78104bc853",
+              "RawToken": "أيّامٍ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 95
+            },
+            {
+              "Id": "626c1d146d603a78104bc846",
+              "RawToken": "ويأتيه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 96
+            },
+            {
+              "Id": "626c1d146d603a78104bc852",
+              "RawToken": "بعد",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 97
+            },
+            {
+              "Id": "626c1d146d603a78104bc84a",
+              "RawToken": "ذلك",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 11,
+              "State": "sound",
+              "OrderInPage": 98
+            },
+            {
+              "Id": "626c1d146d603a78104bc856",
+              "RawToken": "فلمّا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 12,
+              "State": "sound",
+              "OrderInPage": 99
+            },
+            {
+              "Id": "626c1d146d603a78104bc849",
+              "RawToken": "كان",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 13,
+              "State": "sound",
+              "OrderInPage": 100
+            },
+            {
+              "Id": "626c1d146d603a78104bc854",
+              "RawToken": "في",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 14,
+              "State": "sound",
+              "OrderInPage": 101
+            },
+            {
+              "Id": "626c1d146d603a78104bc84b",
+              "RawToken": "اليوم",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 15,
+              "State": "sound",
+              "OrderInPage": 102
+            },
+            {
+              "Id": "626c1d146d603a78104bc850",
+              "RawToken": "الثامن",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 16,
+              "State": "sound",
+              "OrderInPage": 103
+            }
+          ]
+        },
+        {
+          "Id": "626c1d146d603a78104bc834",
+          "LineOrder": 7,
+          "FacsimileRegion": {
+            "Rotation": 0,
+            "Points": [
+              {
+                "X": 72,
+                "Y": 587
+              },
+              {
+                "X": 798,
+                "Y": 587
+              },
+              {
+                "X": 798,
+                "Y": 647
+              },
+              {
+                "X": 72,
+                "Y": 647
+              }
+            ]
+          },
+          "LineText": "استدعى به المَلك وأمر أن يحضر العلماء والأشراف من أهل مملكته وأمر برزجمهر أن يقرأ الكتاب",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc835",
+              "RawToken": "استدعى",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 104
+            },
+            {
+              "Id": "626c1d146d603a78104bc83f",
+              "RawToken": "به",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 105
+            },
+            {
+              "Id": "626c1d146d603a78104bc837",
+              "RawToken": "المَلك",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 106
+            },
+            {
+              "Id": "626c1d146d603a78104bc843",
+              "RawToken": "وأمر",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 107
+            },
+            {
+              "Id": "626c1d146d603a78104bc839",
+              "RawToken": "أن",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 108
+            },
+            {
+              "Id": "626c1d146d603a78104bc83b",
+              "RawToken": "يحضر",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 109
+            },
+            {
+              "Id": "626c1d146d603a78104bc83a",
+              "RawToken": "العلماء",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 110
+            },
+            {
+              "Id": "626c1d146d603a78104bc841",
+              "RawToken": "والأشراف",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 111
+            },
+            {
+              "Id": "626c1d146d603a78104bc836",
+              "RawToken": "من",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 112
+            },
+            {
+              "Id": "626c1d146d603a78104bc83e",
+              "RawToken": "أهل",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 113
+            },
+            {
+              "Id": "626c1d146d603a78104bc844",
+              "RawToken": "مملكته",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 114
+            },
+            {
+              "Id": "626c1d146d603a78104bc840",
+              "RawToken": "وأمر",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 11,
+              "State": "sound",
+              "OrderInPage": 115
+            },
+            {
+              "Id": "626c1d146d603a78104bc83d",
+              "RawToken": "برزجمهر",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 12,
+              "State": "sound",
+              "OrderInPage": 116
+            },
+            {
+              "Id": "626c1d146d603a78104bc842",
+              "RawToken": "أن",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 13,
+              "State": "sound",
+              "OrderInPage": 117
+            },
+            {
+              "Id": "626c1d146d603a78104bc838",
+              "RawToken": "يقرأ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 14,
+              "State": "sound",
+              "OrderInPage": 118
+            },
+            {
+              "Id": "626c1d146d603a78104bc83c",
+              "RawToken": "الكتاب",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 15,
+              "State": "sound",
+              "OrderInPage": 119
+            }
+          ]
+        },
+        {
+          "Id": "626c1d146d603a78104bc7e4",
+          "LineOrder": 8,
+          "FacsimileRegion": {
+            "Rotation": 0,
+            "Points": [
+              {
+                "X": 72,
+                "Y": 642
+              },
+              {
+                "X": 798,
+                "Y": 642
+              },
+              {
+                "X": 798,
+                "Y": 709
+              },
+              {
+                "X": 72,
+                "Y": 709
+              }
+            ]
+          },
+          "LineText": "على رؤوس الأشهاد فلمّا قرأ الكتاب وسمعوا ما فيه من العلم والأدب والأمثال والعجائب التي",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc7ea",
+              "RawToken": "على",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 120
+            },
+            {
+              "Id": "626c1d146d603a78104bc7e7",
+              "RawToken": "رؤوس",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 121
+            },
+            {
+              "Id": "626c1d146d603a78104bc7ec",
+              "RawToken": "الأشهاد",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 122
+            },
+            {
+              "Id": "626c1d146d603a78104bc7e6",
+              "RawToken": "فلمّا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 123
+            },
+            {
+              "Id": "626c1d146d603a78104bc7ed",
+              "RawToken": "قرأ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 124
+            },
+            {
+              "Id": "626c1d146d603a78104bc7e9",
+              "RawToken": "الكتاب",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 125
+            },
+            {
+              "Id": "626c1d146d603a78104bc7eb",
+              "RawToken": "وسمعوا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 126
+            },
+            {
+              "Id": "626c1d146d603a78104bc7f2",
+              "RawToken": "ما",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 127
+            },
+            {
+              "Id": "626c1d146d603a78104bc7f0",
+              "RawToken": "فيه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 128
+            },
+            {
+              "Id": "626c1d146d603a78104bc7ee",
+              "RawToken": "من",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 129
+            },
+            {
+              "Id": "626c1d146d603a78104bc7ef",
+              "RawToken": "العلم",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 130
+            },
+            {
+              "Id": "626c1d146d603a78104bc7f1",
+              "RawToken": "والأدب",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 11,
+              "State": "sound",
+              "OrderInPage": 131
+            },
+            {
+              "Id": "626c1d146d603a78104bc7e8",
+              "RawToken": "والأمثال",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 12,
+              "State": "sound",
+              "OrderInPage": 132
+            },
+            {
+              "Id": "626c1d146d603a78104bc7f3",
+              "RawToken": "والعجائب",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 13,
+              "State": "sound",
+              "OrderInPage": 133
+            },
+            {
+              "Id": "626c1d146d603a78104bc7e5",
+              "RawToken": "التي",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 14,
+              "State": "sound",
+              "OrderInPage": 134
+            }
+          ]
+        },
+        {
+          "Id": "626c1d146d603a78104bc821",
+          "LineOrder": 9,
+          "FacsimileRegion": {
+            "Rotation": 0,
+            "Points": [
+              {
+                "X": 72,
+                "Y": 701
+              },
+              {
+                "X": 798,
+                "Y": 701
+              },
+              {
+                "X": 798,
+                "Y": 760
+              },
+              {
+                "X": 72,
+                "Y": 760
+              }
+            ]
+          },
+          "LineText": "أجراها الله تعالى الله على ألسن الحيوان والطير تعجّبوا منه وشكروا الله تعالى على ما أنعم به عليهم",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc832",
+              "RawToken": "أجراها",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 135
+            },
+            {
+              "Id": "626c1d146d603a78104bc825",
+              "RawToken": "الله",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 136
+            },
+            {
+              "Id": "626c1d146d603a78104bc82a",
+              "RawToken": "تعالى",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 137
+            },
+            {
+              "Id": "626c1d146d603a78104bc822",
+              "RawToken": "الله",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 138
+            },
+            {
+              "Id": "626c1d146d603a78104bc82c",
+              "RawToken": "على",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 139
+            },
+            {
+              "Id": "626c1d146d603a78104bc82e",
+              "RawToken": "ألسن",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 140
+            },
+            {
+              "Id": "626c1d146d603a78104bc828",
+              "RawToken": "الحيوان",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 141
+            },
+            {
+              "Id": "626c1d146d603a78104bc82d",
+              "RawToken": "والطير",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 142
+            },
+            {
+              "Id": "626c1d146d603a78104bc831",
+              "RawToken": "تعجّبوا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 143
+            },
+            {
+              "Id": "626c1d146d603a78104bc824",
+              "RawToken": "منه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 144
+            },
+            {
+              "Id": "626c1d146d603a78104bc82f",
+              "RawToken": "وشكروا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 145
+            },
+            {
+              "Id": "626c1d146d603a78104bc823",
+              "RawToken": "الله",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 11,
+              "State": "sound",
+              "OrderInPage": 146
+            },
+            {
+              "Id": "626c1d146d603a78104bc829",
+              "RawToken": "تعالى",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 12,
+              "State": "sound",
+              "OrderInPage": 147
+            },
+            {
+              "Id": "626c1d146d603a78104bc833",
+              "RawToken": "على",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 13,
+              "State": "sound",
+              "OrderInPage": 148
+            },
+            {
+              "Id": "626c1d146d603a78104bc830",
+              "RawToken": "ما",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 14,
+              "State": "sound",
+              "OrderInPage": 149
+            },
+            {
+              "Id": "626c1d146d603a78104bc827",
+              "RawToken": "أنعم",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 15,
+              "State": "sound",
+              "OrderInPage": 150
+            },
+            {
+              "Id": "626c1d146d603a78104bc82b",
+              "RawToken": "به",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 16,
+              "State": "sound",
+              "OrderInPage": 151
+            },
+            {
+              "Id": "626c1d146d603a78104bc826",
+              "RawToken": "عليهم",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 17,
+              "State": "sound",
+              "OrderInPage": 152
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "626c1d146d603a78104bc887",
+      "Position": "main text in margin",
+      "Order": 3,
+      "FacsimileRegion": {
+        "Rotation": 90,
+        "Points": [
+          {
+            "X": 112,
+            "Y": 151
+          },
+          {
+            "X": 112,
+            "Y": 760
+          },
+          {
+            "X": 41,
+            "Y": 760
+          },
+          {
+            "X": 41,
+            "Y": 151
+          }
+        ]
+      },
+      "Lines": [
+        {
+          "Id": "626c1d146d603a78104bc888",
+          "LineOrder": 10,
+          "FacsimileRegion": {
+            "Rotation": 90,
+            "Points": [
+              {
+                "X": 112,
+                "Y": 153
+              },
+              {
+                "X": 112,
+                "Y": 762
+              },
+              {
+                "X": 41,
+                "Y": 762
+              },
+              {
+                "X": 41,
+                "Y": 153
+              }
+            ]
+          },
+          "LineText": "من العلم والأدب والمعرفة على يد برزويه الحكيم وأحسنوا الثناء عليه",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc892",
+              "RawToken": "من",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 153
+            },
+            {
+              "Id": "626c1d146d603a78104bc893",
+              "RawToken": "العلم",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 154
+            },
+            {
+              "Id": "626c1d146d603a78104bc88b",
+              "RawToken": "والأدب",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 155
+            },
+            {
+              "Id": "626c1d146d603a78104bc88e",
+              "RawToken": "والمعرفة",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 156
+            },
+            {
+              "Id": "626c1d146d603a78104bc88a",
+              "RawToken": "على",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 157
+            },
+            {
+              "Id": "626c1d146d603a78104bc891",
+              "RawToken": "يد",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 158
+            },
+            {
+              "Id": "626c1d146d603a78104bc88f",
+              "RawToken": "برزويه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 159
+            },
+            {
+              "Id": "626c1d146d603a78104bc88d",
+              "RawToken": "الحكيم",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 160
+            },
+            {
+              "Id": "626c1d146d603a78104bc890",
+              "RawToken": "وأحسنوا",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 161
+            },
+            {
+              "Id": "626c1d146d603a78104bc889",
+              "RawToken": "الثناء",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 162
+            },
+            {
+              "Id": "626c1d146d603a78104bc88c",
+              "RawToken": "عليه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 163
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "626c1d146d603a78104bc894",
+      "Position": "main text in margin",
+      "Order": 4,
+      "FacsimileRegion": {
+        "Rotation": 180,
+        "Points": [
+          {
+            "X": 804,
+            "Y": 222
+          },
+          {
+            "X": 41,
+            "Y": 222
+          },
+          {
+            "X": 41,
+            "Y": 138
+          },
+          {
+            "X": 804,
+            "Y": 138
+          }
+        ]
+      },
+      "Lines": [
+        {
+          "Id": "626c1d146d603a78104bc895",
+          "LineOrder": 11,
+          "FacsimileRegion": {
+            "Rotation": 180,
+            "Points": [
+              {
+                "X": 804,
+                "Y": 205
+              },
+              {
+                "X": 62,
+                "Y": 205
+              },
+              {
+                "X": 62,
+                "Y": 149
+              },
+              {
+                "X": 804,
+                "Y": 149
+              }
+            ]
+          },
+          "LineText": "ثمّ إن المَلك أمر أن تُفتح لبرزويه خزائن الأموال والجوهر والكسوة وأقسم عليه المَلك أنّه",
+          "Locked": true,
+          "Tokens": [
+            {
+              "Id": "626c1d146d603a78104bc89d",
+              "RawToken": "ثمّ",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 0,
+              "State": "sound",
+              "OrderInPage": 164
+            },
+            {
+              "Id": "626c1d146d603a78104bc89a",
+              "RawToken": "إن",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 1,
+              "State": "sound",
+              "OrderInPage": 165
+            },
+            {
+              "Id": "626c1d146d603a78104bc897",
+              "RawToken": "المَلك",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 2,
+              "State": "sound",
+              "OrderInPage": 166
+            },
+            {
+              "Id": "626c1d146d603a78104bc898",
+              "RawToken": "أمر",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 3,
+              "State": "sound",
+              "OrderInPage": 167
+            },
+            {
+              "Id": "626c1d146d603a78104bc89b",
+              "RawToken": "أن",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 4,
+              "State": "sound",
+              "OrderInPage": 168
+            },
+            {
+              "Id": "626c1d146d603a78104bc896",
+              "RawToken": "تُفتح",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 5,
+              "State": "sound",
+              "OrderInPage": 169
+            },
+            {
+              "Id": "626c1d146d603a78104bc8a2",
+              "RawToken": "لبرزويه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 6,
+              "State": "sound",
+              "OrderInPage": 170
+            },
+            {
+              "Id": "626c1d146d603a78104bc8a1",
+              "RawToken": "خزائن",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 7,
+              "State": "sound",
+              "OrderInPage": 171
+            },
+            {
+              "Id": "626c1d146d603a78104bc899",
+              "RawToken": "الأموال",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 8,
+              "State": "sound",
+              "OrderInPage": 172
+            },
+            {
+              "Id": "626c1d146d603a78104bc8a0",
+              "RawToken": "والجوهر",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 9,
+              "State": "sound",
+              "OrderInPage": 173
+            },
+            {
+              "Id": "626c1d146d603a78104bc89e",
+              "RawToken": "والكسوة",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 10,
+              "State": "sound",
+              "OrderInPage": 174
+            },
+            {
+              "Id": "626c1d146d603a78104bc89c",
+              "RawToken": "وأقسم",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 11,
+              "State": "sound",
+              "OrderInPage": 175
+            },
+            {
+              "Id": "626c1d146d603a78104bc8a3",
+              "RawToken": "عليه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 12,
+              "State": "sound",
+              "OrderInPage": 176
+            },
+            {
+              "Id": "626c1d146d603a78104bc8a4",
+              "RawToken": "المَلك",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 13,
+              "State": "sound",
+              "OrderInPage": 177
+            },
+            {
+              "Id": "626c1d146d603a78104bc89f",
+              "RawToken": "أنّه",
+              "MorphemeType": "host",
+              "SpaceFollows": true,
+              "OrderInLine": 14,
+              "State": "sound",
+              "OrderInPage": 178
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ImageElements": [
+    {
+      "Id": "626c1d146d603a78104bc8a5",
+      "Position": "image in main body",
+      "Order": 5,
+      "FacsimileRegion": {
+        "Rotation": 0,
+        "Points": [
+          {
+            "X": 87,
+            "Y": 771
+          },
+          {
+            "X": 826,
+            "Y": 771
+          },
+          {
+            "X": 826,
+            "Y": 1328
+          },
+          {
+            "X": 87,
+            "Y": 1328
+          }
+        ]
+      }
+    }
+  ],
+  "Units": [
+    {
+      "Id": "626c1d646d603a781052d0a1",
+      "BookUnitId": "626c1d4f6d603a781052b61d",
+      "BookUnit": "LvBurzoyReturnsToPersia",
+      "BookUnitOrder": 74,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 2,
+      "FirstTokenOrderInLine": 7,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 3,
+      "LastTokenOrderInLine": 5
+    },
+    {
+      "Id": "626c1d646d603a781052d0a3",
+      "BookUnitId": "626c1d4f6d603a781052b620",
+      "BookUnit": "LvKisraOrdersRest",
+      "BookUnitOrder": 78,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 6,
+      "FirstTokenOrderInLine": 0,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 6,
+      "LastTokenOrderInLine": 11
+    },
+    {
+      "Id": "626c1d646d603a781052d0e6",
+      "BookUnitId": "626c1d4f6d603a781052b555",
+      "BookUnit": "LvBurzoysEffortInTranslation",
+      "BookUnitOrder": 70.1,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 13,
+      "StartsInLineNumber": 8,
+      "FirstTokenOrderInLine": 13,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 0,
+      "LastTokenOrderInLine": 9
+    },
+    {
+      "Id": "626c1d646d603a781052d111",
+      "BookUnitId": "626c1d4f6d603a781052b648",
+      "BookUnit": "LvKisraAnnouncesReward",
+      "BookUnitOrder": 77.2,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 3,
+      "FirstTokenOrderInLine": 13,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 5,
+      "LastTokenOrderInLine": 13
+    },
+    {
+      "Id": "626c1d646d603a781052d0b8",
+      "BookUnitId": "626c1d4f6d603a781052b622",
+      "BookUnit": "LvKisraOpensTreasury",
+      "BookUnitOrder": 80,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 11,
+      "FirstTokenOrderInLine": 0,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 11,
+      "LastTokenOrderInLine": 10
+    },
+    {
+      "Id": "626c1d646d603a781052d0bb",
+      "BookUnitId": "626c1d4f6d603a781052b52d",
+      "BookUnit": "LvBurzoyWantsNoGift",
+      "BookUnitOrder": 82.2,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 12,
+      "FirstTokenOrderInLine": 20,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 13,
+      "LastTokenOrderInLine": 9
+    },
+    {
+      "Id": "626c1d646d603a781052d0db",
+      "BookUnitId": "626c1d4f6d603a781052b506",
+      "BookUnit": "LvKDWellReceived",
+      "BookUnitOrder": 79.2,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 8,
+      "FirstTokenOrderInLine": 3,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 10,
+      "LastTokenOrderInLine": 10
+    },
+    {
+      "Id": "626c1d646d603a781052d0a5",
+      "BookUnitId": "626c1d4f6d603a781052b646",
+      "BookUnit": "LvBurzoyWritesToKisra",
+      "BookUnitOrder": 71.1,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 0,
+      "FirstTokenOrderInLine": 10,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 1,
+      "LastTokenOrderInLine": 11
+    },
+    {
+      "Id": "626c1d646d603a781052d0bd",
+      "BookUnitId": "626c1d4f6d603a781052b649",
+      "BookUnit": "LvBurzoyRejoinsKisra",
+      "BookUnitOrder": 76.1,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 3,
+      "FirstTokenOrderInLine": 6,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 3,
+      "LastTokenOrderInLine": 12
+    },
+    {
+      "Id": "626c1d646d603a781052d0f1",
+      "BookUnitId": "626c1d4f6d603a781052b64d",
+      "BookUnit": "LvFavorMeritsGratitude",
+      "BookUnitOrder": 84.1,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 13,
+      "FirstTokenOrderInLine": 10,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 13,
+      "LastTokenOrderInLine": 25
+    },
+    {
+      "Id": "626c1d646d603a781052d0cd",
+      "BookUnitId": "626c1d4f6d603a781052b64b",
+      "BookUnit": "LvBurzoyPraisesKisra",
+      "BookUnitOrder": 82.1,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 12,
+      "FirstTokenOrderInLine": 6,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 12,
+      "LastTokenOrderInLine": 19
+    },
+    {
+      "Id": "626c1d646d603a781052d0c8",
+      "BookUnitId": "626c1d4f6d603a781052b621",
+      "BookUnit": "LvKisraCallsBurzoyBack",
+      "BookUnitOrder": 73.1,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 2,
+      "FirstTokenOrderInLine": 3,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 2,
+      "LastTokenOrderInLine": 6
+    },
+    {
+      "Id": "626c1d646d603a781052d0ad",
+      "BookUnitId": "626c1d4f6d603a781052b647",
+      "BookUnit": "LvKisraReadsLetter",
+      "BookUnitOrder": 72.1,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 1,
+      "FirstTokenOrderInLine": 12,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 2,
+      "LastTokenOrderInLine": 2
+    },
+    {
+      "Id": "626c1d646d603a781052d112",
+      "BookUnitId": "626c1d4f6d603a781052b5a2",
+      "BookUnit": "LvBurzoyServesKisraGladly",
+      "BookUnitOrder": 84.2,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 14,
+      "FirstTokenOrderInLine": 0,
+      "EndsInPageNumber": 15,
+      "EndsInLineNumber": 0,
+      "LastTokenOrderInLine": 3
+    },
+    {
+      "Id": "626c1d646d603a781052d10c",
+      "BookUnitId": "626c1d4f6d603a781052b64a",
+      "BookUnit": "LvKisraHoldsKDPublicReading",
+      "BookUnitOrder": 79.1,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 6,
+      "FirstTokenOrderInLine": 12,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 8,
+      "LastTokenOrderInLine": 2
+    },
+    {
+      "Id": "626c1d646d603a781052d0b7",
+      "BookUnitId": "626c1d4f6d603a781052b572",
+      "BookUnit": "LvKisraUrgesBurzoyToTakeGifts",
+      "BookUnitOrder": 81.2,
+      "Chapter": "Lv",
+      "Type": "n",
+      "StartsInPageNumber": 14,
+      "StartsInLineNumber": 11,
+      "FirstTokenOrderInLine": 11,
+      "EndsInPageNumber": 14,
+      "EndsInLineNumber": 12,
+      "LastTokenOrderInLine": 5
+    }
+  ],
+  "Editor": "mk",
+  "Id": "626c1d146d603a78104bc8a6",
+  "ManuscriptId": "626c1d0e6d603a78104b225b",
+  "Number": 14,
+  "Tags": [
+    "Lv"
+  ],
+  "FacsimileImageUrl": "/files/anonymclassic/folio_description/attachments__facsimile_image_url/18672b8d-3b7c-41d3-bf97-5b52f372ea2e.jpg",
+  "TranscriptionFinalized": true
+}

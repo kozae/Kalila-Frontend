@@ -1,30 +1,40 @@
 import Portal from '@mui/material/Portal';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
-  selectRegionDataUrlById,
   selectRegionHoveredInFacsimileSpace,
   useAppSelector,
   useXLargeScreenMediaQuery,
 } from '@frontend/shared-ui';
+import { useContext } from 'react';
+import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
+import useSWR from 'swr';
+import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
 
 export const FacsimileRegionPreview = () => {
   const isXLScreen = useXLargeScreenMediaQuery();
+  const { facsimileCropper } = useContext(TextEditingWorkspaceContext);
   const regionHoveredInFacsimileSpace = useAppSelector(
     selectRegionHoveredInFacsimileSpace
   );
-  const regionPreview = useAppSelector((state) =>
-    selectRegionDataUrlById(
-      state,
-      regionHoveredInFacsimileSpace ? regionHoveredInFacsimileSpace.Id : ''
-    )
+
+  const { data: regionPreview } = useSWR(
+    regionHoveredInFacsimileSpace?.Id,
+    () => {
+      if (regionHoveredInFacsimileSpace) {
+        const [p, r] = mapDataForCropper(regionHoveredInFacsimileSpace);
+        return facsimileCropper?.get_region(p, r);
+      }
+
+      return undefined;
+    }
   );
 
   return (
     <Portal>
       <AnimatePresence exitBeforeEnter>
-        {regionPreview && regionPreview.data ? (
+        {regionHoveredInFacsimileSpace && regionPreview ? (
           <motion.div
-            key={regionPreview.id}
+            key={regionHoveredInFacsimileSpace.Id}
             style={{
               position: 'fixed',
               top: 110,
@@ -50,7 +60,7 @@ export const FacsimileRegionPreview = () => {
               }}
               width="auto"
               height="auto"
-              src={regionPreview.data}
+              src={regionPreview}
               alt="preview"
             />
           </motion.div>

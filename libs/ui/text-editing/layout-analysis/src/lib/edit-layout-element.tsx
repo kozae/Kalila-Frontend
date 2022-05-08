@@ -1,18 +1,16 @@
 import {
-  addManyDataUrls,
   cancelCreateImageElement,
   cancelCreateTextElement,
   kalilaTheme,
   onElementSelected,
   selectImageElementById,
-  selectRegionUnderEditUrl,
   selectTextElementById,
   updateImageElement,
   updateTextElement,
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -24,15 +22,15 @@ import {
   RegionDefinitionKeyboardInstructions,
   TextEditingWorkspaceContext,
 } from '@frontend/ui/text-editing/shared';
-import { createRegionsDataUrls } from '@frontend/ui/facsimile';
+import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
 
 export const EditLayoutElement = ({
   selectedElement,
 }: {
   selectedElement: { id: string | null; region: IFacsimileRegion | null };
 }) => {
-  const { fabricImg } = useContext(TextEditingWorkspaceContext);
-  const regionUnderEditUrl = useAppSelector(selectRegionUnderEditUrl);
+  const [regionUnderEditUrl, setRegionUnderEditUrl] = useState('');
+  const { facsimileCropper } = useContext(TextEditingWorkspaceContext);
   const dispatch = useAppDispatch();
   const textElement = useAppSelector((state) =>
     selectTextElementById(state, selectedElement.id as string)
@@ -50,6 +48,13 @@ export const EditLayoutElement = ({
       : imageElement && imageElement.Id.length === 24
       ? 'Edit Image Element'
       : 'Define Image Element';
+
+  useEffect(() => {
+    if (facsimileCropper !== null && selectedElement.region) {
+      const [p, r] = mapDataForCropper(selectedElement.region);
+      setRegionUnderEditUrl(facsimileCropper.get_region(p, r));
+    }
+  }, [selectedElement]);
 
   const handleSave = useCallback(() => {
     if (textElement) {
@@ -74,21 +79,6 @@ export const EditLayoutElement = ({
           },
         })
       );
-    }
-
-    if (fabricImg !== null) {
-      const data = {
-        Id: selectedElement.id,
-        HighlightColor: textElement
-          ? textElement.HighlightColor
-          : imageElement
-          ? imageElement.HighlightColor
-          : kalilaTheme.palette.primary.main,
-        ...selectedElement.region,
-      } as IFacsimileRegion & { Id: string; HighlightColor?: string };
-      createRegionsDataUrls([data], fabricImg).then((values) => {
-        dispatch(addManyDataUrls(values));
-      });
     }
 
     dispatch(onElementSelected({ id: null, region: null }));

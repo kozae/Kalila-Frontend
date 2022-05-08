@@ -1,12 +1,9 @@
 import { ILine, IPoint, ITextElement } from '@frontend/domain';
-import { useContext } from 'react';
-import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 import {
   loadGeneratedLines,
   setTextEditingToolMode,
   useAppDispatch,
 } from '@frontend/shared-ui';
-import { createAndDispatchLineDataUrl } from './helpers';
 import { highlightColors, PolygonHelper } from '@frontend/ui/facsimile';
 import * as uuid from 'uuid';
 
@@ -47,7 +44,6 @@ function generateLines(
 export function useLinesGenerator(
   textElements: Array<Omit<ITextElement, 'Lines'>>
 ) {
-  const { fabricImg } = useContext(TextEditingWorkspaceContext);
   const dispatch = useAppDispatch();
   return (linesPerElement: { [elementId: string]: number | undefined }) => {
     const mainLines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
@@ -73,11 +69,6 @@ export function useLinesGenerator(
       }
     });
     dispatch(loadGeneratedLines([...mainLines, ...glossLines]));
-    createAndDispatchLineDataUrl(
-      [...mainLines, ...glossLines],
-      fabricImg,
-      dispatch
-    );
     dispatch(setTextEditingToolMode('default'));
   };
 }

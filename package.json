@@ -7,7 +7,9 @@
     "build": "nx build",
     "test": "nx test",
     "sb:shared-ui": "nx run shared-ui:storybook",
-    "sb:forms": "nx run ui-forms:storybook"
+    "sb:forms": "nx run ui-forms:storybook",
+    "sb:fax": "nx run ui-facsimile-highlighter:storybook",
+    "sb:crp": "nx run ui-facsimile-cropper:storybook"
   },
   "private": true,
   "dependencies": {
@@ -88,6 +90,7 @@
     "@nrwl/workspace": "14.0.2",
     "@storybook/addon-essentials": "~6.4.22",
     "@storybook/builder-webpack5": "~6.4.22",
+    "@storybook/core-server": "~6.4.12",
     "@storybook/manager-webpack5": "~6.4.22",
     "@storybook/react": "~6.4.22",
     "@svgr/webpack": "^6.2.1",

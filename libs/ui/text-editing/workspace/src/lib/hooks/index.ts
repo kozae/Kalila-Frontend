@@ -1,1 +1,1 @@
-export * from './facsimile-as-fabric-img.hook';
+export * from './access-mode-settings.hook';

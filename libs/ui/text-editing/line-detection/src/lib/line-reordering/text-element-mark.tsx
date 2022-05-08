@@ -1,5 +1,5 @@
 import { IImageElement, ITextElement } from '@frontend/domain';
-import React from 'react';
+import React, { useContext } from 'react';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -7,12 +7,14 @@ import Typography from '@mui/material/Typography';
 import TextSnippetTwoToneIcon from '@mui/icons-material/TextSnippetTwoTone';
 
 import { kalilaTheme } from '@frontend/shared-ui';
+import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
+import useSWR from 'swr';
+import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
 
 export type ITextElementMarkProps = (
   | IImageElement
   | Omit<ITextElement, 'Lines'>
 ) & {
-  url: string;
   title?: string;
   height: string;
   width?: string;
@@ -20,13 +22,21 @@ export type ITextElementMarkProps = (
 };
 
 export const TextElementMark: React.FC<ITextElementMarkProps> = ({
-  url,
   height,
   width,
   title,
   main,
   ...el
 }) => {
+  const { facsimileCropper } = useContext(TextEditingWorkspaceContext);
+  const { data: url } = useSWR(el.Id, () => {
+    if (el.FacsimileRegion) {
+      const [p, r] = mapDataForCropper(el.FacsimileRegion);
+      return facsimileCropper?.get_region(p, r);
+    }
+
+    return undefined;
+  });
   return (
     <Paper
       sx={{

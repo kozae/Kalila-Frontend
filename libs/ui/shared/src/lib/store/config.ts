@@ -9,7 +9,6 @@ import { tokenSlice } from './page-transcription/tokens';
 import { unitSummariesSlice } from './page-transcription/units-summary';
 import { attributesSlice } from './schema/attributes';
 import { fieldsSlice } from './schema/fields';
-import { regionDataUrlsSlice } from './page-transcription/region-data-urls';
 import { textEditingPageSlice } from './text-editing-page';
 import { morphologySlice } from './page-transcription/morphologies';
 
@@ -21,7 +20,6 @@ export const store = configureStore({
     [pagedDocsSlice.name]: pagedDocsSlice.reducer,
     [textEditingPageSlice.name]: textEditingPageSlice.reducer,
     [pageDataSlice.name]: pageDataSlice.reducer,
-    [regionDataUrlsSlice.name]: regionDataUrlsSlice.reducer,
     [imageElementsSlice.name]: imageElementsSlice.reducer,
     [linesSlice.name]: linesSlice.reducer,
     [textElementsSlice.name]: textElementsSlice.reducer,

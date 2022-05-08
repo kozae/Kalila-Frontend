@@ -12,7 +12,7 @@ import {
 } from '@frontend/server-side-queries';
 import Head from 'next/head';
 import React from 'react';
-import { TextEditingWorkspace } from '@frontend/ui/text-editing/workspace';
+import { TextEditingWorkspaceWasm } from '@frontend/ui/text-editing/workspace';
 
 function pageTitle(siglum: string): [string, string] {
   return ['Text Editing:', `Pages of ${siglum}`];
@@ -38,7 +38,7 @@ export function EditPage({
       <Head>
         <title>{messages.join(' ') + ` (${pageData?.Number})`}</title>
       </Head>
-      <TextEditingWorkspace pageData={pageData} imageSize={imageSize} />
+      <TextEditingWorkspaceWasm pageData={pageData} imageSize={imageSize} />
     </>
   );
 }

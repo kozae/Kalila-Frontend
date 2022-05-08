@@ -1,5 +1,5 @@
 import { fabric } from 'fabric';
-import { useCallback, useContext, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   createEditor,
   createEditRegionRect,
@@ -114,7 +114,6 @@ function createPolygonRenderer() {
 
 export function useFacsimileCanvasState() {
   const [canvas, setCanvas] = useState<null | fabric.Canvas>(null);
-  const { fabricImg } = useContext(TextEditingWorkspaceContext);
 
   const windowSize = useWindowSize();
   const facsimileData = useAppSelector((state) =>
@@ -134,7 +133,6 @@ export function useFacsimileCanvasState() {
     onReady: setCanvas,
     onDispose: () => setCanvas(null),
     regions,
-    fabricImg,
     renderPageFacsimile,
     renderPolygons,
     selectedElement,

@@ -4,7 +4,6 @@ export * from './schema/fields';
 export * from './schema/attributes';
 export * from './page-transcription';
 export * from './page-transcription/page-data';
-export * from './page-transcription/region-data-urls';
 export * from './page-transcription/lines';
 export * from './page-transcription/text-elements';
 export * from './page-transcription/image-elements';

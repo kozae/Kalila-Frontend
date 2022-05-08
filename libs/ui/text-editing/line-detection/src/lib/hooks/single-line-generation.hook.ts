@@ -1,16 +1,9 @@
-import { addManyDataUrls, useAppDispatch } from '@frontend/shared-ui';
-import { useContext } from 'react';
-import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
+import { useAppDispatch } from '@frontend/shared-ui';
 import { ILine, IPoint, ITextElement } from '@frontend/domain';
-import {
-  createRegionsDataUrls,
-  highlightColors,
-  PolygonHelper,
-} from '@frontend/ui/facsimile';
+import { highlightColors, PolygonHelper } from '@frontend/ui/facsimile';
 
 export function useSingleLineGenerationHandler() {
   const dispatch = useAppDispatch();
-  const { fabricImg } = useContext(TextEditingWorkspaceContext);
 
   return (
     element: Omit<ITextElement, 'Lines'>,
@@ -39,20 +32,7 @@ export function useSingleLineGenerationHandler() {
         Rotation: element.FacsimileRegion?.Rotation as number,
       },
     };
-    if (fabricImg !== null) {
-      createRegionsDataUrls(
-        [
-          {
-            Id: line.Id,
-            HighlightColor: line.HighlightColor,
-            ...line.FacsimileRegion,
-          },
-        ],
-        fabricImg
-      ).then((values) => {
-        dispatch(addManyDataUrls(values));
-      });
-    }
+
     return line;
   };
 }
