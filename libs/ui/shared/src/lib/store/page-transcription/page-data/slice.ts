@@ -1,10 +1,10 @@
-import { IPageInfo } from '@frontend/domain';
+import { IPageTranscriptionInfo } from '@frontend/domain';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { saveSegmentation } from '../../text-editing-page';
 import { unitSummariesAdapter } from '../units-summary';
 
 const initialState: {
-  pageInfo: IPageInfo;
+  pageInfo: IPageTranscriptionInfo;
   imageSize: { Width: number; Height: number };
   loading: boolean;
 } = {
@@ -40,7 +40,7 @@ export const pageDataSlice = createSlice({
     loadPageData: (
       state,
       action: PayloadAction<{
-        pageInfo: IPageInfo;
+        pageInfo: IPageTranscriptionInfo;
         imageSize: { Width: number; Height: number };
       }>
     ) => {

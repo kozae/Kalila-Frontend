@@ -18,6 +18,7 @@ import {
 } from '@frontend/ui/text-editing/shared';
 import Button from '@mui/material/Button';
 import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
+import { hexToRgbUint32Array } from '@frontend/util';
 
 export const EditLine = ({
   selectedLine,
@@ -35,7 +36,8 @@ export const EditLine = ({
   useEffect(() => {
     if (facsimileCropper !== null && selectedLine.region) {
       const [p, r] = mapDataForCropper(selectedLine.region);
-      setRegionUnderEditUrl(facsimileCropper.get_region(p, r));
+      const color = hexToRgbUint32Array('#6b9e1f');
+      setRegionUnderEditUrl(facsimileCropper.get_region(p, r, color));
     }
   }, [selectedLine]);
 

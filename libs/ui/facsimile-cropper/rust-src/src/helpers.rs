@@ -3,10 +3,21 @@ pub fn get_distance((x1, y1): (u32, u32), (x2, y2): (u32, u32)) -> u32 {
     sum_of_powers.sqrt().round() as u32
 }
 
-pub fn normalize_degrees(mut degrees: f64) -> f64 {
-    degrees %= 360.0;
-    if degrees < 0.0 {
-        return degrees + 360.0;
+pub trait Normalization<T> {
+    fn normalize_degrees(self) -> T;
+    fn normalize_and_convert_to_radians(self) -> T;
+}
+
+impl Normalization<f64> for f64 {
+    fn normalize_degrees(mut self) -> f64 {
+        self %= 360.0;
+        if self < 0.0 {
+            return self + 360.0;
+        }
+        self
     }
-    degrees
+
+    fn normalize_and_convert_to_radians(self) -> f64 {
+        self.normalize_degrees().to_radians()
+    }
 }

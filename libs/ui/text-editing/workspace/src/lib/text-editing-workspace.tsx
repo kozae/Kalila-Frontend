@@ -1,5 +1,7 @@
 import Stack from '@mui/material/Stack';
 import {
+  FramerFadeInOut,
+  FullPageLoadingIndicator,
   selectWorkspaceHasChanges,
   useAppSelector,
   useNavigationAwayGuard,
@@ -40,11 +42,13 @@ export const TextEditingWorkspaceWasm = dynamic({
       return facsimileCropper !== null ? (
         <TextEditingWorkspace {...{ facsimileCropper, pageData, imageSize }} />
       ) : (
-        <h1>Loading ...</h1>
+        <FramerFadeInOut visibleWhen={true}>
+          <FullPageLoadingIndicator />
+        </FramerFadeInOut>
       );
     };
   },
-  loading: () => <h1>Loading...</h1>,
+  loading: () => <FullPageLoadingIndicator />,
   ssr: false,
 });
 

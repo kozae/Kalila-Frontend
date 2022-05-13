@@ -1,5 +1,5 @@
+import Input from '@mui/material/Input';
 import FormControl from '@mui/material/FormControl';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import React from 'react';
 import { ICommonFieldProps } from './common-field-props';
 
@@ -23,7 +23,7 @@ export const InputOneString = ({
   return (
     <FormControl {...formControlProps}>
       {inputLabel}
-      <OutlinedInput {...textInputProps} />
+      <Input {...textInputProps} />
       {helperText}
     </FormControl>
   );

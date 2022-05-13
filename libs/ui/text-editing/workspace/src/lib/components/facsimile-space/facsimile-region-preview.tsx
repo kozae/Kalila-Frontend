@@ -5,28 +5,18 @@ import {
   useAppSelector,
   useXLargeScreenMediaQuery,
 } from '@frontend/shared-ui';
-import { useContext } from 'react';
-import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
-import useSWR from 'swr';
-import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
+
+import { useRegionUrl } from '@frontend/ui/text-editing/shared';
 
 export const FacsimileRegionPreview = () => {
   const isXLScreen = useXLargeScreenMediaQuery();
-  const { facsimileCropper } = useContext(TextEditingWorkspaceContext);
   const regionHoveredInFacsimileSpace = useAppSelector(
     selectRegionHoveredInFacsimileSpace
   );
 
-  const { data: regionPreview } = useSWR(
+  const regionPreview = useRegionUrl(
     regionHoveredInFacsimileSpace?.Id,
-    () => {
-      if (regionHoveredInFacsimileSpace) {
-        const [p, r] = mapDataForCropper(regionHoveredInFacsimileSpace);
-        return facsimileCropper?.get_region(p, r);
-      }
-
-      return undefined;
-    }
+    regionHoveredInFacsimileSpace
   );
 
   return (

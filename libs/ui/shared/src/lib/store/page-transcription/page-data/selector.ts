@@ -1,5 +1,6 @@
 import { RootState } from '../../config';
 import { createSelector } from '@reduxjs/toolkit';
+import { PageDescription } from '@frontend/domain';
 
 const selectPageDataState = (state: RootState) => state.pageData;
 
@@ -11,6 +12,19 @@ export const selectPageDataLoadingStatus = createSelector(
 export const selectPageEditor = createSelector(
   selectPageDataState,
   (state) => state.pageInfo.Editor
+);
+
+export const selectPageDescription = createSelector(
+  selectPageDataState,
+  (state) =>
+    PageDescription.create(state.pageInfo.Id, state.pageInfo.ManuscriptId)
+      .withPagination({
+        PresentPageNumbering: state.pageInfo.PresentPageNumbering ?? [],
+        Pagination: state.pageInfo.Pagination ?? 0,
+        Foliation: state.pageInfo.Foliation ?? '',
+      })
+      .withFacsimileUrl(state.pageInfo.FacsimileImageUrl)
+      .withTags(state.pageInfo.Tags)
 );
 
 export const selectCurrentPageId = createSelector(

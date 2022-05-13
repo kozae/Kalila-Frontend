@@ -7,19 +7,19 @@ import { IEditor } from '@frontend/shared-ui';
 import { KalilaDocument } from '@frontend/domain';
 import { createFormField } from './create-form-field';
 
-export interface IKalilaFormProps<T extends KalilaDocument> {
+export interface IKalilaFormProps<T extends Object> {
   initialValues: T;
   fields: IDataEntrySchema[];
   categoricalAttributes: Record<string, string[]>;
   editors: IEditor[];
   formClass: string;
   onCanSubmit: (v: boolean) => void;
-  validationSchema: ObjectSchema<Record<keyof T, AnySchema>>;
+  validationSchema: ObjectSchema<any>;
   onSubmit: ((value: T) => void) | ((value: T) => Promise<void>);
   children?: ReactNode;
 }
 
-export const KalilaForm = <T extends KalilaDocument>({
+export const KalilaForm = <T extends Object>({
   initialValues,
   validationSchema,
   onSubmit,

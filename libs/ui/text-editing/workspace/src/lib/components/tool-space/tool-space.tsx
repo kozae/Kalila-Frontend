@@ -24,6 +24,7 @@ import {
 import { LineDetectionTool } from '@frontend/ui/text-editing/line-detection';
 import { TranscriptionTool } from '@frontend/ui/text-editing/transcription';
 import { TextSegmentationTool } from '@frontend/ui/text-editing/text-segmentation';
+import { EditDescription } from './edit-description';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -180,7 +181,7 @@ export const ToolSpace = () => {
               onChangeIndex={handleChangeIndex}
             >
               <TabPanel value={tabIndex} index={0} dir={theme.direction}>
-                Item One
+                <EditDescription />
               </TabPanel>
               <TabPanel value={tabIndex} index={1} dir={theme.direction}>
                 <LayoutAnalysisTool />

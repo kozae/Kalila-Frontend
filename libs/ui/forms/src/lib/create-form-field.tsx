@@ -7,6 +7,7 @@ import {
   InputOneString,
   InputOneFloat,
   SelectOne,
+  SelectMany,
 } from './fields';
 import { useCommonFieldProps } from './create-form-field.hooks';
 
@@ -61,7 +62,16 @@ export function createFormField(
     case InputModes.SelectOrCreateOne:
       break;
     case InputModes.SelectMultiple:
-      break;
+      props = {
+        key: labelId,
+        field,
+        setFieldValue,
+        categoricalAttributes,
+        labelId,
+        editors,
+        ...commonProps,
+      };
+      return <SelectMany {...props} />;
     case InputModes.SelectOrCreateMultiple:
       break;
     case InputModes.ImageField:

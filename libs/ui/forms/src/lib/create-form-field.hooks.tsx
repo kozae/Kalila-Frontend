@@ -24,7 +24,7 @@ export const useCommonFieldProps = (
   value: values[field.FieldNamePascalCase],
   formControlProps: useFormControlProps(field, errors),
   commonInputProps: useCommonInputProps(field, handleBlur),
-  inputLabel: <InputLabel id={labelId}>{field.FieldNamePascalCase}</InputLabel>,
+  inputLabel: <InputLabel id={labelId}>{field.FieldDisplay}</InputLabel>,
   helperText: (
     <FormHelperText sx={{ height: '.8rem' }}>
       {errors[field.FieldNamePascalCase] ?? '  '}

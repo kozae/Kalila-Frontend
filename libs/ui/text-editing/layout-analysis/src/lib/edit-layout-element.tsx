@@ -23,6 +23,7 @@ import {
   TextEditingWorkspaceContext,
 } from '@frontend/ui/text-editing/shared';
 import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
+import { hexToRgbUint32Array } from '@frontend/util';
 
 export const EditLayoutElement = ({
   selectedElement,
@@ -52,7 +53,8 @@ export const EditLayoutElement = ({
   useEffect(() => {
     if (facsimileCropper !== null && selectedElement.region) {
       const [p, r] = mapDataForCropper(selectedElement.region);
-      setRegionUnderEditUrl(facsimileCropper.get_region(p, r));
+      const color = hexToRgbUint32Array('#6b9e1f');
+      setRegionUnderEditUrl(facsimileCropper.get_region(p, r, color));
     }
   }, [selectedElement]);
 

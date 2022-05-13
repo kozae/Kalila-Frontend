@@ -10,3 +10,4 @@ export * from './undraw';
 export * from './framer-animations';
 export * from './sortable';
 export * from './movable';
+export * from './full-page-loading-indicator';

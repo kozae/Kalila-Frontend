@@ -3,7 +3,7 @@ import {
   IImageElement,
   ITextElement,
 } from '@frontend/domain';
-import React, { useContext } from 'react';
+import React from 'react';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -26,9 +26,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
-import { TextEditingWorkspaceContext } from './text-editing-workspace-context';
-import useSWR from 'swr';
-import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
+import { useRegionUrl } from './region-url-hook';
 
 export type ILayoutElementSummaryProps = (
   | IImageElement
@@ -53,15 +51,17 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
   ...el
 }) => {
   const dispatch = useAppDispatch();
-  const { facsimileCropper } = useContext(TextEditingWorkspaceContext);
-  const { data: url } = useSWR(el.Id, () => {
-    if (el.FacsimileRegion) {
-      const [p, r] = mapDataForCropper(el.FacsimileRegion);
-      return facsimileCropper?.get_region(p, r);
-    }
 
-    return undefined;
-  });
+  const url = useRegionUrl(
+    el.Id,
+    el.FacsimileRegion
+      ? {
+          ...el.FacsimileRegion,
+          HighlightColor: el.HighlightColor,
+        }
+      : undefined
+  );
+
   const handleHover = (region: (IFacsimileRegion & { Id: string }) | null) =>
     dispatch(onRegionHoveredInToolSpace(region));
   const handleSelection = (id: string | null, region: IFacsimileRegion) =>

@@ -1,4 +1,4 @@
-use crate::helpers::{get_distance, normalize_degrees};
+use crate::helpers::{get_distance, Normalization};
 
 #[derive(Default, Debug, Clone, PartialEq)]
 pub struct Rect {
@@ -25,7 +25,7 @@ impl Rect {
 
     pub fn get_bounding_rect(&self, rotation: i32) -> Self {
         fn calc(degrees: i32) -> (f64, f64) {
-            let rad = normalize_degrees(degrees as f64).to_radians();
+            let rad = (degrees as f64).normalize_and_convert_to_radians();
             (rad.cos(), rad.sin())
         }
         let dimensions = |(cos, sin): (f64, f64)| {

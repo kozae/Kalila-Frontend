@@ -2,7 +2,7 @@ import {
   IFacsimileRegion,
   IImageElement,
   ILine,
-  IPageInfo,
+  IPageTranscriptionInfo,
   ITextElement,
   IToken,
   IUnitSummary,
@@ -41,11 +41,15 @@ export interface ITextEditingPageState {
   accessMode: TextEditingAccessMode;
   activeWorkspace: TextEditingActiveWorkspace;
   toolMode: TextEditingToolMode;
-  regionHoveredInToolSpace: (IFacsimileRegion & { Id: string }) | null;
-  regionHoveredInFacsimileSpace: (IFacsimileRegion & { Id: string }) | null;
+  regionHoveredInToolSpace:
+    | (IFacsimileRegion & { Id: string; HighlightColor?: string })
+    | null;
+  regionHoveredInFacsimileSpace:
+    | (IFacsimileRegion & { Id: string; HighlightColor?: string })
+    | null;
   selectedElementId: string | null;
   regionUnderEditPolygon: IFacsimileRegion | null;
-  pageInfoBeforeChange: IPageInfo;
+  pageInfoBeforeChange: IPageTranscriptionInfo;
   textElementsBeforeChanges: Omit<ITextElement, 'Lines'>[];
   imageElementsBeforeChanges: IImageElement[];
   linesBeforeChanges: (Omit<ILine, 'Tokens'> & { ElementId: string })[];

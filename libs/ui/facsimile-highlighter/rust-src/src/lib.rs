@@ -1,24 +1,20 @@
-#[macro_use]
+mod app;
 mod browser;
 mod engine;
-mod game;
-mod triangle;
 
-use engine::GameLoop;
-use game::WalkTheDog;
+use crate::app::models::FacsimileHighlighter;
+use crate::engine::action_loop::ActionLoop;
+use anyhow::Result;
 use wasm_bindgen::prelude::*;
 
-// This is like the `main` function, except for JavaScript.
 #[wasm_bindgen]
 pub fn start() -> Result<(), JsValue> {
     console_error_panic_hook::set_once();
-
     browser::spawn_local(async move {
-        let game = WalkTheDog::new();
-        GameLoop::start(game)
+        let app = FacsimileHighlighter::new();
+        ActionLoop::start(app)
             .await
             .expect("Could not start game loop");
     });
-
     Ok(())
 }

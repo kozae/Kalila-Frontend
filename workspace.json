@@ -11,6 +11,7 @@
     "ui-editions": "libs/ui/editions",
     "ui-facsimile": "libs/ui/facsimile",
     "ui-facsimile-cropper": "libs/ui/facsimile-cropper",
+    "ui-facsimile-generator": "libs/ui/facsimile-generator",
     "ui-facsimile-highlighter": "libs/ui/facsimile-highlighter",
     "ui-forms": "libs/ui/forms",
     "ui-table": "libs/ui/table",

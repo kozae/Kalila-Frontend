@@ -1,5 +1,5 @@
 import FormControl from '@mui/material/FormControl';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import Input from '@mui/material/Input';
 import React from 'react';
 import { ICommonFieldProps } from './common-field-props';
 import { filterNonFloat } from '../helpers';
@@ -24,7 +24,7 @@ export const InputOneFloat = ({
   return (
     <FormControl {...formControlProps}>
       {inputLabel}
-      <OutlinedInput {...integerInputProps} />
+      <Input {...integerInputProps} />
       {helperText}
     </FormControl>
   );

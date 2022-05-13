@@ -6,7 +6,7 @@ import { IDataEntrySchema, editionProgressOptions } from '@frontend/util';
 import { IEditor } from '@frontend/shared-ui';
 import { ICommonFieldProps } from './common-field-props';
 
-interface IInputOneStringProps extends ICommonFieldProps {
+interface ISelectOneProps extends ICommonFieldProps {
   field: IDataEntrySchema;
   categoricalAttributes: Record<string, string[]>;
   editors: IEditor[];
@@ -25,7 +25,7 @@ export const SelectOne = ({
   value,
   inputLabel,
   helperText,
-}: IInputOneStringProps) => {
+}: ISelectOneProps) => {
   const editorOptions: any[] = editors.map((v) => ({
     key: v.username,
     text: v.name,
@@ -42,6 +42,7 @@ export const SelectOne = ({
             text: v,
           })
         ) ?? [];
+  selectFieldOptions.push({ key: '[null]', text: '' });
   const selectFieldProps = {
     ...commonInputProps,
     labelId,
@@ -51,7 +52,7 @@ export const SelectOne = ({
     },
   };
   return (
-    <FormControl {...formControlProps}>
+    <FormControl {...formControlProps} variant="standard">
       {inputLabel}
       <Select {...selectFieldProps}>
         {selectFieldOptions.map(({ key, text }, i) => (

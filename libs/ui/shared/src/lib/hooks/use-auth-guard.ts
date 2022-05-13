@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import { useEffect } from 'react';
 import axios from 'axios';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 
 export function useAuthGuard() {
   const { data: isLoggedIn, isValidating } = useSWR<boolean>(
@@ -9,9 +9,15 @@ export function useAuthGuard() {
     () =>
       axios.get('/server/web/Session/IsAuthenticated').then(({ data }) => data)
   );
+  const router = useRouter();
   useEffect(() => {
     if (!isValidating && !isLoggedIn) {
-      Router.push('/server/web/Login');
+      router.push({
+        pathname: '/server/web/Login',
+        query: {
+          redirectUrl: router.asPath,
+        },
+      });
     }
-  }, [isLoggedIn, isValidating]);
+  }, [isLoggedIn, isValidating, router.asPath]);
 }

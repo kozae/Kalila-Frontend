@@ -164,7 +164,6 @@ export const {
   onRegionHoveredInToolSpace,
   onRegionHoveredInFacsimileSpace,
   onElementSelected,
-  setRegionUnderEditUrl,
   setRegionUnderEditPolygon,
   clearTextEditingPageStore,
 } = textEditingPageSlice.actions;

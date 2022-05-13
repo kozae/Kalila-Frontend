@@ -30,6 +30,9 @@
       "@frontend/ui/facsimile-cropper": [
         "libs/ui/facsimile-cropper/src/index.ts"
       ],
+      "@frontend/ui/facsimile-generator": [
+        "libs/ui/facsimile-generator/src/index.ts"
+      ],
       "@frontend/ui/facsimile-highlighter": [
         "libs/ui/facsimile-highlighter/src/index.ts"
       ],

@@ -1,9 +1,9 @@
 # You must change these to your own details.
 [package]
-name = "facsimile-highlighter"
-description = "facsimile-highlighter"
+name = "facsimile_highlihghter"
+description = "facsimile_highlihghter"
 version = "0.1.0"
-authors = ["Mahmoud Kozae <m.kozae@gmail.comom>"]
+authors = ["Mahmoud Kozae <m.kozae@gmail.com>"]
 categories = ["wasm"]
 readme = "README.md"
 edition = "2021"
@@ -52,4 +52,3 @@ features = ["console",
 # These crates are used for running unit tests.
 [dev-dependencies]
 wasm-bindgen-test = "0.3.28"
-js-sys = "0.3.55"

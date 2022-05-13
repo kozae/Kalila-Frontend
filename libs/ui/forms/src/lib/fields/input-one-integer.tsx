@@ -1,8 +1,8 @@
 import FormControl from '@mui/material/FormControl';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import React from 'react';
 import { ICommonFieldProps } from './common-field-props';
 import { filterNonInteger } from '../helpers';
+import { Input } from '@mui/material';
 
 interface IInputOneIntegerProps extends ICommonFieldProps {
   handleChange: any;
@@ -24,7 +24,7 @@ export const InputOneInteger = ({
   return (
     <FormControl {...formControlProps}>
       {inputLabel}
-      <OutlinedInput {...integerInputProps} />
+      <Input {...integerInputProps} />
       {helperText}
     </FormControl>
   );

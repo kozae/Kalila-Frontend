@@ -9,7 +9,8 @@
     "sb:shared-ui": "nx run shared-ui:storybook",
     "sb:forms": "nx run ui-forms:storybook",
     "sb:fax": "nx run ui-facsimile-highlighter:storybook",
-    "sb:crp": "nx run ui-facsimile-cropper:storybook"
+    "sb:crp": "nx run ui-facsimile-cropper:storybook",
+    "sb:gen": "nx run ui-facsimile-generator:storybook"
   },
   "private": true,
   "dependencies": {
@@ -56,6 +57,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "18.0.0",
+    "react-dropzone": "^14.2.1",
     "react-grid-layout": "^1.3.4",
     "react-is": "18.0.0",
     "react-redux": "8.0.1",
