@@ -22,6 +22,7 @@ import {
   onRegionHoveredInToolSpace,
   removeImageElement,
   removeTextElement,
+  selectTextEditingAccessMode,
   selectTextElementHasLines,
   useAppDispatch,
   useAppSelector,
@@ -51,7 +52,7 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
   ...el
 }) => {
   const dispatch = useAppDispatch();
-
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
   const url = useRegionUrl(
     el.Id,
     el.FacsimileRegion
@@ -133,15 +134,20 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
                   <DeleteIcon sx={{ fontSize: '1.2rem' }} />
                 </IconButton>
               )}
-              <IconButton
-                color="secondary"
-                size="small"
-                onClick={() =>
-                  handleSelection(el.Id, el.FacsimileRegion as IFacsimileRegion)
-                }
-              >
-                <EditIcon sx={{ fontSize: '1.2rem' }} />
-              </IconButton>
+              {accessMode !== 'view' && (
+                <IconButton
+                  color="secondary"
+                  size="small"
+                  onClick={() =>
+                    handleSelection(
+                      el.Id,
+                      el.FacsimileRegion as IFacsimileRegion
+                    )
+                  }
+                >
+                  <EditIcon sx={{ fontSize: '1.2rem' }} />
+                </IconButton>
+              )}
             </Stack>
           )}
         </Stack>

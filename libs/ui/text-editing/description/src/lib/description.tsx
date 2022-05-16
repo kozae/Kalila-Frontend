@@ -43,7 +43,7 @@ export const DescriptionTool = () => {
       )}
       {toolMode === 'edit-facsimile' && (
         <motion.div {...motionProps} key="edit-facsimile">
-          <EditFacsimile url={url} />
+          <EditFacsimile />
         </motion.div>
       )}
       {toolMode === 'default' && (

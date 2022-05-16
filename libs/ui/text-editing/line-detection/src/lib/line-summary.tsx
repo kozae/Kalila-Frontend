@@ -10,6 +10,7 @@ import {
   onElementSelected,
   onRegionHoveredInToolSpace,
   selectLineHasTokens,
+  selectTextEditingAccessMode,
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
@@ -40,6 +41,7 @@ export const LineSummary = ({
     dispatch(onRegionHoveredInToolSpace(region));
   const handleSelection = (id: string | null, region: IFacsimileRegion) =>
     dispatch(onElementSelected({ id, region }));
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
 
   const lineHasTokens = useAppSelector((state) =>
     selectLineHasTokens(state, line.Id)
@@ -120,13 +122,15 @@ export const LineSummary = ({
           direction="row"
           alignItems="center"
         >
-          <IconButton
-            onClick={() => handleSelection(line.Id, line.FacsimileRegion)}
-            color="secondary"
-            size="medium"
-          >
-            <EditIcon sx={{ fontSize: '1.2rem' }} />
-          </IconButton>
+          {accessMode !== 'view' && (
+            <IconButton
+              onClick={() => handleSelection(line.Id, line.FacsimileRegion)}
+              color="secondary"
+              size="medium"
+            >
+              <EditIcon sx={{ fontSize: '1.2rem' }} />
+            </IconButton>
+          )}
           {canDelete && (
             <IconButton
               onClick={() => handleDelete(line.Id)}

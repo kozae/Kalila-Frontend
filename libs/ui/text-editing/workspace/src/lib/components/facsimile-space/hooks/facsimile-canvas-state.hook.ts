@@ -12,8 +12,10 @@ import {
   onElementSelected,
   onRegionHoveredInFacsimileSpace,
   selectCurrentPageFacsimileData,
+  selectPageFacsimileUrl,
   selectRegions,
   selectSelectedElement,
+  selectTextEditingAccessMode,
   selectTextEditingActiveWorkspace,
   TextEditingActiveWorkspace,
   useAppDispatch,
@@ -30,7 +32,7 @@ function createPageFacsimileRenderer(data: {
   imageDisplayHeight: number;
   scaleRatio: number;
   pageId: string;
-  imageUrl: string;
+  imageUrl: string | undefined;
 }) {
   return useCallback(
     (canvas: fabric.Canvas) => {
@@ -40,7 +42,7 @@ function createPageFacsimileRenderer(data: {
           width: data.imageDisplayWidth,
           height: data.imageDisplayHeight,
           scaleRatio: data.scaleRatio,
-          url: data.imageUrl,
+          url: data.imageUrl as string,
         });
       }
     },
@@ -63,7 +65,7 @@ function usePolygonEventHandlers(canvas: fabric.Canvas | null) {
 
 export type PolygonEventHandlers = ReturnType<typeof usePolygonEventHandlers>;
 
-function createPolygonRenderer() {
+function createPolygonRenderer(accessMode: string) {
   const dispatch = useAppDispatch();
   const setHighlightedRegionId = (
     region: (IFacsimileRegion & { Id: string }) | null
@@ -77,7 +79,7 @@ function createPolygonRenderer() {
   }: {
     id: string | null;
     region: IFacsimileRegion | null;
-  }) => dispatch(onElementSelected({ id, region }));
+  }) => accessMode !== 'view' && dispatch(onElementSelected({ id, region }));
 
   return (
     canvas: fabric.Canvas | null,
@@ -124,9 +126,10 @@ export function useFacsimileCanvasState() {
     selectRegions(state, activeWorkspace)
   );
   const selectedElement = useAppSelector(selectSelectedElement);
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
 
   const renderPageFacsimile = createPageFacsimileRenderer(facsimileData);
-  const renderPolygons = createPolygonRenderer();
+  const renderPolygons = createPolygonRenderer(accessMode);
   const polygonEventHandlers = usePolygonEventHandlers(canvas);
   return {
     canvas,

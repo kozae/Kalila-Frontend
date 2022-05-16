@@ -10,6 +10,7 @@ import { kalilaTheme } from '@frontend/shared-ui';
 import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 import useSWR from 'swr';
 import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
+import { hexToRgbUint32Array } from '@frontend/util';
 
 export type ITextElementMarkProps = (
   | IImageElement
@@ -32,7 +33,8 @@ export const TextElementMark: React.FC<ITextElementMarkProps> = ({
   const { data: url } = useSWR(el.Id, () => {
     if (el.FacsimileRegion) {
       const [p, r] = mapDataForCropper(el.FacsimileRegion);
-      return facsimileCropper?.get_region(p, r);
+      const color = hexToRgbUint32Array(el.HighlightColor ?? '#6b9e1f');
+      return facsimileCropper?.get_region(p, r, color);
     }
 
     return undefined;

@@ -7,6 +7,7 @@ import axios from 'axios';
 import {
   selectAccessToken,
   selectMorphologyByLineAndToken,
+  selectTextEditingAccessMode,
   useAppSelector,
 } from '@frontend/shared-ui';
 import { paramsSerializer } from '@frontend/util';
@@ -79,7 +80,12 @@ export const Token = ({ d, lineOrder, elementType, lineRef }: ITokenProps) => {
         return d.RawToken;
     }
   }, [annotation, d, morphology]);
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
+
   const handleClick = () => {
+    if (accessMode === 'view') {
+      return;
+    }
     if (setSelectedToken) {
       setSelectedToken({ line: lineOrder, token: d.OrderInLine, elementType });
     }

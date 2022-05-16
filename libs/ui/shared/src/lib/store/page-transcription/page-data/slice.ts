@@ -49,6 +49,12 @@ export const pageDataSlice = createSlice({
       state.pageInfo = { ...action.payload.pageInfo };
       state.imageSize = { ...action.payload.imageSize };
     },
+    setImageSize: (
+      state,
+      action: PayloadAction<{ Width: number; Height: number }>
+    ) => {
+      state.imageSize = { ...action.payload };
+    },
     pageDataLoaded: (state) => {
       state.loading = false;
     },
@@ -70,5 +76,5 @@ export const pageDataSlice = createSlice({
   },
 });
 
-export const { loadPageData, clearPageData, pageDataLoaded } =
+export const { loadPageData, clearPageData, pageDataLoaded, setImageSize } =
   pageDataSlice.actions;

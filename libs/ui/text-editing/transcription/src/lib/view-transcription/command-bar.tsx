@@ -1,7 +1,9 @@
 import {
   kalilaTheme,
+  selectTextEditingAccessMode,
   setTextEditingToolMode,
   useAppDispatch,
+  useAppSelector,
 } from '@frontend/shared-ui';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -35,6 +37,7 @@ export const CommandBar = ({}: ICommandBarProps) => {
       (event.target as HTMLInputElement).value as VisibleAnnotation
     );
   };
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
   const handleMorphologyAnnotationClicked = useCallback(() => {
     if (setSelectedToken) {
       if (selectedToken.line === undefined) {
@@ -66,31 +69,33 @@ export const CommandBar = ({}: ICommandBarProps) => {
       justifyContent="space-around"
       alignItems="center"
     >
-      <Stack
-        sx={{ width: '100%' }}
-        direction={'row'}
-        justifyContent="space-around"
-        alignItems="center"
-      >
-        <Button
-          startIcon={<KeyboardAltTwoToneIcon />}
-          color="secondary"
-          size={'small'}
-          onClick={showEditor}
+      {accessMode !== 'view' && (
+        <Stack
+          sx={{ width: '100%' }}
+          direction={'row'}
+          justifyContent="space-around"
+          alignItems="center"
         >
-          Edit Transcription
-        </Button>
-        <Button
-          onClick={handleMorphologyAnnotationClicked}
-          startIcon={<DataObjectIcon />}
-          color="secondary"
-          size={'small'}
-        >
-          {selectedToken.line === undefined
-            ? 'Edit Morphological Annotations'
-            : 'Morphological Annotations Done'}
-        </Button>
-      </Stack>
+          <Button
+            startIcon={<KeyboardAltTwoToneIcon />}
+            color="secondary"
+            size={'small'}
+            onClick={showEditor}
+          >
+            Edit Transcription
+          </Button>
+          <Button
+            onClick={handleMorphologyAnnotationClicked}
+            startIcon={<DataObjectIcon />}
+            color="secondary"
+            size={'small'}
+          >
+            {selectedToken.line === undefined
+              ? 'Edit Morphological Annotations'
+              : 'Morphological Annotations Done'}
+          </Button>
+        </Stack>
+      )}
       <FormControl>
         <RadioGroup
           row

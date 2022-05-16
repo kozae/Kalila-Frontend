@@ -25,6 +25,7 @@ async function patchDescriptionHTTP(
   data: Partial<IPageDescription>,
   { accessToken, manuscriptId, pageId }: PageParams
 ) {
+  console.log({ data });
   await axios.patch('/server/api/v1/PageDescription/One', data, {
     params: { Id: pageId, ManuscriptId: manuscriptId },
     headers: {

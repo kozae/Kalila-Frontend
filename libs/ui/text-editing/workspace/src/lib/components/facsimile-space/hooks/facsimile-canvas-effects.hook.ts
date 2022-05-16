@@ -49,5 +49,5 @@ export function useFacsimileCanvasEffects(
         );
       }
     }
-  }, [canvasState.scaleRatio, canvasState.regions]);
+  }, [canvasState.scaleRatio, canvasState.regions, canvasState.imageUrl]);
 }

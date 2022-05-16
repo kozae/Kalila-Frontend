@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { hexToRgba } from '@frontend/util';
+import { hexToRgba, hexToRgbUint32Array } from '@frontend/util';
 import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 import useSWR from 'swr';
 import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
@@ -26,7 +26,8 @@ export const SortableLine: React.FC<ISortableLineProps> = ({
   const { data: url } = useSWR(line?.Id, () => {
     if (line.FacsimileRegion) {
       const [p, r] = mapDataForCropper(line.FacsimileRegion);
-      return facsimileCropper?.get_region(p, r);
+      const color = hexToRgbUint32Array(line.HighlightColor ?? '#6b9e1f');
+      return facsimileCropper?.get_region(p, r, color);
     }
     return undefined;
   });

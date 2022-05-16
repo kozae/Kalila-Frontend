@@ -9,6 +9,7 @@ import { useContext } from 'react';
 import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 import useSWR from 'swr';
 import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
+import { hexToRgbUint32Array } from '@frontend/util';
 
 export const LinePreview = ({ id }: { id?: string }) => {
   const isXLScreen = useXLargeScreenMediaQuery();
@@ -17,7 +18,8 @@ export const LinePreview = ({ id }: { id?: string }) => {
   const { data: url } = useSWR(line?.Id, () => {
     if (line) {
       const [p, r] = mapDataForCropper(line.FacsimileRegion);
-      return facsimileCropper?.get_region(p, r);
+      const color = hexToRgbUint32Array(line.HighlightColor ?? '#6b9e1f');
+      return facsimileCropper?.get_region(p, r, color);
     }
 
     return undefined;

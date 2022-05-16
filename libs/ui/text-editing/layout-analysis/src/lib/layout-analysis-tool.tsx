@@ -7,6 +7,7 @@ import {
   selectAllImageElements,
   selectAllTextElements,
   selectSelectedElement,
+  selectTextEditingAccessMode,
   selectTextEditingToolMode,
   useAppSelector,
 } from '@frontend/shared-ui';
@@ -17,7 +18,7 @@ export function LayoutAnalysisTool() {
   const textElements = useAppSelector(selectAllTextElements);
   const selectedElement = useAppSelector(selectSelectedElement);
   const toolMode = useAppSelector(selectTextEditingToolMode);
-
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
   return (
     <Stack
       sx={{
@@ -43,11 +44,13 @@ export function LayoutAnalysisTool() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: 'easeIn' }}
           >
-            <LayoutAnalysisCommandBar
-              numberOfImageElements={imageElements.length}
-              numberOfTextElements={textElements.length}
-              toolMode={toolMode}
-            />
+            {accessMode !== 'view' && (
+              <LayoutAnalysisCommandBar
+                numberOfImageElements={imageElements.length}
+                numberOfTextElements={textElements.length}
+                toolMode={toolMode}
+              />
+            )}
             {toolMode === 'default' && (
               <LayoutElementsList
                 imageElements={imageElements}

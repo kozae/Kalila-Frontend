@@ -68,7 +68,12 @@ export function useTextEditingWorkspaceStore(
   };
 
   useEffect(() => {
-    dispatch(loadPageData({ pageInfo, imageSize }));
+    dispatch(
+      loadPageData({
+        pageInfo,
+        imageSize,
+      })
+    );
     dispatch(loadUnitSummaries(Units));
     dispatch(loadImageElements(imageElements));
     dispatch(loadTextElements(textElements));

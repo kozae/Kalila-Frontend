@@ -7,9 +7,12 @@ import {
   selectPageHasTranscription,
   useAppSelector,
   selectTextEditingToolMode,
+  selectPageFacsimileUrl,
 } from '@frontend/shared-ui';
+import { stringHasValue } from '@frontend/util';
 
 export function useTabDisabledState() {
+  const url = useAppSelector(selectPageFacsimileUrl);
   const selectedElement = useAppSelector(selectSelectedElement);
   const toolMode = useAppSelector(selectTextEditingToolMode);
   const workspaceHasChanges = useAppSelector(selectWorkspaceHasChanges);
@@ -20,21 +23,29 @@ export function useTabDisabledState() {
     () => selectedElement.id !== null,
     [selectedElement.id]
   );
+  const hasUrl = stringHasValue(url);
   return {
     description:
       toolMode !== 'default' || selectionIsActive || workspaceHasChanges,
-    layout: toolMode !== 'default' || selectionIsActive || workspaceHasChanges,
+    layout:
+      !hasUrl ||
+      toolMode !== 'default' ||
+      selectionIsActive ||
+      workspaceHasChanges,
     lines:
+      !hasUrl ||
       toolMode !== 'default' ||
       selectionIsActive ||
       workspaceHasChanges ||
       !pageHasText,
     transcription:
+      !hasUrl ||
       toolMode !== 'default' ||
       selectionIsActive ||
       workspaceHasChanges ||
       !pageHasLines,
     segmentation:
+      !hasUrl ||
       toolMode !== 'default' ||
       selectionIsActive ||
       workspaceHasChanges ||

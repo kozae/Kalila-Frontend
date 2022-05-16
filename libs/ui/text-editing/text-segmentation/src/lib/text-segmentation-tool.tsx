@@ -7,11 +7,21 @@ import { DndProvider } from 'react-dnd';
 import { DragLayer } from './drag-layer';
 import { useState } from 'react';
 import { TextSegmentationContext } from './context';
+import {
+  selectTextEditingAccessMode,
+  useAppSelector,
+} from '@frontend/shared-ui';
+import { UnitsSummary } from './units-summary';
 
 export function TextSegmentationTool() {
   const [updateTime, setUpdateTime] = useState(Date.now());
+  const [hoveredUnit, setHoveredUnit] = useState<string | undefined>(undefined);
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
+
   return (
-    <TextSegmentationContext.Provider value={{ updateTime, setUpdateTime }}>
+    <TextSegmentationContext.Provider
+      value={{ updateTime, setUpdateTime, hoveredUnit, setHoveredUnit }}
+    >
       <Box
         sx={{
           width: '100%',
@@ -25,7 +35,8 @@ export function TextSegmentationTool() {
         <DndProvider backend={HTML5Backend}>
           <DragLayer />
           <Stack sx={{ height: 'fit-content' }}>
-            <CommandBar />
+            {accessMode !== 'view' && <CommandBar />}
+            {accessMode === 'view' && <UnitsSummary />}
             <TextComponent />
           </Stack>
         </DndProvider>

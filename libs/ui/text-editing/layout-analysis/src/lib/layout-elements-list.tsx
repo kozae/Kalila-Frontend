@@ -37,7 +37,9 @@ export const LayoutElementsList = ({
       spacing={1}
     >
       {elements.length === 0 && (
-        <Alert severity="info">No elements defined.</Alert>
+        <Alert sx={{ typography: 'h3', mt: '20px' }} severity="info">
+          No elements defined.
+        </Alert>
       )}
       {elements.map((el) => (
         <LayoutElementSummary buttons={true} key={el.Id} {...el} />

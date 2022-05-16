@@ -4,6 +4,7 @@ import {
   kalilaTheme,
   selectAllLines,
   selectAllTextElements,
+  selectTextEditingAccessMode,
   useAppSelector,
 } from '@frontend/shared-ui';
 import {
@@ -19,6 +20,7 @@ import Box from '@mui/material/Box';
 export const LineList = () => {
   const textElements = useAppSelector(selectAllTextElements);
   const lines = useAppSelector(selectAllLines);
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
 
   const elementSummaries: ILayoutElementSummaryProps[] = orderBy(
     textElements.map((el) => ({
@@ -87,7 +89,7 @@ export const LineList = () => {
         overflowY: 'scroll',
       }}
     >
-      <LineToolCommandBar />
+      {accessMode !== 'view' && <LineToolCommandBar />}
       <Stack
         sx={{
           flexGrow: 1,

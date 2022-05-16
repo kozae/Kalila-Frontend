@@ -5,3 +5,4 @@ export * from './lib/pages';
 export * from './lib/siglum';
 export * from './lib/sigla';
 export * from './lib/edition';
+export * from './lib/upload-handler';
