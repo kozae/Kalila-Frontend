@@ -9,5 +9,7 @@ services:
       - prod.env
     ports:
       - '6000:6000'
+    volumes:
+      - /root/Kalila/volumes/assets:/images
     network_mode: host
 

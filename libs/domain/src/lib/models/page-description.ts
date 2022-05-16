@@ -8,32 +8,15 @@ export interface IPageDescription {
   ManuscriptId: string;
   Number: number;
   PresentPageNumbering: string[];
-  Pagination?: number;
+  Pagination?: number | string;
   Foliation: string;
   Tags: string[];
-  FacsimileImageUrl: string;
+  FacsimileImageUrl?: string;
   TranscriptionFinalized: boolean;
   Body: string;
   CreatedAt?: Date;
   Version?: Date;
 }
-
-type validatableProps = keyof Omit<
-  PageDescription,
-  | 'validationSchemaFactory'
-  | 'create'
-  | 'withFacsimileUrl'
-  | 'withTags'
-  | 'withPagination'
-  | 'Version'
-  | 'TranscriptionFinalized'
-  | 'Editor'
-  | 'Body'
-  | 'AdditionalCommentary'
-  | 'CreatedAt'
-  | 'Number'
-  | 'FacsimileImageUrl'
->;
 
 export class PageDescription implements IPageDescription {
   Editor: string;
@@ -41,7 +24,7 @@ export class PageDescription implements IPageDescription {
   AdditionalCommentary: string;
   Number: number;
   PresentPageNumbering: string[];
-  Pagination?: number;
+  Pagination?: number | string;
   Foliation: string;
   Tags: string[];
   FacsimileImageUrl: string;
@@ -58,7 +41,7 @@ export class PageDescription implements IPageDescription {
 
   withPagination(data: {
     PresentPageNumbering: string[];
-    Pagination?: number;
+    Pagination?: number | string;
     Foliation?: string;
   }) {
     this.PresentPageNumbering = data.PresentPageNumbering;
@@ -67,8 +50,13 @@ export class PageDescription implements IPageDescription {
     return this;
   }
 
-  withFacsimileUrl(url: string) {
+  withFacsimileUrl(url?: string) {
     this.FacsimileImageUrl = url;
+    return this;
+  }
+
+  withEditor(editor: string) {
+    this.Editor = editor;
     return this;
   }
 

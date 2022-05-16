@@ -18,6 +18,7 @@ import {
   addUpdateCollectors,
 } from './extra-reducers';
 import {
+  saveDescriptionChanges,
   saveLayoutChanges,
   saveLineChanges,
   saveSegmentation,
@@ -28,13 +29,15 @@ const savePending = isPending(
   saveLineChanges,
   saveLayoutChanges,
   saveTokenChanges,
-  saveSegmentation
+  saveSegmentation,
+  saveDescriptionChanges
 );
 const saveComplete = isFulfilled(
   saveLineChanges,
   saveLayoutChanges,
   saveTokenChanges,
-  saveSegmentation
+  saveSegmentation,
+  saveDescriptionChanges
 );
 
 const initialState: ITextEditingPageState = {
@@ -46,24 +49,6 @@ const initialState: ITextEditingPageState = {
   selectedElementId: null,
   regionUnderEditPolygon: null,
   regionUnderEditUrl: null,
-  pageInfoBeforeChange: {
-    AdditionalCommentary: '',
-    Body: '',
-    CreatedAt: undefined,
-    EditionProgress: '',
-    Editor: '',
-    FacsimileImageUrl: '',
-    Foliation: '',
-    Id: '',
-    ManuscriptId: '',
-    ManuscriptSiglum: '',
-    Number: 0,
-    Pagination: 0,
-    PresentPageNumbering: [],
-    Tags: [],
-    TranscriptionFinalized: false,
-    Version: undefined,
-  },
   textSegmentationTouched: false,
   imageElementsBeforeChanges: [],
   linesBeforeChanges: [],

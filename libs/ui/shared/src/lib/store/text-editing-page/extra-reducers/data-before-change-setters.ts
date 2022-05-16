@@ -19,9 +19,6 @@ import { loadUnitSummaries } from '../../page-transcription/units-summary';
 export function addDataBeforeChangeSetters(
   builder: ActionReducerMapBuilder<ITextEditingPageState>
 ) {
-  builder.addCase(loadPageData, (state, action) => {
-    state.pageInfoBeforeChange = action.payload.pageInfo;
-  });
   builder.addCase(loadUnitSummaries, (state, action) => {
     state.unitSummariesBeforeChanges = action.payload as IUnitSummary[];
   });

@@ -14,17 +14,28 @@ export const selectPageEditor = createSelector(
   (state) => state.pageInfo.Editor
 );
 
+export const selectPageFacsimileUrl = createSelector(
+  selectPageDataState,
+  (state) => state.pageInfo.FacsimileImageUrl
+);
+
+export const selectPageFacsimileImageSize = createSelector(
+  selectPageDataState,
+  (state) => state.imageSize
+);
+
 export const selectPageDescription = createSelector(
   selectPageDataState,
   (state) =>
     PageDescription.create(state.pageInfo.Id, state.pageInfo.ManuscriptId)
       .withPagination({
         PresentPageNumbering: state.pageInfo.PresentPageNumbering ?? [],
-        Pagination: state.pageInfo.Pagination ?? 0,
+        Pagination: state.pageInfo.Pagination ?? '',
         Foliation: state.pageInfo.Foliation ?? '',
       })
       .withFacsimileUrl(state.pageInfo.FacsimileImageUrl)
       .withTags(state.pageInfo.Tags)
+      .withEditor(state.pageInfo.Editor)
 );
 
 export const selectCurrentPageId = createSelector(

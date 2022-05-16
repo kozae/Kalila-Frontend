@@ -8,18 +8,6 @@ import {
   IUnitSummary,
 } from '@frontend/domain';
 
-export type requestType =
-  | 'postLayoutImages'
-  | 'postLayoutTextElements'
-  | 'deleteLayoutImages'
-  | 'deleteLayoutTextElements'
-  | 'putTextElements'
-  | 'putImages'
-  | 'postLines'
-  | 'putLines'
-  | 'deleteLines'
-  | 'postTokens';
-
 export type TextEditingActiveWorkspace =
   | 'description'
   | 'transcription'
@@ -29,6 +17,8 @@ export type TextEditingActiveWorkspace =
 
 export type TextEditingToolMode =
   | 'default'
+  | 'edit-description'
+  | 'edit-facsimile'
   | 'main-body'
   | 'secondary-text'
   | 'reorder'
@@ -49,7 +39,6 @@ export interface ITextEditingPageState {
     | null;
   selectedElementId: string | null;
   regionUnderEditPolygon: IFacsimileRegion | null;
-  pageInfoBeforeChange: IPageTranscriptionInfo;
   textElementsBeforeChanges: Omit<ITextElement, 'Lines'>[];
   imageElementsBeforeChanges: IImageElement[];
   linesBeforeChanges: (Omit<ILine, 'Tokens'> & { ElementId: string })[];

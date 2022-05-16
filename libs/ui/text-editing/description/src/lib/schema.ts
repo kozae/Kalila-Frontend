@@ -138,6 +138,25 @@ const Fields: IDataEntrySchema[] = [
     InputMode: 5,
     CategoricalAttributeType: 'Tags',
   },
+  // {
+  //   DocumentName: 'Page',
+  //   FieldCategory: '',
+  //   FieldName: 'additional commentary',
+  //   FieldDisplay: 'Additional Commentary',
+  //   FieldNamePascalCase: 'AdditionalCommentary',
+  //   Readonly: false,
+  //   Hidden: false,
+  //   Unique: false,
+  //   KeyField: false,
+  //   TopField: false,
+  //   Searchable: true,
+  //   EditableInBulk: false,
+  //   KalilaValueType: 0,
+  //   ValueProperties: [],
+  //   ConnectsToEntity: '',
+  //   ConnectsToField: '',
+  //   InputMode: 9,
+  // },
 ];
 
 export const schema = {

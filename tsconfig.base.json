@@ -38,6 +38,9 @@
       ],
       "@frontend/ui/forms": ["libs/ui/forms/src/index.ts"],
       "@frontend/ui/table": ["libs/ui/table/src/index.ts"],
+      "@frontend/ui/text-editing/description": [
+        "libs/ui/text-editing/description/src/index.ts"
+      ],
       "@frontend/ui/text-editing/layout-analysis": [
         "libs/ui/text-editing/layout-analysis/src/index.ts"
       ],

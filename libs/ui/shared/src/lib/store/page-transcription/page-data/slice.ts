@@ -1,7 +1,9 @@
 import { IPageTranscriptionInfo } from '@frontend/domain';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { saveSegmentation } from '../../text-editing-page';
-import { unitSummariesAdapter } from '../units-summary';
+import {
+  saveDescriptionChanges,
+  saveSegmentation,
+} from '../../text-editing-page';
 
 const initialState: {
   pageInfo: IPageTranscriptionInfo;
@@ -57,6 +59,13 @@ export const pageDataSlice = createSlice({
       if (action.payload.nearestOpenUnitClosed) {
         state.pageInfo.NearestOpenUnit = undefined;
       }
+    });
+    builder.addCase(saveDescriptionChanges.fulfilled, (state, action) => {
+      state.pageInfo.EditionProgress = action.payload.EditionProgress;
+      state.pageInfo.Pagination = action.payload.Pagination;
+      state.pageInfo.PresentPageNumbering = action.payload.PresentPageNumbering;
+      state.pageInfo.FacsimileImageUrl = action.payload.FacsimileImageUrl;
+      state.pageInfo.Tags = action.payload.Tags;
     });
   },
 });

@@ -101,6 +101,7 @@ const FileUpload = ({
         </Typography>
         <Button
           variant="contained"
+          disableElevation
           onClick={open}
           disabled={disabled}
           sx={{ marginBottom: 1 }}
@@ -131,7 +132,7 @@ const FileUpload = ({
 };
 
 FileUpload.defaultProps = {
-  title: "Drag 'n' drop some files here, or click to select files",
+  title: 'Drop an image file here, or click to select file',
   buttonText: 'Upload',
 };
 

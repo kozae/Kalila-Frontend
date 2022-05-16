@@ -15,6 +15,7 @@
     "ui-facsimile-highlighter": "libs/ui/facsimile-highlighter",
     "ui-forms": "libs/ui/forms",
     "ui-table": "libs/ui/table",
+    "ui-text-editing-description": "libs/ui/text-editing/description",
     "ui-text-editing-layout-analysis": "libs/ui/text-editing/layout-analysis",
     "ui-text-editing-line-detection": "libs/ui/text-editing/line-detection",
     "ui-text-editing-pages-summary": "libs/ui/text-editing/pages-summary",
