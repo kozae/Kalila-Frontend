@@ -113,7 +113,7 @@ export const ToolSpace = () => {
           <Tab
             disabled={isDisabled.description}
             icon={<InfoTwoToneIcon />}
-            label="Description"
+            label="General"
           />
           <Tab
             disabled={isDisabled.layout}

@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { stringHasValue } from '@frontend/util';
 import { EditFacsimile } from './edit-facsimile';
+import GetAppTwoToneIcon from '@mui/icons-material/GetAppTwoTone';
 
 export const DescriptionTool = () => {
   const accessMode = useAppSelector(selectTextEditingAccessMode);
@@ -77,6 +78,15 @@ export const DescriptionTool = () => {
                 </Button>
               </Stack>
             )}
+            <Stack direction="row">
+              <Button
+                startIcon={<GetAppTwoToneIcon />}
+                variant="contained"
+                disableElevation
+              >
+                Export...
+              </Button>
+            </Stack>
           </Stack>
         </motion.div>
       )}
