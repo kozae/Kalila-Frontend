@@ -1,4 +1,4 @@
-import { IFacsimileRegion } from '@frontend/domain';
+import { FacsimileRegion } from '@frontend/domain';
 import { fabric } from 'fabric';
 import {
   drawPolygons,
@@ -10,17 +10,20 @@ export type LinesProcedureProps = {
   canvas: fabric.Canvas;
   polygons: fabric.Polygon[];
   scaleRatio: number;
-  showHighlight: (region: IFacsimileRegion, scaleRatio: number) => void;
+  showHighlight: (
+    region: { Region: FacsimileRegion },
+    scaleRatio: number
+  ) => void;
   hideHighlight: () => void;
   onRegionHighlighted: (
-    region: (IFacsimileRegion & { Id: string }) | null
+    region: { Region: FacsimileRegion; Id: string } | null
   ) => void;
   onElementSelected: ({
-    id,
-    region,
+    Id,
+    Region,
   }: {
-    id: string | null;
-    region: IFacsimileRegion | null;
+    Region: FacsimileRegion;
+    Id: string;
   }) => void;
   clickEvents: boolean;
 };
@@ -48,7 +51,7 @@ export function renderLinesWorkspace({
       onRegionHighlighted(null);
     },
     onClicked: (id, region) => {
-      clickEvents && onElementSelected({ id, region });
+      clickEvents && onElementSelected({ Id: id, Region: region.Region });
     },
   });
 }

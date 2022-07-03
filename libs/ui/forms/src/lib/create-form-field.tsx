@@ -10,12 +10,20 @@ import {
   SelectMany,
 } from './fields';
 import { useCommonFieldProps } from './create-form-field.hooks';
+import { Commentary } from './fields/commentary';
 
 export function createFormField(
   field: IDataEntrySchema,
   categoricalAttributes: Record<string, string[]>,
   editors: IEditor[],
-  { errors, handleChange, handleBlur, setFieldValue, values }: any
+  {
+    errors,
+    handleChange,
+    handleBlur,
+    setFieldValue,
+    values,
+    setFieldTouched,
+  }: any
 ): JSX.Element {
   const labelId = `${field.FieldNamePascalCase}-label`;
   const commonProps: ICommonFieldProps = useCommonFieldProps(
@@ -79,7 +87,18 @@ export function createFormField(
     case InputModes.FileField:
       break;
     case InputModes.RichText:
-      break;
+      props = {
+        key: labelId,
+        handleChange,
+        ...commonProps,
+      };
+      return (
+        <Commentary
+          {...props}
+          name={field.FieldNamePascalCase}
+          setFieldTouched={setFieldTouched}
+        />
+      );
     case InputModes.Table:
       break;
     case InputModes.Date:

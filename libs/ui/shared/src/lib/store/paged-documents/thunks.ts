@@ -8,6 +8,7 @@ import {
   setAllNull,
 } from '@frontend/util';
 import { NextRouter } from 'next/router';
+import ObjectID from 'bson-objectid';
 
 export const changePagination = createAsyncThunk<
   void,
@@ -95,11 +96,15 @@ export const createDocument = createAsyncThunk<
     const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     try {
-      await axios.post(`/server/api/v1/${activityName}`, doc, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      await axios.post(
+        `${process.env['NEXT_PUBLIC_API_URL']}${activityName}`,
+        { ...doc, Id: ObjectID().toString() },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       return true;
     } catch {
       return rejectWithValue(false);
@@ -118,12 +123,16 @@ export const updateDocuments = createAsyncThunk<
     const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     try {
-      await axios.patch(`/server/api/v1/${activityName}`, update, {
-        params,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      await axios.patch(
+        `${process.env['NEXT_PUBLIC_API_URL']}${activityName}`,
+        update,
+        {
+          params,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       return true;
     } catch {
       return rejectWithValue(false);
@@ -142,12 +151,16 @@ export const updateOneDocument = createAsyncThunk<
     const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     try {
-      await axios.patch(`/server/api/v1/${activityName}/One`, update, {
-        params,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      await axios.patch(
+        `${process.env['NEXT_PUBLIC_API_URL']}${activityName}/One`,
+        update,
+        {
+          params,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       return true;
     } catch {
       return rejectWithValue(false);
@@ -166,13 +179,17 @@ export const adminUpdateDocuments = createAsyncThunk<
     const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     try {
-      await axios.patch(`/server/api/v1/${activityName}/Admin`, update, {
-        params,
-        paramsSerializer,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      await axios.patch(
+        `${process.env['NEXT_PUBLIC_API_URL']}${activityName}/Admin`,
+        update,
+        {
+          params,
+          paramsSerializer,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       return true;
     } catch {
       return rejectWithValue(false);
@@ -192,12 +209,15 @@ export const deleteDocument = createAsyncThunk<
     const activityName = state.pagedDocuments.activityName;
     additionalParams = additionalParams ?? {};
     try {
-      await axios.delete(`/server/api/v1/${activityName}`, {
-        params: { Id: id, ...additionalParams },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      await axios.delete(
+        `${process.env['NEXT_PUBLIC_API_URL']}${activityName}`,
+        {
+          params: { Id: id, ...additionalParams },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       return true;
     } catch {
       return rejectWithValue(false);

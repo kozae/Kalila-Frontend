@@ -24,6 +24,7 @@ import * as Yup from 'yup';
 import { useFacsimileGenerator } from '@frontend/ui/facsimile-generator';
 import { jpegDataUrlToFile } from '@frontend/util';
 import CircularProgress from '@mui/material/CircularProgress';
+import Router from 'next/router';
 
 import axios from 'axios';
 
@@ -91,7 +92,11 @@ export const EditFacsimile = () => {
         const response = await axios.post(url, formData, {
           headers: { 'content-type': 'multipart/form-data' },
         });
-        const { data: link } = response.data;
+        const { data: path } = response.data;
+        const link = path.replace(
+          process.env['NEXT_PUBLIC_PAGES_IMAGE_FOLDER'] ?? '',
+          ''
+        );
         const imageSize = (await getImageSize(link)) as {
           Width: number;
           Height: number;
@@ -103,6 +108,7 @@ export const EditFacsimile = () => {
         notifyUser('Upload failed', 'warning');
       } finally {
         setUploadingFinished();
+        Router.reload();
       }
     }
   }, [generated, files]);
@@ -259,16 +265,22 @@ export const EditFacsimile = () => {
           Cancel
         </Button>
       </Stack>
+      {(files.length !== 0 || generated !== null) && (
+        <h3>The page will refresh after uploading is done.</h3>
+      )}
     </Stack>
   );
 };
 
 export async function getImageSize(path: string) {
-  const { data } = await axios.get('/server/web/ImageSize', {
-    headers: {
-      Accept: 'application/json',
-    },
-    params: { path },
-  });
+  const { data } = await axios.get(
+    `${process.env['NEXT_PUBLIC_API_URL']}ImageSize`,
+    {
+      headers: {
+        Accept: 'application/json',
+      },
+      params: { path },
+    }
+  );
   return data;
 }

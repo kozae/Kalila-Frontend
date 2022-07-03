@@ -1,0 +1,15 @@
+[Unit]
+Description=Kalila Web Prod
+
+[Service]
+WorkingDirectory=/var/www/Kalila.Web.Prod
+ExecStart=/usr/bin/nx run kalila:serve --prod --port=6666
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=Kalila.Web.Prod
+User=root
+
+[Install]
+WantedBy=multi-user.target

@@ -67,9 +67,20 @@ function clearDocOnUnmount() {
   }, []);
 }
 
+function formatPaginatedQuery(query: any) {
+  if (query.PageNumber === undefined || query.PageSize === undefined) {
+    return {
+      ...query,
+      PageNumber: 1,
+      PageSize: 10,
+    };
+  }
+  return query;
+}
+
 export function usePagedDocumentsStore(
   activityName: string,
-  query: ParsedUrlQuery,
+  query: any,
   mediaType: MediaTypes,
   additionalParams = {},
   routeSuffix = ''
@@ -78,7 +89,7 @@ export function usePagedDocumentsStore(
   const { data, isValidating, mutate } = getDocuments(
     accessToken,
     activityName,
-    query,
+    formatPaginatedQuery(query),
     mediaType,
     additionalParams,
     routeSuffix
@@ -142,7 +153,7 @@ export type IPagedDocumentsDispatch = ReturnType<
 >;
 
 export function useParamsFromRouteQuery(
-  query: ParsedUrlQuery,
+  query: any,
   excludeFromFilter: string[] = []
 ) {
   const dispatch = useAppDispatch();

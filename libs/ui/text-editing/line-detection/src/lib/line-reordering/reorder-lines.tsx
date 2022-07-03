@@ -14,7 +14,7 @@ import {
 import { debounce, orderBy } from 'lodash';
 import Box from '@mui/material/Box';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { IFacsimileRegion, ILine, IToken } from '@frontend/domain';
+import { FacsimileRegion, ILine, IToken } from '@frontend/domain';
 import GridLayout, { Layout } from 'react-grid-layout';
 import { ITextElementMarkProps, TextElementMark } from './text-element-mark';
 import { ISortableLineProps, SortableLine } from './sortable-line';
@@ -45,8 +45,9 @@ export const toLineContainerIdMap = () => {
 export const ReorderLines = () => {
   const textElements = useAppSelector(selectAllTextElements);
   const dispatch = useAppDispatch();
-  const handleHover = (region: (IFacsimileRegion & { Id: string }) | null) =>
-    dispatch(onRegionHoveredInToolSpace(region));
+  const handleHover = (
+    region: { Region: FacsimileRegion; Id: string } | null
+  ) => dispatch(onRegionHoveredInToolSpace(region));
   const lines = useAppSelector(selectLinesDictionary);
   const tokens = useAppSelector(selectTokensDictionary);
 
@@ -108,9 +109,9 @@ export const ReorderLines = () => {
         <Stack
           onMouseEnter={() =>
             handleHover({
-              ...el.FacsimileRegion,
+              Region: el.FacsimileRegion,
               Id: el.Id,
-            } as IFacsimileRegion & { Id: string })
+            } as { Region: FacsimileRegion; Id: string })
           }
           onMouseLeave={() => handleHover(null)}
           alignItems="center"
@@ -127,9 +128,9 @@ export const ReorderLines = () => {
             <Stack
               onMouseEnter={() =>
                 handleHover({
-                  ...l.FacsimileRegion,
+                  Region: l.FacsimileRegion,
                   Id: l.Id,
-                } as IFacsimileRegion & { Id: string })
+                } as { Region: FacsimileRegion; Id: string })
               }
               onMouseLeave={() => handleHover(null)}
               alignItems="center"
@@ -156,9 +157,9 @@ export const ReorderLines = () => {
         <Stack
           onMouseEnter={() =>
             handleHover({
-              ...el.FacsimileRegion,
+              Region: el.FacsimileRegion,
               Id: el.Id,
-            } as IFacsimileRegion & { Id: string })
+            } as { Region: FacsimileRegion; Id: string })
           }
           onMouseLeave={() => handleHover(null)}
           alignItems="center"
@@ -174,9 +175,9 @@ export const ReorderLines = () => {
           <Stack
             onMouseEnter={() =>
               handleHover({
-                ...l.FacsimileRegion,
+                Region: l.FacsimileRegion,
                 Id: l.Id,
-              } as IFacsimileRegion & { Id: string })
+              } as { Region: FacsimileRegion; Id: string })
             }
             onMouseLeave={() => handleHover(null)}
             sx={{ cursor: 'grab' }}

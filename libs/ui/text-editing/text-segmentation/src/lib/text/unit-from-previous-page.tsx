@@ -18,6 +18,6 @@ export const UnitFromPreviousPage = ({ d }: IUnitFromPreviousPageProps) => {
       letterSpacing="0.08rem"
       fontSize="1rem"
       variant="body1"
-    >{`... (${d.BookUnitOrder}) ${d.Chapter} [starts in p. ${d.StartsInPageNumber}]`}</Typography>
+    >{`... (${d.BookUnitOrder}) ${d.Chapter} [starts in p. ${d.Start[0]}]`}</Typography>
   );
 };

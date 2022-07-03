@@ -76,7 +76,7 @@ export function PagesAdministration({ siglum, manuscriptId }) {
       </Head>
       <AdminPageContext.Provider
         value={{
-          activityName: 'PageDescription',
+          activityName: 'Page',
           additionalParams: { ManuscriptId: manuscriptId },
           initialValues,
           validationSchemaFactory: initialValues.validationSchemaFactory(
@@ -88,11 +88,11 @@ export function PagesAdministration({ siglum, manuscriptId }) {
             }
           ),
           cls: PageDescriptionAdmin,
-          createModalTitle: 'Create a Page Description Document',
+          createModalTitle: 'Create a Page Document',
           editModalTitle: {
-            one: 'Edit selected Page Description Document',
-            many: 'Edit selected Page Description Documents',
-            filtered: 'Edit filtered Page Description Document',
+            one: 'Edit selected Page Document',
+            many: 'Edit selected Page Documents',
+            filtered: 'Edit filtered Page Document',
           },
           deleteModalMessage:
             'Deletion can be executed, only if the page does not have any narrative units assigned.',

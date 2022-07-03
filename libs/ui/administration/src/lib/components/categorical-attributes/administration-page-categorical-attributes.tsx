@@ -47,6 +47,14 @@ import { EditAttributeModal } from './modals/edit-attribute-modal';
 import { Column } from 'react-table';
 import { plainToClass } from 'class-transformer';
 
+function transformQuery(query: any) {
+  const transformed: { [key: string]: any } = {};
+  Object.entries(query).forEach(([key, value]) => {
+    transformed[key.replace('Cn', 'Eq')] = value;
+  });
+  return transformed;
+}
+
 export const AdministrationPageCategoricalAttributes: React.FC = () => {
   const router = useRouter();
   const { activityName, additionalParams } =

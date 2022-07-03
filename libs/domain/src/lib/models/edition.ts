@@ -1,4 +1,4 @@
-import { IFacsimileRegion } from './page-transcription';
+import { FacsimileRegion } from './page-transcription';
 
 export interface IEditionBookUnit {
   Id: string;
@@ -24,7 +24,7 @@ export interface IEditionFacsimile {
 
 export interface IEditionLine {
   Order: number;
-  Region: IFacsimileRegion;
+  Region: FacsimileRegion;
 }
 
 export interface IManuscriptEdition {

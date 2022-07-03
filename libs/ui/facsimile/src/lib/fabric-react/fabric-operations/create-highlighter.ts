@@ -1,5 +1,5 @@
 import { fabric } from 'fabric';
-import { IFacsimileRegion } from '@frontend/domain';
+import { FacsimileRegion } from '@frontend/domain';
 import { PolygonHelper } from '@frontend/ui/facsimile';
 import { hexToRgba } from '@frontend/util';
 
@@ -26,7 +26,7 @@ export function showHighlightFactory(
   highlighter: fabric.Rect,
   hideHighlight: () => void
 ) {
-  return (region: IFacsimileRegion, scaleRatio: number) => {
+  return (region: { Region: FacsimileRegion }, scaleRatio: number) => {
     const polygons = canvas.getObjects();
     const scale = (x: number) => x * scaleRatio;
     const width = canvas.width as number;
@@ -34,8 +34,12 @@ export function showHighlightFactory(
     hideHighlight(); // make sure that the highlight is hidden
     canvas.add(highlighter);
     const points = PolygonHelper.scale(
-      //@ts-ignore
-      region.Points,
+      [
+        { X: region.Region[0], Y: region.Region[1] },
+        { X: region.Region[2], Y: region.Region[3] },
+        { X: region.Region[4], Y: region.Region[5] },
+        { X: region.Region[6], Y: region.Region[7] },
+      ],
       scale
     );
     const clipPath = new fabric.Polygon(

@@ -43,7 +43,7 @@ export function useSignalr(): IWrapper<ISignalrData, ISignalrMethods> {
   useEffect(() => {
     const connect = new HubConnectionBuilder()
       .configureLogging(LogLevel.Information)
-      .withUrl('/server/realtime/hub') // todo add in .env
+      .withUrl(process.env['NEXT_PUBLIC_SIGNALR_URL'] as string)
       .withAutomaticReconnect()
       .build();
     connect

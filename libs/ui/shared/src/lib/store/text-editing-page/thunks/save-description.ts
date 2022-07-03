@@ -12,6 +12,7 @@ export const saveDescriptionChanges = createAsyncThunk<
     PresentPageNumbering: string[];
     Tags: string[];
     FacsimileImageUrl: string;
+    AdditionalCommentary: string;
   },
   PageDescription,
   ThunkApi
@@ -24,5 +25,6 @@ export const saveDescriptionChanges = createAsyncThunk<
     Tags: data.Tags,
     Pagination: data.Pagination,
     FacsimileImageUrl: data.FacsimileImageUrl,
+    AdditionalCommentary: data.AdditionalCommentary,
   };
 });

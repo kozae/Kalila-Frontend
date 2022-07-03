@@ -1,8 +1,4 @@
-import {
-  IFacsimileRegion,
-  IImageElement,
-  ITextElement,
-} from '@frontend/domain';
+import { FacsimileRegion, IImageElement, ITextElement } from '@frontend/domain';
 import React from 'react';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
@@ -57,16 +53,18 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
     el.Id,
     el.FacsimileRegion
       ? {
-          ...el.FacsimileRegion,
+          Id: el.Id,
+          Region: el.FacsimileRegion,
           HighlightColor: el.HighlightColor,
         }
       : undefined
   );
 
-  const handleHover = (region: (IFacsimileRegion & { Id: string }) | null) =>
-    dispatch(onRegionHoveredInToolSpace(region));
-  const handleSelection = (id: string | null, region: IFacsimileRegion) =>
-    dispatch(onElementSelected({ id, region }));
+  const handleHover = (
+    region: { Region: FacsimileRegion; Id: string } | null
+  ) => dispatch(onRegionHoveredInToolSpace(region));
+  const handleSelection = (id: string | null, region: FacsimileRegion) =>
+    dispatch(onElementSelected({ Id: id, Region: region }));
 
   const elementHasLines = useAppSelector((state) =>
     selectTextElementHasLines(state, el.Id)
@@ -141,7 +139,7 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
                   onClick={() =>
                     handleSelection(
                       el.Id,
-                      el.FacsimileRegion as IFacsimileRegion
+                      el.FacsimileRegion as FacsimileRegion
                     )
                   }
                 >
@@ -162,9 +160,9 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
           <img
             onMouseEnter={() =>
               handleHover({
-                ...el.FacsimileRegion,
+                Region: el.FacsimileRegion,
                 Id: el.Id,
-              } as IFacsimileRegion & { Id: string })
+              } as { Region: FacsimileRegion; Id: string })
             }
             onMouseLeave={() => handleHover(null)}
             style={{

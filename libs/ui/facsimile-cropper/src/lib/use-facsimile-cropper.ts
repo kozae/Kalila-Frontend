@@ -1,6 +1,6 @@
 import { FacsimileCropper } from './wasm';
 import useSWR from 'swr';
-import { IFacsimileRegion } from '@frontend/domain';
+import { FacsimileRegion } from '@frontend/domain';
 
 export function loadFacsimileCropper() {
   return import('./wasm');
@@ -18,18 +18,18 @@ export function useFacsimileCropper(
 }
 
 export const mapDataForCropper = (
-  region: IFacsimileRegion
+  region: FacsimileRegion
 ): [Uint32Array, number] => {
   const p = new Uint32Array(8);
-  p[0] = region.Points[0].X;
-  p[1] = region.Points[0].Y;
-  p[2] = region.Points[1].X;
-  p[3] = region.Points[1].Y;
-  p[4] = region.Points[2].X;
-  p[5] = region.Points[2].Y;
-  p[6] = region.Points[3].X;
-  p[7] = region.Points[3].Y;
-  return [p, region.Rotation];
+  p[0] = region[0];
+  p[1] = region[1];
+  p[2] = region[2];
+  p[3] = region[3];
+  p[4] = region[4];
+  p[5] = region[5];
+  p[6] = region[6];
+  p[7] = region[7];
+  return [p, region[8]];
 };
 
 async function load(url: string) {

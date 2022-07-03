@@ -50,6 +50,16 @@ export const DescriptionTool = () => {
       {toolMode === 'default' && (
         <motion.div {...motionProps} key="default">
           <Stack width="100%" alignItems="center">
+            <Stack direction="row">
+              <Button
+                startIcon={<GetAppTwoToneIcon />}
+                variant="contained"
+                disabled
+                disableElevation
+              >
+                Export... (todo)
+              </Button>
+            </Stack>
             <ViewDescription />
             {accessMode === 'edit' && (
               <Stack
@@ -78,15 +88,6 @@ export const DescriptionTool = () => {
                 </Button>
               </Stack>
             )}
-            <Stack direction="row">
-              <Button
-                startIcon={<GetAppTwoToneIcon />}
-                variant="contained"
-                disableElevation
-              >
-                Export...
-              </Button>
-            </Stack>
           </Stack>
         </motion.div>
       )}

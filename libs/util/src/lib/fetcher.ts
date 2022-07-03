@@ -12,11 +12,11 @@ export async function fetcher(
   suffix: string = ''
 ) {
   const { data, headers } = await axios.get(
-    `/server/api/v1/${controller}${suffix}`,
+    `${process.env['NEXT_PUBLIC_API_URL']}${controller}${suffix}`,
     {
       headers: {
-        Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
-        Accept: accept,
+        authorization: accessToken ? `Bearer ${accessToken}` : undefined,
+        accept: accept,
       },
       params: { ...query, ...additionalParams },
       paramsSerializer,

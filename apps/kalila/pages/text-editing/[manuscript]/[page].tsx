@@ -58,7 +58,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
       props: {
-        ...query,
+        siglum: query.siglum,
+        pageData: {
+          ...query.pageData,
+          FacsimileImageUrl: `${process.env['NEXT_PUBLIC_IMAGE_URL']}${query.pageData.FacsimileImageUrl}`,
+        },
+        allPages: query.allPages,
         manuscriptId,
         imageSize,
       },

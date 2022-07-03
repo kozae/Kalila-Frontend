@@ -15,11 +15,11 @@ import {
 } from '@frontend/shared-ui';
 import { ILine, IToken, TokenState } from '@frontend/domain';
 import { EditorLine } from './editor-line';
-import { LinePreview } from './line-preview';
 import { CommandBar } from './command-bar';
 import { EditorText } from './editor-text';
 import { saveEditorValueToStore } from '../helpers';
 import { withKalilaNormalization } from '../helpers/with-kalila-normalization';
+import { LinePreview } from '../line-preview';
 
 export type EditorTokenModel = {
   state?: TokenState;
@@ -102,7 +102,7 @@ export const KalilaEditor = ({
           setFocusedLineId(line.Id);
           dispatch(
             onRegionHoveredInToolSpace({
-              ...line.FacsimileRegion,
+              Region: line.FacsimileRegion,
               Id: line.Id,
             })
           );

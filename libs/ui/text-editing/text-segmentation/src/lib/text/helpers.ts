@@ -19,19 +19,16 @@ export function getLineItems(
 ) {
   const items: ILineItem[] = [];
   const unitStartingInLine = units.filter(
-    (u) =>
-      u.StartsInPageNumber === pageNumber && u.StartsInLineNumber === lineOrder
+    (u) => u.Start[0] === pageNumber && u.Start[1] === lineOrder
   );
 
   const unitEndingInLine = units.filter(
-    (u) => u.EndsInPageNumber === pageNumber && u.EndsInLineNumber === lineOrder
+    (u) => u.End[0] === pageNumber && u.End[1] === lineOrder
   );
 
   if (lineOrder === 0) {
     const unitFromPrevPage = units.find(
-      (u) =>
-        u.StartsInPageNumber === pageNumber - 1 &&
-        u.EndsInPageNumber === pageNumber
+      (u) => u.Start[0] === pageNumber - 1 && u.End[0] === pageNumber
     );
     if (unitFromPrevPage) {
       items.push({
@@ -42,10 +39,10 @@ export function getLineItems(
   }
   tokens.forEach((token, i) => {
     const unitStart = unitStartingInLine.find(
-      (u) => u.FirstTokenOrderInLine === token.OrderInLine
+      (u) => u.Start[2] === token.OrderInLine
     );
     const unitEnd = unitEndingInLine.find(
-      (u) => u.LastTokenOrderInLine === token.OrderInLine
+      (u) => u.End[2] === token.OrderInLine
     );
 
     if (unitStart) {
@@ -69,15 +66,15 @@ export function getLineItems(
         i === tokens.length - 1
           ? units.find(
               (u) =>
-                u.StartsInPageNumber === pageNumber &&
-                u.StartsInLineNumber === lineOrder + 1 &&
-                u.FirstTokenOrderInLine === 0
+                u.Start[0] === pageNumber &&
+                u.Start[1] === lineOrder + 1 &&
+                u.Start[2] === 0
             )
           : units.find(
               (u) =>
-                u.StartsInPageNumber === pageNumber &&
-                u.StartsInLineNumber === lineOrder &&
-                u.FirstTokenOrderInLine === token.OrderInLine + 1
+                u.Start[0] === pageNumber &&
+                u.Start[1] === lineOrder &&
+                u.Start[2] === token.OrderInLine + 1
             );
       if (unitAtTheNextToken === undefined) {
         items.push({ ...unitEnd, type: 'end' });

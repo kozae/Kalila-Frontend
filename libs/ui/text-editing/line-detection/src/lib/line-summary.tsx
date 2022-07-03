@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import { IFacsimileRegion, ILine } from '@frontend/domain';
+import { FacsimileRegion, ILine } from '@frontend/domain';
 import { hexToRgba } from '@frontend/util';
 import React from 'react';
 import Stack from '@mui/material/Stack';
@@ -34,13 +34,18 @@ export const LineSummary = ({
   const url = useRegionUrl(
     line?.Id,
     line.FacsimileRegion
-      ? { ...line.FacsimileRegion, HighlightColor: line.HighlightColor }
+      ? {
+          Id: line.Id,
+          Region: line.FacsimileRegion,
+          HighlightColor: line.HighlightColor,
+        }
       : undefined
   );
-  const handleHover = (region: (IFacsimileRegion & { Id: string }) | null) =>
-    dispatch(onRegionHoveredInToolSpace(region));
-  const handleSelection = (id: string | null, region: IFacsimileRegion) =>
-    dispatch(onElementSelected({ id, region }));
+  const handleHover = (
+    region: { Region: FacsimileRegion; Id: string } | null
+  ) => dispatch(onRegionHoveredInToolSpace(region));
+  const handleSelection = (id: string | null, region: FacsimileRegion) =>
+    dispatch(onElementSelected({ Id: id, Region: region }));
   const accessMode = useAppSelector(selectTextEditingAccessMode);
 
   const lineHasTokens = useAppSelector((state) =>
@@ -92,9 +97,9 @@ export const LineSummary = ({
         <img
           onMouseEnter={() =>
             handleHover({
-              ...line.FacsimileRegion,
+              Region: line.FacsimileRegion,
               Id: line.Id,
-            } as IFacsimileRegion & { Id: string })
+            } as { Region: FacsimileRegion; Id: string })
           }
           onMouseLeave={() => handleHover(null)}
           style={{

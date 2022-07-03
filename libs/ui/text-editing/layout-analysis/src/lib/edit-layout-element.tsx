@@ -15,7 +15,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { IFacsimileRegion } from '@frontend/domain';
 import { TextElementInfoForm } from './text-element-info-form';
 import { ImageElementInfoForm } from './image-element-info-form';
 import {
@@ -24,20 +23,21 @@ import {
 } from '@frontend/ui/text-editing/shared';
 import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
 import { hexToRgbUint32Array } from '@frontend/util';
+import { FacsimileRegion } from '@frontend/domain';
 
 export const EditLayoutElement = ({
   selectedElement,
 }: {
-  selectedElement: { id: string | null; region: IFacsimileRegion | null };
+  selectedElement: { Id: string | null; Region: FacsimileRegion | null };
 }) => {
   const [regionUnderEditUrl, setRegionUnderEditUrl] = useState('');
   const { facsimileCropper } = useContext(TextEditingWorkspaceContext);
   const dispatch = useAppDispatch();
   const textElement = useAppSelector((state) =>
-    selectTextElementById(state, selectedElement.id as string)
+    selectTextElementById(state, selectedElement.Id as string)
   );
   const imageElement = useAppSelector((state) =>
-    selectImageElementById(state, selectedElement.id as string)
+    selectImageElementById(state, selectedElement.Id as string)
   );
   const [position, setPosition] = useState<string>('');
 
@@ -51,8 +51,8 @@ export const EditLayoutElement = ({
       : 'Define Image Element';
 
   useEffect(() => {
-    if (facsimileCropper !== null && selectedElement.region) {
-      const [p, r] = mapDataForCropper(selectedElement.region);
+    if (facsimileCropper !== null && selectedElement.Region) {
+      const [p, r] = mapDataForCropper(selectedElement.Region);
       const color = hexToRgbUint32Array('#6b9e1f');
       setRegionUnderEditUrl(facsimileCropper.get_region(p, r, color));
     }
@@ -62,9 +62,9 @@ export const EditLayoutElement = ({
     if (textElement) {
       dispatch(
         updateTextElement({
-          id: selectedElement.id as string,
+          id: selectedElement.Id as string,
           changes: {
-            FacsimileRegion: selectedElement.region as IFacsimileRegion,
+            FacsimileRegion: selectedElement.Region as FacsimileRegion,
             Position: position,
           },
         })
@@ -74,30 +74,30 @@ export const EditLayoutElement = ({
     if (imageElement) {
       dispatch(
         updateImageElement({
-          id: selectedElement.id as string,
+          id: selectedElement.Id as string,
           changes: {
-            FacsimileRegion: selectedElement.region as IFacsimileRegion,
+            FacsimileRegion: selectedElement.Region as FacsimileRegion,
             Position: position,
           },
         })
       );
     }
 
-    dispatch(onElementSelected({ id: null, region: null }));
+    dispatch(onElementSelected({ Id: null, Region: null }));
   }, [selectedElement, position]);
 
   const handleCancel = useCallback(() => {
-    if (selectedElement.id && selectedElement.id.length !== 24) {
+    if (selectedElement.Id && selectedElement.Id.length !== 24) {
       if (textElement) {
-        dispatch(cancelCreateTextElement(selectedElement.id));
+        dispatch(cancelCreateTextElement(selectedElement.Id));
       }
 
       if (imageElement) {
-        dispatch(cancelCreateImageElement(selectedElement.id));
+        dispatch(cancelCreateImageElement(selectedElement.Id));
       }
     }
 
-    dispatch(onElementSelected({ id: null, region: null }));
+    dispatch(onElementSelected({ Id: null, Region: null }));
   }, [selectedElement]);
 
   return (

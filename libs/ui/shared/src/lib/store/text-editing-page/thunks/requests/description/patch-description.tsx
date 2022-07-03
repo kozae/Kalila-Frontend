@@ -14,8 +14,12 @@ export async function patchDescription(
       Foliation: data.Foliation,
       PresentPageNumbering: data.PresentPageNumbering,
       Tags: data.Tags,
+      AdditionalCommentary: data.AdditionalCommentary,
       Pagination: !isNaN(pagination) ? pagination : undefined,
-      FacsimileImageUrl: data.FacsimileImageUrl,
+      FacsimileImageUrl: data.FacsimileImageUrl.replace(
+        process.env['NEXT_PUBLIC_IMAGE_URL'] ?? '',
+        ''
+      ),
     },
     getParams(state)
   );
@@ -26,10 +30,14 @@ async function patchDescriptionHTTP(
   { accessToken, manuscriptId, pageId }: PageParams
 ) {
   console.log({ data });
-  await axios.patch('/server/api/v1/PageDescription/One', data, {
-    params: { Id: pageId, ManuscriptId: manuscriptId },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  await axios.patch(
+    `${process.env['NEXT_PUBLIC_API_URL']}PageDescription/One`,
+    data,
+    {
+      params: { Id: pageId, ManuscriptId: manuscriptId },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
 }

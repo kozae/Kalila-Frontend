@@ -5,10 +5,6 @@ export interface IUnitSummary {
   BookUnitOrder: number;
   Chapter: string;
   Type: string;
-  StartsInPageNumber: number;
-  StartsInLineNumber: number;
-  FirstTokenOrderInLine: number;
-  EndsInPageNumber?: number;
-  EndsInLineNumber?: number;
-  LastTokenOrderInLine?: number;
+  Start: [number, number, number];
+  End: [number, number, number];
 }

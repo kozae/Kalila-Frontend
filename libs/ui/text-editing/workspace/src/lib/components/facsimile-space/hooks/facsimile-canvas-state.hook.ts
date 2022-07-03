@@ -12,7 +12,6 @@ import {
   onElementSelected,
   onRegionHoveredInFacsimileSpace,
   selectCurrentPageFacsimileData,
-  selectPageFacsimileUrl,
   selectRegions,
   selectSelectedElement,
   selectTextEditingAccessMode,
@@ -22,10 +21,9 @@ import {
   useAppSelector,
   useWindowSize,
 } from '@frontend/shared-ui';
-import { IFacsimileRegion } from '@frontend/domain';
+import { FacsimileRegion } from '@frontend/domain';
 import { workspaceProcedure } from '../workspace-rendering-tasks';
 import { stringHasValue } from '@frontend/util';
-import { TextEditingWorkspaceContext } from '@frontend/ui/text-editing/shared';
 
 function createPageFacsimileRenderer(data: {
   imageDisplayWidth: number;
@@ -68,29 +66,28 @@ export type PolygonEventHandlers = ReturnType<typeof usePolygonEventHandlers>;
 function createPolygonRenderer(accessMode: string) {
   const dispatch = useAppDispatch();
   const setHighlightedRegionId = (
-    region: (IFacsimileRegion & { Id: string }) | null
+    region: { Region: FacsimileRegion; Id: string } | null
   ) => {
     dispatch(onRegionHoveredInFacsimileSpace(null));
     setTimeout(() => dispatch(onRegionHoveredInFacsimileSpace(region)), 100);
   };
   const handleElementSelection = ({
-    id,
-    region,
+    Id,
+    Region,
   }: {
-    id: string | null;
-    region: IFacsimileRegion | null;
-  }) => accessMode !== 'view' && dispatch(onElementSelected({ id, region }));
+    Id: string | null;
+    Region: FacsimileRegion;
+  }) => accessMode !== 'view' && dispatch(onElementSelected({ Id, Region }));
 
   return (
     canvas: fabric.Canvas | null,
     activeWorkspace: TextEditingActiveWorkspace,
-    regions: Array<
-      IFacsimileRegion & {
-        Id: string;
-        HighlightColor: string | undefined;
-        Text: string;
-      }
-    >,
+    regions: Array<{
+      Id: string;
+      HighlightColor: string | undefined;
+      Text: string;
+      Region: FacsimileRegion;
+    }>,
     scaleRatio: number,
     {
       hideHighlight,

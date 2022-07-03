@@ -6,7 +6,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { Theme, useTheme } from '@mui/material/styles';
 
-import { Box, Chip, OutlinedInput } from '@mui/material';
+import { Box, Chip } from '@mui/material';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

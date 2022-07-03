@@ -4,6 +4,7 @@ import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
 import ReorderSharpIcon from '@mui/icons-material/ReorderSharp';
 import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
+import ImageTwoToneIcon from '@mui/icons-material/ImageTwoTone';
 import React, { ReactNode, SyntheticEvent } from 'react';
 import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
 import Box from '@mui/material/Box';
@@ -68,6 +69,7 @@ const TabIndexWorkspaceNameMap: Record<number, TextEditingActiveWorkspace> = {
   2: 'lines',
   3: 'transcription',
   4: 'segmentation',
+  5: 'image',
 };
 const WorkspaceNameTabIndexMap: Record<TextEditingActiveWorkspace, number> = {
   description: 0,
@@ -75,6 +77,7 @@ const WorkspaceNameTabIndexMap: Record<TextEditingActiveWorkspace, number> = {
   lines: 2,
   transcription: 3,
   segmentation: 4,
+  image: 5,
 };
 
 export const ToolSpace = () => {
@@ -135,6 +138,11 @@ export const ToolSpace = () => {
             icon={<TableRowsTwoToneIcon />}
             label="Segmentation"
           />
+          <Tab
+            disabled={isDisabled.images}
+            icon={<ImageTwoToneIcon />}
+            label="Images"
+          />
         </Tabs>
       </Box>
       <AnimatePresence exitBeforeEnter>
@@ -194,6 +202,9 @@ export const ToolSpace = () => {
               </TabPanel>
               <TabPanel value={tabIndex} index={4} dir={theme.direction}>
                 <TextSegmentationTool />
+              </TabPanel>
+              <TabPanel value={tabIndex} index={5} dir={theme.direction}>
+                <h1>Image Cycle Analysis</h1>
               </TabPanel>
             </SwipeableViews>
           </motion.div>

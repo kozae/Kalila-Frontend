@@ -15,7 +15,7 @@ export const selectAllTextElementsRegions = createSelector(
       Id: e.Id,
       HighlightColor: e.HighlightColor,
       Text: ` ${e.Order + 1} `,
-      ...e.FacsimileRegion,
+      Region: e.FacsimileRegion,
     }))
 );
 

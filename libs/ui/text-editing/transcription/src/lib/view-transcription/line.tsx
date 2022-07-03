@@ -3,9 +3,15 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { hexToRgba } from '@frontend/util';
 import { darken } from '@mui/material';
-import { selectTokensOfLine, useAppSelector } from '@frontend/shared-ui';
+import {
+  onRegionHoveredInToolSpace,
+  selectTokensOfLine,
+  useAppDispatch,
+  useAppSelector,
+} from '@frontend/shared-ui';
 import { Token } from './token';
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
+import { ViewTranscriptionContext } from './view-transcription';
 
 export interface ILineProps {
   d: Omit<ILine, 'Tokens'> & { ElementId: string };
@@ -15,8 +21,23 @@ export interface ILineProps {
 export const Line = ({ d, elementType }: ILineProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const tokens = useAppSelector((state) => selectTokensOfLine(state, d.Id));
+  const dispatch = useAppDispatch();
+  const { setHoveredLineId } = useContext(ViewTranscriptionContext);
+  const showPreview = () => {
+    setHoveredLineId(d.Id);
+    dispatch(
+      onRegionHoveredInToolSpace({ Id: d.Id, Region: d.FacsimileRegion })
+    );
+  };
+  const hidePreview = () => {
+    setHoveredLineId(undefined);
+    dispatch(onRegionHoveredInToolSpace(null));
+  };
+
   return (
     <Stack
+      onMouseEnter={showPreview}
+      onMouseLeave={hidePreview}
       sx={{
         width: '100%',
         mt: '10px',

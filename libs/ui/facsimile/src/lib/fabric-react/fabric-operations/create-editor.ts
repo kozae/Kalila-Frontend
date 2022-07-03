@@ -3,8 +3,8 @@ import { hexToRgba } from '@frontend/util';
 import { kalilaTheme } from '@frontend/shared-ui';
 import { PolygonHelper } from '../../helpers';
 import { IEvent, IRectOptions } from 'fabric/fabric-impl';
-import { IFacsimileRegion } from '@frontend/domain';
 import Mousetrap from 'mousetrap';
+import { FacsimileRegion } from '@frontend/domain';
 
 const rectDefaultOptions: () => IRectOptions = () => ({
   fill: hexToRgba(kalilaTheme.palette.primary.main, 0.4),
@@ -29,15 +29,9 @@ export function createEditRegionRect() {
   return new fabric.Rect(rectDefaultOptions());
 }
 
-export const defaultEditRegion: IFacsimileRegion = {
-  Points: [
-    { X: 50, Y: 50 },
-    { X: 300, Y: 50 },
-    { X: 300, Y: 200 },
-    { X: 50, Y: 200 },
-  ],
-  Rotation: 0,
-};
+export const defaultEditRegion: FacsimileRegion = [
+  50, 50, 300, 50, 300, 200, 50, 200, 0,
+];
 
 function listenToKeyboardEvents(
   canvas: fabric.Canvas,
@@ -147,7 +141,7 @@ function showEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
     id: string,
     scaleRatio: number,
     onChanged: (e: IEvent) => void,
-    editRegion: IFacsimileRegion = defaultEditRegion
+    editRegion: FacsimileRegion = defaultEditRegion
   ) => {
     const scale = (x: number) => x * scaleRatio;
     const polygons = canvas.getObjects();
@@ -203,7 +197,7 @@ export function createEditor(
         id: string,
         scaleRatio: number,
         onChanged: (e: IEvent) => void,
-        editRegion: IFacsimileRegion = defaultEditRegion
+        editRegion: FacsimileRegion = defaultEditRegion
       ) => {};
   const hideEditor = canvas ? hideEditorFactory(canvas, editorRect) : () => {};
   return { showEditor, hideEditor };

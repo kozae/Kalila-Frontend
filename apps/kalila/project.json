@@ -9,7 +9,7 @@
       "defaultConfiguration": "production",
       "options": {
         "root": "apps/kalila",
-        "outputPath": "dist/apps/kalila"
+        "outputPath": "/var/www/Kalila.Web.Prod"
       },
       "configurations": {
         "production": {},

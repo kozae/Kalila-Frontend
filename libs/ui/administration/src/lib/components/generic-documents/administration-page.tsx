@@ -125,7 +125,7 @@ export const AdministrationPage = <T extends KalilaDocument>({
           hideMessage,
         }}
       />
-      {!isMessageVisible ? (
+      {!isMessageVisible && pagination ? (
         <Stack direction="row" spacing={1}>
           <AdministrationCommandBar
             {...{ cls, selection, filter, onCreate, onEdit, onDelete }}

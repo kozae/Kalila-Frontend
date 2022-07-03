@@ -16,7 +16,7 @@ export const selectAllLinesRegions = createSelector(selectAllLines, (li) =>
     Id: l.Id,
     HighlightColor: l.HighlightColor,
     Text: ` ${l.LineOrder + 1} `,
-    ...l.FacsimileRegion,
+    Region: l.FacsimileRegion,
   }))
 );
 

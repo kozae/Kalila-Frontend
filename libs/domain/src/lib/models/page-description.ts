@@ -50,6 +50,11 @@ export class PageDescription implements IPageDescription {
     return this;
   }
 
+  withEditionProgress(editionProgress?: string) {
+    this.EditionProgress = editionProgress;
+    return this;
+  }
+
   withFacsimileUrl(url?: string) {
     this.FacsimileImageUrl = url;
     return this;
@@ -62,6 +67,11 @@ export class PageDescription implements IPageDescription {
 
   withTags(tags: string[]) {
     this.Tags = tags;
+    return this;
+  }
+
+  withCommentary(commentary: string) {
+    this.AdditionalCommentary = commentary;
     return this;
   }
 

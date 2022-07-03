@@ -1,4 +1,3 @@
-import { IFacsimileRegion } from '@frontend/domain';
 import {
   cancelCreateLine,
   kalilaTheme,
@@ -19,23 +18,24 @@ import {
 import Button from '@mui/material/Button';
 import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
 import { hexToRgbUint32Array } from '@frontend/util';
+import { FacsimileRegion } from '@frontend/domain';
 
 export const EditLine = ({
   selectedLine,
 }: {
-  selectedLine: { id: string | null; region: IFacsimileRegion | null };
+  selectedLine: { Id: string | null; Region: FacsimileRegion | null };
 }) => {
   const dispatch = useAppDispatch();
   const [regionUnderEditUrl, setRegionUnderEditUrl] = useState('');
   const { facsimileCropper } = useContext(TextEditingWorkspaceContext);
   const line = useAppSelector((state) =>
-    selectLineById(state, selectedLine.id as string)
+    selectLineById(state, selectedLine.Id as string)
   );
   const title = line && line.Id.length === 24 ? 'Edit Line' : 'Define Line';
 
   useEffect(() => {
-    if (facsimileCropper !== null && selectedLine.region) {
-      const [p, r] = mapDataForCropper(selectedLine.region);
+    if (facsimileCropper !== null && selectedLine.Region) {
+      const [p, r] = mapDataForCropper(selectedLine.Region);
       const color = hexToRgbUint32Array('#6b9e1f');
       setRegionUnderEditUrl(facsimileCropper.get_region(p, r, color));
     }
@@ -44,25 +44,25 @@ export const EditLine = ({
   const handleSave = useCallback(() => {
     dispatch(
       updateLine({
-        id: selectedLine.id as string,
+        id: selectedLine.Id as string,
         changes: {
-          FacsimileRegion: selectedLine.region as IFacsimileRegion,
+          FacsimileRegion: selectedLine.Region as FacsimileRegion,
         },
       })
     );
-    dispatch(onElementSelected({ id: null, region: null }));
+    dispatch(onElementSelected({ Id: null, Region: null }));
   }, [selectedLine]);
 
   const handleCancel = useCallback(() => {
     if (
-      selectedLine.id &&
-      selectedLine.id.length !== 24 &&
-      !selectedLine.id.startsWith('generated')
+      selectedLine.Id &&
+      selectedLine.Id.length !== 24 &&
+      !selectedLine.Id.startsWith('generated')
     ) {
-      dispatch(cancelCreateLine(selectedLine.id));
+      dispatch(cancelCreateLine(selectedLine.Id));
     }
 
-    dispatch(onElementSelected({ id: null, region: null }));
+    dispatch(onElementSelected({ Id: null, Region: null }));
   }, [selectedLine]);
 
   return (

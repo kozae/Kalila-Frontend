@@ -6,7 +6,7 @@ import { ParsedUrlQuery } from 'querystring';
 export function getDocuments<T extends KalilaDocument>(
   accessToken: string | undefined | null,
   activityName: string,
-  query: ParsedUrlQuery,
+  query: any,
   mediaType: MediaTypes,
   additionalParams = {},
   suffix: string = ''

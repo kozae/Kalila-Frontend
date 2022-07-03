@@ -36,6 +36,8 @@ export const selectPageDescription = createSelector(
       .withFacsimileUrl(state.pageInfo.FacsimileImageUrl)
       .withTags(state.pageInfo.Tags)
       .withEditor(state.pageInfo.Editor)
+      .withEditionProgress(state.pageInfo.EditionProgress)
+      .withCommentary(state.pageInfo.AdditionalCommentary)
 );
 
 export const selectCurrentPageId = createSelector(

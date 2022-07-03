@@ -11,12 +11,15 @@ export function checkStringValueFactory(
 ) {
   return (value: any) => {
     return axios
-      .get<boolean>(`/server/api/v1/${activityName}/Check`, {
-        params: {
-          [`${fieldName}Sw`]: value,
-          [`${fieldName}Ew`]: value,
-        },
-      })
+      .get<boolean>(
+        `${process.env['NEXT_PUBLIC_API_URL']}${activityName}/Check`,
+        {
+          params: {
+            [`${fieldName}Sw`]: value,
+            [`${fieldName}Ew`]: value,
+          },
+        }
+      )
       .then((r) => !r.data);
   };
 }
@@ -28,12 +31,15 @@ export function checkNumberValueFactory(
 ) {
   return (value: any) => {
     return axios
-      .get<boolean>(`/server/api/v1/${activityName}/Check`, {
-        params: {
-          [`${fieldName}Eq`]: `${value}`,
-          ...additionalParams,
-        },
-      })
+      .get<boolean>(
+        `${process.env['NEXT_PUBLIC_API_URL']}${activityName}/Check`,
+        {
+          params: {
+            [`${fieldName}Eq`]: `${value}`,
+            ...additionalParams,
+          },
+        }
+      )
       .then((r) => !r.data);
   };
 }
@@ -43,12 +49,15 @@ export async function checkOptionDuplication(
   { EntityName, FieldName }: ICategoricalAttribute
 ) {
   return axios
-    .get<boolean>('/server/api/v1/CategoricalAttribute/Check', {
-      params: {
-        OptionEq: newOption,
-        EntityNameEq: EntityName,
-        FieldNameEq: FieldName,
-      },
-    })
+    .get<boolean>(
+      `${process.env['NEXT_PUBLIC_API_URL']}CategoricalAttribute/Check`,
+      {
+        params: {
+          OptionEq: newOption,
+          EntityNameEq: EntityName,
+          FieldNameEq: FieldName,
+        },
+      }
+    )
     .then((r) => !r.data);
 }

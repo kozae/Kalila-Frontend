@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 //@ts-ignore
 import multer from 'multer';
+
 export type SuccessfulResponse<T> = {
   data: T;
   error?: never;
@@ -19,10 +20,11 @@ export type ApiResponse<T, E = unknown> =
 interface NextConnectApiRequest extends NextApiRequest {
   files: Express.Multer.File[];
 }
+
 type ResponseData = ApiResponse<string[], string>;
 
 const oneMegabyteInBytes = 1000000;
-const outputFolderName = '/images/files/anonymclassic/folio_description/';
+const outputFolderName = process.env['NEXT_PUBLIC_PAGES_IMAGE_FOLDER'];
 
 export const createUpdateHandler = (fileNameFactory: () => string) => {
   const upload = multer({

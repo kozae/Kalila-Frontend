@@ -1,7 +1,5 @@
 import styles from './nav.module.scss';
-import React, { useContext } from 'react';
-import { stringHasValue } from '@frontend/util';
-import { NavbarStore } from './store';
+import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import LoginIcon from '@mui/icons-material/Login';
@@ -17,12 +15,12 @@ import IconButton from '@mui/material/IconButton';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { kalilaTheme } from '@frontend/shared-ui';
+import { useUser } from '@auth0/nextjs-auth0';
 
-const LogOutButton: React.FC<{ loggedUser: string }> = ({ loggedUser }) => {
+const LogOutButton: React.FC = () => {
   const { push } = useRouter();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
-
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -75,7 +73,7 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({ loggedUser }) => {
                 <MenuList id="split-button-menu">
                   <MenuItem
                     sx={{ fontSize: '1rem' }}
-                    onClick={() => push('/server/web/LogOut')}
+                    onClick={() => push('/api/auth/logout')}
                   >
                     <ExitToAppIcon color="warning" /> &nbsp; Sign out
                   </MenuItem>
@@ -100,24 +98,24 @@ const LogOutButton: React.FC<{ loggedUser: string }> = ({ loggedUser }) => {
 };
 
 export const NavUserControls: React.FC = () => {
-  const { loggedUser } = useContext(NavbarStore).data;
   const { push } = useRouter();
-  const logInButton = () => (
-    <div className={styles['nav__control-bar__user-controls']}>
-      <Button
-        onClick={() => push('/server/web/Login')}
-        variant="contained"
-        disableElevation
-        endIcon={<LoginIcon />}
-      >
-        Sign In
-      </Button>
-    </div>
-  );
-
-  return stringHasValue(loggedUser) ? (
-    <LogOutButton loggedUser={loggedUser as string} />
-  ) : (
-    logInButton()
+  const { user, error, isLoading } = useUser();
+  if (isLoading) return <div>Loading...</div>;
+  return (
+    <>
+      {user && <LogOutButton />}
+      {!user && (
+        <div className={styles['nav__control-bar__user-controls']}>
+          <Button
+            onClick={() => push('/api/auth/login')}
+            variant="contained"
+            disableElevation
+            endIcon={<LoginIcon />}
+          >
+            Sign In
+          </Button>
+        </div>
+      )}
+    </>
   );
 };

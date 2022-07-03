@@ -1,8 +1,7 @@
 import {
-  IFacsimileRegion,
+  FacsimileRegion,
   IImageElement,
   ILine,
-  IPageTranscriptionInfo,
   ITextElement,
   IToken,
   IUnitSummary,
@@ -13,7 +12,8 @@ export type TextEditingActiveWorkspace =
   | 'transcription'
   | 'layout'
   | 'lines'
-  | 'segmentation';
+  | 'segmentation'
+  | 'image';
 
 export type TextEditingToolMode =
   | 'default'
@@ -31,14 +31,18 @@ export interface ITextEditingPageState {
   accessMode: TextEditingAccessMode;
   activeWorkspace: TextEditingActiveWorkspace;
   toolMode: TextEditingToolMode;
-  regionHoveredInToolSpace:
-    | (IFacsimileRegion & { Id: string; HighlightColor?: string })
-    | null;
-  regionHoveredInFacsimileSpace:
-    | (IFacsimileRegion & { Id: string; HighlightColor?: string })
-    | null;
+  regionHoveredInToolSpace: {
+    Region: FacsimileRegion;
+    Id: string;
+    HighlightColor?: string;
+  } | null;
+  regionHoveredInFacsimileSpace: {
+    Region: FacsimileRegion;
+    Id: string;
+    HighlightColor?: string;
+  } | null;
   selectedElementId: string | null;
-  regionUnderEditPolygon: IFacsimileRegion | null;
+  regionUnderEditPolygon: FacsimileRegion | null;
   textElementsBeforeChanges: Omit<ITextElement, 'Lines'>[];
   imageElementsBeforeChanges: IImageElement[];
   linesBeforeChanges: (Omit<ILine, 'Tokens'> & { ElementId: string })[];

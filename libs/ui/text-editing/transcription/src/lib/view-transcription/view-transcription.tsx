@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import { ILine, IMorphology, ITextElement } from '@frontend/domain';
 import Typography from '@mui/material/Typography';
 import { TextElement } from './text-element';
-import {
+import React, {
   createContext,
   Dispatch,
   RefObject,
@@ -12,6 +12,7 @@ import {
   useState,
 } from 'react';
 import { MorphologyAnnotation } from './morphology-annotation';
+import { LinePreview } from '../line-preview';
 
 export interface IViewTranscriptionProps {
   linesToElementMap: Record<
@@ -38,6 +39,10 @@ export const ViewTranscription = ({
   linesToElementMap,
 }: IViewTranscriptionProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [hoveredLineId, setHoveredLineId] = useState<string | undefined>(
+    undefined
+  );
+
   const [annotation, setAnnotation] = useState<VisibleAnnotation>('none');
   const [selectedToken, setSelectedToken] = useState<ISelectedToken>({
     elementType: 'main',
@@ -57,6 +62,8 @@ export const ViewTranscription = ({
         setSelectedToken,
         morphologyData,
         setMorphologyData,
+        hoveredLineId,
+        setHoveredLineId,
       }}
     >
       <Stack
@@ -72,6 +79,7 @@ export const ViewTranscription = ({
         ref={ref}
       >
         <CommandBar />
+        <LinePreview id={hoveredLineId} />
         <Stack sx={{ width: '100%', mt: '10px' }} alignItems="center">
           {mainBodyElements.length !== 0 ? (
             <Typography variant="h2">
@@ -132,6 +140,8 @@ export interface IViewTranscriptionContext {
   morphologyData: IMorphology[];
   setMorphologyData: (d: IMorphology[]) => void;
   containerRef?: RefObject<HTMLDivElement>;
+  hoveredLineId: string | undefined;
+  setHoveredLineId: (id: string | undefined) => void;
 }
 
 export const ViewTranscriptionContext =
@@ -143,4 +153,6 @@ export const ViewTranscriptionContext =
     setMorphologyPopperAnchor: (el: any) => {},
     morphologyData: [],
     setMorphologyData: (d: IMorphology[]) => {},
+    hoveredLineId: undefined,
+    setHoveredLineId: (id: string | undefined) => {},
   });

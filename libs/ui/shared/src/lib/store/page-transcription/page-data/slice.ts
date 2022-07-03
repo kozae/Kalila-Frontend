@@ -72,6 +72,7 @@ export const pageDataSlice = createSlice({
       state.pageInfo.PresentPageNumbering = action.payload.PresentPageNumbering;
       state.pageInfo.FacsimileImageUrl = action.payload.FacsimileImageUrl;
       state.pageInfo.Tags = action.payload.Tags;
+      state.pageInfo.AdditionalCommentary = action.payload.AdditionalCommentary;
     });
   },
 });

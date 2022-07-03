@@ -1,11 +1,17 @@
 import { fabric } from 'fabric';
-import { IFacsimileRegion } from '@frontend/domain';
+import { FacsimileRegion } from '@frontend/domain';
 import { IEvent } from 'fabric/fabric-impl';
 
 export interface IRegionEvents {
-  onMouseOver: (region: IFacsimileRegion & { Id: string }, e: IEvent) => void;
+  onMouseOver: (
+    region: { Region: FacsimileRegion; Id: string },
+    e: IEvent
+  ) => void;
   onMouseOut: (e: IEvent) => void;
-  onClicked: (id: string, region: IFacsimileRegion & { Id: string }) => void;
+  onClicked: (
+    id: string,
+    region: { Region: FacsimileRegion; Id: string }
+  ) => void;
 }
 
 export function addEventListeners(

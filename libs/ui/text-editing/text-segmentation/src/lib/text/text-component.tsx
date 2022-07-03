@@ -5,18 +5,20 @@ import {
   selectCurrentPageNumber,
   useAppSelector,
 } from '@frontend/shared-ui';
-import { ILine } from '@frontend/domain';
-import { orderBy } from 'lodash';
+import { ILine, IUnitSummary } from '@frontend/domain';
+import { orderBy, sortBy } from 'lodash';
 import Stack from '@mui/material/Stack';
 import { Line } from './line';
 
+function order(units: IUnitSummary[]) {
+  units = sortBy(units, (u) => u.Start[2]);
+  units = sortBy(units, (u) => u.Start[1]);
+  return sortBy(units, (u) => u.Start[0]);
+}
+
 export const TextComponent = () => {
   const textElements = useAppSelector(selectAllTextElements);
-  const units = orderBy(useAppSelector(selectAllUnitSummaries), [
-    'StartsInPageNumber',
-    'StartsInLineNumber',
-    'FirstTokenOrderInLine',
-  ]);
+  const units = order(useAppSelector(selectAllUnitSummaries));
   const mainBodyElements = textElements.filter((el) =>
     el.Position.startsWith('main')
   );

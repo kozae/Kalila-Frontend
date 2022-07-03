@@ -50,5 +50,6 @@ export function useTabDisabledState() {
       selectionIsActive ||
       workspaceHasChanges ||
       !pageHasTranscription,
+    images: true,
   };
 }

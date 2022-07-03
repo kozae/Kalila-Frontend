@@ -3,10 +3,6 @@ export interface IPoint {
   Y: number;
 }
 
-export interface IFacsimileRegion {
-  Rotation: number;
-  Points: IPoint[];
-}
 export type Polygon = [IPoint, IPoint, IPoint, IPoint];
 
 export function pointToSmallXAndY(
@@ -14,3 +10,15 @@ export function pointToSmallXAndY(
 ) {
   return points.map(({ X, Y, x, y }) => ({ x: X ?? x, y: Y ?? x }));
 }
+
+export type FacsimileRegion = [
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number
+];

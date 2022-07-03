@@ -1,7 +1,7 @@
 import { fabric } from 'fabric';
 import { PolygonHelper } from '../../helpers';
 import { hexToRgba } from '@frontend/util';
-import { IFacsimileRegion, pointToSmallXAndY } from '@frontend/domain';
+import { FacsimileRegion, pointToSmallXAndY } from '@frontend/domain';
 
 export function drawPolygons(
   canvas: fabric.Canvas,
@@ -11,18 +11,25 @@ export function drawPolygons(
 }
 
 export function createPolygons(
-  regions: Array<
-    IFacsimileRegion & {
-      Id: string;
-      HighlightColor: string | undefined;
-      Text: string;
-    }
-  >,
+  regions: Array<{
+    Id: string;
+    HighlightColor: string | undefined;
+    Text: string;
+    Region: FacsimileRegion;
+  }>,
   scale: (x: number) => number
 ) {
   const polygons: Record<string, fabric.Polygon> = {};
   regions.forEach((region) => {
-    const points = PolygonHelper.scale(region.Points, scale);
+    const points = PolygonHelper.scale(
+      [
+        { X: region.Region[0], Y: region.Region[1] },
+        { X: region.Region[2], Y: region.Region[3] },
+        { X: region.Region[4], Y: region.Region[5] },
+        { X: region.Region[6], Y: region.Region[7] },
+      ],
+      scale
+    );
     const renderStates = {
       normal: {
         fill: hexToRgba(region.HighlightColor as string, 0.2),

@@ -63,7 +63,7 @@ export const PagePreviewPopper = ({
               <img
                 width="60%"
                 height="auto"
-                src={pageSummary.FacsimileImageUrl}
+                src={`${process.env['NEXT_PUBLIC_IMAGE_URL']}${pageSummary.FacsimileImageUrl}`}
                 alt="loading"
               />
               <Stack width="39%">
@@ -158,16 +158,19 @@ async function fetch(
   manuscriptId: string,
   accessToken: string | undefined
 ) {
-  const { data } = await axios.get(`/server/api/v1/PageTranscription/Summary`, {
-    headers: {
-      Authorization: accessToken ? `Bearer ${accessToken}` : '',
-      Accept: MediaTypes.FolioTranscriptionSummary,
-    },
-    params: {
-      ManuscriptId: manuscriptId,
-      Ids: [pageId],
-    },
-    paramsSerializer,
-  });
+  const { data } = await axios.get(
+    `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Summary`,
+    {
+      headers: {
+        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+        Accept: MediaTypes.FolioTranscriptionSummary,
+      },
+      params: {
+        ManuscriptId: manuscriptId,
+        Ids: [pageId],
+      },
+      paramsSerializer,
+    }
+  );
   return data[0];
 }

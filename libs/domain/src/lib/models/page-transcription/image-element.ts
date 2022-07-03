@@ -1,9 +1,9 @@
-import { IFacsimileRegion } from './facsimile-region';
+import { FacsimileRegion } from './facsimile-region';
 
 export interface IImageElement {
   Id: string;
   Position: string;
-  FacsimileRegion?: IFacsimileRegion;
+  FacsimileRegion?: FacsimileRegion;
   HighlightColor?: string;
   Order: number;
 }

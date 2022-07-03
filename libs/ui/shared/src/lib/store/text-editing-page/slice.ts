@@ -4,7 +4,7 @@ import {
   isPending,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { IFacsimileRegion } from '@frontend/domain';
+import { FacsimileRegion } from '@frontend/domain';
 import {
   ITextEditingPageState,
   TextEditingAccessMode,
@@ -93,33 +93,33 @@ export const textEditingPageSlice = createSlice({
     },
     onRegionHoveredInToolSpace: (
       state,
-      action: PayloadAction<(IFacsimileRegion & { Id: string }) | null>
+      action: PayloadAction<{ Region: FacsimileRegion; Id: string } | null>
     ) => {
       state.regionHoveredInToolSpace = action.payload;
     },
     onRegionHoveredInFacsimileSpace: (
       state,
-      action: PayloadAction<(IFacsimileRegion & { Id: string }) | null>
+      action: PayloadAction<{ Region: FacsimileRegion; Id: string } | null>
     ) => {
       state.regionHoveredInFacsimileSpace = action.payload;
     },
     onElementSelected: (
       state,
       action: PayloadAction<{
-        id: string | null;
-        region: IFacsimileRegion | null;
+        Id: string | null;
+        Region: FacsimileRegion | null;
       }>
     ) => {
-      state.selectedElementId = action.payload.id;
-      state.regionUnderEditPolygon = action.payload.region;
-      if (action.payload.id === null) {
+      state.selectedElementId = action.payload.Id;
+      state.regionUnderEditPolygon = action.payload.Region;
+      if (action.payload.Id === null) {
         state.regionUnderEditPolygon = null;
         state.regionUnderEditUrl = null;
       }
     },
     setRegionUnderEditPolygon: (
       state,
-      action: PayloadAction<IFacsimileRegion>
+      action: PayloadAction<FacsimileRegion>
     ) => {
       state.regionUnderEditPolygon = action.payload;
     },

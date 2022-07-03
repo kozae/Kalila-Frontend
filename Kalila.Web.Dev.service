@@ -1,0 +1,22 @@
+[Unit]
+Description=Kalila Web Dev
+
+[Service]
+WorkingDirectory=/root/Kalila/next/frontend
+ExecStart=/usr/bin/nx serve
+Restart=always
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=Kalila.Web.Dev
+User=root
+
+[Install]
+WantedBy=multi-user.target
+
+
+# journalctl -u Kalila.Web.Dev -f
+# journalctl -u Kalila.Web.Dev -b
+# systemctl start  Kalila.Web.Dev && journalctl -u Kalila.Web.Dev -f
+# systemctl restart  Kalila.Web.Dev && journalctl -u Kalila.Web.Dev -f
+# systemctl stop  Kalila.Web.Dev
+# aFFk8Fwj2N58F^?

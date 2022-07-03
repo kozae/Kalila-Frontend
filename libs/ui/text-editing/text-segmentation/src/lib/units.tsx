@@ -1,5 +1,5 @@
 import Stack from '@mui/material/Stack';
-import { BookUnit, IChapter, IUnitSummary } from '@frontend/domain';
+import { BookUnit, IChapter } from '@frontend/domain';
 import TextField from '@mui/material/TextField';
 import Pagination from '@mui/material/Pagination';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -160,7 +160,7 @@ export const UnitTag = ({ d, handleEditBookUnit }: any) => {
         alignItems="center"
       >
         <Typography variant="body1">
-          ({d.OrderInChapter}) {d.Title} [{unitInStore.StartsInPageNumber}]
+          ({d.OrderInChapter}) {d.Title} [{unitInStore.Start[0]}]
         </Typography>
         <IconButton size="small" onClick={() => handleEditBookUnit(d)}>
           <EditTwoToneIcon fontSize="small" color="primary" />
