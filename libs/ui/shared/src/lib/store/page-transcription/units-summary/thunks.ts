@@ -1,13 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IUnitSummary } from '@frontend/domain';
 import { ThunkApi } from '../../config';
-import { orderBy } from 'lodash';
 import {
   determineEndBasedOnNextUnit,
   determinePrevUnitEnd,
   getOrderedUnits,
   getPrevUnit,
 } from './helpers';
+import { orderUnits } from '@frontend/util';
 
 export const closeUnit = createAsyncThunk<
   { data?: IUnitSummary },
@@ -15,19 +15,16 @@ export const closeUnit = createAsyncThunk<
   ThunkApi
 >('unitSummaries/closeUnit', async ({ data }, { getState }) => {
   const state = getState();
-  const units = orderBy(
+  const units = orderUnits(
     Object.values(state.unitSummaries.entities).filter(
       (unit) =>
         unit &&
-        (unit.StartsInPageNumber < data.page ||
-          (unit.StartsInPageNumber === data.page &&
-            unit.StartsInLineNumber < data.line) ||
-          (unit.StartsInPageNumber === data.page &&
-            unit.StartsInLineNumber === data.line &&
-            unit.FirstTokenOrderInLine < data.token))
-    ),
-    ['StartsInPageNumber', 'StartsInLineNumber', 'FirstTokenOrderInLine'],
-    ['desc', 'desc', 'desc']
+        (unit.Start[0] < data.page ||
+          (unit.Start[0] === data.page && unit.Start[1] < data.line) ||
+          (unit.Start[0] === data.page &&
+            unit.Start[1] === data.line &&
+            unit.Start[2] < data.token))
+    ) as IUnitSummary[]
   );
 
   const unitToUpdate =
@@ -52,11 +49,7 @@ export const moveUnit = createAsyncThunk<
   { data: IUnitSummary[] },
   {
     unit: IUnitSummary;
-    newLocation: {
-      StartsInPageNumber: number;
-      StartsInLineNumber: number;
-      FirstTokenOrderInLine: number;
-    };
+    newLocation: [number, number, number];
   },
   ThunkApi
 >('unitSummaries/moveUnit', async ({ unit, newLocation }, { getState }) => {

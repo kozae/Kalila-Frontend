@@ -16,3 +16,4 @@ export * from './lib/set-all-null';
 export * from './lib/sleeper';
 export * from './lib/session-model';
 export * from './lib/data-url-to-file';
+export * from './lib/order-units';

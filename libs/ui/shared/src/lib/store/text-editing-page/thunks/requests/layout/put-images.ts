@@ -26,10 +26,14 @@ async function putImagesHTTP(
   data: Array<IImageElement>,
   { accessToken, manuscriptId, pageId }: PageParams
 ) {
-  await axios.put('/server/api/v1/PageTranscription/Images', data, {
-    params: { Id: pageId, ManuscriptId: manuscriptId },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  await axios.put(
+    `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Images`,
+    data,
+    {
+      params: { Id: pageId, ManuscriptId: manuscriptId },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
 }

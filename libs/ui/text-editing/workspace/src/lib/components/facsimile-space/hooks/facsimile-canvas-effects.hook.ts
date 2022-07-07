@@ -24,7 +24,7 @@ export function useFacsimileCanvasEffects(
     if (
       !loading &&
       canvasState.canvas &&
-      canvasState.selectedElement.id === null
+      canvasState.selectedElement.Id === null
     ) {
       if (canvasState.regions.activeWorkspace === 'description') {
         console.log('rerendering image only');

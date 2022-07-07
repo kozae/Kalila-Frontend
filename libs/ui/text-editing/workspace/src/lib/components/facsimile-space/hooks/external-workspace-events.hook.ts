@@ -33,7 +33,7 @@ export function useExternalWorkspaceEvents(canvasState: FacsimileCanvasState) {
 
   const round = Math.round;
   const startEditor = useCallback(
-    ({ id }: any) => {
+    ({ Id }: any) => {
       const handleChange = (e: IEvent) => {
         const rectWidth = ((e.target?.width as number) *
           (e?.target?.scaleX as number)) as number;
@@ -47,21 +47,29 @@ export function useExternalWorkspaceEvents(canvasState: FacsimileCanvasState) {
           Rotation: e.target?.angle as number,
         };
 
+        const points = PolygonHelper.fromRect(
+          rectDimensions,
+          rectDimensions.Rotation
+        );
         dispatch(
-          setRegionUnderEditPolygon({
-            Points: PolygonHelper.fromRect(
-              rectDimensions,
-              rectDimensions.Rotation
-            ),
-            Rotation: round(rectDimensions.Rotation),
-          })
+          setRegionUnderEditPolygon([
+            points[0].X,
+            points[0].Y,
+            points[1].X,
+            points[1].Y,
+            points[2].X,
+            points[2].Y,
+            points[3].X,
+            points[3].Y,
+            round(rectDimensions.Rotation),
+          ])
         );
       };
 
       canvasState.hideHighlight(); // make sure the highlight is hidden
       dispatch(onRegionHoveredInFacsimileSpace(null));
       dispatch(onRegionHoveredInToolSpace(null));
-      canvasState.showEditor(id, canvasState.scaleRatio, handleChange);
+      canvasState.showEditor(Id, canvasState.scaleRatio, handleChange);
     },
     [canvasState.showEditor, canvasState.hideHighlight, canvasState.scaleRatio]
   );
@@ -79,16 +87,16 @@ export function useExternalWorkspaceEvents(canvasState: FacsimileCanvasState) {
     );
 
   useEffect(() => {
-    if (canvasState.selectedElement.id === null) {
+    if (canvasState.selectedElement.Id === null) {
       canvasState.hideEditor();
       recreatePolygons();
     } else {
       startEditor(canvasState.selectedElement);
     }
-  }, [canvasState.selectedElement.id]);
+  }, [canvasState.selectedElement.Id]);
 
   useEffect(() => {
-    if (canvasState.canvas && canvasState.selectedElement.id !== null) {
+    if (canvasState.canvas && canvasState.selectedElement.Id !== null) {
       console.log('rerendering image and editor');
       canvasState.renderPageFacsimile(canvasState.canvas);
       recreatePolygons();

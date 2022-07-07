@@ -9,12 +9,8 @@ export interface IUnitUpdate {
   ManuscriptId: string;
   Chapter: string;
   Type: string;
-  StartsInPageNumber: number;
-  StartsInLineNumber: number;
-  FirstTokenOrderInLine: number;
-  EndsInPageNumber?: number;
-  EndsInLineNumber?: number;
-  LastTokenOrderInLine?: number;
+  Start: [number, number, number];
+  End: [number, number, number];
 }
 
 export interface IPageUnitsUpdate {
@@ -48,11 +44,15 @@ async function postPageUnitsHTTP(
   update: IPageUnitsUpdate,
   accessToken?: string | null
 ) {
-  await axios.post('/server/api/v1/ManuscriptUnit/PageUnits', update, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  await axios.post(
+    `${process.env['NEXT_PUBLIC_API_URL']}ManuscriptUnit/PageUnits`,
+    update,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
 }
 
 function prepareUpdate(u: IUnitSummary, manuscriptId: string): IUnitUpdate {
@@ -62,11 +62,7 @@ function prepareUpdate(u: IUnitSummary, manuscriptId: string): IUnitUpdate {
     ManuscriptId: manuscriptId,
     Chapter: u.Chapter,
     Type: u.Type,
-    StartsInPageNumber: u.StartsInPageNumber,
-    StartsInLineNumber: u.StartsInLineNumber,
-    FirstTokenOrderInLine: u.FirstTokenOrderInLine,
-    EndsInPageNumber: u.EndsInPageNumber,
-    EndsInLineNumber: u.EndsInLineNumber,
-    LastTokenOrderInLine: u.LastTokenOrderInLine,
+    Start: u.Start,
+    End: u.End,
   };
 }

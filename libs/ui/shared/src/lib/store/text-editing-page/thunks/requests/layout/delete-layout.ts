@@ -26,7 +26,7 @@ async function deleteLayoutHTTP(
   { accessToken, manuscriptId, pageId }: PageParams
 ) {
   await axios.request({
-    url: '/server/api/v1/PageTranscription/Layout',
+    url: `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Layout`,
     method: 'DELETE',
     data,
     params: { Id: pageId, ManuscriptId: manuscriptId },

@@ -5,8 +5,6 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { useState } from 'react';
 import { selectAllTextElements, useAppSelector } from '@frontend/shared-ui';
 
-import { useAutomaticLineDetectionExecution } from './hooks';
-
 export const AutomaticLineDetection = () => {
   const [progress, setProgress] = useState(0);
   const textElements = useAppSelector(selectAllTextElements);
@@ -15,7 +13,7 @@ export const AutomaticLineDetection = () => {
   const urls: Record<string, string> = {};
 
   // improve transfotmation pipeline from tesseract.Line.bbox to Kalila.ILine
-  useAutomaticLineDetectionExecution(textElements, urls, setProgress);
+  // useAutomaticLineDetectionExecution(textElements, urls, setProgress);
 
   return (
     <Stack alignItems="center" spacing={3}>

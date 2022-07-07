@@ -9,7 +9,7 @@
       "defaultConfiguration": "production",
       "options": {
         "root": "apps/kalila",
-        "outputPath": "/var/www/Kalila.Web.Prod"
+        "outputPath": "dist/apps/kalila"
       },
       "configurations": {
         "production": {},
@@ -27,9 +27,7 @@
       "configurations": {
         "production": {
           "buildTarget": "kalila:build:production",
-          "nextConfig": "apps/kalila/next.config.js",
-          "dev": false,
-          "buildLibsFromSource": true
+          "dev": false
         },
         "development": {
           "buildTarget": "kalila:build:development",

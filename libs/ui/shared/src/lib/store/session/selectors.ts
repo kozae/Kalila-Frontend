@@ -16,7 +16,7 @@ export const selectSessionStatus = createSelector(
 export const selectUser = createSelector(selectSessionState, (state) => {
   if (state.session) {
     return {
-      name: `${state.session.FirstName} ${state.session.FamilyName}`,
+      name: state.session.Name,
       username: state.session.Username,
       roles: state.session.Roles,
     };

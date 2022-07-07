@@ -26,9 +26,7 @@ export const unitSummariesSlice = createSlice({
       unitSummariesAdapter.updateOne(state, {
         id: action.payload,
         changes: {
-          EndsInPageNumber: undefined,
-          EndsInLineNumber: undefined,
-          LastTokenOrderInLine: undefined,
+          End: [-1, -1, -1],
         },
       });
     },

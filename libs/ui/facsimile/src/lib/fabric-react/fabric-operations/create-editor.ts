@@ -5,6 +5,7 @@ import { PolygonHelper } from '../../helpers';
 import { IEvent, IRectOptions } from 'fabric/fabric-impl';
 import Mousetrap from 'mousetrap';
 import { FacsimileRegion } from '@frontend/domain';
+import { regionToPoints } from '../../../../../../util/src/lib/region-to-points';
 
 const rectDefaultOptions: () => IRectOptions = () => ({
   fill: hexToRgba(kalilaTheme.palette.primary.main, 0.4),
@@ -156,14 +157,18 @@ function showEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
         p.off();
         p.set(p.data.greyed);
       });
-    const scaledPolygon = PolygonHelper.scale(polygonToEdit.Points, scale);
+
+    const scaledPolygon = PolygonHelper.scale(
+      regionToPoints(polygonToEdit.Region),
+      scale
+    );
     const { Width, Height } = PolygonHelper.getWidthAndHeight(scaledPolygon);
     editorRect.set({
       left: scaledPolygon[0].X,
       top: scaledPolygon[0].Y,
       width: Width,
       height: Height,
-      angle: polygonToEdit.Rotation,
+      angle: polygonToEdit.Region[8],
       evented: true,
     });
     canvas.add(editorRect);

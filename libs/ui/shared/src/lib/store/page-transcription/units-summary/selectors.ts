@@ -10,9 +10,7 @@ export const { selectAll: selectAllUnitSummaries, selectById: selectUnitById } =
 export const selectUnitStartingInLine = createSelector(
   [selectAllUnitSummaries, (state, line: number) => line],
   (unitSummaries, line) => {
-    return unitSummaries.filter(
-      (unitSummary) => unitSummary.StartsInLineNumber === line
-    );
+    return unitSummaries.filter((unitSummary) => unitSummary.Start[1] === line);
   }
 );
 
@@ -26,8 +24,6 @@ export const selectUnitByBuId = createSelector(
 export const selectUnitEndingInLine = createSelector(
   [selectAllUnitSummaries, (state, line: number) => line],
   (unitSummaries, line) => {
-    return unitSummaries.filter(
-      (unitSummary) => unitSummary.EndsInLineNumber === line
-    );
+    return unitSummaries.filter((unitSummary) => unitSummary.End[1] === line);
   }
 );

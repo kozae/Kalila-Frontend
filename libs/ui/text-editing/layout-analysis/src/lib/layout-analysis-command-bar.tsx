@@ -16,6 +16,7 @@ import {
 } from '@frontend/shared-ui';
 import * as uuid from 'uuid';
 import { highlightColors } from '@frontend/ui/facsimile';
+import { NULL_REGION } from '@frontend/domain';
 
 export interface ILayoutAnalysisCommandBarProps {
   numberOfTextElements: number;
@@ -30,7 +31,7 @@ export const LayoutAnalysisCommandBar = ({
 }: ILayoutAnalysisCommandBarProps) => {
   const dispatch = useAppDispatch();
   const handleElementSelected = (id: string | null) =>
-    dispatch(onElementSelected({ id, region: null }));
+    dispatch(onElementSelected({ Id: id, Region: null }));
   const createTextElement = useCallback(() => {
     const id = uuid.v4();
     dispatch(
@@ -39,6 +40,7 @@ export const LayoutAnalysisCommandBar = ({
         Position: 'main body',
         Order: numberOfTextElements + numberOfImageElements,
         HighlightColor: highlightColors[numberOfTextElements % 13],
+        FacsimileRegion: NULL_REGION,
       })
     );
     handleElementSelected(id);
@@ -51,6 +53,7 @@ export const LayoutAnalysisCommandBar = ({
         Position: 'image in main body',
         Order: numberOfTextElements + numberOfImageElements,
         HighlightColor: highlightColors[(numberOfImageElements + 6) % 13],
+        FacsimileRegion: NULL_REGION,
       })
     );
     handleElementSelected(id);

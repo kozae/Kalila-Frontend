@@ -54,19 +54,22 @@ export function identifyChanges(units: IUnitSummary[], state: RootState) {
 
 function unitHasOpenEnd(unit: IUnitSummary) {
   return (
-    unit.EndsInPageNumber !== undefined &&
-    unit.EndsInLineNumber !== undefined &&
-    unit.LastTokenOrderInLine !== undefined
+    unit.End[0] !== undefined &&
+    unit.End[0] !== -1 &&
+    unit.End[1] !== undefined &&
+    unit.End[1] !== -1 &&
+    unit.End[2] !== undefined &&
+    unit.End[2] !== -1
   );
 }
 
 function unitUnchanged(u1: IUnitSummary, u2: IUnitSummary | undefined) {
   return (
-    u1.StartsInPageNumber === u2?.StartsInPageNumber &&
-    u1.StartsInLineNumber === u2?.StartsInLineNumber &&
-    u1.FirstTokenOrderInLine === u2?.FirstTokenOrderInLine &&
-    u1.EndsInPageNumber === u2?.EndsInPageNumber &&
-    u1.EndsInLineNumber === u2?.EndsInLineNumber &&
-    u1.LastTokenOrderInLine === u2?.LastTokenOrderInLine
+    u1.Start[0] === u2?.Start[0] &&
+    u1.Start[1] === u2?.Start[1] &&
+    u1.Start[2] === u2?.Start[2] &&
+    u1.End[0] === u2?.End[0] &&
+    u1.End[1] === u2?.End[1] &&
+    u1.End[2] === u2?.End[2]
   );
 }

@@ -1,4 +1,4 @@
-import { IPoint, Polygon } from '@frontend/domain';
+import { FacsimileRegion, IPoint, Polygon } from '@frontend/domain';
 import { RectDimensions } from '../models';
 import { PointsHelper } from './points.helper';
 import { fabric } from 'fabric';
@@ -21,7 +21,7 @@ export class PolygonHelper {
       width,
       height,
     }: { top: number; left: number; width: number; height: number }
-  ) {
+  ): FacsimileRegion {
     const p1 = PointsHelper.atDistanceAndAngle(
         p[0],
         Math.sqrt(Math.pow(top, 2) + Math.pow(left, 2)),
@@ -30,7 +30,7 @@ export class PolygonHelper {
       p2 = PointsHelper.atDistanceAndAngle(p1, width, rotation),
       p3 = PointsHelper.atDistanceAndAngle(p2, height, rotation + 90),
       p4 = PointsHelper.atDistanceAndAngle(p1, height, rotation + 90);
-    return [p1, p2, p3, p4];
+    return [p1.X, p1.Y, p2.X, p2.Y, p3.X, p3.Y, p4.X, p4.Y, rotation];
   }
 
   static getWidthAndHeight(p: Polygon | IPoint[]) {

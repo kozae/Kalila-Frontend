@@ -9,16 +9,11 @@ import { ILine, IUnitSummary } from '@frontend/domain';
 import { orderBy, sortBy } from 'lodash';
 import Stack from '@mui/material/Stack';
 import { Line } from './line';
-
-function order(units: IUnitSummary[]) {
-  units = sortBy(units, (u) => u.Start[2]);
-  units = sortBy(units, (u) => u.Start[1]);
-  return sortBy(units, (u) => u.Start[0]);
-}
+import { orderUnits } from '@frontend/util';
 
 export const TextComponent = () => {
   const textElements = useAppSelector(selectAllTextElements);
-  const units = order(useAppSelector(selectAllUnitSummaries));
+  const units = orderUnits(useAppSelector(selectAllUnitSummaries));
   const mainBodyElements = textElements.filter((el) =>
     el.Position.startsWith('main')
   );

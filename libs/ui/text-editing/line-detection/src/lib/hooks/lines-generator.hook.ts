@@ -13,9 +13,13 @@ function generateLines(
   existingLines: number
 ) {
   const lines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
-  const { Width, Height } = PolygonHelper.getWidthAndHeight(
-    element.FacsimileRegion?.Points as IPoint[]
-  );
+  const points = [
+    { X: element.FacsimileRegion[0], Y: element.FacsimileRegion[1] },
+    { X: element.FacsimileRegion[2], Y: element.FacsimileRegion[3] },
+    { X: element.FacsimileRegion[4], Y: element.FacsimileRegion[5] },
+    { X: element.FacsimileRegion[6], Y: element.FacsimileRegion[7] },
+  ] as IPoint[];
+  const { Width, Height } = PolygonHelper.getWidthAndHeight(points);
   const lineHeight = Math.round(Height / numberOfLines);
   for (let i = 0; i < numberOfLines; i++) {
     lines.push({
@@ -23,19 +27,16 @@ function generateLines(
       LineOrder: existingLines + i,
       ElementId: element.Id,
       HighlightColor: highlightColors[(existingLines + i) % 13],
-      FacsimileRegion: {
-        Points: PolygonHelper.getSubRegion(
-          element.FacsimileRegion?.Points as IPoint[],
-          element.FacsimileRegion?.Rotation as number,
-          {
-            top: i * lineHeight,
-            left: 0,
-            width: Width,
-            height: lineHeight,
-          }
-        ),
-        Rotation: element.FacsimileRegion?.Rotation as number,
-      },
+      FacsimileRegion: PolygonHelper.getSubRegion(
+        points,
+        element.FacsimileRegion[8],
+        {
+          top: i * lineHeight,
+          left: 0,
+          width: Width,
+          height: lineHeight,
+        }
+      ),
     });
   }
   return lines;

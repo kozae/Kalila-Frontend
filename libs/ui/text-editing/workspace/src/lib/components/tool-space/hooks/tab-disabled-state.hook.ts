@@ -20,8 +20,8 @@ export function useTabDisabledState() {
   const pageHasText = useAppSelector(selectPageHasText);
   const pageHasTranscription = useAppSelector(selectPageHasTranscription);
   const selectionIsActive = useMemo(
-    () => selectedElement.id !== null,
-    [selectedElement.id]
+    () => selectedElement.Id !== null,
+    [selectedElement.Id]
   );
   const hasUrl = stringHasValue(url);
   return {

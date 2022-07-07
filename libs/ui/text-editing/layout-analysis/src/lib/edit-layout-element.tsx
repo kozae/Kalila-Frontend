@@ -39,7 +39,13 @@ export const EditLayoutElement = ({
   const imageElement = useAppSelector((state) =>
     selectImageElementById(state, selectedElement.Id as string)
   );
-  const [position, setPosition] = useState<string>('');
+  const [position, setPosition] = useState<string>(
+    textElement
+      ? textElement.Position
+      : imageElement
+      ? imageElement.Position
+      : ''
+  );
 
   const title =
     textElement && textElement.Id.length === 24

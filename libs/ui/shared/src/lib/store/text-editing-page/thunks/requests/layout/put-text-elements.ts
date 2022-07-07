@@ -26,10 +26,14 @@ async function putTextElementsHTTP(
   data: Array<Omit<ITextElement, 'Lines'>>,
   { accessToken, manuscriptId, pageId }: PageParams
 ) {
-  await axios.put('/server/api/v1/PageTranscription/TextElements', data, {
-    params: { Id: pageId, ManuscriptId: manuscriptId },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  await axios.put(
+    `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/TextElements`,
+    data,
+    {
+      params: { Id: pageId, ManuscriptId: manuscriptId },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
 }

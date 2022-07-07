@@ -73,7 +73,7 @@ export const LineToolCommandBar = () => {
     const line = createASingleLine(el, id, order);
     dispatch(addLine(line));
     handleAddLineMenuClose();
-    dispatch(onElementSelected({ id, region: line.FacsimileRegion }));
+    dispatch(onElementSelected({ Id: id, Region: line.FacsimileRegion }));
   };
 
   const canDeleteAll = !pageHasTranscription;

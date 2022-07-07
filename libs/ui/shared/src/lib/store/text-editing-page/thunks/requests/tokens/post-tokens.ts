@@ -46,10 +46,14 @@ async function postTokensHTTP(
   }[],
   { accessToken, manuscriptId, pageId }: PageParams
 ) {
-  await axios.post('/server/api/v1/PageTranscription/Tokens', data, {
-    params: { Id: pageId, ManuscriptId: manuscriptId },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  await axios.post(
+    `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Tokens`,
+    data,
+    {
+      params: { Id: pageId, ManuscriptId: manuscriptId },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
 }

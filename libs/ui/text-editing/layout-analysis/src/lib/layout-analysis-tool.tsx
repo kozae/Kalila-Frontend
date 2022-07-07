@@ -28,7 +28,7 @@ export function LayoutAnalysisTool() {
       }}
     >
       <AnimatePresence exitBeforeEnter>
-        {selectedElement.id === null ? (
+        {selectedElement.Id === null ? (
           <motion.div
             key="layout-analysis-tool-preview-mode"
             style={{

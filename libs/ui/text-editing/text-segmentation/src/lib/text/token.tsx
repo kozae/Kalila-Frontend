@@ -76,19 +76,15 @@ export const Token = ({ d, currentPageNumber, lineOrder }: ITokenProps) => {
           dispatch(
             moveUnit({
               unit: item.data,
-              newLocation: {
-                StartsInPageNumber: currentPageNumber,
-                StartsInLineNumber: lineOrder,
-                FirstTokenOrderInLine: d.OrderInLine,
-              },
+              newLocation: [currentPageNumber, lineOrder, d.OrderInLine],
             })
           );
           break;
         case Draggables.movableEndTag:
           if (
-            lineOrder > item.data.StartsInLineNumber ||
-            (lineOrder === item.data.StartsInLineNumber &&
-              d.OrderInLine > item.data.FirstTokenOrderInLine)
+            lineOrder > item.data.Start[1] ||
+            (lineOrder === item.data.Start[1] &&
+              d.OrderInLine > item.data.Start[2])
           ) {
             dispatch(
               updateUnit({

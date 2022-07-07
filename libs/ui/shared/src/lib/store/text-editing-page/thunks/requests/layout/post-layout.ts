@@ -1,19 +1,20 @@
 import axios from 'axios';
-import { IImageElement, ITextElement } from '@frontend/domain';
+import { IImageElement, ILine, ITextElement } from '@frontend/domain';
 import { RootState } from '../../../../config';
 import { getParams, PageParams } from '../helpers';
 import { cleanObject } from '@frontend/util';
 import ObjectID from 'bson-objectid';
 
 export async function postLayout(state: RootState) {
-  const TextElements: Array<Omit<ITextElement, 'Lines'>> = [];
+  const TextElements: Array<ITextElement> = [];
   const Images: Array<IImageElement> = [];
   state.textEditingPageState.postLayoutTextElements.forEach((id) => {
     TextElements.push(
       cleanObject({
         ...state.textElements.entities[id],
         Id: ObjectID().toString(),
-      }) as Omit<ITextElement, 'Lines'>
+        Lines: [] as ILine[],
+      }) as ITextElement
     );
   });
   state.textEditingPageState.postLayoutImages.forEach((id) => {
@@ -41,14 +42,18 @@ export async function postLayout(state: RootState) {
 async function postLayoutHTTP(
   data: {
     Images: Array<IImageElement>;
-    TextElements: Array<Omit<ITextElement, 'Lines'>>;
+    TextElements: Array<ITextElement>;
   },
   { accessToken, manuscriptId, pageId }: PageParams
 ) {
-  await axios.post('/server/api/v1/PageTranscription/Layout', data, {
-    params: { Id: pageId, ManuscriptId: manuscriptId },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  await axios.post(
+    `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Layout`,
+    data,
+    {
+      params: { Id: pageId, ManuscriptId: manuscriptId },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
 }

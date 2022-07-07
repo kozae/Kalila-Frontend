@@ -15,9 +15,7 @@ export const TextElementInfoForm = ({
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange((event.target as HTMLInputElement).value);
   };
-  useEffect(() => {
-    onChange('main body');
-  }, []);
+
   return (
     <FormControl>
       <FormLabel id="radio-buttons-text-element-position-group-label">

@@ -22,3 +22,7 @@ export type FacsimileRegion = [
   number,
   number
 ];
+
+export const NULL_REGION: FacsimileRegion = [
+  -1, -1, -1, -1, -1, -1, -1, -1, -1,
+];

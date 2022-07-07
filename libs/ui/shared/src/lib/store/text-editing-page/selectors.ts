@@ -32,8 +32,8 @@ export const selectRegionHoveredInFacsimileSpace = createSelector(
 export const selectSelectedElement = createSelector(
   selectTextEditingPageState,
   (state) => ({
-    id: state.selectedElementId,
-    region: state.regionUnderEditPolygon,
+    Id: state.selectedElementId,
+    Region: state.regionUnderEditPolygon,
   })
 );
 

@@ -20,6 +20,7 @@ const spaceToGroupMap: Record<
   layout: 'layout',
   lines: 'lines',
   transcription: 'lines',
+  image: undefined,
 };
 
 export const selectRegions = createSelector(

@@ -9,7 +9,7 @@ export function useRegionUrl(
   id?: string | null,
   region?: {
     Id: string;
-    HighlightColor: string | undefined;
+    HighlightColor?: string | undefined;
     Text?: string;
     Region: FacsimileRegion;
   } | null

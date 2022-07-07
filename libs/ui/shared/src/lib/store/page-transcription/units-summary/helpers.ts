@@ -6,17 +6,15 @@ export function determineEndBasedOnNextUnit(
   unit: IUnitSummary,
   nextUnit: IUnitSummary,
   state: RootState
-) {
-  if (nextUnit.FirstTokenOrderInLine !== 0) {
+): IUnitSummary {
+  if (nextUnit.Start[2] !== 0) {
     return {
       ...unit,
-      EndsInPageNumber: nextUnit.StartsInPageNumber,
-      EndsInLineNumber: nextUnit.StartsInLineNumber,
-      LastTokenOrderInLine: nextUnit.FirstTokenOrderInLine - 1,
+      End: [nextUnit.Start[0], nextUnit.Start[1], nextUnit.Start[2] - 1],
     };
   } else {
     const line = Object.values(state.lines.entities).find(
-      (l) => l && l.LineOrder === nextUnit.StartsInLineNumber - 1
+      (l) => l && l.LineOrder === nextUnit.Start[1] - 1
     );
     if (line) {
       const tokens = Object.values(state.tokens.entities).filter(
@@ -24,9 +22,7 @@ export function determineEndBasedOnNextUnit(
       );
       return {
         ...unit,
-        EndsInPageNumber: nextUnit.StartsInPageNumber,
-        EndsInLineNumber: nextUnit.StartsInLineNumber - 1,
-        LastTokenOrderInLine: tokens.length - 1,
+        End: [nextUnit.Start[0], nextUnit.Start[1] - 1, tokens.length - 1],
       };
     }
 
@@ -45,17 +41,14 @@ export function getOrderedUnits(state: RootState) {
 }
 
 export function getPrevUnit(unit: IUnitSummary, state: RootState) {
-  if (unit.FirstTokenOrderInLine !== 0) {
+  if (unit.Start[2] !== 0) {
     return Object.values(state.unitSummaries.entities).find(
-      (u) =>
-        u &&
-        u.EndsInLineNumber === unit.StartsInLineNumber &&
-        u.LastTokenOrderInLine === unit.FirstTokenOrderInLine - 1
+      (u) => u && u.End[1] === unit.Start[1] && u.End[2] === unit.Start[2] - 1
     );
   } else {
     return maxBy(
       Object.values(state.unitSummaries.entities).filter(
-        (u) => u && u.EndsInLineNumber === unit.StartsInLineNumber - 1
+        (u) => u && u.End[1] === unit.Start[1] - 1
       ),
       'LastTokenOrderInLine'
     );
@@ -64,23 +57,17 @@ export function getPrevUnit(unit: IUnitSummary, state: RootState) {
 
 export function determinePrevUnitEnd(
   prevUnit: IUnitSummary,
-  newLocation: {
-    StartsInPageNumber: number;
-    StartsInLineNumber: number;
-    FirstTokenOrderInLine: number;
-  },
+  newStart: [number, number, number],
   state: RootState
-) {
-  if (newLocation.FirstTokenOrderInLine !== 0) {
+): IUnitSummary | undefined {
+  if (newStart[2] !== 0) {
     return {
       ...prevUnit,
-      EndsInPageNumber: newLocation.StartsInPageNumber,
-      EndsInLineNumber: newLocation.StartsInLineNumber,
-      LastTokenOrderInLine: newLocation.FirstTokenOrderInLine - 1,
+      End: [newStart[0], newStart[1], newStart[2] - 1],
     };
   } else {
     const line = Object.values(state.lines.entities).find(
-      (l) => l && l.LineOrder === newLocation.StartsInLineNumber - 1
+      (l) => l && l.LineOrder === newStart[1] - 1
     );
     if (line) {
       const tokenCount = Object.values(state.tokens.entities).filter(
@@ -88,9 +75,7 @@ export function determinePrevUnitEnd(
       ).length;
       return {
         ...prevUnit,
-        EndsInPageNumber: newLocation.StartsInPageNumber,
-        EndsInLineNumber: newLocation.StartsInLineNumber - 1,
-        LastTokenOrderInLine: tokenCount - 1,
+        End: [newStart[0], newStart[1] - 1, tokenCount - 1],
       };
     }
     return undefined;

@@ -57,7 +57,7 @@ async function deleteLinesHTTP(
   { accessToken, manuscriptId, pageId }: PageParams
 ) {
   await axios.request({
-    url: '/server/api/v1/PageTranscription/Lines',
+    url: `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Lines`,
     method: 'DELETE',
     data,
     params: { Id: pageId, ManuscriptId: manuscriptId },

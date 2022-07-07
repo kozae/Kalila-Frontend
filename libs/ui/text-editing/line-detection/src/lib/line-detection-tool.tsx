@@ -15,7 +15,7 @@ export const LineDetectionTool = () => {
   const toolMode = useAppSelector(selectTextEditingToolMode);
   const selectedLine = useAppSelector(selectSelectedElement);
 
-  if (selectedLine.id !== null) return <EditLine selectedLine={selectedLine} />;
+  if (selectedLine.Id !== null) return <EditLine selectedLine={selectedLine} />;
   if (numberOfLines === 0) return <DefineLinesChoices />;
   return toolMode === 'default' ? (
     <LineList />
