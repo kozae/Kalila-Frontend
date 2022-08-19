@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   displayName: 'ui-text-editing-text-segmentation',
 
   globals: {
@@ -12,5 +12,5 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory:
     '../../../../coverage/libs/ui/text-editing/text-segmentation',
-  preset: '../../../../jest.preset.ts',
+  preset: '../../../../jest.preset.js',
 };

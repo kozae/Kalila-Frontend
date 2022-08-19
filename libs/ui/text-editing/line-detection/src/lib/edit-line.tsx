@@ -19,6 +19,7 @@ import Button from '@mui/material/Button';
 import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
 import { hexToRgbUint32Array } from '@frontend/util';
 import { FacsimileRegion } from '@frontend/domain';
+import { AngleHelper } from '@frontend/ui/facsimile';
 
 export const EditLine = ({
   selectedLine,
@@ -37,7 +38,13 @@ export const EditLine = ({
     if (facsimileCropper !== null && selectedLine.Region) {
       const [p, r] = mapDataForCropper(selectedLine.Region);
       const color = hexToRgbUint32Array('#6b9e1f');
-      setRegionUnderEditUrl(facsimileCropper.get_region(p, r, color));
+      setRegionUnderEditUrl(
+        facsimileCropper.get_region(
+          p,
+          AngleHelper.normalizeRotationDeg(r),
+          color
+        )
+      );
     }
   }, [selectedLine]);
 

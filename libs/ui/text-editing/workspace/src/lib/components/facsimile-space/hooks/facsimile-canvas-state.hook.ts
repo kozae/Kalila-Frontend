@@ -50,9 +50,8 @@ function createPageFacsimileRenderer(data: {
 
 function usePolygonEventHandlers(canvas: fabric.Canvas | null) {
   const highlighterRect = createRegionHighlighter();
-  const editorRect = createEditRegionRect();
   return useMemo(() => {
-    const { showEditor, hideEditor } = createEditor(canvas, editorRect);
+    const { showEditor, hideEditor } = createEditor(canvas);
     const { hideHighlight, showHighlight } = createHighlighter(
       canvas,
       highlighterRect

@@ -24,6 +24,7 @@ import {
 import { mapDataForCropper } from '@frontend/ui/facsimile-cropper';
 import { hexToRgbUint32Array } from '@frontend/util';
 import { FacsimileRegion } from '@frontend/domain';
+import { AngleHelper } from '@frontend/ui/facsimile';
 
 export const EditLayoutElement = ({
   selectedElement,
@@ -60,7 +61,13 @@ export const EditLayoutElement = ({
     if (facsimileCropper !== null && selectedElement.Region) {
       const [p, r] = mapDataForCropper(selectedElement.Region);
       const color = hexToRgbUint32Array('#6b9e1f');
-      setRegionUnderEditUrl(facsimileCropper.get_region(p, r, color));
+      setRegionUnderEditUrl(
+        facsimileCropper.get_region(
+          p,
+          AngleHelper.normalizeRotationDeg(r),
+          color
+        )
+      );
     }
   }, [selectedElement]);
 

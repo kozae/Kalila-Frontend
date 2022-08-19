@@ -1,38 +1,55 @@
 import { fabric } from 'fabric';
-import { hexToRgba } from '@frontend/util';
+import { hexToRgba, regionToPoints } from '@frontend/util';
 import { kalilaTheme } from '@frontend/shared-ui';
 import { PolygonHelper } from '../../helpers';
 import { IEvent, IRectOptions } from 'fabric/fabric-impl';
 import Mousetrap from 'mousetrap';
-import { FacsimileRegion } from '@frontend/domain';
-import { regionToPoints } from '../../../../../../util/src/lib/region-to-points';
+import { FacsimileRegion, Polygon } from '@frontend/domain';
 
-const rectDefaultOptions: () => IRectOptions = () => ({
-  fill: hexToRgba(kalilaTheme.palette.primary.main, 0.4),
-  selectable: true,
-  hasControls: true,
-  hoverCursor: 'move',
-  borderColor: kalilaTheme.palette.primary.main,
-  borderScaleFactor: 3,
-  borderDashArray: [4, 4],
-  cornerColor: kalilaTheme.palette.primary.dark,
-  cornerStyle: 'circle',
-  cornerSize: 11,
-  transparentCorners: false,
-  data: {
-    normal: {},
-    hidden: {},
-    greyed: {},
-  },
-});
+export const defaultEditRegion: { Region: FacsimileRegion } = {
+  Region: [50, 50, 300, 50, 300, 200, 50, 200, 0],
+};
 
-export function createEditRegionRect() {
-  return new fabric.Rect(rectDefaultOptions());
+const rectDefaultOptions: (
+  polygon: Polygon,
+  width: number,
+  height: number,
+  rotation: number
+) => IRectOptions = (polygon, width, height, rotation) => {
+  return {
+    left: polygon[0].X,
+    top: polygon[0].Y,
+    width: width,
+    height: height,
+    angle: rotation,
+    evented: true,
+    fill: hexToRgba(kalilaTheme.palette.primary.main, 0.4),
+    selectable: true,
+    hasControls: true,
+    hoverCursor: 'move',
+    borderColor: kalilaTheme.palette.primary.main,
+    borderScaleFactor: 3,
+    borderDashArray: [4, 4],
+    cornerColor: kalilaTheme.palette.primary.dark,
+    cornerStyle: 'circle',
+    cornerSize: 11,
+    transparentCorners: false,
+    data: {
+      normal: {},
+      hidden: {},
+      greyed: {},
+    },
+  };
+};
+
+export function createEditRegionRect(
+  polygon: Polygon,
+  width: number,
+  height: number,
+  rotation: number
+) {
+  return new fabric.Rect(rectDefaultOptions(polygon, width, height, rotation));
 }
-
-export const defaultEditRegion: FacsimileRegion = [
-  50, 50, 300, 50, 300, 200, 50, 200, 0,
-];
 
 function listenToKeyboardEvents(
   canvas: fabric.Canvas,
@@ -137,17 +154,18 @@ function removeKeyboardEventListeners() {
   Mousetrap.reset();
 }
 
-function showEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
+function showEditorFactory(canvas: fabric.Canvas) {
   return (
     id: string,
     scaleRatio: number,
     onChanged: (e: IEvent) => void,
-    editRegion: FacsimileRegion = defaultEditRegion
+    editRegion: { Region: FacsimileRegion } = defaultEditRegion
   ) => {
     const scale = (x: number) => x * scaleRatio;
     const polygons = canvas.getObjects();
     const existingPolygon = polygons.find((p) => p.data.Id === id);
     const polygonToEdit = existingPolygon ? existingPolygon.data : editRegion;
+    console.log({ polygonToEdit });
     if (existingPolygon) {
       canvas.remove(existingPolygon);
     }
@@ -163,14 +181,12 @@ function showEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
       scale
     );
     const { Width, Height } = PolygonHelper.getWidthAndHeight(scaledPolygon);
-    editorRect.set({
-      left: scaledPolygon[0].X,
-      top: scaledPolygon[0].Y,
-      width: Width,
-      height: Height,
-      angle: polygonToEdit.Region[8],
-      evented: true,
-    });
+    const editorRect = createEditRegionRect(
+      scaledPolygon,
+      Width,
+      Height,
+      polygonToEdit.Region[8]
+    );
     canvas.add(editorRect);
     canvas.renderAll();
     canvas.setActiveObject(editorRect);
@@ -179,7 +195,7 @@ function showEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
   };
 }
 
-function hideEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
+function hideEditorFactory(canvas: fabric.Canvas) {
   return () => {
     removeKeyboardEventListeners();
     try {
@@ -187,23 +203,20 @@ function hideEditorFactory(canvas: fabric.Canvas, editorRect: fabric.Rect) {
     } catch {
       // no objects to remove
     }
-    editorRect.set(rectDefaultOptions());
+
     canvas.renderAll();
   };
 }
 
-export function createEditor(
-  canvas: fabric.Canvas | null,
-  editorRect: fabric.Rect
-) {
+export function createEditor(canvas: fabric.Canvas | null) {
   const showEditor = canvas
-    ? showEditorFactory(canvas, editorRect)
+    ? showEditorFactory(canvas)
     : (
         id: string,
         scaleRatio: number,
         onChanged: (e: IEvent) => void,
-        editRegion: FacsimileRegion = defaultEditRegion
+        editRegion: { Region: FacsimileRegion } = defaultEditRegion
       ) => {};
-  const hideEditor = canvas ? hideEditorFactory(canvas, editorRect) : () => {};
+  const hideEditor = canvas ? hideEditorFactory(canvas) : () => {};
   return { showEditor, hideEditor };
 }

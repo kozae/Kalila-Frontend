@@ -9,6 +9,7 @@ export interface IUnitUpdate {
   ManuscriptId: string;
   Chapter: string;
   Type: string;
+  Tags: string[];
   Start: [number, number, number];
   End: [number, number, number];
 }
@@ -62,6 +63,7 @@ function prepareUpdate(u: IUnitSummary, manuscriptId: string): IUnitUpdate {
     ManuscriptId: manuscriptId,
     Chapter: u.Chapter,
     Type: u.Type,
+    Tags: [],
     Start: u.Start,
     End: u.End,
   };

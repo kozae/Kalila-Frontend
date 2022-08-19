@@ -1,5 +1,5 @@
 {
-  "root": "libs/ui/text-editing/shared",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/text-editing/shared/src",
   "projectType": "library",
   "tags": [],

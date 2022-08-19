@@ -1,6 +1,6 @@
 import { IUnitSummary } from '@frontend/domain';
 import { RootState } from '@frontend/shared-ui';
-import { maxBy, orderBy } from 'lodash';
+import { maxBy, orderBy, sortBy } from 'lodash';
 
 export function determineEndBasedOnNextUnit(
   unit: IUnitSummary,
@@ -30,16 +30,6 @@ export function determineEndBasedOnNextUnit(
   }
 }
 
-export function getOrderedUnits(state: RootState) {
-  return orderBy(
-    Object.values(state.unitSummaries.entities).filter(
-      (unit) => unit !== undefined
-    ),
-    ['StartsInPageNumber', 'StartsInLineNumber', 'FirstTokenOrderInLine'],
-    ['asc', 'asc', 'asc']
-  ) as IUnitSummary[];
-}
-
 export function getPrevUnit(unit: IUnitSummary, state: RootState) {
   if (unit.Start[2] !== 0) {
     return Object.values(state.unitSummaries.entities).find(
@@ -50,7 +40,7 @@ export function getPrevUnit(unit: IUnitSummary, state: RootState) {
       Object.values(state.unitSummaries.entities).filter(
         (u) => u && u.End[1] === unit.Start[1] - 1
       ),
-      'LastTokenOrderInLine'
+      (u) => (u ? u.End[2] : 0)
     );
   }
 }

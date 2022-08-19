@@ -1,5 +1,5 @@
 {
-  "root": "libs/ui/text-editing/pages-summary",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/text-editing/pages-summary/src",
   "projectType": "library",
   "tags": [],

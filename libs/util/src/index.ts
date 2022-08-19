@@ -17,3 +17,5 @@ export * from './lib/sleeper';
 export * from './lib/session-model';
 export * from './lib/data-url-to-file';
 export * from './lib/order-units';
+export * from './lib/region-to-points';
+export * from './lib/letter-map';

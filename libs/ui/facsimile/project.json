@@ -1,5 +1,5 @@
 {
-  "root": "libs/ui/facsimile",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/facsimile/src",
   "projectType": "library",
   "tags": [],

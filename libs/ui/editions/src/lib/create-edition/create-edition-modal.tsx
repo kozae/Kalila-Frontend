@@ -19,7 +19,7 @@ export const CreateEditionModal = ({
       <DialogTitle>Create Edition</DialogTitle>
       <DialogContent>
         <DndProvider backend={HTML5Backend}>
-          <CreateEditionStepper />
+          <CreateEditionStepper handleClose={handleClose} />
         </DndProvider>
       </DialogContent>
     </Dialog>

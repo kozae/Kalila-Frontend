@@ -6,6 +6,7 @@ import { SidePanel } from './side-panel';
 import { useNavSessionState, useRouteState } from './hooks/nav.hooks';
 import { navbarInitialStore, NavbarStore } from './store';
 import { useBoolean } from '../../../hooks';
+import { selectNavControlBarIsShown, useAppSelector } from '../../../store';
 
 export const Nav: React.FC = () => {
   const [isPanelOpen, { setTrue: openPanel, setFalse: dismissPanel }] =
@@ -14,7 +15,7 @@ export const Nav: React.FC = () => {
   const { links, loggedUser, isAdmin } = useNavSessionState(
     navbarInitialStore.data
   );
-
+  const showControlBar = useAppSelector(selectNavControlBarIsShown);
   return (
     <NavbarStore.Provider
       value={{
@@ -32,9 +33,9 @@ export const Nav: React.FC = () => {
       }}
     >
       <nav className={styles['nav']}>
-        <NavControlBar />
+        {showControlBar && <NavControlBar />}
         <NavMessageBar />
-        <SidePanel />
+        {showControlBar && <SidePanel />}
       </nav>
     </NavbarStore.Provider>
   );

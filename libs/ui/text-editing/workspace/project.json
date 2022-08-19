@@ -1,5 +1,5 @@
 {
-  "root": "libs/ui/text-editing/workspace",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/text-editing/workspace/src",
   "projectType": "library",
   "tags": [],

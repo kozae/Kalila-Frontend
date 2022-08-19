@@ -3,6 +3,11 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { useDrop } from 'react-dnd';
+import {
+  removeUnit,
+  removeUnitEndTag,
+  useAppDispatch,
+} from '@frontend/shared-ui';
 export interface IDeleteDropContainerProps {
   itemType: Draggables;
   onDeleteBookUnit: (d: any) => void;
@@ -12,6 +17,7 @@ export const DeleteDropContainer = ({
   itemType,
   onDeleteBookUnit,
 }: IDeleteDropContainerProps) => {
+  const dispatch = useAppDispatch();
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
     accept: [
       Draggables.insertableUnit,
@@ -27,8 +33,10 @@ export const DeleteDropContainer = ({
           onDeleteBookUnit(item.data);
           break;
         case Draggables.movableUnit:
+          dispatch(removeUnit(item.data.Id));
           break;
         case Draggables.movableEndTag:
+          dispatch(removeUnitEndTag(item.data.Id));
           break;
       }
     },

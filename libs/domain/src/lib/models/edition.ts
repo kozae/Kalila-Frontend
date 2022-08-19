@@ -14,6 +14,8 @@ export interface IEditionUnit {
   States: string[];
   Pages: number[];
   Lines: number[];
+  DepictingImage?: Omit<IEditionImage, 'Position'>;
+  LocatedImage?: IEditionImage;
 }
 
 export interface IEditionFacsimile {
@@ -27,6 +29,13 @@ export interface IEditionLine {
   Region: FacsimileRegion;
 }
 
+export interface IEditionImage {
+  Position: number;
+  PageNumber: number;
+  Legend?: string;
+  Region: FacsimileRegion;
+}
+
 export interface IManuscriptEdition {
   Id: string;
   Siglum: string;
@@ -37,6 +46,7 @@ export interface IManuscriptEdition {
 export interface IEdition {
   Id: string;
   Name: string;
+  Type: string;
   BookUnits: IEditionBookUnit[];
   Manuscripts: IManuscriptEdition[];
 }

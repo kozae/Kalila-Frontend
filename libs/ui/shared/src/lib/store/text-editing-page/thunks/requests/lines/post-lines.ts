@@ -34,7 +34,7 @@ export async function postLines(state: RootState) {
       MovedLines.push({
         ...state.lines.entities[lineId],
         Id: lineId,
-        Tokens: tokens,
+        Tokens: tokens ?? [],
         ElementId: elementId,
       } as ILine & { ElementId: string });
     }

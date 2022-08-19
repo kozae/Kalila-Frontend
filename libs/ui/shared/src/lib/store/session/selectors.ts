@@ -13,6 +13,15 @@ export const selectSessionStatus = createSelector(
   (state) => state.authenticated
 );
 
+export const selectNavControlBarIsShown = createSelector(
+  selectSessionState,
+  (state) => state.navControlBar
+);
+export const selectMaxWidthIsEnabled = createSelector(
+  selectSessionState,
+  (state) => state.maxWidthEnabled
+);
+
 export const selectUser = createSelector(selectSessionState, (state) => {
   if (state.session) {
     return {

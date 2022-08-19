@@ -7,7 +7,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import {
   selectAccessToken,
   selectUnitByBuId,
-  selectUnitById,
   useAppSelector,
   useBoolean,
 } from '@frontend/shared-ui';
@@ -175,13 +174,17 @@ export const UnitTag = ({ d, handleEditBookUnit }: any) => {
 };
 
 async function updateBookUnit(id: string, update: any, accessToken: string) {
-  await axios.patch(`/server/api/v1/BookUnit/Admin`, update, {
-    params: {
-      Ids: [id],
-    },
-    paramsSerializer,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  await axios.patch(
+    `${process.env['NEXT_PUBLIC_API_URL']}BookUnit/Admin`,
+    update,
+    {
+      params: {
+        Ids: [id],
+      },
+      paramsSerializer,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
 }

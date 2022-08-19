@@ -1,5 +1,5 @@
 {
-  "root": "libs/ui/visualizations/dissemination-map",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/visualizations/dissemination-map/src",
   "projectType": "library",
   "tags": [],

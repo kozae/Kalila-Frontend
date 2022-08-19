@@ -1,5 +1,5 @@
 {
-  "root": "libs/ui/text-editing/text-segmentation",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/text-editing/text-segmentation/src",
   "projectType": "library",
   "tags": [],

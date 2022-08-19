@@ -20,3 +20,7 @@ features = ["gif", "jpeg", "ico", "png", "pnm", "tga", "tiff", "webp", "bmp", "h
 [dependencies.imageproc]
 version = "0.23.0"
 default-features = false
+
+[dependencies.web-sys]
+version = "0.3.55"
+features = ["console"]

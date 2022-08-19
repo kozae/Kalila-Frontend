@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   displayName: 'server-side-queries',
 
   globals: {
@@ -12,5 +12,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/libs/server-side-queries',
-  preset: '../../jest.preset.ts',
+  preset: '../../jest.preset.js',
 };

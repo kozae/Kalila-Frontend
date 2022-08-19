@@ -9,7 +9,7 @@ import { ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { ITextEditingPageState } from '../models';
 import { cancelCreateTextElement } from '../../page-transcription/text-elements';
 import { cancelCreateImageElement } from '../../page-transcription/image-elements';
-import { discardSegmentationChanges } from "../thunks/discard-segmentation";
+import { discardSegmentationChanges } from '../thunks/discard-segmentation';
 
 export function addDiscardReducers(
   builder: ActionReducerMapBuilder<ITextEditingPageState>
@@ -44,7 +44,7 @@ export function addDiscardReducers(
     state.toolMode = 'default';
   });
   builder.addCase(discardTokenChanges.fulfilled, (state) => {
-    state.toolMode = 'main-body';
+    state.toolMode = 'default';
     state.postTokens = [];
   });
   builder.addCase(discardSegmentationChanges.fulfilled, (state) => {

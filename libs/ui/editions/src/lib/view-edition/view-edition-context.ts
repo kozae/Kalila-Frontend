@@ -1,8 +1,15 @@
 import { createContext } from 'react';
+import { StructurePositions } from './structure/render';
 
 export type EditionFontSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 export type EditionFontFamily = 'n' | 'sh' | 'a' | 'm' | 'ns';
 
+export interface ILinePreviewData {
+  manuscriptSiglum: string;
+  manuscriptIdx: number;
+  page: number;
+  line: number;
+}
 export const WIDTH_OPTIONS: { [key in EditionFontSize]: number } = {
   xs: 120,
   s: 200,
@@ -29,12 +36,14 @@ export const FONT_FAMILIES: { [key in EditionFontFamily]: string } = {
 export interface IViewEditionContext {
   size: EditionFontSize;
   font: EditionFontFamily;
-  facsimilePreview: boolean;
-  setFacsimilePreview: (v: boolean) => void;
+  enableFacsimilePreview: boolean;
+  setEnableFacsimilePreview: (v: boolean) => void;
+  activeLinePreview: ILinePreviewData | null;
+  setActiveLinePreview: (v: ILinePreviewData | null) => void;
   realTimeUpdates: boolean;
   setRealTimeUpdates: (v: boolean) => void;
-  structureViz: boolean;
-  setStructureViz: (v: boolean) => void;
+  structureViz: StructurePositions | null;
+  setStructureViz: (v: StructurePositions | null) => void;
   setSize: (size: EditionFontSize) => void;
   setFont: (font: EditionFontFamily) => void;
 }
@@ -42,12 +51,14 @@ export interface IViewEditionContext {
 export const ViewEditionContext = createContext<IViewEditionContext>({
   size: 's',
   font: 'n',
-  facsimilePreview: false,
+  enableFacsimilePreview: false,
   setFont: (font: EditionFontFamily) => {},
   setSize: (font: EditionFontSize) => {},
-  setFacsimilePreview: (v: boolean) => {},
+  setEnableFacsimilePreview: (v: boolean) => {},
+  activeLinePreview: null,
+  setActiveLinePreview: (v: ILinePreviewData | null) => {},
   realTimeUpdates: false,
   setRealTimeUpdates: (v: boolean) => {},
-  structureViz: false,
-  setStructureViz: (v: boolean) => {},
+  structureViz: null,
+  setStructureViz: (v: StructurePositions | null) => {},
 });

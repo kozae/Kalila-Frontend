@@ -11,7 +11,7 @@ import {
   useAppSelector,
 } from '@frontend/shared-ui';
 import { paramsSerializer } from '@frontend/util';
-
+import styles from './token.module.scss';
 export interface ITokenProps {
   d: IToken & { LineId: string };
   lineOrder: number;
@@ -80,20 +80,23 @@ export const Token = ({ d, lineOrder, elementType, lineRef }: ITokenProps) => {
         return d.RawToken;
     }
   }, [annotation, d, morphology]);
+
   const accessMode = useAppSelector(selectTextEditingAccessMode);
 
   const handleClick = () => {
     if (accessMode === 'view') {
       return;
     }
-    if (setSelectedToken) {
-      setSelectedToken({ line: lineOrder, token: d.OrderInLine, elementType });
-    }
+    // TODO Activate when implementing annotation fearures
+    // if (setSelectedToken) {
+    //   setSelectedToken({ line: lineOrder, token: d.OrderInLine, elementType });
+    // }
   };
   return (
     <Stack ref={ref}>
       <Typography
         onClick={handleClick}
+        className={styles[d.State]}
         sx={{
           ml: '3px',
           pt: '3px',

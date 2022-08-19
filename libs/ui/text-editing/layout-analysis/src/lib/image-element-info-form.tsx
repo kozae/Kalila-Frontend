@@ -15,9 +15,6 @@ export const ImageElementInfoForm = ({
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange((event.target as HTMLInputElement).value);
   };
-  useEffect(() => {
-    onChange('image in main body');
-  }, []);
   return (
     <FormControl>
       <FormLabel id="radio-buttons-text-element-position-group-label">

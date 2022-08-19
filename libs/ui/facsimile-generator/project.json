@@ -1,5 +1,5 @@
 {
-  "root": "libs/ui/facsimile-generator",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/facsimile-generator/src",
   "projectType": "library",
   "tags": [],

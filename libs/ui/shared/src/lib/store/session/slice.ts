@@ -4,11 +4,15 @@ import { ISession } from '@frontend/util';
 export interface ISessionState {
   session: ISession | null;
   authenticated: boolean;
+  navControlBar: boolean;
+  maxWidthEnabled: boolean;
 }
 
 const initialState: ISessionState = {
   session: null,
   authenticated: false,
+  navControlBar: true,
+  maxWidthEnabled: false,
 };
 
 const userMap: { [key: string]: string } = { 'mahmoud.kozae': 'mk' };
@@ -28,7 +32,26 @@ export const sessionSlice = createSlice({
       state.session = null;
       state.authenticated = false;
     },
+    showControlBar: (state) => {
+      state.navControlBar = true;
+    },
+    hideControlBar: (state) => {
+      state.navControlBar = false;
+    },
+    enableMaxWidth: (state) => {
+      state.maxWidthEnabled = true;
+    },
+    disableMaxWidth: (state) => {
+      state.maxWidthEnabled = false;
+    },
   },
 });
 
-export const { loadSession, clearSession } = sessionSlice.actions;
+export const {
+  loadSession,
+  clearSession,
+  showControlBar,
+  hideControlBar,
+  enableMaxWidth,
+  disableMaxWidth,
+} = sessionSlice.actions;

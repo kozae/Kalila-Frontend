@@ -18,7 +18,7 @@ import { HubConnection } from '@microsoft/signalr';
 import { EditionCellData, EditionRowTitle, EditionStore } from './store';
 import updateImm from 'immutability-helper';
 import {
-  fetchEditionUpdateByChangeType,
+  fetchEditionUpdateByUnitList,
   fetchEditionUpdateByPage,
   getCells,
   getRows,
@@ -32,7 +32,7 @@ export function useSigla(accessToken?: string | null) {
       ? [
           'ManuscriptDescription',
           accessToken,
-          { SelectProps: ['Siglum'], PageSize: 0 },
+          { SelectProps: ['Siglum'], PageSize: -1 },
           MediaTypes.PartialDocument,
         ]
       : null,
@@ -73,7 +73,8 @@ export function useBookUnits(
 
 export function useSignalrEditionUpdates(
   { edition, setEdition, rows, cells, setRows, setCells }: IEditionPageProps,
-  setUpdateTime: Dispatch<SetStateAction<number>>
+  setUpdateTime: Dispatch<SetStateAction<number>>,
+  enableUpdates: boolean
 ) {
   const {
     data: { update, connection, isConnected },
@@ -117,15 +118,21 @@ export function useSignalrEditionUpdates(
   const updateCells = useCallback(
     async (updateInfo: IPageUnitsUpdate) => {
       const manuscriptIdx = edition.get_manuscript_idx(updateInfo.ManuscriptId);
-      if (manuscriptIdx !== undefined) {
-        const data = await fetchEditionUpdateByChangeType(
-          'test',
+      const editionId = edition.get_edition_id();
+      if (
+        manuscriptIdx !== undefined &&
+        (updateInfo.Update.length !== 0 ||
+          updateInfo.Create.length !== 0 ||
+          updateInfo.Delete.length !== 0)
+      ) {
+        const data = await fetchEditionUpdateByUnitList(
+          editionId,
           updateInfo,
           accessToken
         );
         edition = edition.update_cells(data, manuscriptIdx);
-        setCells(getCells(edition));
         setEdition(edition);
+        setCells(getCells(edition));
       }
     },
     [edition, accessToken]
@@ -138,15 +145,16 @@ export function useSignalrEditionUpdates(
         manuscriptIdx &&
         edition.is_page_in_edition(manuscriptIdx, updateInfo.PageNumber)
       ) {
+        const editionId = edition.get_edition_id();
         const data = await fetchEditionUpdateByPage(
-          'test',
+          editionId,
           updateInfo.ManuscriptId,
           updateInfo.PageNumber,
           accessToken
         );
         edition = edition.update_cells(data, manuscriptIdx);
-        setCells(getCells(edition));
         setEdition(edition);
+        setCells(getCells(edition));
       }
     },
     [edition, accessToken]
@@ -179,8 +187,8 @@ export function useSignalrEditionUpdates(
   );
 
   useEffect(() => {
-    if (update) {
-      console.log(update);
+    if (update && enableUpdates) {
+      console.log('updating');
       if (update.Topic.endsWith('AdminUpdate.BookUnit')) {
         const id = update.Data?.Params?.Ids && update.Data.Params.Ids[0];
         if (id) {
@@ -202,7 +210,15 @@ export function useSignalrEditionUpdates(
         };
         insertRow(unit);
       } else if (update.Topic.endsWith('PageContentUpdate.Edition')) {
-        updateCellsContent(update.Data).catch();
+        updateCellsContent(update.Data)
+          .catch((e) => {
+            console.log(e);
+          })
+          .then(() => {
+            setTimeout(() => {
+              setUpdateTime(Date.now);
+            }, 100);
+          });
       } else if (update.Topic === 'ContentUpdate.Edition') {
         updateCells(update.Data)
           .catch((e) => {
@@ -214,6 +230,8 @@ export function useSignalrEditionUpdates(
             }, 100);
           });
       }
+    } else {
+      console.log('update disabled');
     }
-  }, [update]);
+  }, [update, enableUpdates]);
 }

@@ -20,7 +20,8 @@ export class BookUnit extends KalilaDocument {
     public Chapter: string | undefined = undefined,
     public OrderInChapter: number | undefined = 0,
     public Title: string | undefined = '',
-    public Editor: string = undefined,
+    public Editor: string = '',
+    public EditionProgress: string = 'in work',
     public CreatedAt: Date | undefined = undefined,
     public Version: Date | undefined = undefined
   ) {

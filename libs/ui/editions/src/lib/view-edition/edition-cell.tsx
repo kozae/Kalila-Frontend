@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { EditionCellData } from '../store';
 import { range } from 'lodash';
-import { useContext, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import {
   FONT_FAMILIES,
   WIDTH_OPTIONS,
@@ -21,7 +21,28 @@ export const EditionCell = ({ data, bgcolor }: IEditionCellProps) => {
   const unit_idx = data.get_unit_idx();
   const manuscript_unit_order = data.get_unit_order();
 
-  const { size, font } = useContext(ViewEditionContext);
+  const { size, font, enableFacsimilePreview, setActiveLinePreview } =
+    useContext(ViewEditionContext);
+
+  const showLinePreview = useCallback(
+    (tokenIndex: number) => {
+      if (enableFacsimilePreview) {
+        setActiveLinePreview({
+          manuscriptSiglum: data.get_manuscript_siglum(),
+          manuscriptIdx: data.get_manuscript_idx(),
+          page: data.get_page(tokenIndex),
+          line: data.get_line(tokenIndex),
+        });
+      }
+    },
+    [data, enableFacsimilePreview]
+  );
+
+  const hideLinePreview = useCallback(() => {
+    if (enableFacsimilePreview) {
+      setActiveLinePreview(null);
+    }
+  }, [enableFacsimilePreview]);
 
   const style = {
     width: useMemo(() => `${WIDTH_OPTIONS[size]}px`, [size]),
@@ -51,7 +72,7 @@ export const EditionCell = ({ data, bgcolor }: IEditionCellProps) => {
         {manuscript_unit_order !== unit_idx && (
           <Typography
             key={'order'}
-            fontSize="1.3rem"
+            fontSize={FONT_SIZES[size]}
             component="p"
             fontWeight="600"
             sx={{
@@ -69,6 +90,8 @@ export const EditionCell = ({ data, bgcolor }: IEditionCellProps) => {
           range(count).map((index) => (
             <Typography
               key={index}
+              onMouseEnter={() => showLinePreview(index)}
+              onMouseLeave={hideLinePreview}
               fontSize={FONT_SIZES[size]}
               fontFamily={FONT_FAMILIES[font]}
               component="p"

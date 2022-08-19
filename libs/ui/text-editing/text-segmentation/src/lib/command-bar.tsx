@@ -9,13 +9,13 @@ import Button from '@mui/material/Button';
 import { Units } from './units';
 import { useContext, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import { BookUnit, CHAPTERS, IChapter } from '@frontend/domain';
-import { CreateBookUnitDialog } from './dialogs';
+import { BookUnit, IChapter } from '@frontend/domain';
+import { CreateBookUnitDialog, SelectChapterDialog } from './dialogs';
 import axios from 'axios';
 import { TextSegmentationContext } from './context';
 
 export const CommandBar = () => {
-  const [chapter, setChapter] = useState<IChapter | null>(CHAPTERS[8]);
+  const [chapter, setChapter] = useState<IChapter | null>(null);
   const { updateTime, setUpdateTime } = useContext(TextSegmentationContext);
   const [
     createBookUnitDialogIsOpen,
@@ -23,6 +23,10 @@ export const CommandBar = () => {
       setTrue: openCreateBookUnitDialog,
       setFalse: dismissCreateBookUnitDialog,
     },
+  ] = useBoolean(false);
+  const [
+    selectChapterDialogIsOpen,
+    { setTrue: openSelectChapterDialog, setFalse: dismissSelectChapterDialog },
   ] = useBoolean(false);
   const accessToken = useAppSelector(selectAccessToken);
 
@@ -50,7 +54,7 @@ export const CommandBar = () => {
           alignItems="center"
           direction="row"
         >
-          <Button>
+          <Button onClick={openSelectChapterDialog}>
             {chapter === null ? 'Select chapter...' : 'Change chapter...'}
           </Button>
           <Typography variant="h3">
@@ -63,7 +67,7 @@ export const CommandBar = () => {
             Create unit...
           </Button>
         </Stack>
-        <Units key={updateTime} chapter={chapter} />
+        {chapter !== null && <Units key={updateTime} chapter={chapter} />}
       </Stack>
       {chapter !== null && (
         <CreateBookUnitDialog
@@ -73,12 +77,20 @@ export const CommandBar = () => {
           onSubmit={handleSubmit}
         />
       )}
+      <SelectChapterDialog
+        isOpen={selectChapterDialogIsOpen}
+        onClose={dismissSelectChapterDialog}
+        onSubmit={(v) => {
+          setChapter(v);
+          dismissSelectChapterDialog();
+        }}
+      />
     </>
   );
 };
 
 async function postBookUnit(doc: any, accessToken: string | undefined) {
-  await axios.post(`/server/api/v1/BookUnit`, doc, {
+  await axios.post(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit`, doc, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

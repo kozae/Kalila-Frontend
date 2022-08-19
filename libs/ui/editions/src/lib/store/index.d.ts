@@ -17,6 +17,10 @@ export class EditionCellData {
 */
   get_manuscript_idx(): number;
 /**
+* @returns {string}
+*/
+  get_manuscript_siglum(): string;
+/**
 * @returns {number}
 */
   get_unit_order(): number;
@@ -25,6 +29,16 @@ export class EditionCellData {
 * @returns {string}
 */
   get_state(idx: number): string;
+/**
+* @param {number} idx
+* @returns {number}
+*/
+  get_page(idx: number): number;
+/**
+* @param {number} idx
+* @returns {number}
+*/
+  get_line(idx: number): number;
 /**
 * @param {number} idx
 * @returns {string}
@@ -77,22 +91,14 @@ export class EditionStore {
 */
   insert_row(update: any): EditionStore;
 /**
-* @param {number} unit_idx
-* @param {number} manuscript_idx
-* @returns {EditionCellData}
-*/
-  build_cell(unit_idx: number, manuscript_idx: number): EditionCellData;
-/**
-* @param {any} update
-* @param {number} manuscript_idx
-* @returns {EditionStore}
-*/
-  update_cells(update: any, manuscript_idx: number): EditionStore;
-/**
 * @param {any} data
 * @returns {EditionStore}
 */
   static load(data: any): EditionStore;
+/**
+* @returns {string}
+*/
+  get_edition_id(): string;
 /**
 * @returns {string}
 */
@@ -111,6 +117,15 @@ export class EditionStore {
 */
   get_ms_siglum(idx: number): string;
 /**
+* @param {number} idx
+* @returns {Int32Array}
+*/
+  get_ms_unit_presence_array(idx: number): Int32Array;
+/**
+* @returns {string}
+*/
+  get_ms_sigla(): string;
+/**
 * @returns {number}
 */
   get_no_rows(): number;
@@ -125,4 +140,26 @@ export class EditionStore {
 * @returns {boolean}
 */
   is_page_in_edition(manuscript_idx: number, page_number: number): boolean;
+/**
+* @param {string} key
+* @returns {string | undefined}
+*/
+  get_url(key: string): string | undefined;
+/**
+* @param {string} key
+* @returns {Uint32Array | undefined}
+*/
+  get_line_region(key: string): Uint32Array | undefined;
+/**
+* @param {number} unit_idx
+* @param {number} manuscript_idx
+* @returns {EditionCellData}
+*/
+  build_cell(unit_idx: number, manuscript_idx: number): EditionCellData;
+/**
+* @param {any} update
+* @param {number} manuscript_idx
+* @returns {EditionStore}
+*/
+  update_cells(update: any, manuscript_idx: number): EditionStore;
 }

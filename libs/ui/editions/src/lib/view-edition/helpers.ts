@@ -23,7 +23,7 @@ export function getCells(store: EditionStore): EditionCellData[][] {
     );
 }
 
-export async function fetchEditionUpdateByChangeType(
+export async function fetchEditionUpdateByUnitList(
   editionId: string,
   updateInfo: IPageUnitsUpdate,
   accessToken?: string | null
@@ -32,12 +32,13 @@ export async function fetchEditionUpdateByChangeType(
     ...updateInfo.Update.map((u) => u.Id),
     ...updateInfo.Create.map((u) => u.Id),
   ];
-  const { data } = await axios.get<IEditionUnit[]>(
-    `/server/api/v1/Editions/${editionId}/Update`,
+  const { data } = await axios.get<{ Id: string; Changes: IEditionUnit[] }>(
+    `${process.env['NEXT_PUBLIC_API_URL']}Edition/Changes`,
     {
       params: {
-        ManuscriptId: updateInfo.ManuscriptId,
-        UpdatedUnits: updatedUnits,
+        Id: editionId,
+        UpdatedManuscriptId: updateInfo.ManuscriptId,
+        UpdatedUnitIds: updatedUnits,
       },
       paramsSerializer,
       headers: {
@@ -46,7 +47,7 @@ export async function fetchEditionUpdateByChangeType(
     }
   );
 
-  return data;
+  return data.Changes;
 }
 
 export async function fetchEditionUpdateByPage(
@@ -55,12 +56,13 @@ export async function fetchEditionUpdateByPage(
   pageNumber: number,
   accessToken?: string | null
 ): Promise<IEditionUnit[]> {
-  const { data } = await axios.get<IEditionUnit[]>(
-    `/server/api/v1/Editions/${editionId}/Update`,
+  const { data } = await axios.get<{ Id: string; Changes: IEditionUnit[] }>(
+    `${process.env['NEXT_PUBLIC_API_URL']}Edition/Changes`,
     {
       params: {
-        ManuscriptId: manuscriptId,
-        PageNumber: pageNumber,
+        Id: editionId,
+        UpdatedManuscriptId: manuscriptId,
+        UpdatedPageNumber: pageNumber,
       },
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -68,5 +70,5 @@ export async function fetchEditionUpdateByPage(
     }
   );
 
-  return data;
+  return data.Changes;
 }

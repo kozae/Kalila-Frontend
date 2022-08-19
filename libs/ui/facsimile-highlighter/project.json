@@ -1,5 +1,5 @@
 {
-  "root": "libs/ui/facsimile-highlighter",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/facsimile-highlighter/src",
   "projectType": "library",
   "tags": [],

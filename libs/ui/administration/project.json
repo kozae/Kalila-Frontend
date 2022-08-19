@@ -1,5 +1,5 @@
 {
-  "root": "libs/ui/administration",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/administration/src",
   "projectType": "library",
   "tags": [],

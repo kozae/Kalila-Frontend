@@ -65,4 +65,4 @@ function KalilaApp(appProps: KalilaAppProps) {
 export default KalilaApp;
 
 // nx g page book-analysis --project=kalila --withTests=true --style=scss
-// nx g @nrwl/next:lib facsimile-generator  --directory=ui --style=scss
+// nx g @nrwl/next:lib facsimile-line-detector  --directory=ui --style=scss

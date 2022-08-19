@@ -18,7 +18,7 @@ export function useFacsimileCropper(
 }
 
 export const mapDataForCropper = (
-  region: FacsimileRegion
+  region: FacsimileRegion | Uint32Array
 ): [Uint32Array, number] => {
   const p = new Uint32Array(8);
   p[0] = region[0];

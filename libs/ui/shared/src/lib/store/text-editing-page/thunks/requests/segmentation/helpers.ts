@@ -1,13 +1,13 @@
 import { RootState } from '../../../../config';
 import { IUnitSummary } from '@frontend/domain';
 import ObjectID from 'bson-objectid';
-import {
-  determineEndBasedOnNextUnit,
-  getOrderedUnits,
-} from '../../../../page-transcription/units-summary';
+import { determineEndBasedOnNextUnit } from '../../../../page-transcription/units-summary';
+import { orderUnits } from '@frontend/util';
 
 export function processUnits(state: RootState) {
-  const orderedUnits = getOrderedUnits(state);
+  const orderedUnits = orderUnits(
+    Object.values(state.unitSummaries.entities) as IUnitSummary[]
+  );
 
   return orderedUnits.slice().map((unit, index) => {
     if (unit && unitHasOpenEnd(unit)) {

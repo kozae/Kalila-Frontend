@@ -9,7 +9,7 @@ import { Draggables } from '../drag-layer';
 import Box from '@mui/material/Box';
 
 export interface IInsertableUnitProps {
-  d: any; // TODO make interface fro bookunit
+  d: any; // TODO make interface for bookunit
   onEdit: () => void;
 }
 

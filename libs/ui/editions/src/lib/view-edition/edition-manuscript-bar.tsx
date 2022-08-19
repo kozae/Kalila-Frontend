@@ -3,8 +3,9 @@ import Typography from '@mui/material/Typography';
 import { range } from 'lodash';
 import { EditionStore } from '../store';
 import { kalilaTheme } from '@frontend/shared-ui';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { ViewEditionContext, WIDTH_OPTIONS } from './view-edition-context';
+import { letterMap } from '@frontend/util';
 
 export interface IEditionManuscriptBarProps {
   manuscripts: number;
@@ -16,6 +17,22 @@ export const EditionManuscriptBar = ({
   store,
 }: IEditionManuscriptBarProps) => {
   const { size } = useContext(ViewEditionContext);
+
+  const fonSize = useMemo(() => {
+    switch (size) {
+      case 'xs':
+        return '1rem';
+      case 's':
+        return '1.1rem';
+      case 'm':
+        return '1.2rem';
+      case 'l':
+        return '1.4rem';
+      case 'xl':
+        return '1.5rem';
+    }
+    return '1.5rem';
+  }, [size]);
 
   return (
     <Stack
@@ -40,8 +57,8 @@ export const EditionManuscriptBar = ({
             bgcolor: m % 2 ? 'white' : '#F1F1F1',
           }}
         >
-          <Typography p=".5rem" fontSize="1.5rem" fontWeight={600}>
-            {store.get_ms_siglum(m)}
+          <Typography p=".5rem" fontSize={fonSize} fontWeight={600}>
+            ({letterMap[m]}) {store.get_ms_siglum(m)}
           </Typography>
         </Stack>
       ))}

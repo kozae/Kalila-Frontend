@@ -4,7 +4,6 @@ import { ThunkApi } from '../../config';
 import {
   determineEndBasedOnNextUnit,
   determinePrevUnitEnd,
-  getOrderedUnits,
   getPrevUnit,
 } from './helpers';
 import { orderUnits } from '@frontend/util';
@@ -55,9 +54,14 @@ export const moveUnit = createAsyncThunk<
 >('unitSummaries/moveUnit', async ({ unit, newLocation }, { getState }) => {
   const state = getState();
 
-  const orderedUnits = getOrderedUnits(state);
+  const orderedUnits = orderUnits(
+    Object.values(state.unitSummaries.entities).filter(
+      (unit) => unit !== undefined
+    ) as IUnitSummary[]
+  );
+  console.log({ orderedUnits });
   const current = orderedUnits.findIndex((u) => u.Id === unit.Id);
-  if (current > orderedUnits.length - 1) {
+  if (current < orderedUnits.length - 1) {
     const nextUnit = orderedUnits[current + 1];
     unit = determineEndBasedOnNextUnit(unit, nextUnit, state);
   }
@@ -71,7 +75,7 @@ export const moveUnit = createAsyncThunk<
         data: [
           {
             ...unit,
-            ...newLocation,
+            Start: newLocation,
           },
           prevUnit,
         ],
@@ -79,5 +83,5 @@ export const moveUnit = createAsyncThunk<
     }
   }
 
-  return { data: [{ ...unit, ...newLocation }] };
+  return { data: [{ ...unit, Start: newLocation }] };
 });

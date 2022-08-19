@@ -1,5 +1,5 @@
 {
-  "root": "libs/server-side-queries",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/server-side-queries/src",
   "projectType": "library",
   "targets": {

@@ -13,6 +13,7 @@
     "ui-facsimile-cropper": "libs/ui/facsimile-cropper",
     "ui-facsimile-generator": "libs/ui/facsimile-generator",
     "ui-facsimile-highlighter": "libs/ui/facsimile-highlighter",
+    "ui-facsimile-line-detector": "libs/ui/facsimile-line-detector",
     "ui-forms": "libs/ui/forms",
     "ui-table": "libs/ui/table",
     "ui-text-editing-description": "libs/ui/text-editing/description",
@@ -25,5 +26,6 @@
     "ui-text-editing-workspace": "libs/ui/text-editing/workspace",
     "ui-visualizations-dissemination-map": "libs/ui/visualizations/dissemination-map",
     "util": "libs/util"
-  }
+  },
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }

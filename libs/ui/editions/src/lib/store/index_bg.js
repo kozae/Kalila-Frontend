@@ -115,6 +115,22 @@ function takeObject(idx) {
 function isLikeNone(x) {
     return x === undefined || x === null;
 }
+
+function getArrayI32FromWasm0(ptr, len) {
+    return getInt32Memory0().subarray(ptr / 4, ptr / 4 + len);
+}
+
+let cachegetUint32Memory0 = null;
+function getUint32Memory0() {
+    if (cachegetUint32Memory0 === null || cachegetUint32Memory0.buffer !== wasm.memory.buffer) {
+        cachegetUint32Memory0 = new Uint32Array(wasm.memory.buffer);
+    }
+    return cachegetUint32Memory0;
+}
+
+function getArrayU32FromWasm0(ptr, len) {
+    return getUint32Memory0().subarray(ptr / 4, ptr / 4 + len);
+}
 /**
 */
 export class EditionCellData {
@@ -166,6 +182,21 @@ export class EditionCellData {
         return ret >>> 0;
     }
     /**
+    * @returns {string}
+    */
+    get_manuscript_siglum() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.editioncelldata_get_manuscript_siglum(retptr, this.ptr);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_free(r0, r1);
+        }
+    }
+    /**
     * @returns {number}
     */
     get_unit_order() {
@@ -187,6 +218,22 @@ export class EditionCellData {
             wasm.__wbindgen_add_to_stack_pointer(16);
             wasm.__wbindgen_free(r0, r1);
         }
+    }
+    /**
+    * @param {number} idx
+    * @returns {number}
+    */
+    get_page(idx) {
+        const ret = wasm.editioncelldata_get_page(this.ptr, idx);
+        return ret;
+    }
+    /**
+    * @param {number} idx
+    * @returns {number}
+    */
+    get_line(idx) {
+        const ret = wasm.editioncelldata_get_line(this.ptr, idx);
+        return ret;
     }
     /**
     * @param {number} idx
@@ -346,25 +393,6 @@ export class EditionStore {
         return EditionStore.__wrap(ret);
     }
     /**
-    * @param {number} unit_idx
-    * @param {number} manuscript_idx
-    * @returns {EditionCellData}
-    */
-    build_cell(unit_idx, manuscript_idx) {
-        const ret = wasm.editionstore_build_cell(this.ptr, unit_idx, manuscript_idx);
-        return EditionCellData.__wrap(ret);
-    }
-    /**
-    * @param {any} update
-    * @param {number} manuscript_idx
-    * @returns {EditionStore}
-    */
-    update_cells(update, manuscript_idx) {
-        const ptr = this.__destroy_into_raw();
-        const ret = wasm.editionstore_update_cells(ptr, addHeapObject(update), manuscript_idx);
-        return EditionStore.__wrap(ret);
-    }
-    /**
     * @param {any} data
     * @returns {EditionStore}
     */
@@ -381,6 +409,21 @@ export class EditionStore {
             return EditionStore.__wrap(r0);
         } finally {
             wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+    * @returns {string}
+    */
+    get_edition_id() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.editionstore_get_edition_id(retptr, this.ptr);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_free(r0, r1);
         }
     }
     /**
@@ -404,7 +447,7 @@ export class EditionStore {
     get_id() {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.editionstore_get_id(retptr, this.ptr);
+            wasm.editionstore_get_edition_id(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
@@ -428,6 +471,38 @@ export class EditionStore {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
             wasm.editionstore_get_ms_siglum(retptr, this.ptr, idx);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_free(r0, r1);
+        }
+    }
+    /**
+    * @param {number} idx
+    * @returns {Int32Array}
+    */
+    get_ms_unit_presence_array(idx) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.editionstore_get_ms_unit_presence_array(retptr, this.ptr, idx);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            var v0 = getArrayI32FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_free(r0, r1 * 4);
+            return v0;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+    * @returns {string}
+    */
+    get_ms_sigla() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.editionstore_get_ms_sigla(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
@@ -468,6 +543,69 @@ export class EditionStore {
     is_page_in_edition(manuscript_idx, page_number) {
         const ret = wasm.editionstore_is_page_in_edition(this.ptr, manuscript_idx, page_number);
         return ret !== 0;
+    }
+    /**
+    * @param {string} key
+    * @returns {string | undefined}
+    */
+    get_url(key) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(key, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.editionstore_get_url(retptr, this.ptr, ptr0, len0);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            let v1;
+            if (r0 !== 0) {
+                v1 = getStringFromWasm0(r0, r1).slice();
+                wasm.__wbindgen_free(r0, r1 * 1);
+            }
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+    * @param {string} key
+    * @returns {Uint32Array | undefined}
+    */
+    get_line_region(key) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passStringToWasm0(key, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.editionstore_get_line_region(retptr, this.ptr, ptr0, len0);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            let v1;
+            if (r0 !== 0) {
+                v1 = getArrayU32FromWasm0(r0, r1).slice();
+                wasm.__wbindgen_free(r0, r1 * 4);
+            }
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+    * @param {number} unit_idx
+    * @param {number} manuscript_idx
+    * @returns {EditionCellData}
+    */
+    build_cell(unit_idx, manuscript_idx) {
+        const ret = wasm.editionstore_build_cell(this.ptr, unit_idx, manuscript_idx);
+        return EditionCellData.__wrap(ret);
+    }
+    /**
+    * @param {any} update
+    * @param {number} manuscript_idx
+    * @returns {EditionStore}
+    */
+    update_cells(update, manuscript_idx) {
+        const ptr = this.__destroy_into_raw();
+        const ret = wasm.editionstore_update_cells(ptr, addHeapObject(update), manuscript_idx);
+        return EditionStore.__wrap(ret);
     }
 }
 

@@ -27,6 +27,8 @@ export const LayoutElementsList = ({
     'Order'
   );
 
+  console.log(textElements);
+
   return (
     <Stack
       sx={{ flexGrow: 1, mt: '5px', width: '100%' }}

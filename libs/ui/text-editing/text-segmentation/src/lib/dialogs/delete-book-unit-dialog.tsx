@@ -122,7 +122,7 @@ export const DeleteBookUnitDialog = ({
 };
 
 async function deleteBookUnit(id: string, accessToken: string) {
-  await axios.delete(`/server/api/v1/BookUnit`, {
+  await axios.delete(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit`, {
     params: {
       Id: id,
     },

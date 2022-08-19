@@ -85,6 +85,7 @@ export const CommandBar = ({}: ICommandBarProps) => {
             Edit Transcription
           </Button>
           <Button
+            disabled
             onClick={handleMorphologyAnnotationClicked}
             startIcon={<DataObjectIcon />}
             color="secondary"
@@ -96,14 +97,14 @@ export const CommandBar = ({}: ICommandBarProps) => {
           </Button>
         </Stack>
       )}
-      <FormControl>
+      <FormControl disabled>
         <RadioGroup
           row
           sx={{ display: 'flex', alignItems: 'center' }}
           value={annotation}
           onChange={handleAnnotationChange}
         >
-          <Typography>Annotation:&nbsp;&nbsp;&nbsp;</Typography>
+          <Typography color="#CCCCCC">Annotation:&nbsp;&nbsp;&nbsp;</Typography>
           <FormControlLabel
             sx={{ typography: 'body1' }}
             value="none"

@@ -25,7 +25,10 @@ export const saveSegmentation = createAsyncThunk<
     // }
 
     return {
-      units: [...units.filter((u) => u.Id.length === 24), ...changes.newUnits],
+      units: [
+        ...units.filter((u: any) => u.Id.length === 24),
+        ...changes.newUnits,
+      ],
       nearestOpenUnitClosed: false,
     };
   }

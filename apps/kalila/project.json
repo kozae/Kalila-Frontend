@@ -1,5 +1,5 @@
 {
-  "root": "apps/kalila",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/kalila",
   "projectType": "application",
   "targets": {
@@ -13,7 +13,9 @@
       },
       "configurations": {
         "production": {},
-        "development": {}
+        "development": {
+          "outputPath": "tmp/apps/kalila"
+        }
       }
     },
     "serve": {

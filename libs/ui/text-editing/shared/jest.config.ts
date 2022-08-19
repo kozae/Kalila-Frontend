@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   displayName: 'ui-text-editing-shared',
 
   globals: {
@@ -11,5 +11,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../../../coverage/libs/ui/text-editing/shared',
-  preset: '../../../../jest.preset.ts',
+  preset: '../../../../jest.preset.js',
 };
