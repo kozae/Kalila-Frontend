@@ -1,6 +1,7 @@
 import {
   createEntityAdapter,
   createSlice,
+  EntityState,
   PayloadAction,
 } from '@reduxjs/toolkit';
 import { cleanObject, defaultPagination, IPagination } from '@frontend/util';
@@ -115,6 +116,10 @@ export const pagedDocsSlice = createSlice({
     builder.addCase(deleteDocument.fulfilled, () => {});
   },
 });
+
+export type PagedDocumentsState = {
+  [pagedDocsSlice.name]: EntityState<Doc> & State;
+};
 
 export const {
   queryChanged,

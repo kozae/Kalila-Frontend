@@ -1,13 +1,12 @@
-import { RootState } from '@frontend/shared-ui';
-import { tokenAdapter } from './slice';
+import { tokenAdapter, TokensState } from './slice';
 import { createSelector } from '@reduxjs/toolkit';
 
-const selectTokensState = (state: RootState) => state.tokens;
+const selectTokensState = (state: TokensState) => state.tokens;
 
 export const {
   selectAll: selectAllTokens,
   selectEntities: selectTokensDictionary,
-} = tokenAdapter.getSelectors<RootState>(selectTokensState);
+} = tokenAdapter.getSelectors<TokensState>(selectTokensState);
 
 export const selectPageHasTranscription = createSelector(
   selectAllTokens,

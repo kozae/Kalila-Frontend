@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default {
   displayName: 'ui-facsimile-highlighter',
   preset: '../../../jest.preset.js',

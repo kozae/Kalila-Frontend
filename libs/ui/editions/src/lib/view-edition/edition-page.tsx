@@ -1,40 +1,11 @@
-import { IEdition } from '@frontend/domain';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import { useVirtual, VirtualItem } from 'react-virtual';
-import { EditionUnitTitle } from './edition-unit-title';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useVirtual } from 'react-virtual';
 import { EditionManuscriptBar } from './edition-manuscript-bar';
-import { EditionRow } from './edition-row';
-import dynamic from 'next/dynamic';
-import { EditionCellData, EditionRowTitle, EditionStore } from '../store';
 import Portal from '@mui/material/Portal';
 import { EditionCommandBar } from './edition-command-bar';
-import {
-  EditionFontFamily,
-  EditionFontSize,
-  WIDTH_OPTIONS,
-  ViewEditionContext,
-  ILinePreviewData,
-} from './view-edition-context';
-import { useSignalrEditionUpdates } from '../hooks';
-import { getCells, getRows } from './helpers';
 import { LinePreview, LinePreviewDynamic } from './line-preview';
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-  disableMaxWidth,
-  enableMaxWidth,
-  selectNavControlBarIsShown,
-  useAppDispatch,
-  useAppSelector,
-  useXLargeScreenMediaQuery,
-} from '@frontend/shared-ui';
+import { useXLargeScreenMediaQuery } from '@frontend/shared-ui';
 import Stack from '@mui/material/Stack';
 import {
   EditionStructureViz,
@@ -43,63 +14,64 @@ import {
   getUnitPreviewMotionProps,
   getUnitPreviewStyle,
 } from './structure';
-import { StructurePositions } from './structure/render';
 import Typography from '@mui/material/Typography';
+import {
+  getFacsimilePreviewMotionProps,
+  getFacsimilePreviewStyle,
+} from './line-preview.helpers';
+import { ImagePreviewDynamic } from './image-preview';
+import Modal from '@mui/material/Modal';
+import {
+  horizontalCollationModalStyle,
+  UnitHorizontalCollationModal,
+} from './edition-unit-horizontal-collation-modal';
+import Box from '@mui/material/Box';
+import {
+  EditionUnitImageCycleModal,
+  unitImageCycleModalStyle,
+} from './edition-unit-image-cycle-modal';
+import { chunk, orderBy, range } from 'lodash';
+import { floatRegEx, latinLettersRegex, stringHasValue } from '@frontend/util';
+import {
+  useBehaviorOptions,
+  useBehaviorOptionsMethods,
+  useData,
+  useLayoutOptions,
+  useLayoutOptionsMethods,
+  useSearchData,
+  useSearchMethods,
+} from './contexts';
+import { useRowGetter } from './hooks';
+import { IImagePreviewData, ILinePreviewData } from './models';
+import { WIDTH_OPTIONS } from './constants';
 
-export const EditionPageWasm = dynamic({
-  loader: async () => {
-    const { EditionStore } = await import('../store');
-    return ({ data }: { data: IEdition }) => {
-      const [edition, setEdition] = useState(EditionStore.load(data));
-      const [rows, setRows] = useState(getRows(edition));
-      const [cells, setCells] = useState(getCells(edition));
-      return (
-        <EditionPage
-          {...{ edition, rows, cells, setCells, setRows, setEdition }}
-        />
-      );
-    };
-  },
-});
-
-export interface IEditionPageProps {
-  edition: EditionStore;
-  setEdition: Dispatch<SetStateAction<EditionStore>>;
-  cells: EditionCellData[][];
-  rows: EditionRowTitle[];
-  setRows: Dispatch<SetStateAction<EditionRowTitle[]>>;
-  setCells: Dispatch<SetStateAction<EditionCellData[][]>>;
-}
-
-export const EditionPage = ({
-  edition,
-  setEdition,
-  cells,
-  rows,
-  setCells,
-  setRows,
-}: IEditionPageProps) => {
-  const [size, setSize] = useState<EditionFontSize>('xs');
-  const [font, setFont] = useState<EditionFontFamily>('n');
-  const [updateTime, setUpdateTime] = useState(Date.now());
-  const [enableFacsimilePreview, setEnableFacsimilePreview] =
-    useState<boolean>(false);
-  const [activeLinePreview, setActiveLinePreview] =
-    useState<ILinePreviewData | null>(null);
+export const EditionPage = () => {
+  const [horizontalCollation, setHorizontalCollation] = useState<number | null>(
+    null
+  );
+  const [visibleImageCycle, setVisibleImageCycle] = useState<number | null>(
+    null
+  );
   const [linePreviews, setLinePreviews] = useState<Record<string, string>>({});
   const [unitPreview, setUnitPreview] = useState<
     [number, number, number] | null
   >(null);
-  const [realTimeUpdates, setRealTimeUpdates] = useState<boolean>(true);
-  const [structureViz, setStructureViz] = useState<StructurePositions | null>(
-    null
-  );
+  const { username, font, size, showNavbar } = useLayoutOptions();
+  const { enableMaxWidth, disableMaxWidth, setShowNavbar } =
+    useLayoutOptionsMethods();
+  const { activeLinePreview, activeImagePreview, structureViz } =
+    useBehaviorOptions();
+  const { setEnableRealTimeUpdates } = useBehaviorOptionsMethods();
+  const { edition, rows, cells, updateTime } = useData();
+  const { filter, searchResults, currentSearchResult } = useSearchData();
+  const { setCurrentSearchResult, setSearchResults } = useSearchMethods();
   const isXLScreen = useXLargeScreenMediaQuery();
   const parentRef = useRef<HTMLDivElement>(null);
   const rowVirtualizer = useVirtual({
     size: edition.get_no_rows() * 2,
     parentRef,
   });
+
   const currentRow = useMemo(() => {
     if (rowVirtualizer && rowVirtualizer.virtualItems.length !== 0) {
       return Math.ceil(rowVirtualizer.virtualItems[0].index / 2);
@@ -107,62 +79,24 @@ export const EditionPage = ({
     return 0;
   }, [rowVirtualizer.virtualItems]);
 
-  const showNavbar = useAppSelector(selectNavControlBarIsShown);
   const numberOfManuscripts = useMemo(
     () => edition.get_no_manuscripts(),
     [edition]
   );
-  const getRow = useCallback(
-    (row: VirtualItem) => {
-      const unitIndex = Math.floor(row.index / 2);
-      const key = `${row.index}.${size}.${font}`;
-      if (row.index % 2 === 0) {
-        return (
-          <div
-            key={key}
-            ref={row.measureRef}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              transform: `translateY(${row.start}px)`,
-            }}
-          >
-            {rows[unitIndex] && <EditionUnitTitle data={rows[unitIndex]} />}
-          </div>
-        );
-      }
-      return (
-        <div
-          key={key}
-          ref={row.measureRef}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            transform: `translateY(${row.start}px)`,
-            display: 'flex',
-            alignItems: 'stretch',
-          }}
-        >
-          {cells[unitIndex] && (
-            <EditionRow
-              manuscripts={numberOfManuscripts}
-              data={cells[unitIndex]}
-            />
-          )}
-        </div>
-      );
-    },
-    [edition, rows, cells, font, size]
-  );
-  const dispatch = useAppDispatch();
+  const getRow = useRowGetter({
+    edition,
+    rows,
+    cells,
+    numberOfManuscripts,
+    font,
+    size,
+    setHorizontalCollation,
+    setVisibleImageCycle,
+  });
   useEffect(() => {
-    dispatch(enableMaxWidth());
+    enableMaxWidth();
     return () => {
-      dispatch(disableMaxWidth());
+      disableMaxWidth();
       edition.free();
       rows.forEach((row) => row.free());
       cells.forEach((row) => row.forEach((cell) => cell.free()));
@@ -173,19 +107,6 @@ export const EditionPage = ({
     const cellWidth = WIDTH_OPTIONS[size];
     return cellWidth * numberOfManuscripts;
   }, [size, numberOfManuscripts]);
-
-  useSignalrEditionUpdates(
-    {
-      edition,
-      setEdition,
-      rows,
-      cells,
-      setRows,
-      setCells,
-    },
-    setUpdateTime,
-    realTimeUpdates
-  );
 
   const getLinePreview = useCallback(
     (data: ILinePreviewData) => {
@@ -205,130 +126,245 @@ export const EditionPage = ({
     [edition, setLinePreviews, linePreviews]
   );
 
+  const getImagePreview = useCallback(
+    (data: IImagePreviewData) => {
+      return <ImagePreviewDynamic data={data} edition={edition} />;
+    },
+    [edition]
+  );
+  useEffect(() => {
+    if (username && username.includes('guest')) {
+      setEnableRealTimeUpdates(false);
+    }
+  }, [username]);
+
+  useEffect(() => {
+    if (stringHasValue(filter)) {
+      setSearchResults(null);
+      setCurrentSearchResult(0);
+      const unitTitleSearch = latinLettersRegex.test(filter);
+      const unitNumberSearch = floatRegEx.test(filter);
+      if (unitNumberSearch) {
+        const order = parseFloat(filter);
+        const unitIdx = edition.find_unit_by_order(order);
+        if (unitIdx) {
+          setSearchResults([[unitIdx, -1, -1]]);
+          rowVirtualizer.scrollToIndex(unitIdx * 2, { align: 'start' });
+        }
+      } else if (unitTitleSearch && filter.length > 2) {
+        const results = chunk(
+          edition.find_unit_by_title(filter.toLowerCase()),
+          3
+        ) as [number, number, number][];
+        if (results.length !== 0) {
+          setSearchResults(results);
+          const firstResult = results[0][0];
+          rowVirtualizer.scrollToIndex(firstResult * 2, { align: 'start' });
+        }
+      } else if (filter.length > 2) {
+        let results = chunk(edition.find_words(filter.trim()), 4) as
+          | [number, number, number, number][]
+          | undefined;
+        if (results && results.length !== 0) {
+          results = orderBy(results, (r) => r[2]);
+          results = orderBy(results, (r) => r[1], ['desc']);
+          results = orderBy(results, (r) => r[0]);
+          setSearchResults(results);
+          const firstResult = results[0][0];
+          rowVirtualizer.scrollToIndex(firstResult * 2, { align: 'start' });
+        } else {
+          setSearchResults(null);
+          setCurrentSearchResult(0);
+        }
+      }
+    } else {
+      setSearchResults(null);
+      setCurrentSearchResult(0);
+    }
+  }, [filter]);
+  const memoSearchResults = useMemo(() => searchResults, [searchResults]);
+  useEffect(() => {
+    if (memoSearchResults) {
+      const currentRow = memoSearchResults[currentSearchResult][0];
+      rowVirtualizer.scrollToIndex(currentRow * 2, { align: 'start' });
+    }
+  }, [currentSearchResult]);
+
   return (
     <>
-      <ViewEditionContext.Provider
-        value={{
-          size,
-          font,
-          setSize,
-          setFont,
-          enableFacsimilePreview,
-          setEnableFacsimilePreview,
-          structureViz,
-          setStructureViz,
-          realTimeUpdates,
-          setRealTimeUpdates,
-          activeLinePreview,
-          setActiveLinePreview,
-        }}
-      >
-        <Portal>
-          <EditionCommandBar editionName={edition.get_name()} />
-        </Portal>
-        <Portal>
-          <AnimatePresence exitBeforeEnter>
-            {activeLinePreview && (
-              <motion.div
-                key={`${activeLinePreview.manuscriptSiglum}_${activeLinePreview.page}_${activeLinePreview.line}`}
-                style={{
-                  position: 'fixed',
-                  top: 10,
-                  right: '25%',
-                  zIndex: 90,
-                  width: isXLScreen ? '800px' : '70%',
-                  height: '200px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'flex-start',
-                }}
-                initial={{ opacity: 0, y: -50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.5, ease: 'easeIn' }}
-              >
-                {getLinePreview(activeLinePreview)}
-              </motion.div>
-            )}
-            {structureViz && unitPreview && (
-              <motion.div
-                key={`${unitPreview[0]}_${unitPreview[1]}_${unitPreview[2]}`}
-                style={{
-                  ...getUnitPreviewStyle(
-                    unitPreview[1],
-                    unitPreview[2],
-                    structureViz
-                  ),
-                  position: 'fixed',
-                  zIndex: 90,
-                  backgroundColor: 'rgb(255,103,0)',
-                  padding: '10px',
-                  borderRadius: '5px',
-                }}
-                {...getUnitPreviewMotionProps()}
-              >
-                <Typography color="white" letterSpacing="1px" variant="h2">
-                  {rows[unitPreview[0]].get_display()}
-                </Typography>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </Portal>
-        <Stack
-          direction={structureViz === 'bottom' ? 'column-reverse' : 'row'}
-          width="100%"
-          justifyContent={
-            structureViz && structureViz.startsWith('left')
-              ? 'space-between'
-              : 'center'
-          }
-          alignItems="center"
+      <Portal>
+        <EditionCommandBar
+          editionName={edition.get_name()}
+          username={username}
+          showNavbar={showNavbar}
+          setShowNavbar={setShowNavbar}
+          onNextSearchResult={() => {
+            setCurrentSearchResult((prev) => {
+              if (searchResults && prev < searchResults.length - 1) {
+                return prev + 1;
+              }
+              return 0;
+            });
+          }}
+          onPrevSearchResult={() => {
+            setCurrentSearchResult((prev) => {
+              if (prev > 0) {
+                return prev - 1;
+              }
+              return searchResults ? searchResults.length - 1 : 0;
+            });
+          }}
+        />
+      </Portal>
+      <Portal>
+        <Modal
+          sx={{
+            zIndex: 10,
+          }}
+          open={horizontalCollation != null}
+          onClose={() => setHorizontalCollation(null)}
         >
-          {structureViz && (
-            <Stack {...getStructureVizContainerProps(structureViz, showNavbar)}>
-              <EditionStructureViz
-                key={`${updateTime}`}
-                onRowClicked={(r) =>
-                  rowVirtualizer.scrollToIndex(r, { align: 'start' })
-                }
-                onRowHovered={(r, x, y) => {
-                  if (r === -1) {
-                    setUnitPreview(null);
-                  } else {
-                    setUnitPreview([r, x, y]);
-                  }
+          <Box sx={horizontalCollationModalStyle(showNavbar)}>
+            {horizontalCollation != null && (
+              <UnitHorizontalCollationModal
+                onDismiss={() => {
+                  setHorizontalCollation(null);
                 }}
-                currentRow={currentRow}
-                position={structureViz}
-                unitMatrix={Array(edition.get_no_manuscripts())
-                  .fill(0)
-                  .map((_, i) => [...edition.get_ms_unit_presence_array(i)])}
-                NoUnits={edition.get_no_rows()}
+                data={cells[horizontalCollation]}
+                unitTitle={rows[horizontalCollation].get_display()}
                 sigla={edition.get_ms_sigla().split(',')}
               />
-            </Stack>
-          )}
-          <div
-            ref={parentRef}
-            style={getEditionContainerStyle(structureViz, showNavbar)}
-          >
-            <EditionManuscriptBar
-              manuscripts={numberOfManuscripts}
-              store={edition}
-            />
-            <div
-              key={`${size}.${font}.${updateTime}`}
-              style={{
-                height: rowVirtualizer.totalSize,
-                width: `${getWidth()}px`,
-                position: 'relative',
-              }}
+            )}
+          </Box>
+        </Modal>
+        <Modal
+          sx={{
+            zIndex: 10,
+          }}
+          open={visibleImageCycle != null}
+          onClose={() => setVisibleImageCycle(null)}
+        >
+          <Box sx={unitImageCycleModalStyle(showNavbar)}>
+            {visibleImageCycle && (
+              <EditionUnitImageCycleModal
+                sigla={edition.get_ms_sigla().split(',')}
+                unitIdx={visibleImageCycle}
+                edition={edition}
+                unitTitle={rows[visibleImageCycle].get_display()}
+                onDismiss={() => setVisibleImageCycle(null)}
+              />
+            )}
+          </Box>
+        </Modal>
+      </Portal>
+      <Portal>
+        <AnimatePresence exitBeforeEnter>
+          {activeLinePreview && (
+            <motion.div
+              key={`${activeLinePreview.manuscriptSiglum}_${activeLinePreview.page}_${activeLinePreview.line}`}
+              style={getFacsimilePreviewStyle(activeLinePreview, isXLScreen)}
+              {...getFacsimilePreviewMotionProps(activeLinePreview)}
             >
-              {rowVirtualizer.virtualItems.map(getRow)}
-            </div>
+              {getLinePreview(activeLinePreview)}
+            </motion.div>
+          )}
+          {activeImagePreview && (
+            <motion.div
+              key={`${activeImagePreview.manuscriptSiglum}_${activeImagePreview.unitIdx}`}
+              style={getFacsimilePreviewStyle(
+                activeImagePreview,
+                isXLScreen,
+                '500px',
+                550
+              )}
+              {...getFacsimilePreviewMotionProps(activeImagePreview, 550)}
+            >
+              {getImagePreview(activeImagePreview)}
+            </motion.div>
+          )}
+          {structureViz && unitPreview && (
+            <motion.div
+              key={`${unitPreview[0]}_${unitPreview[1]}_${unitPreview[2]}`}
+              style={{
+                ...getUnitPreviewStyle(
+                  unitPreview[1],
+                  unitPreview[2],
+                  structureViz
+                ),
+                position: 'fixed',
+                zIndex: 90,
+                backgroundColor: '#ffd899',
+                padding: '10px',
+                borderRadius: '5px',
+              }}
+              {...getUnitPreviewMotionProps()}
+            >
+              <Typography color="black" fontSize="1.3rem">
+                {rows[unitPreview[0]].get_display()}
+              </Typography>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </Portal>
+      <Stack
+        direction={structureViz === 'bottom' ? 'column-reverse' : 'row'}
+        width="100%"
+        justifyContent={
+          structureViz && structureViz.startsWith('left')
+            ? 'space-between'
+            : 'center'
+        }
+        alignItems="center"
+      >
+        {structureViz && (
+          <Stack {...getStructureVizContainerProps(structureViz, showNavbar)}>
+            <EditionStructureViz
+              searchResults={searchResults}
+              key={`${updateTime}`}
+              showNavbar={showNavbar}
+              onRowClicked={(r) =>
+                rowVirtualizer.scrollToIndex(r, { align: 'start' })
+              }
+              onRowHovered={(r, x, y) => {
+                if (r === -1) {
+                  setUnitPreview(null);
+                } else {
+                  setUnitPreview([r, x, y]);
+                }
+              }}
+              currentRow={currentRow}
+              position={structureViz}
+              unitMatrix={range(edition.get_no_manuscripts()).map((i) => [
+                ...edition.get_ms_unit_presence_array(i),
+              ])}
+              imageMatrix={range(edition.get_no_manuscripts()).map((i) => [
+                ...edition.get_ms_image_presence_array(i),
+              ])}
+              NoUnits={edition.get_no_rows()}
+              sigla={edition.get_ms_sigla().split(',')}
+            />
+          </Stack>
+        )}
+        <div
+          ref={parentRef}
+          style={getEditionContainerStyle(structureViz, showNavbar)}
+        >
+          <EditionManuscriptBar
+            manuscripts={numberOfManuscripts}
+            store={edition}
+          />
+          <div
+            key={`${size}.${font}.${updateTime}`}
+            style={{
+              height: rowVirtualizer.totalSize,
+              width: `${getWidth()}px`,
+              position: 'relative',
+            }}
+          >
+            {rowVirtualizer.virtualItems.map(getRow)}
           </div>
-        </Stack>
-      </ViewEditionContext.Provider>
+        </div>
+      </Stack>
     </>
   );
 };

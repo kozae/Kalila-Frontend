@@ -4,6 +4,7 @@ export interface IEditionBookUnit {
   Id: string;
   Order: number;
   Title: string;
+  DepictingImages?: IEditionImage[];
 }
 
 export interface IEditionUnit {
@@ -14,7 +15,6 @@ export interface IEditionUnit {
   States: string[];
   Pages: number[];
   Lines: number[];
-  DepictingImage?: Omit<IEditionImage, 'Position'>;
   LocatedImage?: IEditionImage;
 }
 
@@ -30,9 +30,16 @@ export interface IEditionLine {
 }
 
 export interface IEditionImage {
-  Position: number;
+  Location: number[];
   PageNumber: number;
   Legend?: string;
+  Region: FacsimileRegion;
+}
+
+export interface IEditionImageLegend {
+  PageNumber: number;
+  Tokens: string[];
+  States: string[];
   Region: FacsimileRegion;
 }
 

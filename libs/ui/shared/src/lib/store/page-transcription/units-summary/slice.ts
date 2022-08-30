@@ -1,6 +1,7 @@
 import {
   createEntityAdapter,
   createSlice,
+  EntityState,
   PayloadAction,
 } from '@reduxjs/toolkit';
 import { IUnitSummary } from '@frontend/domain';
@@ -35,6 +36,7 @@ export const unitSummariesSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(closeUnit.fulfilled, (state, action) => {
       if (action.payload.data !== undefined) {
+        console.log({ closing: action.payload.data });
         unitSummariesAdapter.upsertOne(state, action.payload.data);
       }
     });
@@ -49,6 +51,10 @@ export const unitSummariesSlice = createSlice({
     });
   },
 });
+
+export type UnitSummariesState = {
+  [unitSummariesSlice.name]: EntityState<IUnitSummary>;
+};
 
 export const {
   loadUnitSummaries,

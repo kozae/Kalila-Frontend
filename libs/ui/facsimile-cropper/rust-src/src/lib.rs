@@ -34,9 +34,11 @@ impl FacsimileCropper {
         format!("data:image/png;base64,{}", encoded_img)
     }
 
-    fn get_padded_image(&self) -> RgbImage {
-        let mut im: RgbImage =
-            image::ImageBuffer::new(self.data.width() + 400, self.data.height() + 400);
+    fn get_padded_image(&self, padding: u32) -> RgbImage {
+        let mut im: RgbImage = image::ImageBuffer::new(
+            self.data.width() + 400 + padding,
+            self.data.height() + 400 + padding,
+        );
         for pixel in im.pixels_mut() {
             *pixel = image::Rgb([255, 255, 255]);
         }
@@ -46,7 +48,7 @@ impl FacsimileCropper {
 
     fn crop_bounding_area(&self, rect: &Rect, r: f32, padding: u32) -> RgbImage {
         let bounding_rect = rect.get_bounding_rect(r.round() as i32);
-        let mut src = self.get_padded_image();
+        let mut src = self.get_padded_image(padding);
         crop(
             &mut src,
             if padding < bounding_rect.x + 200 {

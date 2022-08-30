@@ -13,6 +13,8 @@ export function useAccessModeSettings() {
   const loggedUser = useAppSelector(selectUser);
 
   useEffect(() => {
+    console.log({ editor });
+    console.log({ loggedUser });
     if (editor === loggedUser.username) {
       dispatch(setTextEditingAccessMode('edit'));
     } else {

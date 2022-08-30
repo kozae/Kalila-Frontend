@@ -7,9 +7,7 @@ use crate::rect::Rect;
 use crate::transforms::{binarize, crop_region, rotate};
 use base64::{decode, encode};
 use image::imageops::{crop, replace};
-use image::ImageOutputFormat::Png;
 use image::{load_from_memory_with_format, GrayImage, ImageFormat, RgbImage};
-use std::io::Cursor;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]

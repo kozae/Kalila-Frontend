@@ -1,13 +1,15 @@
-import { RootState } from '../../config';
-import { imageElementsAdapter } from './slice';
+import { imageElementsAdapter, ImageElementState } from './slice';
 import { createSelector } from '@reduxjs/toolkit';
 
-const selectImageElementsState = (state: RootState) => state.imageElements;
+const selectImageElementsState = (state: ImageElementState) =>
+  state.imageElements;
 
 export const {
   selectAll: selectAllImageElements,
   selectById: selectImageElementById,
-} = imageElementsAdapter.getSelectors<RootState>(selectImageElementsState);
+} = imageElementsAdapter.getSelectors<ImageElementState>(
+  selectImageElementsState
+);
 
 export const selectAllImageElementsRegions = createSelector(
   selectAllImageElements,

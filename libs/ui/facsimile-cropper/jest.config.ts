@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default {
   displayName: 'ui-facsimile-cropper',
   preset: '../../../jest.preset.js',

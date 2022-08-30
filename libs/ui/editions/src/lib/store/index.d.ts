@@ -11,6 +11,10 @@ export class EditionCellData {
 /**
 * @returns {number | undefined}
 */
+  get_located_image_location(): number | undefined;
+/**
+* @returns {number | undefined}
+*/
   get_unit_idx(): number | undefined;
 /**
 * @returns {number}
@@ -59,6 +63,10 @@ export class EditionRowTitle {
 */
   get_display(): string;
 /**
+* @returns {boolean}
+*/
+  get_row_has_images(): boolean;
+/**
 * @param {number} index
 * @param {string | undefined} title
 * @param {number | undefined} order
@@ -91,6 +99,18 @@ export class EditionStore {
 */
   insert_row(update: any): EditionStore;
 /**
+* @param {number} unit_idx
+* @param {number} manuscript_idx
+* @returns {EditionCellData}
+*/
+  build_cell(unit_idx: number, manuscript_idx: number): EditionCellData;
+/**
+* @param {any} update
+* @param {number} manuscript_idx
+* @returns {EditionStore}
+*/
+  update_cells(update: any, manuscript_idx: number): EditionStore;
+/**
 * @param {any} data
 * @returns {EditionStore}
 */
@@ -122,6 +142,11 @@ export class EditionStore {
 */
   get_ms_unit_presence_array(idx: number): Int32Array;
 /**
+* @param {number} idx
+* @returns {Uint8Array}
+*/
+  get_ms_image_presence_array(idx: number): Uint8Array;
+/**
 * @returns {string}
 */
   get_ms_sigla(): string;
@@ -151,15 +176,74 @@ export class EditionStore {
 */
   get_line_region(key: string): Uint32Array | undefined;
 /**
+* @param {number} ms_idx
 * @param {number} unit_idx
-* @param {number} manuscript_idx
-* @returns {EditionCellData}
+* @returns {Uint32Array | undefined}
 */
-  build_cell(unit_idx: number, manuscript_idx: number): EditionCellData;
+  get_image_region(ms_idx: number, unit_idx: number): Uint32Array | undefined;
 /**
-* @param {any} update
-* @param {number} manuscript_idx
-* @returns {EditionStore}
+* @param {number} ms_idx
+* @param {number} unit_idx
+* @returns {Uint32Array | undefined}
 */
-  update_cells(update: any, manuscript_idx: number): EditionStore;
+  get_image_legend_region(ms_idx: number, unit_idx: number): Uint32Array | undefined;
+/**
+* @param {number} ms_idx
+* @param {number} unit_idx
+* @returns {number | undefined}
+*/
+  get_image_legend_page_number(ms_idx: number, unit_idx: number): number | undefined;
+/**
+* @param {number} ms_idx
+* @param {number} unit_idx
+* @returns {number | undefined}
+*/
+  get_image_legend_token_count(ms_idx: number, unit_idx: number): number | undefined;
+/**
+* @param {number} ms_idx
+* @param {number} unit_idx
+* @param {number} token_idx
+* @returns {string | undefined}
+*/
+  get_image_legend_token(ms_idx: number, unit_idx: number, token_idx: number): string | undefined;
+/**
+* @param {number} ms_idx
+* @param {number} unit_idx
+* @returns {number | undefined}
+*/
+  get_unit_image_page_number(ms_idx: number, unit_idx: number): number | undefined;
+/**
+* @param {number} ms_idx
+* @param {number} unit_idx
+* @returns {Uint32Array | undefined}
+*/
+  get_unit_image_region(ms_idx: number, unit_idx: number): Uint32Array | undefined;
+/**
+* @param {number} ms_idx
+* @param {number} unit_idx
+* @returns {number | undefined}
+*/
+  get_unit_image_legend_token_count(ms_idx: number, unit_idx: number): number | undefined;
+/**
+* @param {number} ms_idx
+* @param {number} unit_idx
+* @param {number} token_idx
+* @returns {string | undefined}
+*/
+  get_unit_image_legend_token(ms_idx: number, unit_idx: number, token_idx: number): string | undefined;
+/**
+* @param {number} order
+* @returns {number | undefined}
+*/
+  find_unit_by_order(order: number): number | undefined;
+/**
+* @param {string} filter
+* @returns {Int32Array}
+*/
+  find_unit_by_title(filter: string): Int32Array;
+/**
+* @param {string} filter
+* @returns {Uint32Array | undefined}
+*/
+  find_words(filter: string): Uint32Array | undefined;
 }

@@ -1,35 +1,52 @@
-import { useEffect, useReducer, useState } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from 'react';
 import { GroupsActionType, groupsReducer } from './reducer';
 import {
   HubConnectionBuilder,
   HubConnection,
   LogLevel,
 } from '@microsoft/signalr';
-import { IRealTimeUpdate, ISignalrMethods, ISignalrData } from './models';
-import { IWrapper } from '@frontend/util';
+import { IRealTimeUpdate } from './models';
 import { useBoolean } from '../../hooks';
+import {
+  SignalrConnectionWrapper,
+  SignalrMethodWrapper,
+  SignalrUpdateWrapper,
+} from './provider';
 
 function useGroupsState() {
   const [{ groups }, dispatchGroupAction] = useReducer(groupsReducer, {
     groups: new Set<string>(),
   });
-  const joinGroup = async (group: string, connection: HubConnection) => {
-    dispatchGroupAction({ type: GroupsActionType.Add, payload: group });
-    if (connection && connection.connectionId) {
-      await connection.invoke('JoinGroup', group);
-    }
-  };
+  const joinGroup = useCallback(
+    async (group: string, connection: HubConnection) => {
+      dispatchGroupAction({ type: GroupsActionType.Add, payload: group });
+      if (connection && connection.connectionId) {
+        await connection.invoke('JoinGroup', group);
+      }
+    },
+    []
+  );
 
-  const leaveGroup = async (group: string, connection: HubConnection) => {
-    dispatchGroupAction({ type: GroupsActionType.Remove, payload: group });
-    if (connection && connection.connectionId) {
-      await connection.invoke('LeaveGroup', group);
-    }
-  };
+  const leaveGroup = useCallback(
+    async (group: string, connection: HubConnection) => {
+      dispatchGroupAction({ type: GroupsActionType.Remove, payload: group });
+      if (connection && connection.connectionId) {
+        await connection.invoke('LeaveGroup', group);
+      }
+    },
+    []
+  );
   return { groups, joinGroup, leaveGroup };
 }
 
-export function useSignalr(): IWrapper<ISignalrData, ISignalrMethods> {
+export function useSignalr() {
   const [connection, setConnection] = useState<
     HubConnection | undefined | null
   >();
@@ -76,15 +93,22 @@ export function useSignalr(): IWrapper<ISignalrData, ISignalrMethods> {
   }, [connection]);
 
   return {
-    data: {
-      connection,
-      groups,
-      update,
-      isConnected,
-    },
+    connectionData: useMemo(
+      () => ({
+        connection,
+        groups,
+        isConnected,
+      }),
+      [connection, groups, isConnected]
+    ),
+    update: { update },
     methods: {
       joinGroup,
       leaveGroup,
     },
   };
 }
+
+export const useSignalrUpdate = () => useContext(SignalrUpdateWrapper);
+export const useSignalrConnection = () => useContext(SignalrConnectionWrapper);
+export const useSignalrMethods = () => useContext(SignalrMethodWrapper);

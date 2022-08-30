@@ -1,12 +1,12 @@
-import { RootState } from '../../config';
-import { textElementsAdapter } from './slice';
+import { textElementsAdapter, TextElementState } from './slice';
 import { createSelector } from '@reduxjs/toolkit';
+import { selectAllImageElements } from '../image-elements';
 
-const selectTextElementsState = (state: RootState) => state.textElements;
+const selectTextElementsState = (state: TextElementState) => state.textElements;
 export const {
   selectAll: selectAllTextElements,
   selectById: selectTextElementById,
-} = textElementsAdapter.getSelectors<RootState>(selectTextElementsState);
+} = textElementsAdapter.getSelectors<TextElementState>(selectTextElementsState);
 
 export const selectAllTextElementsRegions = createSelector(
   selectAllTextElements,
@@ -27,6 +27,11 @@ export const selectAllTextElementsIds = createSelector(
 export const selectPageHasText = createSelector(
   selectAllTextElements,
   (te) => te.length !== 0
+);
+
+export const selectPageHasImages = createSelector(
+  selectAllImageElements,
+  (im) => im.length !== 0
 );
 
 export const selectFirstTextElement = createSelector(

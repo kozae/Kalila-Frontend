@@ -85,7 +85,7 @@ export function FacsimileCropperPlayground({
         const r = regions[i][1] as number;
         //@ts-ignore
         const color = regions[i][2];
-        setImage(wasmImg.get_region(p, r, color));
+        setImage(wasmImg.get_region(p, r, color, 30.0));
       }
     },
     [wasmImg, regions]

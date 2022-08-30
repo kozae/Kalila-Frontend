@@ -10,9 +10,10 @@ import { Units } from './units';
 import { useContext, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { BookUnit, IChapter } from '@frontend/domain';
-import { CreateBookUnitDialog, SelectChapterDialog } from './dialogs';
+import { CreateBookUnitDialog } from './dialogs';
 import axios from 'axios';
 import { TextSegmentationContext } from './context';
+import { SelectChapterDialog } from '@frontend/ui/text-editing/shared';
 
 export const CommandBar = () => {
   const [chapter, setChapter] = useState<IChapter | null>(null);

@@ -6,13 +6,13 @@ import {
   useFacsimileCropper,
 } from '@frontend/ui/facsimile-cropper';
 import { Dispatch, FC, SetStateAction, useEffect } from 'react';
-import { ILinePreviewData } from './view-edition-context';
 import { EditionStore } from '../store';
 import { hexToRgbUint32Array } from '@frontend/util';
 import { AngleHelper } from '@frontend/ui/facsimile';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { kalilaTheme } from '@frontend/shared-ui';
+import { ILinePreviewData } from './models';
 
 export interface IDynamicLinePreviewProps {
   data: ILinePreviewData;
@@ -48,7 +48,8 @@ export const LinePreviewDynamic = dynamic<IDynamicLinePreviewProps>({
           const preview = facsimileCropper.get_region(
             p,
             AngleHelper.normalizeRotationDeg(r),
-            color
+            color,
+            8.0
           );
 
           return (
@@ -86,12 +87,16 @@ export const LinePreview: FC<{
   const lineInfo = lineKey.split('_');
 
   return (
-    <Stack width="100%" height="100%">
+    <Stack
+      bgcolor="primary.light"
+      boxShadow={kalilaTheme.shadows[4]}
+      width="100%"
+      height="100%"
+    >
       <Typography
         variant="h3"
         width="100%"
         textAlign="center"
-        bgcolor="primary.light"
         color="white"
         borderRadius="5px 5px 0 0"
         p="5px"
@@ -100,7 +105,6 @@ export const LinePreview: FC<{
       </Typography>
       <img
         style={{
-          boxShadow: kalilaTheme.shadows[4],
           maxWidth: '100%',
           minWidth: '50%',
           maxHeight: '85%',

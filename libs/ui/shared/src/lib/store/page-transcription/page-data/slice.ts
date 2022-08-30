@@ -77,5 +77,13 @@ export const pageDataSlice = createSlice({
   },
 });
 
+export type PageDataState = {
+  [pageDataSlice.name]: {
+    pageInfo: IPageTranscriptionInfo;
+    imageSize: { Width: number; Height: number };
+    loading: boolean;
+  };
+};
+
 export const { loadPageData, clearPageData, pageDataLoaded, setImageSize } =
   pageDataSlice.actions;

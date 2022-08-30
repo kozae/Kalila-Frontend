@@ -1,4 +1,8 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSlice,
+  EntityState,
+} from '@reduxjs/toolkit';
 
 export interface IAttribute {
   DocAndField: string;
@@ -21,6 +25,10 @@ export const attributesSlice = createSlice({
     clearAttributes: attributesAdapter.removeAll,
   },
 });
+
+export type AttributeState = {
+  [attributesSlice.name]: EntityState<IAttribute>;
+};
 
 export const { loadAttributes, addAttributes, clearAttributes } =
   attributesSlice.actions;

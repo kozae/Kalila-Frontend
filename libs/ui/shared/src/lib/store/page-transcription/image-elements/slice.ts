@@ -1,4 +1,8 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSlice,
+  EntityState,
+} from '@reduxjs/toolkit';
 import { IImageElement } from '@frontend/domain';
 import {
   discardLayoutChanges,
@@ -31,6 +35,10 @@ export const imageElementsSlice = createSlice({
     });
   },
 });
+
+export type ImageElementState = {
+  [imageElementsSlice.name]: EntityState<IImageElement>;
+};
 
 export const {
   loadImageElements,

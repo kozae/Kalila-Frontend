@@ -1,6 +1,7 @@
 import {
   createEntityAdapter,
   createSlice,
+  EntityState,
   PayloadAction,
 } from '@reduxjs/toolkit';
 import { IToken } from '@frontend/domain';
@@ -41,6 +42,10 @@ export const tokenSlice = createSlice({
   },
   // todo add the reducers for discard and save thunks
 });
+
+export type TokensState = {
+  [tokenSlice.name]: EntityState<IToken & { LineId: string }>;
+};
 
 export const { loadTokens, replaceLinesTokens, clearTokens, updateManyTokens } =
   tokenSlice.actions;

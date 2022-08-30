@@ -38,6 +38,7 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
       case 'description':
         break;
       case 'layout':
+      case 'image':
         dispatch(discardLayoutChanges({}));
         break;
       case 'lines':
@@ -60,6 +61,7 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
       case 'description':
         break;
       case 'layout':
+      case 'image':
         dispatch(saveLayoutChanges({}));
         break;
       case 'lines':

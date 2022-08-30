@@ -1,10 +1,9 @@
-import { attributesAdapter } from './slice';
-import { RootState } from '../../config';
+import { attributesAdapter, AttributeState } from './slice';
 import { createSelector } from '@reduxjs/toolkit';
 
-const selectAttributesState = (state: RootState) => state.attributes;
+const selectAttributesState = (state: AttributeState) => state.attributes;
 
-const { selectAll } = attributesAdapter.getSelectors<RootState>(
+const { selectAll } = attributesAdapter.getSelectors<AttributeState>(
   selectAttributesState
 );
 

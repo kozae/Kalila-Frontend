@@ -1,6 +1,7 @@
 import {
   createEntityAdapter,
   createSlice,
+  EntityState,
   PayloadAction,
 } from '@reduxjs/toolkit';
 import { ILine } from '@frontend/domain';
@@ -50,6 +51,10 @@ export const linesSlice = createSlice({
     });
   },
 });
+
+export type LinesState = {
+  [linesSlice.name]: EntityState<Omit<ILine, 'Tokens'> & { ElementId: string }>;
+};
 
 export const {
   loadLines,

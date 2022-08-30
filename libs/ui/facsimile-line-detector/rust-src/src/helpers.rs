@@ -1,12 +1,5 @@
 use image::GrayImage;
 
-#[macro_use]
-macro_rules! log {
-    ( $( $t:tt )* ) => {
-        web_sys::console::log_1(&format!( $( $t )*
-        ).into());
-    }
-}
 pub fn get_distance((x1, y1): (u32, u32), (x2, y2): (u32, u32)) -> u32 {
     let sum_of_powers = (u32::pow(x2 - x1, 2) + u32::pow(y2 - y1, 2)) as f64;
     sum_of_powers.sqrt().round() as u32

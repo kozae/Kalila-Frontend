@@ -1,7 +1,7 @@
-import { RootState } from '@frontend/shared-ui';
+import { TextEditingPageState } from './slice';
 import { createSelector } from '@reduxjs/toolkit';
 
-const selectTextEditingPageState = (state: RootState) =>
+const selectTextEditingPageState = (state: TextEditingPageState) =>
   state.textEditingPageState;
 
 export const selectTextEditingAccessMode = createSelector(

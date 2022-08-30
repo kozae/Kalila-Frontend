@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect } from 'react';
+import { FC, useCallback, useEffect, useMemo } from 'react';
 import { kalilaTheme } from '../../../constants';
 import { IManuscriptPagesPaginatorProps } from './command-bars';
 
@@ -32,8 +32,18 @@ const defaultValue: INavMessageBarControl = {
 export const NavMessageBarContext =
   React.createContext<INavMessageBarControl>(defaultValue);
 
+export const NavMessageBarContextProvider: FC<{
+  children?: React.ReactNode;
+}> = ({ children }) => {
+  return (
+    <NavMessageBarContext.Provider value={useNavMessageBarControls()}>
+      {children}
+    </NavMessageBarContext.Provider>
+  );
+};
+
 export function useNavMessageBarControls(): INavMessageBarControl {
-  const [{ messages, color, commandBar }, setMessages] = React.useState<{
+  const [context, setContext] = React.useState<{
     messages: [string | undefined, string | undefined];
     color: string;
     commandBar?: CommandBars;
@@ -49,13 +59,13 @@ export function useNavMessageBarControls(): INavMessageBarControl {
       newCommandBar?: CommandBars
     ) => {
       const color = newColor ?? kalilaTheme.palette.primary.main;
-      if (newMessages[0] === messages[0]) {
-        setMessages({
-          messages: [messages[0], undefined],
+      if (newMessages[0] === context.messages[0]) {
+        setContext({
+          messages: [context.messages[0], undefined],
           color,
         });
       } else {
-        setMessages({
+        setContext({
           messages: [undefined, undefined],
           color,
         });
@@ -63,7 +73,7 @@ export function useNavMessageBarControls(): INavMessageBarControl {
 
       setTimeout(
         () =>
-          setMessages({
+          setContext({
             messages: newMessages,
             color,
             commandBar: newCommandBar,
@@ -71,10 +81,10 @@ export function useNavMessageBarControls(): INavMessageBarControl {
         1000
       );
     },
-    [messages]
+    [context]
   );
 
-  return { messages, color, commandBar, changeMessage };
+  return useMemo(() => ({ ...context, changeMessage }), [context]);
 }
 
 export function useNavbarMessage(

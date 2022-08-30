@@ -1,7 +1,7 @@
-import { RootState } from '@frontend/shared-ui';
 import { createSelector } from '@reduxjs/toolkit';
+import { SessionState } from './slice';
 
-const selectSessionState = (state: RootState) => state.session;
+const selectSessionState = (state: SessionState) => state.session;
 
 export const selectAccessToken = createSelector(
   selectSessionState,

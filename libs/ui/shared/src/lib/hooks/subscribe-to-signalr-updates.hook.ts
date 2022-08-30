@@ -1,5 +1,11 @@
 import { useContext, useEffect, useMemo } from 'react';
-import { IRealTimeUpdate, SignalrWrapper } from '../wrappers';
+import {
+  IRealTimeUpdate,
+  SignalrConnectionWrapper,
+  useSignalrConnection,
+  useSignalrMethods,
+  useSignalrUpdate,
+} from '../wrappers';
 import { HubConnection } from '@microsoft/signalr';
 import { KeyedMutator } from 'swr';
 import { IPagination } from '@frontend/util';
@@ -32,10 +38,9 @@ export function processSignalRUpdateFactory(
 }
 
 export function useSignalrUpdates(mutateDocs: Mutator, activityName: string) {
-  const {
-    data: { update, connection, isConnected },
-    methods: { joinGroup, leaveGroup },
-  } = useContext(SignalrWrapper);
+  const { update } = useSignalrUpdate();
+  const { connection, isConnected } = useSignalrConnection();
+  const { joinGroup, leaveGroup } = useSignalrMethods();
 
   const processSignalRUpdate = useMemo(
     () => processSignalRUpdateFactory(mutateDocs, activityName),

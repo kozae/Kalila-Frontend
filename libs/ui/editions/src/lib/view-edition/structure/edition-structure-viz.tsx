@@ -1,11 +1,7 @@
 import { FabricCanvas } from '@frontend/ui/facsimile';
 import { FC, useEffect, useMemo, useState } from 'react';
 import { fabric } from 'fabric';
-import {
-  selectNavControlBarIsShown,
-  useAppSelector,
-  useWindowSize,
-} from '@frontend/shared-ui';
+import { useWindowSize } from '@frontend/shared-ui';
 import {
   IStructureData,
   IStructureEvents,
@@ -21,21 +17,28 @@ import {
   getPositionMarkerOptions,
   getUnitThickness,
 } from './render-helpers';
+import { renderSearchResults } from './render-search-results';
+import { SearchResults } from '../models';
 
 export interface EditionStructureVizProps
   extends IStructureData,
-    IStructureEvents {}
+    IStructureEvents {
+  showNavbar: boolean;
+  searchResults: SearchResults;
+}
 
 export const EditionStructureViz: FC<EditionStructureVizProps> = ({
   position,
   sigla,
   NoUnits,
   unitMatrix,
+  imageMatrix,
   currentRow,
   onRowClicked,
   onRowHovered,
+  showNavbar,
+  searchResults,
 }) => {
-  const showNavbar = useAppSelector(selectNavControlBarIsShown);
   const positionMarker = useMemo(() => new fabric.Rect({}), []);
   const windowSize = useWindowSize();
   const width = useMemo(() => {
@@ -52,7 +55,7 @@ export const EditionStructureViz: FC<EditionStructureVizProps> = ({
     }
     return showNavbar ? base - 110 : base - 50;
   }, [windowSize.height, showNavbar, position]);
-
+  const searchResultsMarkers: fabric.Rect[] = useMemo(() => [], []);
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
   const onReady = (c: fabric.Canvas) => {
     console.log('canvas ready');
@@ -64,7 +67,18 @@ export const EditionStructureViz: FC<EditionStructureVizProps> = ({
       onRowClicked,
       onRowHovered,
       position,
+      imageMatrix,
     });
+    if (searchResults) {
+      renderSearchResults(
+        c,
+        searchResults as [number, number, number][],
+        position,
+        NoUnits,
+        sigla.length,
+        searchResultsMarkers
+      );
+    }
     setCanvas(c);
   };
 
@@ -81,7 +95,19 @@ export const EditionStructureViz: FC<EditionStructureVizProps> = ({
         onRowClicked,
         onRowHovered,
         position,
+        imageMatrix,
       });
+      searchResultsMarkers.splice(0, searchResultsMarkers.length);
+      if (searchResults) {
+        renderSearchResults(
+          canvas,
+          searchResults as [number, number, number][],
+          position,
+          NoUnits,
+          sigla.length,
+          searchResultsMarkers
+        );
+      }
     }
   }, [windowSize, showNavbar, position]);
 
@@ -101,6 +127,24 @@ export const EditionStructureViz: FC<EditionStructureVizProps> = ({
       canvas.renderAll();
     }
   }, [currentRow, position, NoUnits]);
+
+  useEffect(() => {
+    if (canvas) {
+      canvas.remove(...searchResultsMarkers);
+      searchResultsMarkers.splice(0, searchResultsMarkers.length);
+      canvas.renderAll();
+      if (searchResults) {
+        renderSearchResults(
+          canvas,
+          searchResults as [number, number, number][],
+          position,
+          NoUnits,
+          sigla.length,
+          searchResultsMarkers
+        );
+      }
+    }
+  }, [searchResults]);
 
   const onDispose = () => {
     console.log('canvas disposed');

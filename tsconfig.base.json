@@ -17,6 +17,8 @@
     "typeRoots": ["src", "node_modules/@types"],
     "paths": {
       "@frontend/domain": ["libs/domain/src/index.ts"],
+      "@frontend/kalila/components": ["libs/kalila/components/src/index.ts"],
+      "@frontend/kalila/store": ["libs/kalila/store/src/index.ts"],
       "@frontend/server-side-queries": [
         "libs/server-side-queries/src/index.ts"
       ],
@@ -43,6 +45,9 @@
       "@frontend/ui/table": ["libs/ui/table/src/index.ts"],
       "@frontend/ui/text-editing/description": [
         "libs/ui/text-editing/description/src/index.ts"
+      ],
+      "@frontend/ui/text-editing/image-annotation": [
+        "libs/ui/text-editing/image-annotation/src/index.ts"
       ],
       "@frontend/ui/text-editing/layout-analysis": [
         "libs/ui/text-editing/layout-analysis/src/index.ts"

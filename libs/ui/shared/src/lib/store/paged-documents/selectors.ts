@@ -1,15 +1,15 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { pagedDocsAdapter } from './slice';
-import { RootState } from '../config';
+import { pagedDocsAdapter, PagedDocumentsState } from './slice';
 import { omit } from 'lodash';
 
-const selectPagedDocsState = (state: RootState) => state.pagedDocuments;
+const selectPagedDocsState = (state: PagedDocumentsState) =>
+  state.pagedDocuments;
 
 export const {
   selectAll: selectPagedDocs,
   selectById: selectPagedDocById,
   selectEntities: selectPagedDocsAsMap,
-} = pagedDocsAdapter.getSelectors<RootState>(selectPagedDocsState);
+} = pagedDocsAdapter.getSelectors<PagedDocumentsState>(selectPagedDocsState);
 
 export const selectPagedDocsLoading = createSelector(
   selectPagedDocsState,

@@ -29,6 +29,7 @@ js-sys = "0.3.36"
 base64 = "0.13.0"
 imageproc = "0.23.0"
 image = "0.24.1"
+regex = "1.5.6"
 
 
 console_error_panic_hook = { version = "0.1.1", optional = true }

@@ -32,8 +32,6 @@ pub struct Unit {
     pub(crate) pages: Vec<u16>,
     #[serde(rename = "Lines")]
     pub(crate) lines: Vec<u8>,
-    #[serde(rename = "DepictingImage")]
-    pub(crate) depicting_image: Option<Image>,
     #[serde(rename = "LocatedImage")]
     pub(crate) located_image: Option<Image>,
 }
@@ -65,8 +63,7 @@ impl Unit {
             } else {
                 update.lines.clone()
             },
-            depicting_image: None,
-            located_image: None,
+            located_image: self.located_image.clone(),
         }
     }
 }
@@ -94,12 +91,25 @@ pub struct Line {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Image {
-    #[serde(rename = "Position")]
-    pub(crate) position: Option<u8>,
+    #[serde(rename = "Location")]
+    pub(crate) location: Option<Vec<u8>>,
     #[serde(rename = "PageNumber")]
     pub(crate) page_number: u16,
     #[serde(rename = "Legend")]
-    pub(crate) legend: Option<String>,
+    pub(crate) legend: Option<Legend>,
     #[serde(rename = "Region")]
     pub(crate) region: Vec<u32>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Legend {
+    #[serde(rename = "PageNumber")]
+    pub(crate) page_number: u16,
+    #[serde(rename = "Region")]
+    pub(crate) region: Option<Vec<u32>>,
+    #[serde(rename = "Tokens")]
+    pub(crate) tokens: Vec<String>,
+    #[serde(rename = "States")]
+    pub(crate) states: Vec<String>,
 }

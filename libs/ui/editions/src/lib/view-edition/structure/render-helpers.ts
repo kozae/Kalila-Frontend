@@ -72,3 +72,74 @@ export const getPositionMarkerOptions = (
     strokeWidth: 1,
   };
 };
+
+export const getUnitRowMarkerOptions = (
+  canvas: fabric.Canvas,
+  state: StructurePositions,
+  currentRow: number,
+  unitThickness: number
+): IRectOptions => {
+  let width, height, top, left;
+  switch (state) {
+    case 'bottom':
+      height = canvas.getHeight();
+      width = unitThickness + 2;
+      top = 0;
+      left = siglumLineOffset + currentRow * unitThickness - 1;
+      break;
+    case 'left':
+    case 'left-XL':
+    default:
+      width = canvas.getWidth();
+      height = unitThickness + 2;
+      left = 0;
+      top = siglumLineOffset + currentRow * unitThickness - 1;
+      break;
+  }
+  return {
+    ...commonObjectOptions,
+    height,
+    width,
+    top,
+    left,
+    fill: 'rgba(241,231,64, 0.4)',
+  };
+};
+
+export const getUnitBoxMarkerOptions = (
+  canvas: fabric.Canvas,
+  state: StructurePositions,
+  unitIdx: number,
+  manuscriptIdx: number,
+  unitThickness: number,
+  manuscriptThickness: number
+): IRectOptions => {
+  const distanceFromSiglum = siglumLineOffset + unitIdx * unitThickness;
+  const distanceFromUnitNumber =
+    unitNumberLineOffset + manuscriptIdx * manuscriptThickness;
+  let width, height, top, left;
+  switch (state) {
+    case 'bottom':
+      height = manuscriptThickness;
+      width = unitThickness + 2;
+      top = distanceFromUnitNumber;
+      left = distanceFromSiglum - 1;
+      break;
+    case 'left':
+    case 'left-XL':
+    default:
+      width = manuscriptThickness;
+      height = unitThickness + 2;
+      left = distanceFromUnitNumber;
+      top = distanceFromSiglum - 1;
+      break;
+  }
+  return {
+    ...commonObjectOptions,
+    height,
+    width,
+    top,
+    left,
+    fill: 'rgba(241,231,64, 0.4)',
+  };
+};

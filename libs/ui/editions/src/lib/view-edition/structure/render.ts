@@ -25,6 +25,7 @@ export interface IStructureData {
   sigla: string[];
   NoUnits: number;
   unitMatrix: number[][];
+  imageMatrix: number[][];
   currentRow: number;
 }
 
@@ -44,6 +45,7 @@ export function render(
     currentRow,
     onRowClicked,
     onRowHovered,
+    imageMatrix,
   }: IStructureData & IStructureEvents
 ) {
   canvas.clear();
@@ -65,6 +67,7 @@ export function render(
     unitLineThickness,
     manuscriptThickness,
     unitMatrix,
+    imageMatrix,
     sigla,
     onRowClicked,
     onRowHovered

@@ -1,7 +1,6 @@
-import { RootState } from '@frontend/shared-ui';
-import { morphologyAdapter } from './slice';
+import { morphologyAdapter, MorphologyState } from './slice';
 
-const selectMorphologiesState = (state: RootState) => state.morphologies;
+const selectMorphologiesState = (state: MorphologyState) => state.morphologies;
 
 export const { selectById: selectMorphologyByLineAndToken } =
-  morphologyAdapter.getSelectors<RootState>(selectMorphologiesState);
+  morphologyAdapter.getSelectors<MorphologyState>(selectMorphologiesState);

@@ -15,18 +15,18 @@ const initialState: ISessionState = {
   maxWidthEnabled: false,
 };
 
-const userMap: { [key: string]: string } = { 'mahmoud.kozae': 'mk' };
-
 export const sessionSlice = createSlice({
   name: 'session',
   initialState,
   reducers: {
-    loadSession: (state, action: PayloadAction<ISessionState>) => {
+    loadSession: (
+      state,
+      action: PayloadAction<
+        Omit<ISessionState, 'navControlBar' | 'maxWidthEnabled'>
+      >
+    ) => {
       state.session = action.payload.session;
       state.authenticated = action.payload.authenticated;
-      if (state.session !== null) {
-        state.session.Username = userMap[state.session.Username];
-      }
     },
     clearSession: (state) => {
       state.session = null;
@@ -46,6 +46,8 @@ export const sessionSlice = createSlice({
     },
   },
 });
+
+export type SessionState = { [sessionSlice.name]: ISessionState };
 
 export const {
   loadSession,

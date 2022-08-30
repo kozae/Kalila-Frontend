@@ -3,9 +3,10 @@ import Typography from '@mui/material/Typography';
 import { range } from 'lodash';
 import { EditionStore } from '../store';
 import { kalilaTheme } from '@frontend/shared-ui';
-import { useContext, useMemo } from 'react';
-import { ViewEditionContext, WIDTH_OPTIONS } from './view-edition-context';
+import { useCallback, useMemo } from 'react';
 import { letterMap } from '@frontend/util';
+import { useLayoutOptions, useSearchData } from './contexts';
+import { WIDTH_OPTIONS } from './constants';
 
 export interface IEditionManuscriptBarProps {
   manuscripts: number;
@@ -16,7 +17,8 @@ export const EditionManuscriptBar = ({
   manuscripts,
   store,
 }: IEditionManuscriptBarProps) => {
-  const { size } = useContext(ViewEditionContext);
+  const { size } = useLayoutOptions();
+  const { currentSearchResult, searchResults } = useSearchData();
 
   const fonSize = useMemo(() => {
     switch (size) {
@@ -33,6 +35,14 @@ export const EditionManuscriptBar = ({
     }
     return '1.5rem';
   }, [size]);
+
+  const isSearchResult = useCallback(
+    (msIndex: number) =>
+      searchResults &&
+      searchResults.length - 1 >= currentSearchResult &&
+      searchResults[currentSearchResult][1] === msIndex,
+    [currentSearchResult, searchResults]
+  );
 
   return (
     <Stack
@@ -54,10 +64,19 @@ export const EditionManuscriptBar = ({
           justifyContent="center"
           sx={{
             width: WIDTH_OPTIONS[size],
-            bgcolor: m % 2 ? 'white' : '#F1F1F1',
+            bgcolor: isSearchResult(m)
+              ? 'rgb(255,103,0)'
+              : m % 2
+              ? 'white'
+              : '#F1F1F1',
           }}
         >
-          <Typography p=".5rem" fontSize={fonSize} fontWeight={600}>
+          <Typography
+            color={isSearchResult(m) ? 'white' : 'black'}
+            p=".5rem"
+            fontSize={fonSize}
+            fontWeight={600}
+          >
             ({letterMap[m]}) {store.get_ms_siglum(m)}
           </Typography>
         </Stack>

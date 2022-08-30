@@ -49,7 +49,11 @@ export function useNavSessionState(init: INavbarState) {
         ]);
       } else {
         setIsAdmin(false);
-        setLinks(NavbarLinksConfiguration.UserLinks);
+        if (user.name && user.name.includes('guest')) {
+          setLinks(NavbarLinksConfiguration.GuestLinks);
+        } else {
+          setLinks(NavbarLinksConfiguration.UserLinks);
+        }
       }
     } else {
       setLoggedUser(undefined);

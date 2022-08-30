@@ -10,6 +10,10 @@ impl EditionStore {
             display: format!("{} ({}) {}", index, bu.order, bu.title),
             order: bu.order,
             title: bu.title.clone(),
+            has_images: match &bu.depicting_images {
+                Some(units) => units.len() != 0,
+                None => false,
+            },
         }
     }
 
@@ -62,6 +66,9 @@ impl EditionRowTitle {
     pub fn get_display(&self) -> String {
         self.display.clone()
     }
+    pub fn get_row_has_images(&self) -> bool {
+        self.has_images
+    }
 
     pub fn update_row(
         self,
@@ -83,6 +90,7 @@ impl EditionRowTitle {
             title: new_title.clone(),
             order: new_order,
             display: format!("{} ({}) {}", index, new_order, new_title),
+            has_images: self.has_images,
         }
     }
 }

@@ -26,6 +26,7 @@ import { LineDetectionTool } from '@frontend/ui/text-editing/line-detection';
 import { TranscriptionTool } from '@frontend/ui/text-editing/transcription';
 import { TextSegmentationTool } from '@frontend/ui/text-editing/text-segmentation';
 import { DescriptionTool } from '@frontend/ui/text-editing/description';
+import { ImageAnnotationTool } from '@frontend/ui/text-editing/image-annotation';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -204,7 +205,7 @@ export const ToolSpace = () => {
                 <TextSegmentationTool />
               </TabPanel>
               <TabPanel value={tabIndex} index={5} dir={theme.direction}>
-                <h1>Image Cycle Analysis</h1>
+                <ImageAnnotationTool />
               </TabPanel>
             </SwipeableViews>
           </motion.div>

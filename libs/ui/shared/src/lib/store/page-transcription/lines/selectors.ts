@@ -1,15 +1,14 @@
-import { RootState } from '../../config';
-import { linesAdapter } from './slice';
+import { linesAdapter, LinesState } from './slice';
 import { createSelector } from '@reduxjs/toolkit';
 
-const selectLinesState = (state: RootState) => state.lines;
+const selectLinesState = (state: LinesState) => state.lines;
 
 export const {
   selectEntities: selectLinesDictionary,
   selectAll: selectAllLines,
   selectIds: selectLineIds,
   selectById: selectLineById,
-} = linesAdapter.getSelectors<RootState>(selectLinesState);
+} = linesAdapter.getSelectors<LinesState>(selectLinesState);
 
 export const selectAllLinesRegions = createSelector(selectAllLines, (li) =>
   li.map((l) => ({

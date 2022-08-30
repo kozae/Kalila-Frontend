@@ -1,4 +1,8 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSlice,
+  EntityState,
+} from '@reduxjs/toolkit';
 import { ITextElement } from '@frontend/domain';
 import {
   discardLayoutChanges,
@@ -33,6 +37,10 @@ export const textElementsSlice = createSlice({
     });
   },
 });
+
+export type TextElementState = {
+  [textElementsSlice.name]: EntityState<Omit<ITextElement, 'Lines'>>;
+};
 
 export const {
   loadTextElements,

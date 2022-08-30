@@ -1,7 +1,7 @@
 import {
   createEntityAdapter,
   createSlice,
-  PayloadAction,
+  EntityState,
 } from '@reduxjs/toolkit';
 import { IMorphology } from '@frontend/domain';
 
@@ -22,6 +22,12 @@ export const morphologySlice = createSlice({
     clearMorphologies: morphologyAdapter.removeAll,
   },
 });
+
+export type MorphologyState = {
+  [morphologySlice.name]: EntityState<
+    Partial<IMorphology> & { LineId: string; TokenOrder: number }
+  >;
+};
 
 export const { loadMorphologies, clearMorphologies, upsertTokenMorphology } =
   morphologySlice.actions;

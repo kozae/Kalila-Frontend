@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styles from './nav.module.scss';
 import { motion } from 'framer-motion';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -8,7 +8,6 @@ import { stringHasValue } from '@frontend/util';
 
 export const NavMessageBar: React.FC = () => {
   const { messages, color, commandBar } = useContext(NavMessageBarContext);
-
   return (
     <div
       style={{ backgroundColor: color }}

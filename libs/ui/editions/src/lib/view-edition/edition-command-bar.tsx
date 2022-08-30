@@ -1,50 +1,77 @@
 import Stack from '@mui/material/Stack';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { ChangeEvent, FC, useContext } from 'react';
-import {
-  EditionFontFamily,
-  EditionFontSize,
-  FONT_FAMILIES,
-  ViewEditionContext,
-} from './view-edition-context';
+import { ChangeEvent, FC, useCallback, useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import Switch from '@mui/material/Switch';
-import {
-  hideControlBar,
-  selectNavControlBarIsShown,
-  showControlBar,
-  useAppDispatch,
-  useAppSelector,
-  useXLargeScreenMediaQuery,
-} from '@frontend/shared-ui';
+import { useXLargeScreenMediaQuery } from '@frontend/shared-ui';
 import Button from '@mui/material/Button';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import SearchIcon from '@mui/icons-material/Search';
 import CloudSyncIcon from '@mui/icons-material/CloudSync';
 import PreviewIcon from '@mui/icons-material/Preview';
-import HorizontalSplitIcon from '@mui/icons-material/HorizontalSplit';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import ViewComfyIcon from '@mui/icons-material/ViewComfy';
 import { StructurePositions } from './structure/render';
 import { useRouter } from 'next/router';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import CloseIcon from '@mui/icons-material/Close';
+import {
+  useBehaviorOptions,
+  useBehaviorOptionsMethods,
+  useLayoutOptions,
+  useLayoutOptionsMethods,
+  useSearchData,
+  useSearchMethods,
+} from './contexts';
+import { EditionFontFamily, EditionFontSize } from './models';
+import { FONT_FAMILIES } from './constants';
 
-export const EditionCommandBar: FC<{ editionName: string }> = ({
+export const EditionCommandBar: FC<{
+  editionName: string;
+  username: string | undefined;
+  showNavbar: boolean;
+  setShowNavbar: (v: boolean) => void | Promise<void>;
+  onNextSearchResult: () => void | Promise<void>;
+  onPrevSearchResult: () => void | Promise<void>;
+}> = ({
   editionName,
+  username,
+  showNavbar,
+  setShowNavbar,
+  onNextSearchResult,
+  onPrevSearchResult,
 }) => {
+  const { searchResults, currentSearchResult, filter } = useSearchData();
+  const { setFilter } = useSearchMethods();
+  const { size, font } = useLayoutOptions();
   const {
-    size,
-    setSize,
-    font,
-    setFont,
-    enableFacsimilePreview,
-    setEnableFacsimilePreview,
-    realTimeUpdates,
-    setRealTimeUpdates,
     structureViz,
+    isSearchActive,
+    enableFacsimilePreview,
+    enableRealTimeUpdates,
+  } = useBehaviorOptions();
+  const {
+    setSize,
+
+    setFont,
+  } = useLayoutOptionsMethods();
+  const {
+    setIsSearchActive,
+    setEnableFacsimilePreview,
+    setEnableRealTimeUpdates,
     setStructureViz,
-  } = useContext(ViewEditionContext);
-  const showNavbar = useAppSelector(selectNavControlBarIsShown);
+  } = useBehaviorOptionsMethods();
   const isXLScreen = useXLargeScreenMediaQuery();
+
+  const handleFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setFilter(event.target.value);
+  };
 
   const handleSizeChange = (event: any, newSize: EditionFontSize | null) => {
     setSize(newSize ?? 'xs');
@@ -54,15 +81,13 @@ export const EditionCommandBar: FC<{ editionName: string }> = ({
     setFont(newFont ?? 'n');
   };
 
-  const handleFacsimilePreviewChange = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    setEnableFacsimilePreview(event.target.checked);
+  const toggleFacsimilePreview = () => {
+    setEnableFacsimilePreview((prev) => !prev);
   };
 
   const router = useRouter();
   const handleRealTimeUpdateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setRealTimeUpdates(event.target.checked);
+    setEnableRealTimeUpdates(event.target.checked);
     if (event.target.checked) {
       router.reload();
     }
@@ -78,23 +103,16 @@ export const EditionCommandBar: FC<{ editionName: string }> = ({
       setStructureViz(newState);
     }
   };
-  const handleStructureVizVisibilityChange = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    if (event.target.checked) {
-      setStructureViz('left');
-    } else {
+  const toggleStructureViz = useCallback(() => {
+    if (structureViz) {
       setStructureViz(null);
-    }
-  };
-  const dispatch = useAppDispatch();
-  const handleShowNavbarChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      dispatch(showControlBar());
     } else {
-      dispatch(hideControlBar());
+      setStructureViz('bottom');
     }
-  };
+  }, [structureViz]);
+  const toggleFullScreen = useCallback(() => {
+    setShowNavbar(!showNavbar);
+  }, [showNavbar]);
 
   return (
     <Stack
@@ -215,12 +233,21 @@ export const EditionCommandBar: FC<{ editionName: string }> = ({
           border={structureViz !== null ? 'white solid .5px' : 'none'}
           borderRadius="5px"
         >
-          {structureViz !== null && <ViewComfyIcon sx={{ color: 'white' }} />}
-          {structureViz !== null && (
-            <Typography color="white" fontSize=".8rem">
-              &nbsp;Map&nbsp;
+          <Button
+            onClick={() => toggleStructureViz()}
+            startIcon={
+              <ViewComfyIcon
+                sx={{ color: structureViz !== null ? 'white' : '#CCCCCC' }}
+              />
+            }
+          >
+            <Typography
+              color={structureViz !== null ? 'white' : '#CCCCCC'}
+              fontSize=".8rem"
+            >
+              Map
             </Typography>
-          )}
+          </Button>
           {structureViz !== null && (
             <ToggleButtonGroup
               value={structureViz}
@@ -255,78 +282,134 @@ export const EditionCommandBar: FC<{ editionName: string }> = ({
               </ToggleButton>
             </ToggleButtonGroup>
           )}
-          <Stack direction="row" alignItems="center">
-            {structureViz === null && (
-              <ViewComfyIcon fontSize="small" sx={{ color: '#CCCCCC' }} />
-            )}
-            {structureViz === null && (
-              <Typography color="#CCCCCC" fontSize=".8rem">
-                &nbsp;Map
-              </Typography>
-            )}
-            <Switch
-              color="secondary"
-              checked={structureViz !== null}
-              onChange={handleStructureVizVisibilityChange}
-            />
-          </Stack>
         </Stack>
-
-        <Stack marginLeft="10px" direction="row" alignItems="center">
-          <HorizontalSplitIcon
-            sx={{ color: showNavbar ? 'white' : '#CCCCCC' }}
-          />
-          <Typography color={showNavbar ? 'white' : '#CCCCCC'} fontSize=".8rem">
-            &nbsp;Navbar
+        <Button
+          onClick={() => toggleFullScreen()}
+          startIcon={
+            <FullscreenIcon sx={{ color: !showNavbar ? 'white' : '#CCCCCC' }} />
+          }
+        >
+          <Typography
+            color={!showNavbar ? 'white' : '#CCCCCC'}
+            fontSize=".8rem"
+          >
+            Fullscreen
           </Typography>
-          <Switch
-            color="secondary"
-            checked={showNavbar}
-            onChange={handleShowNavbarChange}
-          />
-        </Stack>
-        <Stack marginLeft="10px" direction="row" alignItems="center">
-          <PreviewIcon
-            sx={{ color: enableFacsimilePreview ? 'white' : '#CCCCCC' }}
-          />
+        </Button>
+
+        <Button
+          onClick={() => toggleFacsimilePreview()}
+          startIcon={
+            <PreviewIcon
+              sx={{ color: enableFacsimilePreview ? 'white' : '#CCCCCC' }}
+            />
+          }
+        >
           <Typography
             color={enableFacsimilePreview ? 'white' : '#CCCCCC'}
             fontSize=".8rem"
           >
-            &nbsp;Facsimile
+            Facsimile
           </Typography>
-          <Switch
-            color="secondary"
-            checked={enableFacsimilePreview}
-            onChange={handleFacsimilePreviewChange}
-          />
-        </Stack>
-        <Stack marginLeft="10px" direction="row" alignItems="center">
-          <CloudSyncIcon
-            sx={{ color: realTimeUpdates ? 'white' : '#CCCCCC' }}
-          />
-          <Typography
-            color={realTimeUpdates ? 'white' : '#CCCCCC'}
-            fontSize=".8rem"
+        </Button>
+        {!isSearchActive && username && !username.includes('guest') && (
+          <Stack marginLeft="10px" direction="row" alignItems="center">
+            <CloudSyncIcon
+              sx={{ color: enableRealTimeUpdates ? 'white' : '#CCCCCC' }}
+            />
+            <Typography
+              color={enableRealTimeUpdates ? 'white' : '#CCCCCC'}
+              fontSize=".8rem"
+            >
+              &nbsp;Updates
+            </Typography>
+            <Switch
+              color="secondary"
+              checked={enableRealTimeUpdates}
+              onChange={handleRealTimeUpdateChange}
+            />
+          </Stack>
+        )}
+        {!isSearchActive && (
+          <Button
+            onClick={() => setIsSearchActive(true)}
+            startIcon={<SearchIcon sx={{ color: '#CCCCCC' }} />}
           >
-            &nbsp;Updates
-          </Typography>
-          <Switch
-            color="secondary"
-            checked={realTimeUpdates}
-            onChange={handleRealTimeUpdateChange}
-          />
-        </Stack>
-        <Button startIcon={<SearchIcon sx={{ color: 'white' }} />}>
-          <Typography color="white" fontSize=".8rem">
-            Search...
-          </Typography>
-        </Button>
-        <Button startIcon={<EditTwoToneIcon sx={{ color: 'white' }} />}>
-          <Typography color="white" fontSize=".8rem">
-            Edit...
-          </Typography>
-        </Button>
+            <Typography color="#CCCCCC" fontSize=".8rem">
+              Search...
+            </Typography>
+          </Button>
+        )}
+        {isSearchActive && (
+          <Stack
+            direction="row"
+            alignItems="center"
+            width="300px"
+            height="100%"
+          >
+            <Box width="300px">
+              <TextField
+                fullWidth
+                value={filter}
+                onChange={handleFilterChange}
+                placeholder="Search unit titles, numbers, or content"
+                InputProps={{
+                  sx: {
+                    color: 'white',
+                  },
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon sx={{ color: 'white' }} />
+                    </InputAdornment>
+                  ),
+                }}
+                variant="standard"
+              />
+            </Box>
+            {searchResults && (
+              <Stack height="100%" direction="row">
+                <Stack justifyContent="center" height="100%">
+                  <ArrowDropUpIcon
+                    onClick={onPrevSearchResult}
+                    fontSize="small"
+                    sx={{ color: 'white', cursor: 'pointer' }}
+                  />
+                  <ArrowDropDownIcon
+                    onClick={onNextSearchResult}
+                    fontSize="small"
+                    sx={{ color: 'white', cursor: 'pointer' }}
+                  />
+                </Stack>
+                <Stack justifyContent="center" height="100%">
+                  <Typography fontSize=".5rem" color="white">
+                    {currentSearchResult + 1}
+                  </Typography>
+                  <Typography fontSize=".5rem" color="white">
+                    of: {searchResults.length}
+                  </Typography>
+                </Stack>
+              </Stack>
+            )}
+            <IconButton
+              onClick={() => {
+                setFilter('');
+                setIsSearchActive(false);
+              }}
+            >
+              <CloseIcon sx={{ color: 'white' }} />
+            </IconButton>
+          </Stack>
+        )}
+        {!isSearchActive && username && !username.includes('guest') && (
+          <Button
+            disabled
+            startIcon={<EditTwoToneIcon sx={{ color: '#CCCCCC' }} />}
+          >
+            <Typography color="#CCCCCC" fontSize=".8rem">
+              Edit...
+            </Typography>
+          </Button>
+        )}
       </Stack>
     </Stack>
   );

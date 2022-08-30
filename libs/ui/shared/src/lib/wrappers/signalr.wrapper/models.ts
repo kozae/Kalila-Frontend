@@ -5,9 +5,8 @@ export interface IRealTimeUpdate {
   Data: any;
 }
 
-export interface ISignalrData {
+export interface ISignalrConnectionData {
   groups: Set<string>;
-  update?: IRealTimeUpdate;
   isConnected: boolean;
   connection?: HubConnection | null;
 }

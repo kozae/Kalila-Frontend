@@ -1,14 +1,14 @@
-import { RootState } from '@frontend/shared-ui';
 import { createSelector } from '@reduxjs/toolkit';
-import { fieldsAdapter } from './slice';
+import { fieldsAdapter, FieldsState } from './slice';
 
-const selectFieldsState = (state: RootState) => state.fields;
+const selectFieldsState = (state: FieldsState) => state.fields;
 const selectFilter = (
-  state: RootState,
+  state: FieldsState,
   filter: Record<'FieldGroup', string | undefined>
 ) => filter;
 
-const { selectAll } = fieldsAdapter.getSelectors<RootState>(selectFieldsState);
+const { selectAll } =
+  fieldsAdapter.getSelectors<FieldsState>(selectFieldsState);
 
 export const selectFields = createSelector(
   [selectAll, selectFilter],

@@ -142,6 +142,10 @@ export const textEditingPageSlice = createSlice({
   },
 });
 
+export type TextEditingPageState = {
+  [textEditingPageSlice.name]: ITextEditingPageState;
+};
+
 export const {
   setTextEditingAccessMode,
   setTextEditingWorkspace,

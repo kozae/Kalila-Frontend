@@ -1,9 +1,19 @@
 use crate::domain_models::edition::Edition;
 use crate::edition_store::EditionStore;
+use crate::helpers::{build_inverted_index, format_token};
 use itertools::Itertools;
+use regex::Regex;
 use std::collections::{HashMap, HashSet};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsValue;
+
+#[macro_use]
+macro_rules! log {
+    ( $( $t:tt )* ) => {
+        web_sys::console::log_1(&format!( $( $t )*
+        ).into());
+    }
+}
 
 #[wasm_bindgen]
 impl EditionStore {
@@ -31,10 +41,20 @@ impl EditionStore {
                         }
                     }
                 }
+                let (token_inverted_index, token_index) =
+                    build_inverted_index(&edition.manuscripts);
+                let word_list = token_inverted_index
+                    .keys()
+                    .into_iter()
+                    .cloned()
+                    .collect_vec();
                 let store = EditionStore {
                     edition,
                     images,
                     line_regions,
+                    token_inverted_index,
+                    token_index,
+                    word_list,
                 };
                 Ok(store)
             }
@@ -74,6 +94,21 @@ impl EditionStore {
             .into_boxed_slice()
     }
 
+    pub fn get_ms_image_presence_array(&self, idx: usize) -> Box<[u8]> {
+        self.edition
+            .book_units
+            .iter()
+            .map(|u| match &u.depicting_images {
+                Some(images) => match images[idx] {
+                    Some(_) => 1,
+                    None => 0,
+                },
+                None => 0,
+            })
+            .collect_vec()
+            .into_boxed_slice()
+    }
+
     pub fn get_ms_sigla(&self) -> String {
         self.edition
             .manuscripts
@@ -105,5 +140,201 @@ impl EditionStore {
 
     pub fn get_line_region(&self, key: String) -> Option<Box<[u32]>> {
         self.line_regions.get(&key).cloned()
+    }
+
+    pub fn get_image_region(&self, ms_idx: usize, unit_idx: usize) -> Option<Box<[u32]>> {
+        match &self.edition.manuscripts[ms_idx].units[unit_idx] {
+            Some(unit) => unit
+                .located_image
+                .as_ref()
+                .map(|image| image.region.clone().into_boxed_slice()),
+            None => None,
+        }
+    }
+
+    pub fn get_image_legend_region(&self, ms_idx: usize, unit_idx: usize) -> Option<Box<[u32]>> {
+        match &self.edition.manuscripts[ms_idx].units[unit_idx] {
+            Some(unit) => unit
+                .located_image
+                .as_ref()
+                .map(|image| {
+                    image
+                        .legend
+                        .clone()
+                        .map(|legend| legend.region.map(|region| region.into_boxed_slice()))
+                        .unwrap_or_default()
+                })
+                .unwrap_or_default(),
+            None => None,
+        }
+    }
+
+    pub fn get_image_legend_page_number(&self, ms_idx: usize, unit_idx: usize) -> Option<i16> {
+        match &self.edition.manuscripts[ms_idx].units[unit_idx] {
+            Some(unit) => unit.located_image.as_ref().map(|image| {
+                image
+                    .legend
+                    .clone()
+                    .map(|legend| legend.page_number as i16)
+                    .unwrap_or(-1)
+            }),
+            None => None,
+        }
+    }
+
+    pub fn get_image_legend_token_count(&self, ms_idx: usize, unit_idx: usize) -> Option<usize> {
+        match &self.edition.manuscripts[ms_idx].units[unit_idx] {
+            Some(unit) => unit.located_image.as_ref().map(|image| {
+                image
+                    .legend
+                    .clone()
+                    .map(|legend| legend.tokens.len())
+                    .unwrap_or(0)
+            }),
+            None => None,
+        }
+    }
+
+    pub fn get_image_legend_token(
+        &self,
+        ms_idx: usize,
+        unit_idx: usize,
+        token_idx: usize,
+    ) -> Option<String> {
+        match &self.edition.manuscripts[ms_idx].units[unit_idx] {
+            Some(unit) => unit.located_image.as_ref().map(|image| {
+                image
+                    .legend
+                    .clone()
+                    .map(|legend| {
+                        format_token(legend.tokens[token_idx].clone(), &legend.states[token_idx])
+                    })
+                    .unwrap_or_default()
+            }),
+            None => None,
+        }
+    }
+
+    pub fn get_unit_image_page_number(&self, ms_idx: usize, unit_idx: usize) -> Option<u16> {
+        match &self.edition.book_units[unit_idx].depicting_images {
+            Some(images) => images[ms_idx].as_ref().map(|image| image.page_number),
+            None => None,
+        }
+    }
+
+    pub fn get_unit_image_region(&self, ms_idx: usize, unit_idx: usize) -> Option<Box<[u32]>> {
+        match &self.edition.book_units[unit_idx].depicting_images {
+            Some(images) => images[ms_idx]
+                .as_ref()
+                .map(|image| image.region.clone().into_boxed_slice()),
+            None => None,
+        }
+    }
+
+    pub fn get_unit_image_legend_token_count(
+        &self,
+        ms_idx: usize,
+        unit_idx: usize,
+    ) -> Option<usize> {
+        match &self.edition.book_units[unit_idx].depicting_images {
+            Some(images) => match &images[ms_idx] {
+                Some(image) => image.legend.as_ref().map(|legend| legend.tokens.len()),
+                None => None,
+            },
+            None => None,
+        }
+    }
+
+    pub fn get_unit_image_legend_token(
+        &self,
+        ms_idx: usize,
+        unit_idx: usize,
+        token_idx: usize,
+    ) -> Option<String> {
+        match &self.edition.book_units[unit_idx].depicting_images {
+            Some(images) => match &images[ms_idx] {
+                Some(image) => image.legend.clone().map(|legend| {
+                    format_token(legend.tokens[token_idx].clone(), &legend.states[token_idx])
+                }),
+                None => None,
+            },
+            None => None,
+        }
+    }
+
+    pub fn find_unit_by_order(&self, order: f64) -> Option<usize> {
+        self.edition
+            .book_units
+            .iter()
+            .position(|u| u.order == order)
+    }
+
+    pub fn find_unit_by_title(&self, filter: String) -> Box<[i32]> {
+        self.edition
+            .book_units
+            .iter()
+            .enumerate()
+            .flat_map(|(i, u)| {
+                if u.title.to_lowercase().contains(&filter) {
+                    [i as i32, -1, -1]
+                } else {
+                    [-2, -2, -2]
+                }
+            })
+            .filter(|p| p != &-2)
+            .collect()
+    }
+
+    pub fn find_words(&self, filter: String) -> Option<Box<[usize]>> {
+        console_error_panic_hook::set_once();
+        let re = Regex::new("[\u{064b}\u{064c}\u{064d}\u{064e}\u{064f}\u{0650}\u{0651}\u{0652}]+")
+            .unwrap();
+        let strip_tashkeel = |word: &str| re.replace_all(word, "").to_string();
+        let stripped = strip_tashkeel(&filter);
+        let word_seq = stripped.split(' ').collect_vec();
+        let first_word_occurrences = self
+            .word_list
+            .iter()
+            .filter(|w| w.contains(&word_seq[0]))
+            .collect_vec();
+        let mut results: Vec<Box<[usize]>> = vec![];
+        for word in first_word_occurrences {
+            if let Some(result) = self.token_inverted_index.get(word) {
+                for occ in result {
+                    let mut range_end = occ[2];
+                    let unit_tokens = &self.token_index[occ[1]][occ[0]];
+                    let mut pointer = 1;
+                    let mut location = range_end + pointer;
+                    let n_words = word_seq.len();
+                    let n_unit_tokens = unit_tokens.len();
+                    let mut valid = true;
+                    while pointer < n_words {
+                        if location > n_unit_tokens - 1 {
+                            valid = false;
+                            break;
+                        }
+                        let next_word = &unit_tokens[location];
+                        if next_word.contains(word_seq[pointer]) {
+                            range_end = location;
+                            pointer += 1;
+                            location = occ[2] + pointer;
+                        } else {
+                            valid = false;
+                            break;
+                        }
+                    }
+                    if valid {
+                        results.push(Box::new([occ[0], occ[1], occ[2], range_end]))
+                    }
+                }
+            }
+        }
+        Some(
+            results
+                .iter()
+                .flat_map(|v| v.clone().into_vec())
+                .collect_vec()
+                .into_boxed_slice(),
+        )
     }
 }

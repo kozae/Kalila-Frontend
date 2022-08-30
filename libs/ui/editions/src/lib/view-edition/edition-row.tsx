@@ -1,6 +1,9 @@
 import { EditionCell } from './edition-cell';
 import { EditionCellData } from '../store';
 import { range } from 'lodash';
+import { useMemo } from 'react';
+import { useLayoutOptions } from './contexts';
+import { WIDTH_OPTIONS } from './constants';
 
 export interface IEditionRowProps {
   manuscripts: number;
@@ -8,6 +11,8 @@ export interface IEditionRowProps {
 }
 
 export const EditionRow = ({ manuscripts, data }: IEditionRowProps) => {
+  const { size } = useLayoutOptions();
+  const width = useMemo(() => `${WIDTH_OPTIONS[size]}px`, [size]);
   return (
     <>
       {range(manuscripts)
@@ -15,8 +20,15 @@ export const EditionRow = ({ manuscripts, data }: IEditionRowProps) => {
         .map((cellData, index) => (
           <EditionCell
             key={index}
-            bgcolor={index % 2 ? 'white' : '#F1F1F1'}
+            style={{
+              width,
+              p: '5px',
+              minHeight: '50px',
+              borderRadius: '5px',
+              bgcolor: index % 2 ? 'white' : '#F1F1F1',
+            }}
             data={cellData}
+            flexWrap="wrap"
           />
         ))}
     </>

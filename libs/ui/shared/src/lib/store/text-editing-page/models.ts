@@ -6,6 +6,7 @@ import {
   IToken,
   IUnitSummary,
 } from '@frontend/domain';
+import { textEditingPageSlice } from './slice';
 
 export type TextEditingActiveWorkspace =
   | 'description'

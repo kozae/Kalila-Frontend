@@ -13,7 +13,7 @@ export async function editions() {
         paramsSerializer,
       }
     );
-    return data.map(({ Id }) => Id);
+    return data.map(({ Id, Name }) => ({ Id, Name }));
   } catch (e) {
     console.log({ e });
   }

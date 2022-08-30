@@ -7,24 +7,24 @@ import React from 'react';
 import {
   kalilaTheme,
   Layout,
-  NavMessageBarContext,
-  SignalrWrapper,
+  NavMessageBarContextProvider,
+  SignalrProvider,
   store,
 } from '@frontend/shared-ui';
 import { AnimatePresence } from 'framer-motion';
-import { useSignalr } from '@frontend/shared-ui';
 import { ThemeProvider } from '@mui/material';
 import { createEmotionCache } from './_document';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import { useNavMessageBarControls } from '@frontend/shared-ui';
 import { Provider as ReduxProvider } from 'react-redux';
-import { UserProvider } from '@auth0/nextjs-auth0';
+import { SessionProvider } from 'next-auth/react';
+import { Session } from 'next-auth';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
 interface KalilaAppProps extends AppProps {
   emotionCache?: EmotionCache;
+  session: Session;
 }
 
 function KalilaApp(appProps: KalilaAppProps) {
@@ -33,31 +33,31 @@ function KalilaApp(appProps: KalilaAppProps) {
     pageProps,
     emotionCache = clientSideEmotionCache,
     router,
+    session,
   } = appProps;
-  const signalrState = useSignalr();
-  const navMessageContextValue = useNavMessageBarControls();
+
   return (
     <CacheProvider value={emotionCache}>
-      <SignalrWrapper.Provider value={{ ...signalrState }}>
+      <SignalrProvider>
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
           <link rel="shortcut icon" href={'/favicon.ico'} />
           <title>Kalila</title>
         </Head>
-        <UserProvider>
+        <SessionProvider session={session}>
           <ThemeProvider theme={kalilaTheme}>
             <ReduxProvider store={store}>
-              <NavMessageBarContext.Provider value={navMessageContextValue}>
+              <NavMessageBarContextProvider>
                 <Layout>
                   <AnimatePresence exitBeforeEnter>
                     <Component {...pageProps} key={router.route} />
                   </AnimatePresence>
                 </Layout>
-              </NavMessageBarContext.Provider>
+              </NavMessageBarContextProvider>
             </ReduxProvider>
           </ThemeProvider>
-        </UserProvider>
-      </SignalrWrapper.Provider>
+        </SessionProvider>
+      </SignalrProvider>
     </CacheProvider>
   );
 }
@@ -65,4 +65,4 @@ function KalilaApp(appProps: KalilaAppProps) {
 export default KalilaApp;
 
 // nx g page book-analysis --project=kalila --withTests=true --style=scss
-// nx g @nrwl/next:lib facsimile-line-detector  --directory=ui --style=scss
+// nx g @nrwl/next:lib image-annotation  --directory=ui/text-editing --style=scss

@@ -7,7 +7,7 @@ import { IChildrenProp } from '../util';
 
 export interface IDialogHeadingProps extends IChildrenProp {
   onDismiss: () => void;
-  color?: 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+  color?: string;
 }
 
 export const DialogHeading: React.FC<IDialogHeadingProps> = ({
@@ -22,7 +22,7 @@ export const DialogHeading: React.FC<IDialogHeadingProps> = ({
         width: '100%',
         minWidth: '400px',
         pl: '1rem',
-        backgroundColor: kalilaTheme.palette[color].dark,
+        backgroundColor: color,
         borderRadius: '10px 10px 0 0',
       }}
       direction="row"
@@ -34,7 +34,7 @@ export const DialogHeading: React.FC<IDialogHeadingProps> = ({
       <Button
         size={'large'}
         onClick={onDismiss}
-        sx={{ bgcolor: `${color}.dark` }}
+        sx={{ bgcolor: color }}
         variant="contained"
         disableElevation
         aria-label="createDocument"

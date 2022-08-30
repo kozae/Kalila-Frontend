@@ -1,4 +1,8 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSlice,
+  EntityState,
+} from '@reduxjs/toolkit';
 import { IDataEntrySchema } from '@frontend/util';
 
 export const fieldsAdapter = createEntityAdapter<IDataEntrySchema>({
@@ -16,5 +20,7 @@ export const fieldsSlice = createSlice({
     clearFields: fieldsAdapter.removeAll,
   },
 });
+
+export type FieldsState = { [fieldsSlice.name]: EntityState<IDataEntrySchema> };
 
 export const { loadFields, addFields, clearFields } = fieldsSlice.actions;

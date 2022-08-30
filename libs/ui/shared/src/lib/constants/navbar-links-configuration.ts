@@ -1,44 +1,51 @@
 export interface INavbarLink {
-  Name: string,
-  Ref: string
+  Name: string;
+  Ref: string;
 }
 
 export interface INavbarLinksConfiguration {
-  UserLinks: INavbarLink[],
-  AdminLinks: INavbarLink[],
+  UserLinks: INavbarLink[];
+  AdminLinks: INavbarLink[];
+  GuestLinks: INavbarLink[];
 }
 
 export const NavbarLinksConfiguration: INavbarLinksConfiguration = {
-  "UserLinks": [
+  UserLinks: [
     {
-      "Name": "Editions",
-      "Ref": "editions"
+      Name: 'Editions',
+      Ref: 'editions',
     },
     {
-      "Name": "Manuscript Description",
-      "Ref": "manuscript-description"
+      Name: 'Manuscript Description',
+      Ref: 'manuscript-description',
     },
     {
-      "Name": "Text Editing",
-      "Ref": "text-editing"
+      Name: 'Text Editing',
+      Ref: 'text-editing',
     },
     {
-      "Name": "Book Analysis",
-      "Ref": "book-analysis"
+      Name: 'Book Analysis',
+      Ref: 'book-analysis',
     },
     {
-      "Name": "Image Cycle Analysis",
-      "Ref": "image-cycle-analysis"
+      Name: 'Image Cycle Analysis',
+      Ref: 'image-cycle-analysis',
     },
     {
-      "Name": "Visualizations",
-      "Ref": "visualizations"
-    }
+      Name: 'Visualizations',
+      Ref: 'visualizations',
+    },
   ],
-  "AdminLinks": [
+  AdminLinks: [
     {
-      "Name": "Administration",
-      "Ref": "administration"
-    }
-  ]
-}
+      Name: 'Administration',
+      Ref: 'administration',
+    },
+  ],
+  GuestLinks: [
+    {
+      Name: 'Editions',
+      Ref: 'editions',
+    },
+  ],
+};

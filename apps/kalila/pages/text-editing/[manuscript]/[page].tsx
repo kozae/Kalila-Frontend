@@ -32,7 +32,6 @@ export function EditPage({
     name: 'manuscript-pages-paginator',
     data: { allPages, manuscriptId, current: pageData.Number },
   });
-
   return (
     <>
       <Head>

@@ -1,8 +1,8 @@
-import { RootState } from '../../config';
 import { createSelector } from '@reduxjs/toolkit';
 import { PageDescription } from '@frontend/domain';
+import { PageDataState } from './slice';
 
-const selectPageDataState = (state: RootState) => state.pageData;
+const selectPageDataState = (state: PageDataState) => state.pageData;
 
 export const selectPageDataLoadingStatus = createSelector(
   selectPageDataState,

@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default {
   displayName: 'ui-text-editing-description',
   preset: '../../../../jest.preset.js',

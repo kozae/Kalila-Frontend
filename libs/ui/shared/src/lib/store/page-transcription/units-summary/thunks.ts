@@ -7,6 +7,7 @@ import {
   getPrevUnit,
 } from './helpers';
 import { orderUnits } from '@frontend/util';
+import { last } from 'lodash';
 
 export const closeUnit = createAsyncThunk<
   { data?: IUnitSummary },
@@ -26,17 +27,18 @@ export const closeUnit = createAsyncThunk<
     ) as IUnitSummary[]
   );
 
+  console.log({ units });
+
   const unitToUpdate =
-    units[0] ??
-    (state.pageData.pageInfo.NearestOpenUnit as IUnitSummary | undefined);
+    units.length !== 0
+      ? last(units)
+      : (state.pageData.pageInfo.NearestOpenUnit as IUnitSummary | undefined);
 
   if (unitToUpdate) {
     return {
       data: {
         ...unitToUpdate,
-        EndsInPageNumber: data.page,
-        EndsInLineNumber: data.line,
-        LastTokenOrderInLine: data.token,
+        End: [data.page, data.line, data.token],
       },
     };
   }

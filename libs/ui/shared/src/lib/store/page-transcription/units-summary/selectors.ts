@@ -1,11 +1,11 @@
-import { RootState } from '../../config';
-import { unitSummariesAdapter } from './slice';
+import { unitSummariesAdapter, UnitSummariesState } from './slice';
 import { createSelector } from '@reduxjs/toolkit';
 
-const selectUnitSummaryState = (state: RootState) => state.unitSummaries;
+const selectUnitSummaryState = (state: UnitSummariesState) =>
+  state.unitSummaries;
 
 export const { selectAll: selectAllUnitSummaries, selectById: selectUnitById } =
-  unitSummariesAdapter.getSelectors<RootState>(selectUnitSummaryState);
+  unitSummariesAdapter.getSelectors<UnitSummariesState>(selectUnitSummaryState);
 
 export const selectUnitStartingInLine = createSelector(
   [selectAllUnitSummaries, (state, line: number) => line],

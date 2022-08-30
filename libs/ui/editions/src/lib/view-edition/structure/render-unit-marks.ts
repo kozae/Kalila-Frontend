@@ -13,6 +13,7 @@ export function addUnits(
   unitLineThickness: number,
   manuscriptThickness: number,
   unitMatrix: number[][],
+  imageMatrix: number[][],
   sigla: string[],
   onRowClicked: (row: number) => void | Promise<void>,
   onRowHovered: (row: number, x: number, y: number) => void | Promise<void>
@@ -70,6 +71,7 @@ export function addUnits(
       const distanceFromSiglum =
         siglumLineOffset + unitIndex * unitLineThickness;
       if (unitOrder !== -1) {
+        const hasImage = imageMatrix[manuscriptIndex][unitIndex] !== 0;
         const unitMarker = new fabric.Rect({
           ...commonObjectOptions,
           evented: true,
@@ -81,8 +83,8 @@ export function addUnits(
               ? 'rgba(0,20,39, 0.5)'
               : 'rgba(74,110,21, 0.5)',
           top: isLeft ? distanceFromSiglum : distanceFromUnitNumber,
-          stroke: 'rgba(255,255,255, 0.5)',
-          strokeWidth: 1,
+          stroke: hasImage ? 'rgba(0,0,0, 0.5)' : 'rgba(255,255,255, 0.5)',
+          strokeWidth: hasImage ? 2 : 1,
           left: isLeft ? distanceFromUnitNumber : distanceFromSiglum,
         });
         canvas.add(unitMarker);

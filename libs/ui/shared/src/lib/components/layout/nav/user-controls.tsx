@@ -13,12 +13,11 @@ import MenuList from '@mui/material/MenuList';
 import { useRouter } from 'next/router';
 import IconButton from '@mui/material/IconButton';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { kalilaTheme } from '@frontend/shared-ui';
-import { useUser } from '@auth0/nextjs-auth0';
 
-const LogOutButton: React.FC = () => {
-  const { push } = useRouter();
+import { kalilaTheme } from '@frontend/shared-ui';
+import { useSession, signIn, signOut } from 'next-auth/react';
+
+const LogOutButton: React.FC<{ initials: string }> = ({ initials }) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
   const handleToggle = () => {
@@ -40,7 +39,9 @@ const LogOutButton: React.FC = () => {
 
   return (
     <div className={styles['nav__control-bar__user-controls']}>
-      <Avatar sx={{ bgcolor: kalilaTheme.palette.primary.main }}>MK</Avatar>
+      <Avatar sx={{ bgcolor: kalilaTheme.palette.primary.main }}>
+        {initials}
+      </Avatar>
       <IconButton
         size="small"
         aria-controls={open ? 'split-button-menu' : undefined}
@@ -71,22 +72,19 @@ const LogOutButton: React.FC = () => {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu">
-                  <MenuItem
-                    sx={{ fontSize: '1rem' }}
-                    onClick={() => push('/api/auth/logout')}
-                  >
+                  <MenuItem sx={{ fontSize: '1rem' }} onClick={() => signOut()}>
                     <ExitToAppIcon color="warning" /> &nbsp; Sign out
                   </MenuItem>
-                  <MenuItem
-                    sx={{ fontSize: '1rem' }}
-                    onClick={() =>
-                      push('/account')
-                        .then(() => setOpen(false))
-                        .catch()
-                    }
-                  >
-                    <SettingsIcon color="primary" /> &nbsp; Account Settings
-                  </MenuItem>
+                  {/*<MenuItem*/}
+                  {/*  sx={{ fontSize: '1rem' }}*/}
+                  {/*  onClick={() =>*/}
+                  {/*    push('/account')*/}
+                  {/*      .then(() => setOpen(false))*/}
+                  {/*      .catch()*/}
+                  {/*  }*/}
+                  {/*>*/}
+                  {/*  <SettingsIcon color="primary" /> &nbsp; Account Settings*/}
+                  {/*</MenuItem>*/}
                 </MenuList>
               </ClickAwayListener>
             </Paper>
@@ -98,16 +96,23 @@ const LogOutButton: React.FC = () => {
 };
 
 export const NavUserControls: React.FC = () => {
-  const { push } = useRouter();
-  const { user, error, isLoading } = useUser();
-  if (isLoading) return <div>Loading...</div>;
+  const { data: session, status } = useSession();
+  if (status === 'loading') return <div>Loading...</div>;
   return (
     <>
-      {user && <LogOutButton />}
-      {!user && (
+      {session && (
+        <LogOutButton
+          initials={
+            session.user?.name && session.user?.name.includes('guest')
+              ? 'GST'
+              : 'MK'
+          }
+        />
+      )}
+      {!session && (
         <div className={styles['nav__control-bar__user-controls']}>
           <Button
-            onClick={() => push('/api/auth/login')}
+            onClick={() => signIn('keycloak')}
             variant="contained"
             disableElevation
             endIcon={<LoginIcon />}

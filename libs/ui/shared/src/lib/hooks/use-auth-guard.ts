@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { useUser } from '@auth0/nextjs-auth0';
-import { useRouter } from 'next/router';
+import { useSession, signIn } from 'next-auth/react';
 
 export function useAuthGuard() {
-  const { user, isLoading } = useUser();
-  const { push } = useRouter();
+  const { data, status } = useSession();
   useEffect(() => {
-    if (!isLoading && !user) {
-      push('/api/auth/login');
+    if (status !== 'loading' && !data) {
+      signIn('keycloak', { redirect: true });
+    } else if (data && data['error'] === 'RefreshAccessTokenError') {
+      signIn('keycloak', { redirect: true });
     }
-  }, [user, isLoading]);
+  }, [data, status]);
 }

@@ -8,6 +8,7 @@ import {
   useAppSelector,
   selectTextEditingToolMode,
   selectPageFacsimileUrl,
+  selectPageHasImages,
 } from '@frontend/shared-ui';
 import { stringHasValue } from '@frontend/util';
 
@@ -18,6 +19,7 @@ export function useTabDisabledState() {
   const workspaceHasChanges = useAppSelector(selectWorkspaceHasChanges);
   const pageHasLines = useAppSelector(selectPageHasLines);
   const pageHasText = useAppSelector(selectPageHasText);
+  const pageHasImages = useAppSelector(selectPageHasImages);
   const pageHasTranscription = useAppSelector(selectPageHasTranscription);
   const selectionIsActive = useMemo(
     () => selectedElement.Id !== null,
@@ -50,6 +52,11 @@ export function useTabDisabledState() {
       selectionIsActive ||
       workspaceHasChanges ||
       !pageHasTranscription,
-    images: true,
+    images:
+      !hasUrl ||
+      toolMode !== 'default' ||
+      selectionIsActive ||
+      workspaceHasChanges ||
+      !pageHasImages,
   };
 }
