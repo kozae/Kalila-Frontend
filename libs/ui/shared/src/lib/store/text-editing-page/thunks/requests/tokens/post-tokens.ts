@@ -1,10 +1,14 @@
 import { RootState } from '@frontend/shared-ui';
 import { getParams, PageParams } from '../helpers';
-import { IMorphology, IToken } from '@frontend/domain';
+import { IToken } from '@frontend/domain';
 import axios from 'axios';
 import { omit } from 'lodash';
 
-export async function postTokens(state: RootState) {
+export async function postTokens(
+  state: RootState,
+  morphology: Record<string, string[]>
+) {
+  console.log({ morphology });
   if (state.textEditingPageState.postTokens.length === 0) {
     return;
   }
@@ -25,12 +29,7 @@ export async function postTokens(state: RootState) {
       Tokens: tokens.map((t) => ({
         ...omit(t, 'LineId'),
         Id: t.Id as string,
-        Morphology: state.morphologies.entities[`${t.LineId}_${t.OrderInLine}`]
-          ? (omit(state.morphologies.entities[`${t.LineId}_${t.OrderInLine}`], [
-              'LineId',
-              'TokenOrder',
-            ]) as IMorphology)
-          : undefined,
+        Morphology: morphology[t.RawToken] ?? [],
       })),
     });
   });

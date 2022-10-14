@@ -1,5 +1,9 @@
 import { Element } from 'slate';
-import { AppDispatch, replaceLinesTokens } from '@frontend/shared-ui';
+import {
+  AppDispatch,
+  IReplaceLineTokensPayload,
+  replaceLinesTokens,
+} from '@frontend/shared-ui';
 import { IToken } from '@frontend/domain';
 
 export function saveEditorValueToStore(
@@ -7,11 +11,12 @@ export function saveEditorValueToStore(
   tokenToLineIdMap: Record<string, IToken[]>,
   dispatch: AppDispatch
 ) {
-  const payload: { LineId: string; newTokens: IToken[] }[] = [];
+  const payload: IReplaceLineTokensPayload[] = [];
   let orderInPageCounter: number = 0;
-  for (const { children, id } of value) {
-    const update: { LineId: string; newTokens: IToken[] } = {
+  for (const { children, id, order } of value) {
+    const update: IReplaceLineTokensPayload = {
       LineId: id,
+      LineOrder: order,
       newTokens: [],
     };
     let orderInLineCounter: number = 0;
@@ -19,7 +24,7 @@ export function saveEditorValueToStore(
       const tokens = text
         .trim()
         .split(/\s+/)
-        .filter((t) => t.length !== 0);
+        .filter((t) => t.length > 1);
       for (const token of tokens) {
         update.newTokens.push({
           RawToken: token,
@@ -35,7 +40,8 @@ export function saveEditorValueToStore(
       }
     }
     if (
-      update.newTokens.length !== 0 &&
+      tokenToLineIdMap[id] === undefined ||
+      update.newTokens.length !== tokenToLineIdMap[id].length ||
       update.newTokens.some((t, i) => {
         const oldToken = tokenToLineIdMap[id] && tokenToLineIdMap[id][i];
         if (oldToken === undefined) {
@@ -47,8 +53,5 @@ export function saveEditorValueToStore(
       payload.push(update);
     }
   }
-  dispatch(replaceLinesTokens(payload));
+  dispatch(replaceLinesTokens({ data: payload }));
 }
-
-// قد ركب فيها لصيانة نفسها وتباعدت عنه وقد جمعتكم
-// لهذا الأمر لأنّكم أسري ومكان سرّي وموضع معرفتي وبكم أعتضد

@@ -15,12 +15,17 @@ import { loadTextElements } from '../../page-transcription/text-elements';
 import { loadLines } from '../../page-transcription/lines';
 import { loadTokens } from '../../page-transcription/tokens';
 import { loadUnitSummaries } from '../../page-transcription/units-summary';
+import { repopulateUnitSummariesBeforeChanges } from '../thunks';
 
 export function addDataBeforeChangeSetters(
   builder: ActionReducerMapBuilder<ITextEditingPageState>
 ) {
   builder.addCase(loadUnitSummaries, (state, action) => {
     state.unitSummariesBeforeChanges = action.payload as IUnitSummary[];
+  });
+  builder.addCase(loadPageData, (state, action) => {
+    state.nearestOpenUnitBeforeChanges =
+      action.payload.pageInfo.NearestOpenUnit ?? null;
   });
   builder.addCase(loadImageElements, (state, action) => {
     state.imageElementsBeforeChanges = action.payload as IImageElement[];
@@ -41,4 +46,11 @@ export function addDataBeforeChangeSetters(
       LineId: string;
     })[];
   });
+  builder.addCase(
+    repopulateUnitSummariesBeforeChanges.fulfilled,
+    (state, action) => {
+      state.unitSummariesBeforeChanges = action.payload.units;
+      state.nearestOpenUnitBeforeChanges = action.payload.nearestOpenUnit;
+    }
+  );
 }

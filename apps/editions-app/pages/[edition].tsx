@@ -58,6 +58,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async (context) => {
   const data = await edition(context.params['edition'] as string);
   console.log('building edition');
+  console.log(data.Name);
   console.log(data.BookUnits.length);
   console.log(data.Manuscripts.length);
   return {

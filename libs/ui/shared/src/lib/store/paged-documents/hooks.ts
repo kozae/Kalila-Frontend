@@ -36,6 +36,7 @@ import {
 } from './thunks';
 import { NextRouter } from 'next/router';
 import { plainToInstance } from 'class-transformer';
+import { signIn } from 'next-auth/react';
 
 function dispatchDataChangesToStore(
   isValidating: boolean,
@@ -86,7 +87,7 @@ export function usePagedDocumentsStore(
   routeSuffix = ''
 ) {
   const accessToken = useAppSelector(selectAccessToken);
-  const { data, isValidating, mutate } = getDocuments(
+  const { data, isValidating, mutate, error } = getDocuments(
     accessToken,
     activityName,
     formatPaginatedQuery(query),
@@ -94,6 +95,12 @@ export function usePagedDocumentsStore(
     additionalParams,
     routeSuffix
   );
+
+  useEffect(() => {
+    if (error?.response?.status === 401) {
+      signIn('keycloak', { redirect: true });
+    }
+  }, [error]);
 
   dispatchDataChangesToStore(isValidating, activityName, data);
   clearDocOnUnmount();

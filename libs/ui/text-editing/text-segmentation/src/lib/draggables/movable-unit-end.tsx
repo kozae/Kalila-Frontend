@@ -11,6 +11,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
+import { bookUnitOrderDisplay } from '@frontend/util';
 
 export interface IUnitEndProps {
   d: IUnitSummary;
@@ -47,7 +48,11 @@ export const MovableUnitEnd = ({ d }: IUnitEndProps) => {
       letterSpacing="0.08rem"
       fontSize="1rem"
       variant="body1"
-    >{`(${d.BookUnitOrder}.End) ${d.Chapter}`}</Typography>
+    >{`${bookUnitOrderDisplay(
+      d.Order,
+      d.FrameTags,
+      undefined
+    )}.End`}</Typography>
   );
 };
 
@@ -66,6 +71,8 @@ export const MovableUnitEndDragPreview = ({ d }: IUnitEndProps) => {
       letterSpacing="0.08rem"
       fontSize="1rem"
       variant="body1"
-    >{`(${d.BookUnitOrder}.End) ${d.BookUnit}`}</Typography>
+    >{`(${bookUnitOrderDisplay(d.Order, d.FrameTags, undefined)}.End) ${
+      d.BookUnit
+    }`}</Typography>
   );
 };

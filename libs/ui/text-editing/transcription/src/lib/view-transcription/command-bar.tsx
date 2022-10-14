@@ -8,7 +8,6 @@ import {
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import KeyboardAltTwoToneIcon from '@mui/icons-material/KeyboardAltTwoTone';
-import DataObjectIcon from '@mui/icons-material/DataObject';
 import {
   ViewTranscriptionContext,
   VisibleAnnotation,
@@ -18,18 +17,12 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
-import { useCallback, useContext } from 'react';
+import { useContext } from 'react';
 
 export interface ICommandBarProps {}
 
 export const CommandBar = ({}: ICommandBarProps) => {
-  const {
-    annotation,
-    setAnnotation,
-    setSelectedToken,
-    selectedToken,
-    setMorphologyPopperAnchor,
-  } = useContext(ViewTranscriptionContext);
+  const { annotation, setAnnotation } = useContext(ViewTranscriptionContext);
   const handleAnnotationChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -38,20 +31,6 @@ export const CommandBar = ({}: ICommandBarProps) => {
     );
   };
   const accessMode = useAppSelector(selectTextEditingAccessMode);
-  const handleMorphologyAnnotationClicked = useCallback(() => {
-    if (setSelectedToken) {
-      if (selectedToken.line === undefined) {
-        setSelectedToken({ line: 0, token: 0, elementType: 'main' });
-      } else {
-        setMorphologyPopperAnchor(null);
-        setSelectedToken({
-          line: undefined,
-          token: undefined,
-          elementType: 'main',
-        });
-      }
-    }
-  }, [selectedToken]);
   const dispatch = useAppDispatch();
   const showEditor = () => {
     dispatch(setTextEditingToolMode('main-body'));
@@ -84,27 +63,16 @@ export const CommandBar = ({}: ICommandBarProps) => {
           >
             Edit Transcription
           </Button>
-          <Button
-            disabled
-            onClick={handleMorphologyAnnotationClicked}
-            startIcon={<DataObjectIcon />}
-            color="secondary"
-            size={'small'}
-          >
-            {selectedToken.line === undefined
-              ? 'Edit Morphological Annotations'
-              : 'Morphological Annotations Done'}
-          </Button>
         </Stack>
       )}
-      <FormControl disabled>
+      <FormControl>
         <RadioGroup
           row
           sx={{ display: 'flex', alignItems: 'center' }}
           value={annotation}
           onChange={handleAnnotationChange}
         >
-          <Typography color="#CCCCCC">Annotation:&nbsp;&nbsp;&nbsp;</Typography>
+          <Typography>Annotation:&nbsp;&nbsp;&nbsp;</Typography>
           <FormControlLabel
             sx={{ typography: 'body1' }}
             value="none"
@@ -125,27 +93,9 @@ export const CommandBar = ({}: ICommandBarProps) => {
           />
           <FormControlLabel
             sx={{ typography: 'body1' }}
-            value="root"
+            value="lemma"
             control={<Radio />}
-            label="Root"
-          />
-          <FormControlLabel
-            sx={{ typography: 'body1' }}
-            value="stem"
-            control={<Radio />}
-            label="Stem"
-          />
-          <FormControlLabel
-            sx={{ typography: 'body1' }}
-            value="wazn"
-            control={<Radio />}
-            label="Wazn"
-          />
-          <FormControlLabel
-            sx={{ typography: 'body1' }}
-            value="pos"
-            control={<Radio />}
-            label="PoS"
+            label="Lemma"
           />
           <FormControlLabel
             sx={{ typography: 'body1' }}

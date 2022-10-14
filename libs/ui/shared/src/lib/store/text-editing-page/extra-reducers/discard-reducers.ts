@@ -46,6 +46,7 @@ export function addDiscardReducers(
   builder.addCase(discardTokenChanges.fulfilled, (state) => {
     state.toolMode = 'default';
     state.postTokens = [];
+    state.textSegmentationTouched = false;
   });
   builder.addCase(discardSegmentationChanges.fulfilled, (state) => {
     state.textSegmentationTouched = false;

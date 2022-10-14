@@ -2,7 +2,7 @@ import {
   SiglumSelection,
   useNavbarMessage,
   withTransition,
-  useAuthGuard,
+  useLoginValidation,
 } from '@frontend/shared-ui';
 import { GetServerSideProps } from 'next';
 import { sigla } from '@frontend/server-side-queries';
@@ -14,7 +14,7 @@ import React from 'react';
 
 export function TextEditing({ sigla }) {
   const { push } = useRouter();
-  useAuthGuard();
+  useLoginValidation();
   useNavbarMessage(['Text Editing:', 'Select a Manuscript']);
   return (
     <>

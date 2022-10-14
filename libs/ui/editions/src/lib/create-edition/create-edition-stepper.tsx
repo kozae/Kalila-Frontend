@@ -10,7 +10,7 @@ import {
   NameAndSaveEdition,
   SelectAndOrderManuscripts,
   SelectChapter,
-} from '../create-unpdate-edition-operations';
+} from './create-unpdate-edition-operations';
 import { stringHasValue } from '@frontend/util';
 import { selectAccessToken, useAppSelector } from '@frontend/shared-ui';
 import ObjectID from 'bson-objectid';

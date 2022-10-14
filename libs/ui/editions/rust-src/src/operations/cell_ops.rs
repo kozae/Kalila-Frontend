@@ -16,9 +16,10 @@ impl EditionStore {
                 states: unit.states.clone(),
                 pages: unit.pages.clone(),
                 lines: unit.lines.clone(),
+                breaks: unit.breaks.clone(),
                 located_image_at_token: match &unit.located_image {
                     Some(image) => match &image.location {
-                        Some(location) => unit.lines.iter().rposition(|v| v == &location[0]),
+                        Some(location) => unit.lines.iter().rposition(|v| v == &location[0]), // finding the last token in the same line as the image
                         None => None,
                     },
                     None => None,
@@ -33,6 +34,7 @@ impl EditionStore {
                 states: vec![],
                 pages: vec![],
                 lines: vec![],
+                breaks: vec![],
                 located_image_at_token: None,
             },
         }
@@ -92,6 +94,10 @@ impl EditionCellData {
     pub fn get_token(&self, idx: usize) -> String {
         let token = self.tokens[idx].clone();
         format_token(token, &self.states[idx])
+    }
+
+    pub fn is_first_token(&self, idx: usize) -> bool {
+        self.breaks.contains(&idx)
     }
 
     pub fn get_unit(update: JsValue) -> Result<String, String> {

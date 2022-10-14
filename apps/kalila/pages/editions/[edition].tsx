@@ -8,6 +8,7 @@ import {
   selectUser,
   showControlBar,
   transformGroupName,
+  useAccessTokenValidation,
   useAppDispatch,
   useAppSelector,
   useNavbarMessage,
@@ -30,11 +31,12 @@ import { HubConnection } from '@microsoft/signalr';
 
 export function Edition({ data }) {
   useNavbarMessage([data ? data.Name : '', undefined]);
+  const accessToken = useAppSelector(selectAccessToken);
+  useAccessTokenValidation(accessToken);
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const username = useMemo(() => user?.name, [user]);
   const showNavbar = useAppSelector(selectNavControlBarIsShown);
-  const accessToken = useAppSelector(selectAccessToken);
   const setShowNavbar = (v: boolean) => {
     if (v) {
       dispatch(showControlBar());
@@ -121,11 +123,21 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const data = await edition(context.params['edition'] as string);
-  console.log('building edition');
-  console.log(data.BookUnits.length);
-  console.log(data.Manuscripts.length);
-  return {
-    props: { data },
-  };
+  try {
+    const data = await edition(context.params['edition'] as string);
+    console.log('building edition');
+    console.log(data.BookUnits.length);
+    console.log(data.Manuscripts.length);
+    return {
+      props: { data },
+    };
+  } catch (error) {
+    console.log({ error });
+    return {
+      props: {},
+      redirect: {
+        destination: '/500',
+      },
+    };
+  }
 };

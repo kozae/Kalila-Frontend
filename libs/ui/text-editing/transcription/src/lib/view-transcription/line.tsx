@@ -10,16 +10,14 @@ import {
   useAppSelector,
 } from '@frontend/shared-ui';
 import { Token } from './token';
-import { useContext, useRef } from 'react';
+import { useContext } from 'react';
 import { ViewTranscriptionContext } from './view-transcription';
 
 export interface ILineProps {
   d: Omit<ILine, 'Tokens'> & { ElementId: string };
-  elementType: 'main' | 'other';
 }
 
-export const Line = ({ d, elementType }: ILineProps) => {
-  const ref = useRef<HTMLDivElement>(null);
+export const Line = ({ d }: ILineProps) => {
   const tokens = useAppSelector((state) => selectTokensOfLine(state, d.Id));
   const dispatch = useAppDispatch();
   const { setHoveredLineId } = useContext(ViewTranscriptionContext);
@@ -50,7 +48,6 @@ export const Line = ({ d, elementType }: ILineProps) => {
       }}
       alignItems="center"
       direction="row-reverse"
-      ref={ref}
     >
       <Typography sx={{ p: '5px' }} variant="h1">
         {d.LineOrder + 1}
@@ -66,13 +63,7 @@ export const Line = ({ d, elementType }: ILineProps) => {
           <Typography>[This lines has not been transcribed]</Typography>
         )}
         {tokens.map((t) => (
-          <Token
-            lineOrder={d.LineOrder}
-            elementType={elementType}
-            key={t.Id}
-            d={t}
-            lineRef={ref}
-          />
+          <Token key={t.Id} d={t} />
         ))}
       </Stack>
     </Stack>

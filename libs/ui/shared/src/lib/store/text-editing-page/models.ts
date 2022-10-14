@@ -49,6 +49,7 @@ export interface ITextEditingPageState {
   linesBeforeChanges: (Omit<ILine, 'Tokens'> & { ElementId: string })[];
   tokensBeforeChanges: (IToken & { LineId: string })[];
   unitSummariesBeforeChanges: IUnitSummary[];
+  nearestOpenUnitBeforeChanges: IUnitSummary | null;
   textSegmentationTouched: boolean;
   regionUnderEditUrl: string | null;
   deleteLayoutImages: string[];

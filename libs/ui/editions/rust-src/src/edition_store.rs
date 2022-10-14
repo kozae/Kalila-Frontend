@@ -12,6 +12,7 @@ pub struct EditionCellData {
     pub(crate) states: Vec<String>,
     pub(crate) pages: Vec<u16>,
     pub(crate) lines: Vec<u8>,
+    pub(crate) breaks: Vec<usize>,
     pub(crate) located_image_at_token: Option<usize>,
 }
 
@@ -19,7 +20,8 @@ pub struct EditionCellData {
 #[derive(Clone)]
 pub struct EditionRowTitle {
     pub(crate) display: String,
-    pub(crate) order: f64,
+    pub(crate) order: Vec<u16>,
+    pub(crate) frame_tags: Vec<String>,
     pub(crate) title: String,
     pub(crate) has_images: bool,
 }
@@ -32,4 +34,6 @@ pub struct EditionStore {
     pub(crate) token_inverted_index: HashMap<String, Vec<Box<[usize]>>>,
     pub(crate) token_index: Vec<Vec<Vec<String>>>,
     pub(crate) word_list: Vec<String>,
+    pub(crate) page_breaks: Box<[usize]>,
+    pub(crate) located_images: Box<[usize]>,
 }

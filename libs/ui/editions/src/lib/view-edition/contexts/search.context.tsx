@@ -7,6 +7,8 @@ import {
   useState,
 } from 'react';
 import { ISearchData, ISearchMethods, SearchResults } from '../models';
+import { useData } from './data.context';
+import { useAutoScrollingToResults, useSearch } from '../hooks';
 
 export const SearchDataContext = createContext<ISearchData>({
   filter: '',
@@ -29,7 +31,9 @@ export const SearchProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [filter, setFilter] = useState<string>('');
   const [searchResults, setSearchResults] = useState<SearchResults>(null);
   const [currentSearchResult, setCurrentSearchResult] = useState<number>(0);
-
+  const { edition } = useData();
+  useSearch(filter, edition, setSearchResults, setCurrentSearchResult);
+  useAutoScrollingToResults(searchResults, currentSearchResult);
   const data = useMemo(
     () => ({ filter, searchResults, currentSearchResult }),
     [filter, searchResults, currentSearchResult]

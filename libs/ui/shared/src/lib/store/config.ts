@@ -10,7 +10,7 @@ import { unitSummariesSlice } from './page-transcription/units-summary';
 import { attributesSlice } from './schema/attributes';
 import { fieldsSlice } from './schema/fields';
 import { textEditingPageSlice } from './text-editing-page';
-import { morphologySlice } from './page-transcription/morphologies';
+import { bookUnitsSlice } from './page-transcription/book-units/slice';
 
 export const store = configureStore({
   reducer: {
@@ -24,8 +24,8 @@ export const store = configureStore({
     [linesSlice.name]: linesSlice.reducer,
     [textElementsSlice.name]: textElementsSlice.reducer,
     [tokenSlice.name]: tokenSlice.reducer,
-    [morphologySlice.name]: morphologySlice.reducer,
     [unitSummariesSlice.name]: unitSummariesSlice.reducer,
+    [bookUnitsSlice.name]: bookUnitsSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   devTools: true,

@@ -4,39 +4,31 @@ import Typography from '@mui/material/Typography';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { useDrop } from 'react-dnd';
 import {
+  kalilaTheme,
   removeUnit,
   removeUnitEndTag,
   useAppDispatch,
 } from '@frontend/shared-ui';
 export interface IDeleteDropContainerProps {
   itemType: Draggables;
-  onDeleteBookUnit: (d: any) => void;
 }
 
 export const DeleteDropContainer = ({
   itemType,
-  onDeleteBookUnit,
 }: IDeleteDropContainerProps) => {
   const dispatch = useAppDispatch();
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
-    accept: [
-      Draggables.insertableUnit,
-      Draggables.movableUnit,
-      Draggables.movableEndTag,
-    ],
+    accept: [Draggables.movableUnit, Draggables.movableEndTag],
     canDrop: (item, monitor) => {
       return item.type !== Draggables.insertableEndTag;
     },
     drop: (item: IItemData) => {
       switch (item.type) {
-        case Draggables.insertableUnit:
-          onDeleteBookUnit(item.data);
-          break;
         case Draggables.movableUnit:
           dispatch(removeUnit(item.data.Id));
           break;
         case Draggables.movableEndTag:
-          dispatch(removeUnitEndTag(item.data.Id));
+          dispatch(removeUnitEndTag({ id: item.data.Id }));
           break;
       }
     },
@@ -48,25 +40,22 @@ export const DeleteDropContainer = ({
   }));
 
   const message =
-    itemType === Draggables.insertableUnit
-      ? 'Drop here to attempt to delete Book Unit'
-      : itemType === Draggables.movableUnit
+    itemType === Draggables.movableUnit
       ? 'Drop here to delete Manuscript Unit'
-      : itemType === Draggables.movableEndTag
-      ? 'Drop here to delete unit end tag'
-      : '';
+      : 'Drop here to delete unit end tag';
   return (
     <Stack
       ref={drop}
       sx={{
         position: 'fixed',
         bgcolor: 'warning.main',
-        height: '100px',
-        width: '300px',
+        height: '80px',
+        width: '20vw',
         top: '110px',
-        right: 'calc(30vw - 200px)',
+        right: '15vw',
         borderRadius: '10px',
         zIndex: 10,
+        boxShadow: kalilaTheme.shadows[4],
       }}
       alignItems="center"
       justifyContent="center"

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ILine, IToken } from '@frontend/domain';
-import { ThunkApi } from '@frontend/shared-ui';
+import { getMorphology, ThunkApi } from '@frontend/shared-ui';
 import { saveThunk } from './save';
 import { deleteLines, postLines, putLines } from './requests';
 import { postTokens } from './requests/tokens';
@@ -18,8 +18,9 @@ export const saveLineChanges = createAsyncThunk<
   const changes = await postLines(state);
   await deleteLines(state);
   await putLines(state);
+  const morphology = await getMorphology(state);
   if (withTokens) {
-    await postTokens(state);
+    await postTokens(state, morphology);
   }
   return {
     Lines: [

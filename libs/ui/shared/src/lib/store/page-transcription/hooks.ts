@@ -1,6 +1,5 @@
 import {
   ILine,
-  IMorphology,
   IPageTranscription,
   ITextElement,
   IToken,
@@ -15,7 +14,6 @@ import { useEffect } from 'react';
 import { clearPageData, loadPageData, pageDataLoaded } from './page-data';
 import { highlightColors } from '@frontend/ui/facsimile';
 import { clearTextEditingPageStore } from '../text-editing-page';
-import { clearMorphologies, loadMorphologies } from './morphologies';
 
 export function useTextEditingWorkspaceStore(
   data: IPageTranscription,
@@ -26,23 +24,12 @@ export function useTextEditingWorkspaceStore(
   const textElements: Omit<ITextElement, 'Lines'>[] = [];
   const lines: Array<Omit<ILine, 'Tokens'> & { ElementId: string }> = [];
   const tokens: (IToken & { LineId: string })[] = [];
-  const morphologies: (Partial<IMorphology> & {
-    LineId: string;
-    TokenOrder: number;
-  })[] = [];
   TextElements.forEach((te, i) => {
     const { Lines, ...rest } = te;
     textElements.push({ ...rest, HighlightColor: highlightColors[i % 13] });
     Lines.forEach((l, i) => {
       const { Tokens, ...rest } = l;
       tokens.push(...Tokens.map((t) => ({ ...t, LineId: l.Id })));
-      morphologies.push(
-        ...Tokens.filter((t) => t.Morphology !== undefined).map((t) => ({
-          ...t.Morphology,
-          LineId: l.Id,
-          TokenOrder: t.OrderInLine,
-        }))
-      );
       lines.push({
         ...rest,
         ElementId: te.Id,
@@ -64,7 +51,6 @@ export function useTextEditingWorkspaceStore(
     dispatch(clearTextElements());
     dispatch(clearLines());
     dispatch(clearTokens());
-    dispatch(clearMorphologies());
   };
 
   useEffect(() => {
@@ -79,7 +65,6 @@ export function useTextEditingWorkspaceStore(
     dispatch(loadTextElements(textElements));
     dispatch(loadLines(lines));
     dispatch(loadTokens(tokens));
-    dispatch(loadMorphologies(morphologies));
 
     setTimeout(() => {
       dispatch(pageDataLoaded());

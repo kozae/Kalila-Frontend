@@ -18,6 +18,7 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
+import { ErrorBoundary } from '@frontend/kalila/components';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -44,6 +45,7 @@ function KalilaApp(appProps: KalilaAppProps) {
           <link rel="shortcut icon" href={'/favicon.ico'} />
           <title>Kalila</title>
         </Head>
+        {/*<ErrorBoundary>*/}
         <SessionProvider session={session}>
           <ThemeProvider theme={kalilaTheme}>
             <ReduxProvider store={store}>
@@ -57,6 +59,7 @@ function KalilaApp(appProps: KalilaAppProps) {
             </ReduxProvider>
           </ThemeProvider>
         </SessionProvider>
+        {/*</ErrorBoundary>*/}
       </SignalrProvider>
     </CacheProvider>
   );

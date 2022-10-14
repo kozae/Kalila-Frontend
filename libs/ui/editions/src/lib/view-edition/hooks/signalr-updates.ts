@@ -1,4 +1,4 @@
-import { getCells, getRows } from '@frontend/ui/editions';
+import { getCells, getRows, RowVirtualizer } from '@frontend/ui/editions';
 import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import updateImm from 'immutability-helper';
 import { IPageUnitsUpdate } from '@frontend/shared-ui';
@@ -15,6 +15,7 @@ export function useSignalrEditionUpdates(
     fetchEditionUpdateByPage,
     update,
   }: IRealTimeUpdateProps,
+  rowVirtualizer: RowVirtualizer,
   {
     edition,
     setEdition,
@@ -27,14 +28,18 @@ export function useSignalrEditionUpdates(
   enableUpdates: boolean
 ) {
   const updateRow = useCallback(
-    (id: string, newTitle?: string, newOrder?: number) => {
+    (id: string, newTitle?: string, newOrder?: number[]) => {
       const index = edition.get_row_index(id);
       if (index !== undefined) {
         console.log({ newTitle, newOrder });
         setRows((rows) =>
           updateImm(rows, {
             [index]: {
-              $set: rows[index].update_row(index, newTitle, newOrder),
+              $set: rows[index].update_row(
+                index,
+                newTitle,
+                new Uint16Array(newOrder as number[])
+              ),
             },
           })
         );
@@ -113,6 +118,7 @@ export function useSignalrEditionUpdates(
   useEffect(() => {
     console.log({ update, enableUpdates });
     if (update && enableUpdates) {
+      const currentRowBeforeUpdate = rowVirtualizer.virtualItems[0].index;
       console.log('updating');
       if (update.Topic.endsWith('AdminUpdate.BookUnit')) {
         const id = update.Data?.Params?.Ids && update.Data.Params.Ids[0];
@@ -123,9 +129,19 @@ export function useSignalrEditionUpdates(
             update.Data.Update.OrderInChapter
           );
         }
+        setTimeout(() => {
+          rowVirtualizer.scrollToIndex(currentRowBeforeUpdate, {
+            align: 'start',
+          });
+        }, 200);
       } else if (update.Topic.endsWith('Delete.BookUnit')) {
         const id = update.Data.Id;
         deleteRow(id);
+        setTimeout(() => {
+          rowVirtualizer.scrollToIndex(currentRowBeforeUpdate, {
+            align: 'start',
+          });
+        }, 200);
       } else if (update.Topic.endsWith('Creation.BookUnit')) {
         // todo based on the edition information make sure the unit should be inserted
         const unit: IEditionBookUnit = {
@@ -134,6 +150,11 @@ export function useSignalrEditionUpdates(
           Title: update.Data.Title,
         };
         insertRow(unit);
+        setTimeout(() => {
+          rowVirtualizer.scrollToIndex(currentRowBeforeUpdate, {
+            align: 'start',
+          });
+        }, 200);
       } else if (update.Topic.endsWith('PageContentUpdate.Edition')) {
         updateCellsContent(update.Data)
           .catch((e) => {
@@ -143,6 +164,11 @@ export function useSignalrEditionUpdates(
             setTimeout(() => {
               setUpdateTime(Date.now);
             }, 100);
+            setTimeout(() => {
+              rowVirtualizer.scrollToIndex(currentRowBeforeUpdate, {
+                align: 'start',
+              });
+            }, 200);
           });
       } else if (update.Topic === 'ContentUpdate.Edition') {
         updateCells(update.Data)
@@ -153,6 +179,11 @@ export function useSignalrEditionUpdates(
             setTimeout(() => {
               setUpdateTime(Date.now);
             }, 100);
+            setTimeout(() => {
+              rowVirtualizer.scrollToIndex(currentRowBeforeUpdate, {
+                align: 'start',
+              });
+            }, 200);
           });
       }
     } else {

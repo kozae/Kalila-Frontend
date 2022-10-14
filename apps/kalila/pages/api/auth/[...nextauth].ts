@@ -42,7 +42,6 @@ export default NextAuth({
   secret: 'c659B87$-2a9d-41e7-@1F4-b8c*98359DaG',
   callbacks: {
     jwt: async ({ token, user, account }) => {
-      console.log({ token, user, account });
       if (account && user) {
         return {
           access: account.access_token,
@@ -53,14 +52,15 @@ export default NextAuth({
       }
 
       // Return previous token if the access token has not expired yet
-      if (Date.now() < token.accessTokenExpires) {
+      if (Date.now() < token.accessExpires) {
         return { ...token };
       }
+
+      console.log('refreshing token...');
 
       return refreshAccessToken(token);
     },
     session: async ({ session, token }) => {
-      console.log({ session });
       return {
         ...session,
         user: token.user,

@@ -5,7 +5,7 @@ import { IPageDescription } from '../page-description';
 
 export interface IPageTranscriptionInfo extends IPageDescription {
   ManuscriptSiglum: string;
-  NearestOpenUnit?: IUnitSummary;
+  NearestOpenUnit: IUnitSummary | null;
 }
 
 export interface IPageTranscription extends IPageTranscriptionInfo {

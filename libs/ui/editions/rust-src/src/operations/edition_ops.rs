@@ -1,19 +1,11 @@
 use crate::domain_models::edition::Edition;
 use crate::edition_store::EditionStore;
-use crate::helpers::{build_inverted_index, format_token};
+use crate::helpers::{build_indexes, format_token};
 use itertools::Itertools;
 use regex::Regex;
 use std::collections::{HashMap, HashSet};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsValue;
-
-#[macro_use]
-macro_rules! log {
-    ( $( $t:tt )* ) => {
-        web_sys::console::log_1(&format!( $( $t )*
-        ).into());
-    }
-}
 
 #[wasm_bindgen]
 impl EditionStore {
@@ -41,8 +33,8 @@ impl EditionStore {
                         }
                     }
                 }
-                let (token_inverted_index, token_index) =
-                    build_inverted_index(&edition.manuscripts);
+                let (token_inverted_index, token_index, page_breaks, located_images) =
+                    build_indexes(&edition.manuscripts);
                 let word_list = token_inverted_index
                     .keys()
                     .into_iter()
@@ -55,6 +47,8 @@ impl EditionStore {
                     token_inverted_index,
                     token_index,
                     word_list,
+                    page_breaks,
+                    located_images,
                 };
                 Ok(store)
             }
@@ -262,11 +256,12 @@ impl EditionStore {
         }
     }
 
-    pub fn find_unit_by_order(&self, order: f64) -> Option<usize> {
-        self.edition
-            .book_units
-            .iter()
-            .position(|u| u.order == order)
+    pub fn find_unit_by_order(&self, order: usize) -> Option<usize> {
+        if order < self.edition.book_units.len() {
+            Some(order)
+        } else {
+            None
+        }
     }
 
     pub fn find_unit_by_title(&self, filter: String) -> Box<[i32]> {
@@ -285,6 +280,14 @@ impl EditionStore {
             .collect()
     }
 
+    pub fn get_page_breaks(&self) -> Box<[usize]> {
+        self.page_breaks.clone()
+    }
+
+    pub fn get_located_images(&self) -> Box<[usize]> {
+        self.located_images.clone()
+    }
+
     pub fn find_words(&self, filter: String) -> Option<Box<[usize]>> {
         console_error_panic_hook::set_once();
         let re = Regex::new("[\u{064b}\u{064c}\u{064d}\u{064e}\u{064f}\u{0650}\u{0651}\u{0652}]+")
@@ -295,7 +298,7 @@ impl EditionStore {
         let first_word_occurrences = self
             .word_list
             .iter()
-            .filter(|w| w.contains(&word_seq[0]))
+            .filter(|w| w.eq(&word_seq[0]))
             .collect_vec();
         let mut results: Vec<Box<[usize]>> = vec![];
         for word in first_word_occurrences {
@@ -314,7 +317,7 @@ impl EditionStore {
                             break;
                         }
                         let next_word = &unit_tokens[location];
-                        if next_word.contains(word_seq[pointer]) {
+                        if next_word.eq(word_seq[pointer]) {
                             range_end = location;
                             pointer += 1;
                             location = occ[2] + pointer;

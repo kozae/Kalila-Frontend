@@ -15,7 +15,8 @@ export function getLineItems(
   tokens: (IToken & { LineId: string })[],
   units: IUnitSummary[],
   lineOrder: number,
-  pageNumber: number
+  pageNumber: number,
+  nearestOpenUnit?: IUnitSummary | null
 ) {
   const items: ILineItem[] = [];
   const unitStartingInLine = units.filter(
@@ -33,6 +34,12 @@ export function getLineItems(
     if (unitFromPrevPage) {
       items.push({
         ...unitFromPrevPage,
+        type: 'from previous',
+      });
+    }
+    if (nearestOpenUnit) {
+      items.push({
+        ...nearestOpenUnit,
         type: 'from previous',
       });
     }

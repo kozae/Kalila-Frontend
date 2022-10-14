@@ -6,6 +6,8 @@ import {
 } from '@reduxjs/toolkit';
 import { IToken } from '@frontend/domain';
 import ObjectID from 'bson-objectid';
+import { discardTokenChanges } from '../../text-editing-page';
+import { replaceLinesTokens } from './thunks';
 
 export const tokenAdapter = createEntityAdapter<IToken & { LineId: string }>({
   selectId: (doc) => doc.Id,
@@ -19,11 +21,11 @@ export const tokenSlice = createSlice({
   reducers: {
     loadTokens: tokenAdapter.setAll,
     updateManyTokens: tokenAdapter.updateMany,
-    replaceLinesTokens: (
-      state,
-      action: PayloadAction<{ LineId: string; newTokens: IToken[] }[]>
-    ) => {
-      for (const { LineId, newTokens } of action.payload) {
+    clearTokens: tokenAdapter.removeAll,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(replaceLinesTokens.fulfilled, (state, action) => {
+      for (const { LineId, newTokens } of action.payload.data) {
         const oldTokenIds = Object.values(state.entities)
           .filter((t) => t && t.LineId === LineId)
           .map((t: any) => t.Id);
@@ -37,15 +39,15 @@ export const tokenSlice = createSlice({
           }))
         );
       }
-    },
-    clearTokens: tokenAdapter.removeAll,
+    });
+    builder.addCase(discardTokenChanges.fulfilled, (state, action) => {
+      tokenAdapter.setAll(state, action.payload.Tokens);
+    });
   },
-  // todo add the reducers for discard and save thunks
 });
 
 export type TokensState = {
   [tokenSlice.name]: EntityState<IToken & { LineId: string }>;
 };
 
-export const { loadTokens, replaceLinesTokens, clearTokens, updateManyTokens } =
-  tokenSlice.actions;
+export const { loadTokens, clearTokens, updateManyTokens } = tokenSlice.actions;

@@ -10,7 +10,7 @@ export function useFacsimileCropper(
   url: string,
   create: (encoded_file: string) => FacsimileCropper
 ): FacsimileCropper | null {
-  const { data } = useSWR(url, load);
+  const { data } = useSWR(url, loadImageAsDataUrl);
   if (data) {
     return create(base46(data));
   }
@@ -32,7 +32,7 @@ export const mapDataForCropper = (
   return [p, region[8]];
 };
 
-async function load(url: string) {
+export async function loadImageAsDataUrl(url: string) {
   const data: string = await fetch(url)
     .then((response) => response.blob())
     .then(

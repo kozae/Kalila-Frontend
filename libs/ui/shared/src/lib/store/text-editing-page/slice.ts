@@ -24,20 +24,23 @@ import {
   saveSegmentation,
   saveTokenChanges,
 } from './thunks';
+import { updateBookUnit } from '../page-transcription/book-units';
 
 const savePending = isPending(
   saveLineChanges,
   saveLayoutChanges,
   saveTokenChanges,
   saveSegmentation,
-  saveDescriptionChanges
+  saveDescriptionChanges,
+  updateBookUnit
 );
 const saveComplete = isFulfilled(
   saveLineChanges,
   saveLayoutChanges,
   saveTokenChanges,
   saveSegmentation,
-  saveDescriptionChanges
+  saveDescriptionChanges,
+  updateBookUnit
 );
 
 const initialState: ITextEditingPageState = {
@@ -55,6 +58,7 @@ const initialState: ITextEditingPageState = {
   textElementsBeforeChanges: [],
   tokensBeforeChanges: [],
   unitSummariesBeforeChanges: [],
+  nearestOpenUnitBeforeChanges: null,
   deleteLayoutImages: [],
   deleteLayoutTextElements: [],
   deleteLines: [],

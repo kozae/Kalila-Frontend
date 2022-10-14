@@ -1,5 +1,3 @@
-import { IMorphology } from './morphology';
-
 export type TokenState =
   | 'sound'
   | 'corrupt'
@@ -26,6 +24,5 @@ export interface IToken {
   OrderInLine: number;
   State: string | TokenState;
   OrderInPage: number;
-  MorphologyId?: string;
-  Morphology?: IMorphology;
+  Morphology?: string[];
 }

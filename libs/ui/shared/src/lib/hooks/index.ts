@@ -6,4 +6,4 @@ export * from './subscribe-to-signalr-updates.hook';
 export * from './use-boolean';
 export * from './window-size.hook';
 export * from './timeout-hook';
-export * from './use-auth-guard';
+export * from './use-login-validation';

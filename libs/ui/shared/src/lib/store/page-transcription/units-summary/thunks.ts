@@ -27,8 +27,6 @@ export const closeUnit = createAsyncThunk<
     ) as IUnitSummary[]
   );
 
-  console.log({ units });
-
   const unitToUpdate =
     units.length !== 0
       ? last(units)
@@ -44,6 +42,28 @@ export const closeUnit = createAsyncThunk<
   }
 
   return {};
+});
+
+export const removeUnitEndTag = createAsyncThunk<
+  {
+    openOnPageUnit?: string;
+    openUnitFromPreviousPage?: IUnitSummary;
+  },
+  {
+    id: string;
+  },
+  ThunkApi
+>('unitSummaries/removeUnitEndTag', async ({ id }, { getState }) => {
+  const state = getState();
+  const unit = state.unitSummaries.entities[id];
+  if (unit && unit.Start[0] === state.pageData.pageInfo.Number) {
+    return {
+      openOnPageUnit: id,
+    };
+  }
+  return {
+    openUnitFromPreviousPage: unit && { ...unit, End: [-1, -1, -1] },
+  };
 });
 
 export const moveUnit = createAsyncThunk<

@@ -355,7 +355,7 @@ export const CommandBar = ({ editor }: ICommandBarProps) => {
           sx={{ position: 'absolute', left: 0 }}
           onClick={backToView}
         >
-          Back to view & annotate
+          Back to viewer
         </Button>
       </Stack>
     </Stack>

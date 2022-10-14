@@ -2,12 +2,15 @@ import {
   createEntityAdapter,
   createSlice,
   EntityState,
-  PayloadAction,
 } from '@reduxjs/toolkit';
 import { IUnitSummary } from '@frontend/domain';
-import { closeUnit, moveUnit } from './thunks';
-import { discardSegmentationChanges } from '../../text-editing-page/thunks/discard-segmentation';
-import { saveSegmentation } from '../../text-editing-page';
+import { closeUnit, moveUnit, removeUnitEndTag } from './thunks';
+import {
+  discardTokenChanges,
+  saveSegmentation,
+  discardSegmentationChanges,
+} from '../../text-editing-page';
+import { replaceLinesTokens } from '../tokens';
 
 export const unitSummariesAdapter = createEntityAdapter<IUnitSummary>({
   selectId: (doc) => doc.Id,
@@ -22,22 +25,61 @@ export const unitSummariesSlice = createSlice({
     loadUnitSummaries: unitSummariesAdapter.setAll,
     insertUnit: unitSummariesAdapter.addOne,
     updateUnit: unitSummariesAdapter.updateOne,
+    updateManyUnits: unitSummariesAdapter.updateMany,
     removeUnit: unitSummariesAdapter.removeOne,
-    removeUnitEndTag: (state, action: PayloadAction<string>) => {
-      unitSummariesAdapter.updateOne(state, {
-        id: action.payload,
-        changes: {
-          End: [-1, -1, -1],
-        },
-      });
-    },
     clearUnitSummaries: unitSummariesAdapter.removeAll,
   },
   extraReducers: (builder) => {
+    builder.addCase(replaceLinesTokens.fulfilled, (state, action) => {
+      // remove units whose start token is deleted
+      // and nullify the end of units whose end token is deleted
+      const idsToRemove: string[] = [];
+      for (const { LineOrder, newTokens } of action.payload.data) {
+        const unitsStartInLine = Object.values(state.entities).filter(
+          (u) => u && u.Start[1] === LineOrder
+        ) as IUnitSummary[];
+        for (const unit of unitsStartInLine) {
+          if (unit.Start[2] > newTokens.length) {
+            idsToRemove.push(unit.Id);
+          }
+        }
+        const unitsEndInLine = Object.values(state.entities).filter(
+          (u) => u && u.End[1] === LineOrder
+        ) as IUnitSummary[];
+        for (const unit of unitsEndInLine) {
+          if (unit.End[2] > newTokens.length) {
+            unitSummariesAdapter.updateOne(state, {
+              id: unit.Id,
+              changes: {
+                End: [-1, -1, -1],
+              },
+            });
+          }
+        }
+      }
+      if (idsToRemove.length !== 0) {
+        unitSummariesAdapter.removeMany(state, idsToRemove);
+      }
+    });
     builder.addCase(closeUnit.fulfilled, (state, action) => {
       if (action.payload.data !== undefined) {
         console.log({ closing: action.payload.data });
         unitSummariesAdapter.upsertOne(state, action.payload.data);
+      }
+    });
+    builder.addCase(removeUnitEndTag.fulfilled, (state, action) => {
+      if (action.payload.openOnPageUnit !== undefined) {
+        unitSummariesAdapter.updateOne(state, {
+          id: action.payload.openOnPageUnit,
+          changes: {
+            End: [-1, -1, -1],
+          },
+        });
+      } else if (action.payload.openUnitFromPreviousPage !== undefined) {
+        unitSummariesAdapter.removeOne(
+          state,
+          action.payload.openUnitFromPreviousPage.Id
+        );
       }
     });
     builder.addCase(moveUnit.fulfilled, (state, action) => {
@@ -45,6 +87,9 @@ export const unitSummariesSlice = createSlice({
     });
     builder.addCase(discardSegmentationChanges.fulfilled, (state, action) => {
       unitSummariesAdapter.setAll(state, action.payload.units);
+    });
+    builder.addCase(discardTokenChanges.fulfilled, (state, action) => {
+      unitSummariesAdapter.setAll(state, action.payload.Units);
     });
     builder.addCase(saveSegmentation.fulfilled, (state, action) => {
       unitSummariesAdapter.setAll(state, action.payload.units);
@@ -61,6 +106,6 @@ export const {
   clearUnitSummaries,
   insertUnit,
   updateUnit,
+  updateManyUnits,
   removeUnit,
-  removeUnitEndTag,
 } = unitSummariesSlice.actions;

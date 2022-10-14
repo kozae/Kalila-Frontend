@@ -2,6 +2,8 @@ import Stack from '@mui/material/Stack';
 import {
   FramerFadeInOut,
   FullPageLoadingIndicator,
+  selectTextEditingAccessMode,
+  selectTextEditingActiveWorkspace,
   selectWorkspaceHasChanges,
   useAppSelector,
   useNavigationAwayGuard,
@@ -22,7 +24,11 @@ import {
   loadFacsimileCropper,
   useFacsimileCropper,
 } from '@frontend/ui/facsimile-cropper';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { BookUnitPanel } from '../../../text-segmentation/src/lib/book-unit-panel';
+import { FacsimileRegionPreview } from './components/facsimile-space/facsimile-region-preview';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
 export const TextEditingWorkspaceWasm = dynamic({
   loader: async () => {
@@ -67,7 +73,7 @@ function TextEditingWorkspace({
   useAccessModeSettings();
   const workspaceHasChanges = useAppSelector(selectWorkspaceHasChanges);
   useNavigationAwayGuard(workspaceHasChanges);
-
+  const tool = useAppSelector(selectTextEditingActiveWorkspace);
   return (
     <TextEditingWorkspaceContext.Provider value={{ facsimileCropper }}>
       <Stack
@@ -78,11 +84,21 @@ function TextEditingWorkspace({
         alignItems="flex-start"
         spacing={1}
       >
-        <FacsimileSpace />
-        <ToolSpace />
+        {tool === 'segmentation' ? (
+          <DndProvider backend={HTML5Backend}>
+            <BookUnitPanel />
+            <ToolSpace />
+          </DndProvider>
+        ) : (
+          <>
+            <FacsimileSpace />
+            <ToolSpace />
+          </>
+        )}
         <CommandBar hasChanges={workspaceHasChanges} />
         <MessageBar />
         <SavingIndicator />
+        <FacsimileRegionPreview />
       </Stack>
     </TextEditingWorkspaceContext.Provider>
   );

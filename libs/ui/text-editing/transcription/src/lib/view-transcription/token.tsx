@@ -1,112 +1,44 @@
-import { IMorphology, IToken } from '@frontend/domain';
+import { IToken } from '@frontend/domain';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { ViewTranscriptionContext } from './view-transcription';
-import { RefObject, useCallback, useContext, useEffect, useRef } from 'react';
-import axios from 'axios';
-import {
-  selectAccessToken,
-  selectMorphologyByLineAndToken,
-  selectTextEditingAccessMode,
-  useAppSelector,
-} from '@frontend/shared-ui';
-import { paramsSerializer } from '@frontend/util';
+import { useCallback, useContext, useRef } from 'react';
 import styles from './token.module.scss';
+
 export interface ITokenProps {
   d: IToken & { LineId: string };
-  lineOrder: number;
-  elementType: 'main' | 'other';
-  lineRef: RefObject<HTMLDivElement>;
 }
 
-export const Token = ({ d, lineOrder, elementType, lineRef }: ITokenProps) => {
+export const Token = ({ d }: ITokenProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const accessToken = useAppSelector(selectAccessToken);
-  const morphology = useAppSelector((state) =>
-    selectMorphologyByLineAndToken(state, `${d.LineId}_${d.OrderInLine}`)
-  );
-  const {
-    annotation,
-    selectedToken,
-    setMorphologyPopperAnchor,
-    setSelectedToken,
-    setMorphologyData,
-    containerRef,
-  } = useContext(ViewTranscriptionContext);
-  useEffect(() => {
-    if (
-      selectedToken.line === lineOrder &&
-      selectedToken.token === d.OrderInLine &&
-      selectedToken.elementType === elementType &&
-      ref
-    ) {
-      setMorphologyPopperAnchor(ref.current);
-      if (containerRef && lineRef && lineRef.current && containerRef.current) {
-        containerRef.current.scrollTo({
-          top: lineRef.current.offsetTop - 100,
-        });
-      }
-      axios
-        .get<Record<string, IMorphology[]>>('/server/api/v1/Morphology/Word', {
-          headers: {
-            Authorization: accessToken ? `Bearer ${accessToken}` : '',
-          },
-          params: { Words: [d.RawToken] },
-          paramsSerializer,
-        })
-        .then(({ data }) => setMorphologyData(data[d.RawToken]));
-    }
-  }, [selectedToken]);
+  const { annotation } = useContext(ViewTranscriptionContext);
+
   const getAnnotation = useCallback(() => {
-    if (morphology === undefined) {
+    if (d.Morphology === undefined) {
       return d.RawToken;
     }
     switch (annotation) {
       case 'vocalized':
-        return morphology?.Word;
+        return d.Morphology ? d.Morphology[1] : d.RawToken;
       case 'rasm':
-        return morphology?.Rasm;
-      case 'root':
-        return morphology?.Root;
-      case 'pos':
-        return morphology?.PartOfSpeech;
+        return d.RawToken;
       case 'type':
-        return morphology?.Type;
-      case 'stem':
-        return morphology?.Stem;
-      case 'wazn':
-        return morphology.Canonic;
+        return d.Morphology ? d.Morphology[2] : d.RawToken;
+      case 'lemma':
+        return d.Morphology ? d.Morphology[0] : d.RawToken;
       default:
         return d.RawToken;
     }
-  }, [annotation, d, morphology]);
+  }, [annotation, d]);
 
-  const accessMode = useAppSelector(selectTextEditingAccessMode);
-
-  const handleClick = () => {
-    if (accessMode === 'view') {
-      return;
-    }
-    // TODO Activate when implementing annotation fearures
-    // if (setSelectedToken) {
-    //   setSelectedToken({ line: lineOrder, token: d.OrderInLine, elementType });
-    // }
-  };
   return (
     <Stack ref={ref}>
       <Typography
-        onClick={handleClick}
         className={styles[d.State]}
         sx={{
           ml: '3px',
           pt: '3px',
           pb: '3px',
-          fontWeight:
-            selectedToken.line === lineOrder &&
-            selectedToken.elementType === elementType &&
-            selectedToken.token === d.OrderInLine
-              ? 'bold'
-              : 'normal',
         }}
         variant="body2"
       >

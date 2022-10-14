@@ -13,6 +13,14 @@ export default NextAuth({
           scope: 'openid email profile',
         },
       },
+      profile(profile) {
+        return {
+          id: profile.sub,
+          username: profile.preferred_username,
+          name: profile.name,
+          email: profile.email,
+        };
+      },
     }),
   ],
 });

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getBookUnits, IBookUnitQuery } from '../queries';
 import { debounce } from 'lodash';
 import { IChapter } from '@frontend/domain';
+import { floatRegEx } from '@frontend/util';
 
 export function useBookUnits(
   chapter: IChapter | null,
@@ -10,7 +11,6 @@ export function useBookUnits(
   const [filter, setFilter] = useState<string>('');
   const [bookUnitQuery, setBookUnitQuery] = useState<IBookUnitQuery>({
     PageNumber: 1,
-    TitleCn: '',
   });
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -25,7 +25,10 @@ export function useBookUnits(
     setFilter(event.target.value ?? '');
   };
   const passFilterToQuery = debounce(
-    () => setBookUnitQuery({ PageNumber: 1, TitleCn: filter }),
+    () =>
+      floatRegEx.test(filter)
+        ? setBookUnitQuery({ PageNumber: 1, OrderInChapterGt: filter })
+        : setBookUnitQuery({ PageNumber: 1, TitleCn: filter }),
     1000
   );
   useEffect(() => {

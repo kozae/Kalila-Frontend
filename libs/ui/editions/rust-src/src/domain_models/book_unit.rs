@@ -7,7 +7,9 @@ pub struct BookUnit {
     #[serde(rename = "Id")]
     pub(crate) id: String,
     #[serde(rename = "Order")]
-    pub(crate) order: f64,
+    pub(crate) order: Vec<u16>,
+    #[serde(rename = "FrameTags")]
+    pub(crate) frame_tags: Vec<String>,
     #[serde(rename = "Title")]
     pub(crate) title: String,
     #[serde(rename = "DepictingImages")]

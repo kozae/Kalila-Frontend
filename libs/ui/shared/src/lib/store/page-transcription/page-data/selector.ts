@@ -19,6 +19,11 @@ export const selectPageFacsimileUrl = createSelector(
   (state) => state.pageInfo.FacsimileImageUrl
 );
 
+export const selectNearestOpenUnit = createSelector(
+  selectPageDataState,
+  (state) => state.pageInfo.NearestOpenUnit
+);
+
 export const selectPageFacsimileImageSize = createSelector(
   selectPageDataState,
   (state) => state.imageSize

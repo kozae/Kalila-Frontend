@@ -49,6 +49,11 @@ export class EditionCellData {
 */
   get_token(idx: number): string;
 /**
+* @param {number} idx
+* @returns {boolean}
+*/
+  is_first_token(idx: number): boolean;
+/**
 * @param {any} update
 * @returns {string}
 */
@@ -69,10 +74,10 @@ export class EditionRowTitle {
 /**
 * @param {number} index
 * @param {string | undefined} title
-* @param {number | undefined} order
+* @param {Uint16Array} order
 * @returns {EditionRowTitle}
 */
-  update_row(index: number, title?: string, order?: number): EditionRowTitle;
+  update_row(index: number, title: string | undefined, order: Uint16Array): EditionRowTitle;
 }
 /**
 */
@@ -241,6 +246,14 @@ export class EditionStore {
 * @returns {Int32Array}
 */
   find_unit_by_title(filter: string): Int32Array;
+/**
+* @returns {Uint32Array}
+*/
+  get_page_breaks(): Uint32Array;
+/**
+* @returns {Uint32Array}
+*/
+  get_located_images(): Uint32Array;
 /**
 * @param {string} filter
 * @returns {Uint32Array | undefined}

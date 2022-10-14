@@ -2,7 +2,7 @@ import { FacsimileRegion } from './page-transcription';
 
 export interface IEditionBookUnit {
   Id: string;
-  Order: number;
+  Order: number[];
   Title: string;
   DepictingImages?: IEditionImage[];
 }
@@ -15,6 +15,7 @@ export interface IEditionUnit {
   States: string[];
   Pages: number[];
   Lines: number[];
+  Breaks: number[];
   LocatedImage?: IEditionImage;
 }
 

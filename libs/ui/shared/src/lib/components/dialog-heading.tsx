@@ -15,7 +15,7 @@ export const DialogHeading: React.FC<IDialogHeadingProps> = ({
   onDismiss,
   color,
 }) => {
-  color = color ?? 'primary';
+  color = color ?? 'primary.main';
   return (
     <Stack
       sx={{

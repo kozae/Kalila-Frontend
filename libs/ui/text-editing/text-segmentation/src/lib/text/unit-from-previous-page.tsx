@@ -1,11 +1,15 @@
 import { IUnitSummary } from '@frontend/domain';
 import Typography from '@mui/material/Typography';
+import { useContext } from 'react';
+import { TextSegmentationContext } from '../context';
+import { bookUnitOrderDisplay } from '@frontend/util';
 
 export interface IUnitFromPreviousPageProps {
   d: IUnitSummary;
 }
 
 export const UnitFromPreviousPage = ({ d }: IUnitFromPreviousPageProps) => {
+  const { setHoveredUnit } = useContext(TextSegmentationContext);
   return (
     <Typography
       sx={{
@@ -18,6 +22,15 @@ export const UnitFromPreviousPage = ({ d }: IUnitFromPreviousPageProps) => {
       letterSpacing="0.08rem"
       fontSize="1rem"
       variant="body1"
-    >{`... (${d.BookUnitOrder}) ${d.Chapter} [starts in p. ${d.Start[0]}]`}</Typography>
+      onMouseEnter={() => setHoveredUnit(`(${d.Order}) ${d.BookUnit}`)}
+      onMouseLeave={() => setHoveredUnit(undefined)}
+    >
+      {`... (${bookUnitOrderDisplay(
+        d.Order,
+        d.FrameTags,
+        undefined
+      )}) [starts in p. ${d.Start[0]}]`}{' '}
+      {d.End[0] === -1 && ' Open'}{' '}
+    </Typography>
   );
 };

@@ -28,10 +28,14 @@ pub struct Unit {
     pub(crate) tokens: Vec<String>,
     #[serde(rename = "States")]
     pub(crate) states: Vec<String>,
+    #[serde(rename = "Lemmas")]
+    pub(crate) lemmas: Vec<String>,
     #[serde(rename = "Pages")]
     pub(crate) pages: Vec<u16>,
     #[serde(rename = "Lines")]
     pub(crate) lines: Vec<u8>,
+    #[serde(rename = "Breaks")]
+    pub(crate) breaks: Vec<usize>,
     #[serde(rename = "LocatedImage")]
     pub(crate) located_image: Option<Image>,
 }
@@ -43,25 +47,35 @@ impl Unit {
             bu_id: self.id.clone(),
             order: update.order,
             type_field: update.type_field.clone(),
-            tokens: if update.tokens.len() == 0 {
+            tokens: if update.tokens.is_empty() {
                 self.tokens.clone()
             } else {
                 update.tokens.clone()
             },
-            states: if update.states.len() == 0 {
+            states: if update.states.is_empty() {
                 self.states.clone()
             } else {
                 update.states.clone()
             },
-            pages: if update.pages.len() == 0 {
+            lemmas: if update.lemmas.is_empty() {
+                self.lemmas.clone()
+            } else {
+                update.lemmas.clone()
+            },
+            pages: if update.pages.is_empty() {
                 self.pages.clone()
             } else {
                 update.pages.clone()
             },
-            lines: if update.lines.len() == 0 {
+            lines: if update.lines.is_empty() {
                 self.lines.clone()
             } else {
                 update.lines.clone()
+            },
+            breaks: if update.breaks.is_empty() {
+                self.breaks.clone()
+            } else {
+                update.breaks.clone()
             },
             located_image: self.located_image.clone(),
         }

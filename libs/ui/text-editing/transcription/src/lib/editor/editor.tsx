@@ -149,9 +149,6 @@ export const KalilaEditor = ({
           autoComplete="off"
           autoCorrect="off"
           onBlur={clearPreviews}
-          onDOMBeforeInput={(e) => {
-            console.log(e);
-          }}
           onKeyDown={(event) => {
             if (event.ctrlKey || event.metaKey) {
             } else if (

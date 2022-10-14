@@ -1,8 +1,9 @@
-import { StructurePositions } from './structure/render';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, RefObject, SetStateAction } from 'react';
 import { EditionCellData, EditionRowTitle, EditionStore } from '../store';
 import { IPageUnitsUpdate } from '@frontend/shared-ui';
 import { IEditionUnit } from '@frontend/domain';
+import { fabric } from 'fabric';
+import { VirtualItem } from 'react-virtual';
 
 export interface ILinePreviewData {
   manuscriptSiglum: string;
@@ -22,22 +23,48 @@ export interface IImagePreviewData {
   y: number;
 }
 
+export interface IPagePreviewData {
+  manuscriptSiglum: string;
+  manuscriptIdx: number;
+  page: number;
+  x: number;
+  y: number;
+}
+
 export interface IBehaviorOptions {
   enableFacsimilePreview: boolean;
   isSearchActive: boolean;
-  activeLinePreview: ILinePreviewData | null;
-  activeImagePreview: IImagePreviewData | null;
   enableRealTimeUpdates: boolean;
-  structureViz: StructurePositions | null;
+  mapState: MapPosition | null;
 }
 
 export interface IBehaviorOptionsMethods {
   setEnableFacsimilePreview: Dispatch<SetStateAction<boolean>>;
   setIsSearchActive: Dispatch<SetStateAction<boolean>>;
   setEnableRealTimeUpdates: Dispatch<SetStateAction<boolean>>;
+  setMapState: Dispatch<SetStateAction<MapPosition | null>>;
+}
+
+export interface IAuxiliarySurfacesData {
+  activePagePreview: IPagePreviewData | null;
+  activeLinePreview: ILinePreviewData | null;
+  activeImagePreview: IImagePreviewData | null;
+  activeUnitPreview: [number, number, number] | null;
+  visibleHorizontalTextCollation: number | null;
+  visibleImageCollation: number | null;
+  showSearchHints: boolean;
+}
+
+export interface IAuxiliarySurfacesMethods {
+  setActivePagePreview: Dispatch<SetStateAction<IPagePreviewData | null>>;
   setActiveLinePreview: Dispatch<SetStateAction<ILinePreviewData | null>>;
   setActiveImagePreview: Dispatch<SetStateAction<IImagePreviewData | null>>;
-  setStructureViz: Dispatch<SetStateAction<StructurePositions | null>>;
+  setActiveUnitPreview: Dispatch<
+    SetStateAction<[number, number, number] | null>
+  >;
+  setVisibleHorizontalTextCollation: Dispatch<SetStateAction<number | null>>;
+  setVisibleImageCollation: Dispatch<SetStateAction<number | null>>;
+  setShowSearchHints: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface IEditionPageData {
@@ -66,13 +93,15 @@ export interface IEditionPageAppOptionMutators {
   enableMaxWidth: () => void | Promise<void>;
 }
 
-export interface ILayoutOptions {
+export interface ILayoutData {
   size: EditionFontSize;
   font: EditionFontFamily;
+  canvas: fabric.Canvas | null;
 }
 export interface ILayoutOptionsMethods {
   setSize: Dispatch<SetStateAction<EditionFontSize>>;
   setFont: Dispatch<SetStateAction<EditionFontFamily>>;
+  setCanvas: Dispatch<SetStateAction<fabric.Canvas | null>>;
 }
 
 export type RowSearchResult = [number, number, number][];
@@ -104,3 +133,19 @@ export interface IRealTimeUpdateProps {
     pageNumber: number
   ) => Promise<IEditionUnit[]>;
 }
+
+export type RowVirtualizer = {
+  virtualItems: VirtualItem[];
+  totalSize: number;
+  scrollToOffset: (
+    index: number,
+    options?: { align: 'start' | 'center' | 'end' | 'auto' } | undefined
+  ) => void;
+  scrollToIndex: (
+    index: number,
+    options?: { align: 'start' | 'center' | 'end' | 'auto' } | undefined
+  ) => void;
+  measure: () => void;
+};
+
+export type MapPosition = 'left' | 'left-XL' | 'bottom';

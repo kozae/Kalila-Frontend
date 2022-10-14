@@ -32,30 +32,25 @@ export const FacsimileSpace = () => {
     };
   }, [loading]);
 
-  return (
-    <>
-      <AnimatePresence exitBeforeEnter>
-        {loading ? (
-          <FacsimileSpaceLoading />
-        ) : (
-          <motion.div
-            key="facsimile-loaded"
-            layout
-            style={{
-              width: '45%',
-              height: 'fit-content',
-            }}
-            initial={'hidden'}
-            animate={animationControls}
-            variants={animationVariants}
-            exit={{ opacity: 0, x: -200 }}
-            transition={{ duration: 1, ease: 'easeIn' }}
-          >
-            <FacsimileCanvas onLoaded={() => setLoaded(true)} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <FacsimileRegionPreview />
-    </>
+  return loading ? (
+    <FacsimileSpaceLoading />
+  ) : (
+    <AnimatePresence exitBeforeEnter>
+      <motion.div
+        key="facsimile-loaded"
+        layout
+        style={{
+          width: '45%',
+          height: 'fit-content',
+        }}
+        initial={'hidden'}
+        animate={animationControls}
+        variants={animationVariants}
+        exit={{ opacity: 0, x: -200 }}
+        transition={{ duration: 1, ease: 'easeIn' }}
+      >
+        <FacsimileCanvas onLoaded={() => setLoaded(true)} />
+      </motion.div>
+    </AnimatePresence>
   );
 };

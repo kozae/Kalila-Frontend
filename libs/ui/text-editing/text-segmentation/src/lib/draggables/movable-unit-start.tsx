@@ -9,6 +9,7 @@ import {
   useAppSelector,
 } from '@frontend/shared-ui';
 import { TextSegmentationContext } from '../context';
+import { bookUnitOrderDisplay } from '@frontend/util';
 
 export interface IMovableUnitStartProps {
   d: IUnitSummary;
@@ -43,15 +44,20 @@ export const MovableUnitStart = ({ d }: IMovableUnitStartProps) => {
         opacity: isDragging ? 0.5 : 1,
       }}
       onMouseEnter={() =>
-        accessMode === 'view' &&
-        setHoveredUnit(`(${d.BookUnitOrder}) ${d.BookUnit}`)
+        setHoveredUnit(
+          `(${bookUnitOrderDisplay(d.Order, d.FrameTags, undefined)}) ${
+            d.BookUnit
+          }`
+        )
       }
-      onMouseLeave={() => accessMode === 'view' && setHoveredUnit(undefined)}
+      onMouseLeave={() => setHoveredUnit(undefined)}
       fontWeight={'600'}
       letterSpacing="0.08rem"
       fontSize="1rem"
       variant="body1"
-    >{`(${d.BookUnitOrder}) ${d.Chapter}`}</Typography>
+    >
+      {bookUnitOrderDisplay(d.Order, d.FrameTags, undefined)}
+    </Typography>
   );
 };
 
@@ -70,6 +76,8 @@ export const MovableUnitStartDragPreview = ({ d }: IMovableUnitStartProps) => {
       letterSpacing="0.08rem"
       fontSize="1rem"
       variant="body1"
-    >{`(${d.BookUnitOrder}) ${d.BookUnit}`}</Typography>
+    >
+      {bookUnitOrderDisplay(d.Order, d.FrameTags, undefined)}
+    </Typography>
   );
 };

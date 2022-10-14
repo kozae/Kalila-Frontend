@@ -32,11 +32,17 @@ export function addSaveReducers(
     }
   });
   builder.addCase(saveTokenChanges.fulfilled, (state, action) => {
+    state.textSegmentationTouched = false;
     state.postTokens = [];
     state.tokensBeforeChanges = action.payload.Tokens;
+    state.unitSummariesBeforeChanges = action.payload.Units;
+    state.nearestOpenUnitBeforeChanges =
+      action.payload.openedUnitFromPreviousPage ?? null;
   });
   builder.addCase(saveSegmentation.fulfilled, (state, action) => {
     state.textSegmentationTouched = false;
     state.unitSummariesBeforeChanges = action.payload.units;
+    state.nearestOpenUnitBeforeChanges =
+      action.payload.openedUnitFromPreviousPage ?? null;
   });
 }

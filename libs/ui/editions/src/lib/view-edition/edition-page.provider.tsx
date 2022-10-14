@@ -1,8 +1,9 @@
 import { FC, ReactNode } from 'react';
 import {
+  AuxiliarySurfacesProvider,
   BehaviorOptionsProvider,
   DataProvider,
-  LayoutOptionsProvider,
+  LayoutDataProvider,
   SearchProvider,
 } from './contexts';
 import {
@@ -42,12 +43,14 @@ export const EditionPageProvider: FC<
     realTime,
   };
   return (
-    <LayoutOptionsProvider {...layoutOptions}>
+    <AuxiliarySurfacesProvider>
       <BehaviorOptionsProvider>
         <DataProvider {...dataProps}>
-          <SearchProvider>{children}</SearchProvider>
+          <LayoutDataProvider {...layoutOptions}>
+            <SearchProvider>{children}</SearchProvider>
+          </LayoutDataProvider>
         </DataProvider>
       </BehaviorOptionsProvider>
-    </LayoutOptionsProvider>
+    </AuxiliarySurfacesProvider>
   );
 };

@@ -43,10 +43,11 @@ export const TextComponent = () => {
 
   return (
     <Stack sx={{ mt: '5px', width: '100%' }}>
-      {getLines().map((l) => (
+      {getLines().map((l, i) => (
         <Line
           currentPageNumber={currentPageNumber}
           d={l}
+          i={i}
           units={units}
           key={l.Id}
         />

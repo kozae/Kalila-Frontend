@@ -1,0 +1,97 @@
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { range } from 'lodash';
+import { Fragment } from 'react';
+import { SxProps, Theme, ResponsiveStyleValue } from '@mui/system';
+import { useData, useLayoutData } from '../../../contexts';
+import { FONT_SIZES } from '../../../constants';
+import { Token } from './token';
+import { LocatedImage } from './located-image';
+import { PageBreak } from './page-break';
+
+export interface IEditionCellProps {
+  unitIndex: number;
+  msIndex: number;
+  style: SxProps<Theme>;
+  direction?: ResponsiveStyleValue<
+    'row' | 'column' | 'column-reverse' | 'row-reverse'
+  >;
+  flexWrap: string;
+}
+
+export const Cell = ({
+  style,
+  direction,
+  flexWrap,
+  unitIndex,
+  msIndex,
+}: IEditionCellProps) => {
+  const { cells } = useData();
+  const data = cells[unitIndex][msIndex];
+  const count = data.get_token_count();
+  const manuscript_unit_order = data.get_unit_order();
+  const imageLocation = data.get_located_image_location();
+  const { size } = useLayoutData();
+
+  if (count === 0) {
+    return (
+      <Stack sx={style} alignItems="center" justifyContent="center">
+        <Typography align="right" fontSize="1rem" variant="body2">
+          [ absent ]
+        </Typography>
+      </Stack>
+    );
+  }
+
+  return (
+    <Box sx={style}>
+      <Stack
+        alignItems="flex-start"
+        justifyContent="space-evenly"
+        direction={direction ?? 'row-reverse'}
+        sx={{
+          flexWrap,
+        }}
+      >
+        {manuscript_unit_order !== unitIndex && (
+          <Typography
+            key={'order'}
+            fontSize={FONT_SIZES[size]}
+            component="p"
+            fontWeight="600"
+            sx={{
+              p: '3px',
+              bgcolor: 'secondary.light',
+              color: 'white',
+              borderRadius: '5px',
+            }}
+          >
+            {data.get_unit_order()}
+          </Typography>
+        )}
+
+        {unitIndex !== undefined &&
+          range(count).map((index) => (
+            <Fragment key={index}>
+              {data.is_first_token(index) && (
+                <PageBreak index={index} data={data} msIndex={msIndex} />
+              )}
+              <Token
+                index={index}
+                data={data}
+                msIndex={msIndex}
+                unitIndex={unitIndex}
+              />
+
+              {imageLocation === index && (
+                <LocatedImage index={index} data={data} msIndex={msIndex} />
+              )}
+            </Fragment>
+          ))}
+
+        <Box sx={{ flexGrow: 1 }} />
+      </Stack>
+    </Box>
+  );
+};

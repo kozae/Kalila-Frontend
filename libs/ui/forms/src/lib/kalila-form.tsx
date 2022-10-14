@@ -16,6 +16,7 @@ export interface IKalilaFormProps<T extends Object> {
   onCanSubmit: (v: boolean) => void;
   validationSchema: ObjectSchema<any>;
   onSubmit: ((value: T) => void) | ((value: T) => Promise<void>);
+  onChange?: (value: T) => void;
   children?: ReactNode;
 }
 
@@ -29,6 +30,7 @@ export const KalilaForm = <T extends Object>({
   editors,
   formClass,
   children,
+  onChange,
 }: IKalilaFormProps<T>) => {
   const formik = useFormik<T>({
     initialValues,
@@ -50,6 +52,12 @@ export const KalilaForm = <T extends Object>({
     Object.values(formik.touched).length,
     formik.isValidating,
   ]);
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(formik.values);
+    }
+  }, [formik.values]);
 
   const formFields = fields.map((f) =>
     createFormField(f, categoricalAttributes, editors, formik)

@@ -1,5 +1,8 @@
 import {
-  useAuthGuard,
+  selectAccessToken,
+  useAccessTokenValidation,
+  useAppSelector,
+  useLoginValidation,
   useNavbarMessage,
   withTransition,
 } from '@frontend/shared-ui';
@@ -25,7 +28,10 @@ export function EditPage({
   allPages,
   imageSize,
 }) {
-  useAuthGuard();
+  useLoginValidation();
+
+  const accessToken = useAppSelector(selectAccessToken);
+  useAccessTokenValidation(accessToken);
 
   const messages = pageTitle(siglum ?? 'NotFetched');
   useNavbarMessage(messages, undefined, {

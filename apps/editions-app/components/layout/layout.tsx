@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { IChildrenProp, KalilaLogo, kalilaTheme } from '@frontend/shared-ui';
 import styles from './layout.module.scss';
 import { EditionsAppContext } from '../context';
 import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
+import CloudSyncIcon from '@mui/icons-material/CloudSync';
 import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
@@ -36,7 +36,15 @@ const LogoutButton = () => {
 export const Layout: React.FC<IChildrenProp> = ({ children }) => {
   const { showNavbar, editionName } = useContext(EditionsAppContext);
   const { data, status } = useSession();
-  const { push } = useRouter();
+  const { push, query } = useRouter();
+
+  const showRevalidate =
+    data && data.user && data.user.name === 'Mahmoud Kozae';
+
+  const onRevalidate = useCallback(async () => {
+    await fetch(`/api/revalidate?id=${query.edition}`);
+  }, [query]);
+
   return (
     <>
       <nav
@@ -72,10 +80,19 @@ export const Layout: React.FC<IChildrenProp> = ({ children }) => {
                   Kalīla and Dimna Editions
                 </Typography>
               </Link>
-              <Box padding="1rem">
+              <Stack direction="row" padding="1rem">
+                {showRevalidate && (
+                  <IconButton
+                    disabled={!query.edition}
+                    color="secondary"
+                    onClick={() => onRevalidate()}
+                  >
+                    <CloudSyncIcon />
+                  </IconButton>
+                )}
                 {!data && <LoginButton />}
                 {data && <LogoutButton />}
-              </Box>
+              </Stack>
             </Stack>
           </Stack>
         )}

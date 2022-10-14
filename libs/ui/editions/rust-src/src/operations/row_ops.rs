@@ -1,14 +1,23 @@
 use crate::domain_models::book_unit::BookUnit;
 use crate::edition_store::{EditionRowTitle, EditionStore};
+use crate::helpers::format_order;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 impl EditionStore {
     pub fn build_row(&self, index: usize) -> EditionRowTitle {
         let bu = &self.edition.book_units[index];
+        let mut title = bu.title.clone();
+        title.retain(|c| !c.is_whitespace());
         EditionRowTitle {
-            display: format!("{} ({}) {}", index, bu.order, bu.title),
-            order: bu.order,
+            display: format!(
+                "{} ({}) {}",
+                index,
+                format_order(&bu.order, &bu.frame_tags),
+                title
+            ),
+            order: bu.order.clone(),
+            frame_tags: bu.frame_tags.clone(),
             title: bu.title.clone(),
             has_images: match &bu.depicting_images {
                 Some(units) => units.len() != 0,
@@ -70,27 +79,25 @@ impl EditionRowTitle {
         self.has_images
     }
 
-    pub fn update_row(
-        self,
-        index: usize,
-        title: Option<String>,
-        order: Option<f64>,
-    ) -> EditionRowTitle {
+    pub fn update_row(self, index: usize, title: Option<String>, order: &[u16]) -> EditionRowTitle {
         let mut new_title = self.title;
         let mut new_order = self.order;
         match title {
             Some(value) => new_title = value,
             None => {}
         }
-        match order {
-            Some(value) => new_order = value,
-            None => {}
+        match order.len() {
+            0 => {}
+
+            _ => new_order = order.to_vec(),
         }
+        let order_display = format_order(&new_order, &self.frame_tags);
         EditionRowTitle {
             title: new_title.clone(),
             order: new_order,
-            display: format!("{} ({}) {}", index, new_order, new_title),
+            display: format!("{} ({}) {}", index, order_display, new_title),
             has_images: self.has_images,
+            frame_tags: self.frame_tags,
         }
     }
 }

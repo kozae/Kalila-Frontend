@@ -1,9 +1,11 @@
-import { IPageTranscriptionInfo } from '@frontend/domain';
+import { IPageTranscriptionInfo, IUnitSummary } from '@frontend/domain';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+  discardSegmentationChanges,
   saveDescriptionChanges,
   saveSegmentation,
 } from '../../text-editing-page';
+import { closeUnit, removeUnitEndTag } from '../units-summary';
 
 const initialState: {
   pageInfo: IPageTranscriptionInfo;
@@ -31,6 +33,7 @@ const initialState: {
     Tags: [],
     TranscriptionFinalized: false,
     Version: undefined,
+    NearestOpenUnit: null,
   },
   loading: true,
 };
@@ -59,11 +62,33 @@ export const pageDataSlice = createSlice({
       state.loading = false;
     },
     clearPageData: () => initialState,
+    updateNearestOpenUnit: (state, action: PayloadAction<IUnitSummary>) => {
+      state.pageInfo.NearestOpenUnit = { ...action.payload };
+    },
   },
   extraReducers: (builder) => {
+    builder.addCase(closeUnit.fulfilled, (state, action) => {
+      if (
+        action.payload.data &&
+        state.pageInfo.NearestOpenUnit &&
+        action.payload.data.Id &&
+        action.payload.data.Id === state.pageInfo.NearestOpenUnit.Id
+      ) {
+        state.pageInfo.NearestOpenUnit = null;
+      }
+    });
+    builder.addCase(discardSegmentationChanges.fulfilled, (state, action) => {
+      state.pageInfo.NearestOpenUnit = action.payload.nearestOpenUnit;
+    });
     builder.addCase(saveSegmentation.fulfilled, (state, action) => {
       if (action.payload.nearestOpenUnitClosed) {
-        state.pageInfo.NearestOpenUnit = undefined;
+        state.pageInfo.NearestOpenUnit = null;
+      }
+    });
+    builder.addCase(removeUnitEndTag.fulfilled, (state, action) => {
+      if (action.payload.openUnitFromPreviousPage) {
+        state.pageInfo.NearestOpenUnit =
+          action.payload.openUnitFromPreviousPage;
       }
     });
     builder.addCase(saveDescriptionChanges.fulfilled, (state, action) => {
@@ -85,5 +110,10 @@ export type PageDataState = {
   };
 };
 
-export const { loadPageData, clearPageData, pageDataLoaded, setImageSize } =
-  pageDataSlice.actions;
+export const {
+  loadPageData,
+  clearPageData,
+  pageDataLoaded,
+  setImageSize,
+  updateNearestOpenUnit,
+} = pageDataSlice.actions;

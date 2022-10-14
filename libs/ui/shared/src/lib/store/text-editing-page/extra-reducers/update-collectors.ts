@@ -1,38 +1,38 @@
 // noinspection ES6PreferShortImport
 
-import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import { ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import {
   addImageElement,
   removeImageElement,
-  updateImageElement
-} from "../../page-transcription/image-elements";
+  updateImageElement,
+} from '../../page-transcription/image-elements';
 import {
   addTextElement,
   removeTextElement,
-  updateTextElement
-} from "../../page-transcription/text-elements";
-import { ITextEditingPageState } from "../models";
-import { ILine } from "@frontend/domain";
+  updateTextElement,
+} from '../../page-transcription/text-elements';
+import { ITextEditingPageState } from '../models';
+import { ILine } from '@frontend/domain';
 import {
   addLine,
   deleteLine,
   loadGeneratedLines,
   moveLines,
   updateLine,
-  updateManyLines
-} from "../../page-transcription/lines";
+  updateManyLines,
+} from '../../page-transcription/lines';
 import {
   replaceLinesTokens,
-  updateManyTokens
-} from "../../page-transcription/tokens";
-import { upsertTokenMorphology } from "../../page-transcription/morphologies";
+  updateManyTokens,
+} from '../../page-transcription/tokens';
 import {
   closeUnit,
-  insertUnit, moveUnit,
+  insertUnit,
+  moveUnit,
   removeUnit,
   removeUnitEndTag,
-  updateUnit
-} from "../../page-transcription/units-summary";
+  updateUnit,
+} from '../../page-transcription/units-summary';
 
 export function addUpdateCollectors(
   builder: ActionReducerMapBuilder<ITextEditingPageState>
@@ -73,7 +73,9 @@ export function addUpdateCollectors(
   });
 
   builder.addCase(loadGeneratedLines, (state, action) => {
-    const lines = action.payload as Array<Omit<ILine, "Tokens"> & { ElementId: string }>;
+    const lines = action.payload as Array<
+      Omit<ILine, 'Tokens'> & { ElementId: string }
+    >;
     state.postLines.push(...lines.map((l) => l.Id));
   });
 
@@ -132,15 +134,11 @@ export function addUpdateCollectors(
       }
     });
   });
-  builder.addCase(upsertTokenMorphology, (state, action) => {
-    if (!state.postTokens.includes(action.payload.LineId)) {
-      state.postTokens.push(action.payload.LineId);
-    }
-  });
-  builder.addCase(replaceLinesTokens, (state, action) => {
-    for (const { LineId } of action.payload) {
+  builder.addCase(replaceLinesTokens.fulfilled, (state, action) => {
+    for (const { LineId } of action.payload.data) {
       if (!state.postTokens.includes(LineId)) {
         state.postTokens.push(LineId);
+        state.textSegmentationTouched = true;
       }
     }
   });
@@ -153,7 +151,7 @@ export function addUpdateCollectors(
   builder.addCase(removeUnit, (state) => {
     state.textSegmentationTouched = true;
   });
-  builder.addCase(removeUnitEndTag, (state) => {
+  builder.addCase(removeUnitEndTag.fulfilled, (state) => {
     state.textSegmentationTouched = true;
   });
   builder.addCase(closeUnit.fulfilled, (state) => {

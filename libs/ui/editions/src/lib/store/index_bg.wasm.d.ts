@@ -20,6 +20,7 @@ export function editioncelldata_get_state(a: number, b: number, c: number): void
 export function editioncelldata_get_page(a: number, b: number): number;
 export function editioncelldata_get_line(a: number, b: number): number;
 export function editioncelldata_get_token(a: number, b: number, c: number): void;
+export function editioncelldata_is_first_token(a: number, b: number): number;
 export function editioncelldata_get_unit(a: number, b: number): void;
 export function __wbg_editioncelldata_free(a: number): void;
 export function __wbg_editionrowtitle_free(a: number): void;
@@ -48,6 +49,8 @@ export function editionstore_get_unit_image_legend_token_count(a: number, b: num
 export function editionstore_get_unit_image_legend_token(a: number, b: number, c: number, d: number, e: number): void;
 export function editionstore_find_unit_by_order(a: number, b: number, c: number): void;
 export function editionstore_find_unit_by_title(a: number, b: number, c: number, d: number): void;
+export function editionstore_get_page_breaks(a: number, b: number): void;
+export function editionstore_get_located_images(a: number, b: number): void;
 export function editionstore_find_words(a: number, b: number, c: number, d: number): void;
 export function editionstore_get_id(a: number, b: number): void;
 export function __wbindgen_malloc(a: number): number;

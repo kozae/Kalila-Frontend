@@ -1,17 +1,9 @@
 import { CommandBar } from './command-bar';
 import Stack from '@mui/material/Stack';
-import { ILine, IMorphology, ITextElement } from '@frontend/domain';
+import { ILine, ITextElement } from '@frontend/domain';
 import Typography from '@mui/material/Typography';
 import { TextElement } from './text-element';
-import React, {
-  createContext,
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  useRef,
-  useState,
-} from 'react';
-import { MorphologyAnnotation } from './morphology-annotation';
+import React, { createContext, useState } from 'react';
 import { LinePreview } from '../line-preview';
 
 export interface IViewTranscriptionProps {
@@ -27,41 +19,24 @@ export type VisibleAnnotation =
   | 'none'
   | 'vocalized'
   | 'rasm'
-  | 'root'
-  | 'pos'
-  | 'type'
-  | 'stem'
-  | 'wazn';
+  | 'lemma'
+  | 'type';
 
 export const ViewTranscription = ({
   mainBodyElements,
   otherElements,
   linesToElementMap,
 }: IViewTranscriptionProps) => {
-  const ref = useRef<HTMLDivElement>(null);
   const [hoveredLineId, setHoveredLineId] = useState<string | undefined>(
     undefined
   );
-
   const [annotation, setAnnotation] = useState<VisibleAnnotation>('none');
-  const [selectedToken, setSelectedToken] = useState<ISelectedToken>({
-    elementType: 'main',
-  });
-  const [morphologyPopperAnchor, setMorphologyPopperAnchor] =
-    useState<null | HTMLElement>(null);
-  const [morphologyData, setMorphologyData] = useState<IMorphology[]>([]);
+
   return (
     <ViewTranscriptionContext.Provider
       value={{
-        containerRef: ref,
         annotation,
         setAnnotation,
-        morphologyPopperAnchor,
-        setMorphologyPopperAnchor,
-        selectedToken,
-        setSelectedToken,
-        morphologyData,
-        setMorphologyData,
         hoveredLineId,
         setHoveredLineId,
       }}
@@ -76,7 +51,6 @@ export const ViewTranscription = ({
           mt: '10px',
         }}
         alignItems="center"
-        ref={ref}
       >
         <CommandBar />
         <LinePreview id={hoveredLineId} />
@@ -93,7 +67,6 @@ export const ViewTranscription = ({
               key={element.Id}
               element={element}
               lines={linesToElementMap[element.Id]}
-              elementType="main"
             />
           ))}
           {otherElements.length !== 0 ? (
@@ -108,38 +81,17 @@ export const ViewTranscription = ({
               key={element.Id}
               element={element}
               lines={linesToElementMap[element.Id]}
-              elementType="other"
             />
           ))}
         </Stack>
-        <MorphologyAnnotation
-          {...{
-            mainBodyElements,
-            otherElements,
-            linesToElementMap,
-          }}
-        />
       </Stack>
     </ViewTranscriptionContext.Provider>
   );
 };
 
-export interface ISelectedToken {
-  line?: number;
-  token?: number;
-  elementType: 'main' | 'other';
-}
-
 export interface IViewTranscriptionContext {
   annotation: VisibleAnnotation;
   setAnnotation: (a: VisibleAnnotation) => void;
-  selectedToken: ISelectedToken;
-  morphologyPopperAnchor: HTMLElement | null;
-  setSelectedToken?: Dispatch<SetStateAction<ISelectedToken>>;
-  setMorphologyPopperAnchor: (el: any) => void;
-  morphologyData: IMorphology[];
-  setMorphologyData: (d: IMorphology[]) => void;
-  containerRef?: RefObject<HTMLDivElement>;
   hoveredLineId: string | undefined;
   setHoveredLineId: (id: string | undefined) => void;
 }
@@ -147,12 +99,7 @@ export interface IViewTranscriptionContext {
 export const ViewTranscriptionContext =
   createContext<IViewTranscriptionContext>({
     annotation: 'none',
-    selectedToken: { elementType: 'main' },
     setAnnotation: (a: VisibleAnnotation) => {},
-    morphologyPopperAnchor: null,
-    setMorphologyPopperAnchor: (el: any) => {},
-    morphologyData: [],
-    setMorphologyData: (d: IMorphology[]) => {},
     hoveredLineId: undefined,
     setHoveredLineId: (id: string | undefined) => {},
   });

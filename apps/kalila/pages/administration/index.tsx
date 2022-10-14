@@ -4,12 +4,12 @@ import { withAdminLayout } from '@frontend/ui/administration';
 import {
   kalilaTheme,
   UndrawChoiceSVG,
-  useAuthGuard,
+  useLoginValidation,
   useNavbarMessage,
 } from '@frontend/shared-ui';
 
 const Administration: NextPage = () => {
-  useAuthGuard();
+  useLoginValidation();
   useNavbarMessage(['Administration:', 'Select Activity']);
   return (
     <>
