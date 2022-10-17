@@ -24,6 +24,7 @@ pub struct EditionRowTitle {
     pub(crate) frame_tags: Vec<String>,
     pub(crate) title: String,
     pub(crate) has_images: bool,
+    pub(crate) divider: bool,
 }
 
 #[wasm_bindgen]

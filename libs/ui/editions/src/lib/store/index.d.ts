@@ -72,6 +72,10 @@ export class EditionRowTitle {
 */
   get_row_has_images(): boolean;
 /**
+* @returns {boolean}
+*/
+  get_is_divider(): boolean;
+/**
 * @param {number} index
 * @param {string | undefined} title
 * @param {Uint16Array} order

@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { useData, useLayoutData } from '../../contexts';
 import { WIDTH_OPTIONS } from '../../constants';
 import { Cell } from './cell';
+import { Divider } from './divider';
 
 export interface IEditionRowProps {
   unitIdx: number;
@@ -10,7 +11,10 @@ export interface IEditionRowProps {
 
 export const Row = ({ unitIdx }: IEditionRowProps) => {
   const { size } = useLayoutData();
-  const { edition } = useData();
+  const { edition, rows } = useData();
+  if (rows[unitIdx].get_is_divider()) {
+    return <Divider />;
+  }
   const manuscripts = edition.get_no_manuscripts();
   const width = useMemo(() => `${WIDTH_OPTIONS[size]}px`, [size]);
   return (

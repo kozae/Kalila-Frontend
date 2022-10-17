@@ -7,6 +7,7 @@ export function editionstore_delete_row(a: number, b: number): number;
 export function editionstore_insert_row(a: number, b: number): number;
 export function editionrowtitle_get_display(a: number, b: number): void;
 export function editionrowtitle_get_row_has_images(a: number): number;
+export function editionrowtitle_get_is_divider(a: number): number;
 export function editionrowtitle_update_row(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function editionstore_build_cell(a: number, b: number, c: number): number;
 export function editionstore_update_cells(a: number, b: number, c: number): number;

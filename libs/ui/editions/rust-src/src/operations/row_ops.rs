@@ -23,6 +23,7 @@ impl EditionStore {
                 Some(units) => units.len() != 0,
                 None => false,
             },
+            divider: bu.divider,
         }
     }
 
@@ -79,6 +80,10 @@ impl EditionRowTitle {
         self.has_images
     }
 
+    pub fn get_is_divider(&self) -> bool {
+        self.divider
+    }
+
     pub fn update_row(self, index: usize, title: Option<String>, order: &[u16]) -> EditionRowTitle {
         let mut new_title = self.title;
         let mut new_order = self.order;
@@ -98,6 +103,7 @@ impl EditionRowTitle {
             display: format!("{} ({}) {}", index, order_display, new_title),
             has_images: self.has_images,
             frame_tags: self.frame_tags,
+            divider: self.divider,
         }
     }
 }

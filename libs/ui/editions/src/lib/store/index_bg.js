@@ -362,6 +362,13 @@ export class EditionRowTitle {
         return ret !== 0;
     }
     /**
+    * @returns {boolean}
+    */
+    get_is_divider() {
+        const ret = wasm.editionrowtitle_get_is_divider(this.ptr);
+        return ret !== 0;
+    }
+    /**
     * @param {number} index
     * @param {string | undefined} title
     * @param {Uint16Array} order

@@ -34,7 +34,11 @@ export const UnitTitle = ({ unitIdx }: IEditionUnitTitleProps) => {
     <Stack
       sx={{
         width: '100%',
-        bgcolor: isSearchResult ? 'rgb(255,103,0)' : 'info.light',
+        bgcolor: isSearchResult
+          ? 'rgb(255,103,0)'
+          : rows[unitIdx].get_is_divider()
+          ? 'info.dark'
+          : 'info.light',
       }}
       direction="row"
       alignItems="flex-start"
