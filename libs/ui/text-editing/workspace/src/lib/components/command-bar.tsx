@@ -85,10 +85,11 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
             style={{
               position: 'fixed',
               left: 0,
-              top: 60,
+              top: 0,
               width: '100vw',
               height: '50px',
-              backgroundColor: hexToRgba(kalilaTheme.palette.primary.main, 0.5),
+              backgroundColor: hexToRgba(kalilaTheme.palette.primary.main, 0.9),
+              zIndex: 200,
             }}
             initial={{ opacity: 0, scale: 0.1 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -101,13 +102,15 @@ export const CommandBar = ({ hasChanges }: { hasChanges: boolean }) => {
                 height: '100%',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'flex-start',
               }}
             >
               <Stack
                 justifyContent="space-around"
                 direction="row"
-                sx={{ width: '30%', bgcolor: kalilaTheme.palette.primary.main }}
+                sx={{
+                  width: '30%',
+                }}
               >
                 <Button
                   disableElevation

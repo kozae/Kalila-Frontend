@@ -18,5 +18,11 @@ export * from './lib/sleeper';
 export * from './lib/session-model';
 export * from './lib/data-url-to-file';
 export * from './lib/order-units';
+export * from './lib/orders-request';
+export * from './lib/convert-to-numeric-order';
 export * from './lib/region-to-points';
 export * from './lib/letter-map';
+export * from './lib/transform-keycloak-users';
+export * from './lib/transform-to-LERA-Document';
+
+export const BookId = '635f86c07700a2ee94a5811e';

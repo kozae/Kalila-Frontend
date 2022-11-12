@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit';
 import { pagedDocsSlice } from './paged-documents';
 import { sessionSlice } from './session';
 import { pageDataSlice } from './page-transcription/page-data';
@@ -11,6 +11,8 @@ import { attributesSlice } from './schema/attributes';
 import { fieldsSlice } from './schema/fields';
 import { textEditingPageSlice } from './text-editing-page';
 import { bookUnitsSlice } from './page-transcription/book-units/slice';
+
+const listenerMiddleware = createListenerMiddleware();
 
 export const store = configureStore({
   reducer: {
@@ -27,7 +29,8 @@ export const store = configureStore({
     [unitSummariesSlice.name]: unitSummariesSlice.reducer,
     [bookUnitsSlice.name]: bookUnitsSlice.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().prepend(listenerMiddleware.middleware),
   devTools: true,
 });
 

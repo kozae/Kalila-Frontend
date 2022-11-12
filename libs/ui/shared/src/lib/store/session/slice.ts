@@ -1,11 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ISession } from '@frontend/util';
 
+export interface IUser {
+  firstName: string;
+  lastName: string;
+  username: string;
+  roles: string[];
+  email: string;
+  picture?: string;
+}
+
 export interface ISessionState {
   session: ISession | null;
   authenticated: boolean;
   navControlBar: boolean;
   maxWidthEnabled: boolean;
+  users: IUser[];
 }
 
 const initialState: ISessionState = {
@@ -13,6 +23,7 @@ const initialState: ISessionState = {
   authenticated: false,
   navControlBar: true,
   maxWidthEnabled: false,
+  users: [],
 };
 
 export const sessionSlice = createSlice({
@@ -22,11 +33,14 @@ export const sessionSlice = createSlice({
     loadSession: (
       state,
       action: PayloadAction<
-        Omit<ISessionState, 'navControlBar' | 'maxWidthEnabled'>
+        Omit<ISessionState, 'navControlBar' | 'maxWidthEnabled' | 'users'>
       >
     ) => {
       state.session = action.payload.session;
       state.authenticated = action.payload.authenticated;
+    },
+    loadUsers: (state, action: PayloadAction<IUser[]>) => {
+      state.users = action.payload;
     },
     clearSession: (state) => {
       state.session = null;
@@ -56,4 +70,5 @@ export const {
   hideControlBar,
   enableMaxWidth,
   disableMaxWidth,
+  loadUsers,
 } = sessionSlice.actions;

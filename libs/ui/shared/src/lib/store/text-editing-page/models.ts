@@ -26,7 +26,7 @@ export type TextEditingToolMode =
   | 'generate'
   | 'automatic-detection';
 
-export type TextEditingAccessMode = 'view' | 'edit';
+export type TextEditingAccessMode = 'view' | 'edit' | 'admin';
 
 export interface ITextEditingPageState {
   accessMode: TextEditingAccessMode;
@@ -51,6 +51,7 @@ export interface ITextEditingPageState {
   unitSummariesBeforeChanges: IUnitSummary[];
   nearestOpenUnitBeforeChanges: IUnitSummary | null;
   textSegmentationTouched: boolean;
+  deleteLacunae: string[];
   regionUnderEditUrl: string | null;
   deleteLayoutImages: string[];
   deleteLayoutTextElements: string[];

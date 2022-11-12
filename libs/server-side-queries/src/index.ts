@@ -7,3 +7,4 @@ export * from './lib/sigla';
 export * from './lib/edition';
 export * from './lib/editions';
 export * from './lib/upload-handler';
+export * from './lib/post-to-lera';

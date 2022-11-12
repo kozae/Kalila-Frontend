@@ -16,12 +16,12 @@ export const NavbarLinksConfiguration: INavbarLinksConfiguration = {
       Ref: 'editions',
     },
     {
-      Name: 'Manuscript Description',
-      Ref: 'manuscript-description',
-    },
-    {
       Name: 'Text Editing',
       Ref: 'text-editing',
+    },
+    {
+      Name: 'Manuscript Description',
+      Ref: 'manuscript-description',
     },
     {
       Name: 'Book Analysis',

@@ -1,4 +1,5 @@
 {
+  "name": "ui-facsimile-generator",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/facsimile-generator/src",
   "projectType": "library",
@@ -13,7 +14,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/facsimile-generator"],
+      "outputs": ["{workspaceRoot}/coverage/libs/ui/facsimile-generator"],
       "options": {
         "jestConfig": "libs/ui/facsimile-generator/jest.config.ts",
         "passWithNoTests": true

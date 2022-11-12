@@ -5,14 +5,18 @@ import { orderBy } from 'lodash';
 
 const selectBookUnitsState = (state: BookUnitsState) => state.bookUnits;
 
-export const {
-  selectAll: selectAllBookUnits,
+const {
+  selectAll,
   selectById: selectBookUnitById,
   selectIds: selectAllBookUnitIds,
 } = bookUnitsAdapter.getSelectors<BookUnitsState>(selectBookUnitsState);
 
+export const selectAllBookUnits = createSelector(selectAll, (bookUnits) =>
+  orderBy(bookUnits, ['NumericalOrder'])
+);
+
 export const selectBookUnitsWithFilter = createSelector(
-  [selectAllBookUnits, (state, filter: string) => filter],
+  [selectAll, (state, filter: string) => filter],
   (bookUnits, filter) => {
     let result = bookUnits;
     if (stringHasValue(filter)) {

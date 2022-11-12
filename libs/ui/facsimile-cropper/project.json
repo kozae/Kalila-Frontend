@@ -1,4 +1,5 @@
 {
+  "name": "ui-facsimile-cropper",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/facsimile-cropper/src",
   "projectType": "library",
@@ -13,7 +14,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/facsimile-cropper"],
+      "outputs": ["{workspaceRoot}/coverage/libs/ui/facsimile-cropper"],
       "options": {
         "jestConfig": "libs/ui/facsimile-cropper/jest.config.ts",
         "passWithNoTests": true

@@ -1,4 +1,5 @@
 {
+  "name": "kalila-store",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/kalila/store/src",
   "projectType": "library",
@@ -13,7 +14,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/kalila/store"],
+      "outputs": ["{workspaceRoot}/coverage/libs/kalila/store"],
       "options": {
         "jestConfig": "libs/kalila/store/jest.config.ts",
         "passWithNoTests": true

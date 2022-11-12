@@ -1,31 +1,26 @@
 import * as React from 'react';
-import { FC, useCallback, useEffect, useMemo } from 'react';
+import { FC, ReactNode, useCallback, useEffect, useMemo } from 'react';
 import { kalilaTheme } from '../../../constants';
-import { IManuscriptPagesPaginatorProps } from './command-bars';
-
-export type CommandBars = {
-  name: 'manuscript-pages-paginator';
-  data: IManuscriptPagesPaginatorProps;
-};
 
 export interface INavMessageBarControl {
   messages: [string | undefined, string | undefined];
   color: string;
-  commandBar?: CommandBars;
+  pageControls: ReactNode | null;
+  setPageControls: (n: ReactNode | null) => void;
   changeMessage: (
     newMessages: [string | undefined, string | undefined],
-    color?: string,
-    newCommandBar?: CommandBars
+    color?: string
   ) => void;
 }
 
 const defaultValue: INavMessageBarControl = {
   messages: [undefined, undefined],
   color: '',
+  pageControls: null,
+  setPageControls: (n: ReactNode | null) => null,
   changeMessage: (
     newMessages: [string | undefined, string | undefined],
-    color?: string,
-    newCommandBar?: CommandBars
+    color?: string
   ) => {},
 };
 
@@ -46,19 +41,21 @@ export function useNavMessageBarControls(): INavMessageBarControl {
   const [context, setContext] = React.useState<{
     messages: [string | undefined, string | undefined];
     color: string;
-    commandBar?: CommandBars;
   }>({
     messages: [undefined, undefined],
-    color: kalilaTheme.palette.primary.main,
+    color: kalilaTheme.palette.secondary.main,
   });
+
+  const [pageControls, setPageControls] = React.useState<ReactNode | null>(
+    null
+  );
 
   const changeMessage = useCallback(
     (
       newMessages: [string | undefined, string | undefined],
-      newColor?: string,
-      newCommandBar?: CommandBars
+      newColor?: string
     ) => {
-      const color = newColor ?? kalilaTheme.palette.primary.main;
+      const color = newColor ?? kalilaTheme.palette.secondary.main;
       if (newMessages[0] === context.messages[0]) {
         setContext({
           messages: [context.messages[0], undefined],
@@ -76,7 +73,6 @@ export function useNavMessageBarControls(): INavMessageBarControl {
           setContext({
             messages: newMessages,
             color,
-            commandBar: newCommandBar,
           }),
         1000
       );
@@ -84,14 +80,39 @@ export function useNavMessageBarControls(): INavMessageBarControl {
     [context]
   );
 
-  return useMemo(() => ({ ...context, changeMessage }), [context]);
+  return useMemo(
+    () => ({ ...context, changeMessage, pageControls, setPageControls }),
+    [context, pageControls]
+  );
 }
 
 export function useNavbarMessage(
   newMessages: [string | undefined, string | undefined],
-  newColor?: string,
-  newCommandBar?: CommandBars
+  newColor?: string
 ) {
   const { changeMessage } = React.useContext(NavMessageBarContext);
-  useEffect(() => changeMessage(newMessages, newColor, newCommandBar), []);
+  useEffect(() => changeMessage(newMessages, newColor), [newMessages[0]]);
+}
+
+export function usePageControls(
+  component: ReactNode | null,
+  hideWhen: boolean = false,
+  deps: any[] = []
+) {
+  const { setPageControls } = React.useContext(NavMessageBarContext);
+
+  useEffect(() => {
+    if (hideWhen) {
+      setPageControls(null);
+    } else {
+      setPageControls(component);
+    }
+  }, [hideWhen]);
+
+  useEffect(() => {
+    setPageControls(component);
+    return () => {
+      setPageControls(null);
+    };
+  }, deps);
 }

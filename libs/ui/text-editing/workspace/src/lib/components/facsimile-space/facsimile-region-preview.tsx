@@ -27,11 +27,11 @@ export const FacsimileRegionPreview = () => {
             key={regionHoveredInFacsimileSpace.Id}
             style={{
               position: 'fixed',
-              top: 110,
+              top: 50,
               right: isXLScreen ? 'calc((100vw - 1600px)/2)' : 5,
               zIndex: 90,
               width: isXLScreen ? '800px' : '50%',
-              height: 'calc(100vh - 110px)',
+              height: 'calc(100vh - 50px)',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'flex-start',

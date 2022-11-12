@@ -25,22 +25,23 @@ import {
   useMarkerContainers,
   useRowStateAndMethods,
 } from './map.hooks';
+import { useSmallScreenMediaQuery } from '@frontend/shared-ui';
 
 export const Map: FC<{ mapState: MapPosition }> = ({ mapState }) => {
   const { searchResults } = useSearchData();
   const { positionMarker, searchResultsMarkers, headerSigla } =
     useMarkerContainers();
-  const { showNavbar, canvas } = useLayoutData();
-  const { width, height } = useDimensions(mapState, showNavbar);
+  const { canvas } = useLayoutData();
+  const { width, height } = useDimensions(mapState);
   const { setCanvas } = useLayoutDataMethods();
-  const { edition, rowVirtualizer } = useData();
+  const { edition, rowVirtualizer, updateTime } = useData();
   const { currentRow, onRowClicked, onRowHovered } =
     useRowStateAndMethods(rowVirtualizer);
   const mapData = useMapData(edition);
-
+  const isSmallScreen = useSmallScreenMediaQuery();
   const onReady = (c: fabric.Canvas) => {
     console.log('canvas ready');
-    render(c, positionMarker, headerSigla, {
+    render(c, positionMarker, headerSigla, isSmallScreen, {
       ...mapData,
       currentRow,
       onRowClicked,
@@ -65,7 +66,7 @@ export const Map: FC<{ mapState: MapPosition }> = ({ mapState }) => {
     if (canvas) {
       canvas.setWidth(width);
       canvas.setHeight(height);
-      render(canvas, positionMarker, headerSigla, {
+      render(canvas, positionMarker, headerSigla, isSmallScreen, {
         ...mapData,
         currentRow,
         onRowClicked,
@@ -85,7 +86,7 @@ export const Map: FC<{ mapState: MapPosition }> = ({ mapState }) => {
         );
       }
     }
-  }, [height, width, showNavbar, mapState]);
+  }, [height, width, mapState, updateTime]);
 
   useEffect(() => {
     if (canvas) {
@@ -106,7 +107,7 @@ export const Map: FC<{ mapState: MapPosition }> = ({ mapState }) => {
       positionMarker.set('height', options.height);
       canvas.renderAll();
     }
-  }, [currentRow, mapState, mapData.NoUnits]);
+  }, [currentRow, mapState, mapData.NoUnits, updateTime]);
 
   useEffect(() => {
     if (canvas) {

@@ -8,6 +8,8 @@ pub struct BookUnit {
     pub(crate) id: String,
     #[serde(rename = "Order")]
     pub(crate) order: Vec<u16>,
+    #[serde(rename = "NumericOrder")]
+    pub(crate) numeric_order: f64,
     #[serde(rename = "Divider")]
     pub(crate) divider: bool,
     #[serde(rename = "FrameTags")]

@@ -1,14 +1,11 @@
 import {
   disableMaxWidth as disableMaxWidthAction,
   enableMaxWidth as enableMaxWidthAction,
-  hideControlBar,
   IPageUnitsUpdate,
+  NavMessageBarContext,
   selectAccessToken,
-  selectNavControlBarIsShown,
   selectUser,
-  showControlBar,
   transformGroupName,
-  useAccessTokenValidation,
   useAppDispatch,
   useAppSelector,
   useNavbarMessage,
@@ -17,8 +14,8 @@ import {
   useSignalrUpdate,
   withTransition,
 } from '@frontend/shared-ui';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import { edition, editions } from '@frontend/server-side-queries';
+import { GetServerSideProps } from 'next';
+import { edition } from '@frontend/server-side-queries';
 
 import Head from 'next/head';
 import React, { useCallback, useEffect, useMemo } from 'react';
@@ -26,24 +23,18 @@ import {
   KalilaEditionContainer,
   fetchEditionUpdateByUnitList,
   fetchEditionUpdateByPage,
+  fetchEditionBookUnits,
 } from '@frontend/kalila/components';
 import { HubConnection } from '@microsoft/signalr';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export function Edition({ data }) {
   useNavbarMessage([data ? data.Name : '', undefined]);
+  const { setPageControls } = React.useContext(NavMessageBarContext);
   const accessToken = useAppSelector(selectAccessToken);
-  useAccessTokenValidation(accessToken);
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const username = useMemo(() => user?.name, [user]);
-  const showNavbar = useAppSelector(selectNavControlBarIsShown);
-  const setShowNavbar = (v: boolean) => {
-    if (v) {
-      dispatch(showControlBar());
-    } else {
-      dispatch(hideControlBar());
-    }
-  };
   const disableMaxWidth = () => {
     dispatch(disableMaxWidthAction());
   };
@@ -86,26 +77,44 @@ export function Edition({ data }) {
       ),
     [accessToken]
   );
+
+  const fetchBookUnits = useCallback(
+    (params: { Id: string }) => fetchEditionBookUnits(params, accessToken),
+    [accessToken]
+  );
+
   return data ? (
     <>
       <Head>
         <title>{data.Name}</title>
       </Head>
-      <KalilaEditionContainer
-        {...{
-          data,
-          username,
-          showNavbar,
-          setShowNavbar,
-          disableMaxWidth,
-          enableMaxWidth,
-          realTime: {
-            update,
-            fetchEditionUpdateByUnitList: fetchByUnit,
-            fetchEditionUpdateByPage: fetchByPage,
-          },
-        }}
-      />
+      <AnimatePresence exitBeforeEnter>
+        <motion.div
+          style={{ width: '100vw' }}
+          key={data.Name}
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 100 }}
+          transition={{ duration: 0.5, ease: 'easeIn' }}
+        >
+          <KalilaEditionContainer
+            key={data.Name}
+            {...{
+              data,
+              username,
+              disableMaxWidth,
+              enableMaxWidth,
+              setPageControls,
+              realTime: {
+                update,
+                fetchEditionUpdateByUnitList: fetchByUnit,
+                fetchEditionUpdateByPage: fetchByPage,
+                fetchBookUnits,
+              },
+            }}
+          />
+        </motion.div>
+      </AnimatePresence>
     </>
   ) : (
     <h1>Loading ...</h1>
@@ -114,15 +123,7 @@ export function Edition({ data }) {
 
 export default withTransition(Edition, {});
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const editionIds = await editions();
-  return {
-    paths: editionIds.map(({ Id }) => ({ params: { edition: Id } })),
-    fallback: true,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const data = await edition(context.params['edition'] as string);
     console.log('building edition');

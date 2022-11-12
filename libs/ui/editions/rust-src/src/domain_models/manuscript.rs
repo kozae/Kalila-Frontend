@@ -9,6 +9,8 @@ pub struct Manuscript {
     pub(crate) siglum: String,
     #[serde(rename = "Units")]
     pub(crate) units: Vec<Option<Unit>>,
+    #[serde(rename = "Lacunae")]
+    pub(crate) lacunae: Vec<usize>,
     #[serde(rename = "Facsimiles")]
     pub(crate) facsimiles: Vec<Facsimile>,
 }
@@ -22,6 +24,8 @@ pub struct Unit {
     pub(crate) bu_id: String,
     #[serde(rename = "Order")]
     pub(crate) order: u16,
+    #[serde(rename = "Occ")]
+    pub(crate) occ: u16,
     #[serde(rename = "Type")]
     pub(crate) type_field: String,
     #[serde(rename = "Tokens")]
@@ -46,6 +50,7 @@ impl Unit {
             id: self.id.clone(),
             bu_id: self.id.clone(),
             order: update.order,
+            occ: update.occ,
             type_field: update.type_field.clone(),
             tokens: if update.tokens.is_empty() {
                 self.tokens.clone()

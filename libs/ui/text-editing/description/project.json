@@ -1,4 +1,5 @@
 {
+  "name": "ui-text-editing-description",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/text-editing/description/src",
   "projectType": "library",
@@ -15,7 +16,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/text-editing/description"],
+      "outputs": ["{workspaceRoot}/coverage/libs/ui/text-editing/description"],
       "options": {
         "jestConfig": "libs/ui/text-editing/description/jest.config.ts",
         "passWithNoTests": true

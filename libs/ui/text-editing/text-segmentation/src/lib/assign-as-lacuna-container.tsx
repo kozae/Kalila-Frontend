@@ -4,26 +4,38 @@ import Typography from '@mui/material/Typography';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { useDrop } from 'react-dnd';
 import {
+  insertUnit,
   kalilaTheme,
-  removeUnit,
-  removeUnitEndTag,
+  updateBookUnit,
   useAppDispatch,
 } from '@frontend/shared-ui';
+import { v4 } from 'uuid';
 
 export const AssignAsLacunaContainer = () => {
   const dispatch = useAppDispatch();
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
-    accept: [Draggables.insertableUnit, Draggables.movableUnit],
+    accept: [Draggables.insertableUnit],
     canDrop: (item, monitor) => {
       return item.type !== Draggables.insertableEndTag;
     },
     drop: (item: IItemData) => {
       switch (item.type) {
         case Draggables.insertableUnit:
-          console.log('assign as lacuna');
+          dispatch(
+            insertUnit({
+              Id: v4(),
+              BookUnitId: item.data.Id,
+              BookUnit: item.data.Title,
+              Order: item.data.Order,
+              FrameTags: item.data.FrameTags,
+              Type: 'n',
+              Lacuna: true,
+              Start: [-1, -1, -1],
+              End: [-1, -1, -1],
+            })
+          );
           break;
-        case Draggables.movableUnit:
-          console.log('convert to lacuna');
+        default:
           break;
       }
     },
@@ -43,7 +55,7 @@ export const AssignAsLacunaContainer = () => {
         bgcolor: 'secondary.light',
         height: '80px',
         width: '20vw',
-        top: '110px',
+        top: '50px',
         right: '15vw',
         borderRadius: '10px',
         zIndex: 10,

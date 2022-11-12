@@ -1,4 +1,5 @@
 {
+  "name": "ui-documents-detailed-view",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/documents-detailed-view/src",
   "projectType": "library",
@@ -15,7 +16,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/documents-detailed-view"],
+      "outputs": ["{workspaceRoot}/coverage/libs/ui/documents-detailed-view"],
       "options": {
         "jestConfig": "libs/ui/documents-detailed-view/jest.config.ts",
         "passWithNoTests": true

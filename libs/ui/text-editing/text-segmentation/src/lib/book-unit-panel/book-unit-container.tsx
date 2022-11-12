@@ -4,14 +4,16 @@ import Box from '@mui/material/Box';
 import { Alert } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { BookUnitTag } from './book-unit-tag';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { BookUnitPanelContext } from './book-unit-panel.context';
+import { InsertableEndTag } from '../draggables';
 
 export const BookUnitContainer = () => {
   const { filter } = useContext(BookUnitPanelContext);
   const units = useAppSelector((state) =>
     selectBookUnitsWithFilter(state, filter)
   );
+
   return units.length === 0 ? (
     <Box>
       <Alert sx={{ p: '1rem', mt: '2rem' }} severity="info">
@@ -20,6 +22,7 @@ export const BookUnitContainer = () => {
     </Box>
   ) : (
     <Stack width="100%" direction="row" flexWrap="wrap" justifyContent="center">
+      <InsertableEndTag />
       {units.map((d) => (
         <BookUnitTag key={d.Id} d={d} />
       ))}

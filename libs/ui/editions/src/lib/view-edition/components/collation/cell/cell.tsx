@@ -27,18 +27,19 @@ export const Cell = ({
   unitIndex,
   msIndex,
 }: IEditionCellProps) => {
-  const { cells } = useData();
+  const { cells, edition } = useData();
   const data = cells[unitIndex][msIndex];
   const count = data.get_token_count();
   const manuscript_unit_order = data.get_unit_order();
   const imageLocation = data.get_located_image_location();
   const { size } = useLayoutData();
+  const isLacuna = edition.is_unit_lacuna(msIndex, unitIndex);
 
   if (count === 0) {
     return (
       <Stack sx={style} alignItems="center" justifyContent="center">
-        <Typography align="right" fontSize="1rem" variant="body2">
-          [ absent ]
+        <Typography fontSize={FONT_SIZES[size]} align="right" variant="body2">
+          {isLacuna ? ' [ possible lacuna ]' : ' [ absent ]'}
         </Typography>
       </Stack>
     );

@@ -1,4 +1,5 @@
 {
+  "name": "ui-table",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/table/src",
   "projectType": "library",
@@ -13,7 +14,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/table"],
+      "outputs": ["{workspaceRoot}/coverage/libs/ui/table"],
       "options": {
         "jestConfig": "libs/ui/table/jest.config.ts",
         "passWithNoTests": true

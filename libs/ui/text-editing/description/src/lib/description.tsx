@@ -57,7 +57,7 @@ export const DescriptionTool = () => {
                 disabled
                 disableElevation
               >
-                Export... (todo)
+                Export... (Soon!)
               </Button>
             </Stack>
             <ViewDescription />

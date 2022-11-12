@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import FilterAltTwoToneIcon from '@mui/icons-material/FilterAltTwoTone';
-import { CHAPTERS, IChapter } from '@frontend/domain';
+import { CHAPTERS } from '@frontend/domain';
 import Button from '@mui/material/Button';
 import { BookUnitPanelContext } from './book-unit-panel.context';
 
@@ -37,6 +37,26 @@ export const SelectChapter = () => {
           justifyContent="space-evenly"
           width="100%"
         >
+          <Button
+            color="secondary"
+            sx={{ m: '5px', width: '45%' }}
+            variant="outlined"
+            key="untagged"
+            onClick={() =>
+              setChapter({ abbr: 'untagged', name: 'Units without tags' })
+            }
+          >
+            Units without tags
+          </Button>
+          <Button
+            color="secondary"
+            sx={{ m: '5px', width: '45%' }}
+            variant="outlined"
+            key="all"
+            onClick={() => setChapter({ abbr: 'all', name: 'All Units' })}
+          >
+            All Units
+          </Button>
           {CHAPTERS.filter(
             (ch) =>
               ch.abbr.toLowerCase().includes(filter.toLowerCase()) ||

@@ -5,8 +5,7 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import { IBookUnit } from '@frontend/domain';
-import { updateBookUnit } from './thunks';
-import { orderBy } from 'lodash';
+import { insertUnit, removeUnit } from '../units-summary';
 
 export const bookUnitsAdapter = createEntityAdapter<
   IBookUnit & { ManuscriptInfo: string | null }
@@ -24,10 +23,35 @@ export const bookUnitsSlice = createSlice({
     updateBookUnit: bookUnitsAdapter.updateOne,
     removeBookUnit: bookUnitsAdapter.removeOne,
     clearBookUnits: bookUnitsAdapter.removeAll,
+    removeLacuna: (
+      state,
+      action: PayloadAction<{ id: string; lacuna: string }>
+    ) => {
+      bookUnitsAdapter.updateOne(state, {
+        id: action.payload.id,
+        changes: { ManuscriptInfo: null },
+      });
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(updateBookUnit.fulfilled, (state, action) => {
-      bookUnitsAdapter.updateOne(state, action.payload);
+    builder.addCase(insertUnit, (state, action) => {
+      if (action.payload.Lacuna) {
+        bookUnitsAdapter.updateOne(state, {
+          id: action.payload.BookUnitId,
+          changes: { ManuscriptInfo: `lacuna_${action.payload.Id}` },
+        });
+      } else {
+        bookUnitsAdapter.updateOne(state, {
+          id: action.payload.BookUnitId,
+          changes: { ManuscriptInfo: `${action.payload.Start[0]}` },
+        });
+      }
+    });
+    builder.addCase(removeUnit, (state, action) => {
+      bookUnitsAdapter.updateOne(state, {
+        id: action.payload.bookUnitId,
+        changes: { ManuscriptInfo: null },
+      });
     });
   },
 });
@@ -38,5 +62,10 @@ export type BookUnitsState = {
   >;
 };
 
-export const { loadBookUnits, removeBookUnit, clearBookUnits } =
-  bookUnitsSlice.actions;
+export const {
+  loadBookUnits,
+  removeBookUnit,
+  clearBookUnits,
+  updateBookUnit,
+  removeLacuna,
+} = bookUnitsSlice.actions;

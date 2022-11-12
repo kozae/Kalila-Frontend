@@ -6,7 +6,7 @@ import { ManuscriptBar } from './manuscript-bar';
 import { useRowGetter } from './row-getter';
 
 export const Collation = () => {
-  const { size, font, showNavbar } = useLayoutData();
+  const { size, font } = useLayoutData();
   const { mapState } = useBehaviorOptions();
   const { updateTime, edition, rowVirtualizer, collationParentRef } = useData();
 
@@ -20,10 +20,7 @@ export const Collation = () => {
   }, [size, numberOfManuscripts]);
   const getRow = useRowGetter();
   return (
-    <div
-      ref={collationParentRef}
-      style={getEditionContainerStyle(mapState, showNavbar)}
-    >
+    <div ref={collationParentRef} style={getEditionContainerStyle(mapState)}>
       <ManuscriptBar />
       <div
         key={`${size}.${font}.${updateTime}`}

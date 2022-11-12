@@ -41,6 +41,7 @@ export function addSaveReducers(
   });
   builder.addCase(saveSegmentation.fulfilled, (state, action) => {
     state.textSegmentationTouched = false;
+    state.deleteLacunae = [];
     state.unitSummariesBeforeChanges = action.payload.units;
     state.nearestOpenUnitBeforeChanges =
       action.payload.openedUnitFromPreviousPage ?? null;

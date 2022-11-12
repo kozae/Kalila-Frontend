@@ -8,6 +8,7 @@ export interface IUnitUpdate {
   BookUnitId: string;
   ManuscriptId: string;
   Type: string;
+  Lacuna: boolean;
   Tags: string[];
   Start: [number, number, number];
   End: [number, number, number];
@@ -26,12 +27,17 @@ export async function postPageUnits(
     updatedUnits: IUnitSummary[];
     deletedUnits: string[];
   },
-  state: RootState
+  state: RootState,
+  lacunae?: IUnitSummary[]
 ) {
   const { accessToken, manuscriptId } = getUnitParams(state);
   await postPageUnitsHTTP(
     {
-      Create: changes.newUnits.map((u) => prepareUpdate(u, manuscriptId)),
+      Create: lacunae
+        ? [...changes.newUnits, ...lacunae].map((u) =>
+            prepareUpdate(u, manuscriptId)
+          )
+        : changes.newUnits.map((u) => prepareUpdate(u, manuscriptId)),
       Update: changes.updatedUnits.map((u) => prepareUpdate(u, manuscriptId)),
       Delete: changes.deletedUnits,
       ManuscriptId: manuscriptId,
@@ -61,6 +67,7 @@ function prepareUpdate(u: IUnitSummary, manuscriptId: string): IUnitUpdate {
     BookUnitId: u.BookUnitId,
     ManuscriptId: manuscriptId,
     Type: u.Type,
+    Lacuna: u.Lacuna ?? false,
     Tags: [],
     Start: u.Start,
     End: u.End,

@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useSession, signIn } from 'next-auth/react';
 import axios from 'axios';
 import useSWR from 'swr';
+import { useRouter } from 'next/router';
+import { clearSession, useAppDispatch } from '../store';
 
 export function useLoginValidation() {
   const { data, status } = useSession();
@@ -14,7 +16,7 @@ export function useLoginValidation() {
   }, [data, status]);
 }
 
-export function useAccessTokenValidation(accessToken: string) {
+export function useAccessTokenValidation(accessToken: string | undefined) {
   const { error } = useSWR(
     accessToken && 'LoginValidation',
     () =>
@@ -32,10 +34,13 @@ export function useAccessTokenValidation(accessToken: string) {
       refreshInterval: 600000, // 10 minutes
     }
   );
+  const { pathname } = useRouter();
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    console.log({ error });
-    if (error?.response?.status === 401) {
+    if (error?.response?.status === 401 && pathname !== '/') {
       signIn('keycloak', { redirect: true });
+    } else {
+      dispatch(clearSession);
     }
-  }, [error]);
+  }, [error, pathname]);
 }

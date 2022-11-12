@@ -39,7 +39,8 @@ async function refreshAccessToken(token: any) {
 }
 
 export default NextAuth({
-  secret: 'c659B87$-2a9d-41e7-@1F4-b8c*98359DaG',
+  secret:
+    '1boLZnxSEGxSHQCjB50PiZFyJrKdj2bWIae1qNPXiEaSqG3+xQqch9sb+ITwTRJNOa+LpsxVoZBljBl71kkTE80aiGQMNQV+J5kLxaQIDsJMmAYRRPhupcbb6wNrW+nk1dGDkr0Tn5nl+HitvTnaPkK+/sXj8K0YpVDD6QvNE1BrNJsHx14re9u5EkJTHOd5cAvSdEY3Ili1uU2UbVBtsYc3UWcbrT9qZhoGdw==',
   callbacks: {
     jwt: async ({ token, user, account }) => {
       if (account && user) {
@@ -51,8 +52,8 @@ export default NextAuth({
         };
       }
 
-      // Return previous token if the access token has not expired yet
       if (Date.now() < token.accessExpires) {
+        console.log('reusing token...');
         return { ...token };
       }
 

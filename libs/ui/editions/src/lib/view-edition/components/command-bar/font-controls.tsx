@@ -4,8 +4,10 @@ import Typography from '@mui/material/Typography';
 import { FONT_FAMILIES } from '../../constants';
 import { useLayoutData, useLayoutDataMethods } from '../../contexts';
 import { EditionFontFamily, EditionFontSize } from '@frontend/ui/editions';
+import { useEffect } from 'react';
+import { SxProps } from '@mui/system';
 
-export const FontControls = () => {
+export const FontControls = ({ sx }: { sx?: SxProps }) => {
   const { size, font } = useLayoutData();
   const { setSize, setFont } = useLayoutDataMethods();
 
@@ -17,6 +19,8 @@ export const FontControls = () => {
     setFont(newFont ?? 'n');
   };
 
+  useEffect(() => console.log({ size }), [size]);
+
   return (
     <>
       <ToggleButtonGroup
@@ -25,46 +29,22 @@ export const FontControls = () => {
         exclusive
         onChange={handleSizeChange}
         aria-label="text alignment"
+        sx={sx}
       >
         <ToggleButton value="xs" aria-label="x-small">
-          <Typography
-            color={size === 'xs' ? 'white' : '#CCCCCC'}
-            fontSize=".8rem"
-          >
-            XS
-          </Typography>
+          <Typography fontSize=".8rem">XS</Typography>
         </ToggleButton>
         <ToggleButton value="s" aria-label="small">
-          <Typography
-            color={size === 's' ? 'white' : '#CCCCCC'}
-            fontSize=".8rem"
-          >
-            S
-          </Typography>
+          <Typography fontSize=".8rem">S</Typography>
         </ToggleButton>
         <ToggleButton value="m" aria-label="medium">
-          <Typography
-            color={size === 'm' ? 'white' : '#CCCCCC'}
-            fontSize=".8rem"
-          >
-            M
-          </Typography>
+          <Typography fontSize=".8rem">M</Typography>
         </ToggleButton>
         <ToggleButton value="l" aria-label="large">
-          <Typography
-            color={size === 'l' ? 'white' : '#CCCCCC'}
-            fontSize=".8rem"
-          >
-            L
-          </Typography>
+          <Typography fontSize=".8rem">L</Typography>
         </ToggleButton>
         <ToggleButton value="xl" aria-label="x-large">
-          <Typography
-            color={size === 'xl' ? 'white' : '#CCCCCC'}
-            fontSize=".8rem"
-          >
-            XL
-          </Typography>
+          <Typography fontSize=".8rem">XL</Typography>
         </ToggleButton>
       </ToggleButtonGroup>
       <ToggleButtonGroup
@@ -73,22 +53,15 @@ export const FontControls = () => {
         exclusive
         onChange={handleFontChange}
         aria-label="font face"
+        sx={sx}
       >
         <ToggleButton value="n" aria-label="small">
-          <Typography
-            color={font === 'n' ? 'white' : '#CCCCCC'}
-            fontSize=".8rem"
-            fontFamily={FONT_FAMILIES['n']}
-          >
+          <Typography fontSize=".8rem" fontFamily={FONT_FAMILIES['n']}>
             نوتو-نسخ
           </Typography>
         </ToggleButton>
         <ToggleButton value="a" aria-label="large">
-          <Typography
-            color={font === 'a' ? 'white' : '#CCCCCC'}
-            fontSize=".8rem"
-            fontFamily={FONT_FAMILIES['a']}
-          >
+          <Typography fontSize=".8rem" fontFamily={FONT_FAMILIES['a']}>
             أميري
           </Typography>
         </ToggleButton>

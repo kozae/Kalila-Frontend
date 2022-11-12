@@ -13,6 +13,7 @@ export interface INavbarState {
 export interface INavbarDispatchers {
   openPanel: () => void;
   dismissPanel: () => void;
+  togglePanel: () => void;
 }
 
 export const navbarInitialStore: IWrapper<INavbarState, INavbarDispatchers> = {
@@ -25,6 +26,7 @@ export const navbarInitialStore: IWrapper<INavbarState, INavbarDispatchers> = {
   methods: {
     openPanel: () => {},
     dismissPanel: () => {},
+    togglePanel: () => {},
   },
 };
 

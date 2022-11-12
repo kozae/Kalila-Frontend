@@ -14,12 +14,12 @@ export const PreviewControls = () => {
       onClick={() => toggleFacsimilePreview()}
       startIcon={
         <PreviewIcon
-          sx={{ color: enableFacsimilePreview ? 'white' : '#CCCCCC' }}
+          sx={{ color: enableFacsimilePreview ? 'secondary.main' : '#666666' }}
         />
       }
     >
       <Typography
-        color={enableFacsimilePreview ? 'white' : '#CCCCCC'}
+        color={enableFacsimilePreview ? 'secondary.main' : '#666666'}
         fontSize=".8rem"
       >
         Facsimile

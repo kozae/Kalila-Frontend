@@ -45,21 +45,21 @@ function KalilaApp(appProps: KalilaAppProps) {
           <link rel="shortcut icon" href={'/favicon.ico'} />
           <title>Kalila</title>
         </Head>
-        {/*<ErrorBoundary>*/}
-        <SessionProvider session={session}>
-          <ThemeProvider theme={kalilaTheme}>
-            <ReduxProvider store={store}>
-              <NavMessageBarContextProvider>
-                <Layout>
-                  <AnimatePresence exitBeforeEnter>
-                    <Component {...pageProps} key={router.route} />
-                  </AnimatePresence>
-                </Layout>
-              </NavMessageBarContextProvider>
-            </ReduxProvider>
-          </ThemeProvider>
-        </SessionProvider>
-        {/*</ErrorBoundary>*/}
+        <ErrorBoundary>
+          <SessionProvider session={session}>
+            <ThemeProvider theme={kalilaTheme}>
+              <ReduxProvider store={store}>
+                <NavMessageBarContextProvider>
+                  <Layout>
+                    <AnimatePresence exitBeforeEnter>
+                      <Component {...pageProps} key={router.route} />
+                    </AnimatePresence>
+                  </Layout>
+                </NavMessageBarContextProvider>
+              </ReduxProvider>
+            </ThemeProvider>
+          </SessionProvider>
+        </ErrorBoundary>
       </SignalrProvider>
     </CacheProvider>
   );

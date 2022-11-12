@@ -32,9 +32,9 @@ export const LinePreview = ({ id }: { id?: string }) => {
             key={id}
             style={{
               position: 'fixed',
-              top: 60,
+              top: 5,
               right: isXLScreen ? 'calc((100vw - 1600px)/2)' : 5,
-              zIndex: 90,
+              zIndex: 201,
               width: isXLScreen ? '800px' : '50%',
               height: '120px',
               display: 'flex',

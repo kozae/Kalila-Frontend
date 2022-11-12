@@ -19,6 +19,7 @@ pub struct EditionCellData {
 #[wasm_bindgen]
 #[derive(Clone)]
 pub struct EditionRowTitle {
+    pub(crate) id: String,
     pub(crate) display: String,
     pub(crate) order: Vec<u16>,
     pub(crate) frame_tags: Vec<String>,

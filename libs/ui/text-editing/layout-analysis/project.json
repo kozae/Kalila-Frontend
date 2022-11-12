@@ -1,4 +1,5 @@
 {
+  "name": "ui-text-editing-layout-analysis",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/text-editing/layout-analysis/src",
   "projectType": "library",
@@ -15,7 +16,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/text-editing/layout-analysis"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/ui/text-editing/layout-analysis"
+      ],
       "options": {
         "jestConfig": "libs/ui/text-editing/layout-analysis/jest.config.ts",
         "passWithNoTests": true

@@ -36,7 +36,7 @@ export const PagePreview: FC<IPagePreviewProps> = ({
       {!isValidating && (
         <>
           <Box borderRadius="5px 5px 0 0" bgcolor="secondary.dark">
-            <Typography variant="h2" color="white" p="10px">
+            <Typography fontSize="1rem" color="white" p="10px">
               {msSiglum} p. {pageNumber}
             </Typography>
           </Box>

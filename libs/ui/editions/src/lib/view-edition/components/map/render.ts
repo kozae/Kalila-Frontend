@@ -9,6 +9,7 @@ import { addManuscripts } from './render-manuscripts';
 import { addUnitNumbers } from './render-unit-numbers';
 import { addUnits } from './render-unit-marks';
 import { MapPosition } from '@frontend/ui/editions';
+import { renderDividers } from './render-dividers';
 
 export const siglumLineOffset = 30;
 export const unitNumberLineOffset = 20;
@@ -22,6 +23,7 @@ export const commonObjectOptions: IObjectOptions = {
 export interface IMapData {
   position: MapPosition;
   sigla: string[];
+  dividers: number[];
   NoUnits: number;
   unitMatrix: number[][];
   imageMatrix: number[][];
@@ -37,9 +39,11 @@ export function render(
   canvas: fabric.Canvas,
   positionMarker: fabric.Rect,
   headerSigla: fabric.Text[],
+  isSmallScreen: boolean,
   {
     sigla,
     NoUnits,
+    dividers,
     unitMatrix,
     position,
     currentRow,
@@ -60,7 +64,7 @@ export function render(
     canvas.setHeight(NoUnits * unitLineThickness + siglumLineOffset);
   }
 
-  addUnitNumbers(canvas, position, unitLineThickness, NoUnits);
+  addUnitNumbers(canvas, position, unitLineThickness, NoUnits, isSmallScreen);
   addUnits(
     canvas,
     position,
@@ -70,12 +74,28 @@ export function render(
     imageMatrix,
     sigla,
     onRowClicked,
+    onRowHovered,
+    isSmallScreen
+  );
+  renderDividers(
+    canvas,
+    position,
+    unitLineThickness,
+    dividers,
+    onRowClicked,
     onRowHovered
   );
   positionMarker.set(
     getPositionMarkerOptions(canvas, position, currentRow, unitLineThickness)
   );
-  addManuscripts(canvas, headerSigla, position, manuscriptThickness, sigla);
+  addManuscripts(
+    canvas,
+    headerSigla,
+    position,
+    manuscriptThickness,
+    sigla,
+    isSmallScreen
+  );
   canvas.add(positionMarker);
   canvas.setBackgroundColor(
     'rgba(255, 255, 255, 1)',

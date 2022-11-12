@@ -3,9 +3,7 @@ import {
   FC,
   ReactNode,
   useContext,
-  useEffect,
   useMemo,
-  useRef,
   useState,
 } from 'react';
 import {
@@ -17,8 +15,6 @@ import {
   ILayoutOptionsMethods,
 } from '../models';
 import { fabric } from 'fabric';
-import { useVirtual } from 'react-virtual';
-import { useData } from './data.context';
 import { useDisableUpdateForGuest, useFullWidth } from '../hooks';
 
 export const LayoutDataContext = createContext<
@@ -27,7 +23,6 @@ export const LayoutDataContext = createContext<
   size: 'xs',
   font: 'a',
   username: undefined,
-  showNavbar: true,
   canvas: null,
 });
 export const LayoutDataMethodsContext = createContext<
@@ -45,7 +40,6 @@ export const LayoutDataMethodsContext = createContext<
       | null
       | ((v: fabric.Canvas | null) => fabric.Canvas | null)
   ) => {},
-  setShowNavbar: (v: boolean) => {},
   disableMaxWidth: () => {},
   enableMaxWidth: () => {},
 });
@@ -56,15 +50,8 @@ export const useLayoutDataMethods = () => useContext(LayoutDataMethodsContext);
 export const LayoutDataProvider: FC<
   { children: ReactNode } & IEditionPageAppOptions &
     IEditionPageAppOptionMutators
-> = ({
-  children,
-  username,
-  showNavbar,
-  setShowNavbar,
-  disableMaxWidth,
-  enableMaxWidth,
-}) => {
-  const [size, setSize] = useState<EditionFontSize>('s');
+> = ({ children, username, disableMaxWidth, enableMaxWidth }) => {
+  const [size, setSize] = useState<EditionFontSize>('xs');
   const [font, setFont] = useState<EditionFontFamily>('a');
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
 
@@ -76,10 +63,9 @@ export const LayoutDataProvider: FC<
       font,
       size,
       username,
-      showNavbar,
       canvas,
     }),
-    [font, size, username, showNavbar, canvas]
+    [font, size, username, canvas]
   );
   return (
     <LayoutDataMethodsContext.Provider
@@ -87,7 +73,6 @@ export const LayoutDataProvider: FC<
         setSize,
         setFont,
         setCanvas,
-        setShowNavbar,
         disableMaxWidth,
         enableMaxWidth,
       }}

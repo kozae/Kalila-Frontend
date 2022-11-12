@@ -2,7 +2,7 @@ import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   selectWorkspaceHasChanges,
   useAppSelector,
@@ -60,6 +60,10 @@ export const ManuscriptPagesPaginator = ({
   };
   const router = useRouter();
 
+  useEffect(() => {
+    setPage(current);
+  }, [current]);
+
   const handleChange = async (e: any, v: number) => {
     dismissGotoModal();
     await router.push(`/text-editing/${manuscriptId}/${allPages[v - 1].Id}`);
@@ -74,13 +78,13 @@ export const ManuscriptPagesPaginator = ({
     <>
       <Stack direction="row">
         <Button
-          variant="contained"
+          color="secondary"
           onClick={handleSummaryClicked}
           disableElevation
         >
           List
         </Button>
-        <Button onClick={openGotoModal} variant="contained" disableElevation>
+        <Button color="secondary" onClick={openGotoModal} disableElevation>
           Go to...
         </Button>
         {!isXSmallScreen && (
@@ -104,7 +108,7 @@ export const ManuscriptPagesPaginator = ({
                 onMouseEnter={() => item.page && showPagePreview(item.page)}
                 onMouseLeave={() => hidePagePreview()}
                 size="large"
-                sx={{ typography: 'button', color: 'white' }}
+                sx={{ typography: 'button', color: 'secondary.main' }}
               />
             )}
           />

@@ -128,19 +128,21 @@ export const ColumnHeader = ({
               justifyContent: 'flex-end',
             }}
           >
-            <IconButton onClick={handleClick} color="secondary">
-              <Badge
-                invisible={badgeContent === null}
-                color="warning"
-                badgeContent={badgeContent}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-              >
-                <SettingsIcon />
-              </Badge>
-            </IconButton>
+            {!(f.overrideFilter && f.overrideFilter === 'disable') && (
+              <IconButton onClick={handleClick} color="secondary">
+                <Badge
+                  invisible={badgeContent === null}
+                  color="warning"
+                  badgeContent={badgeContent}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                >
+                  <SettingsIcon />
+                </Badge>
+              </IconButton>
+            )}
           </Box>
 
           <Typography align="center" variant="h4">
@@ -166,16 +168,19 @@ export const ColumnHeader = ({
               <Stack justifyContent="center" alignItems="center">
                 <FilterControl
                   f={f}
+                  overrideFilter={f.overrideFilter}
                   activeFilter={activeFilter}
                   onFilter={handleFilter}
                   exactMatch={exactMatch}
                   categoricalAttributes={categoricalAttributes}
                 />
-                <SortControl
-                  f={f}
-                  activeSort={activeSort}
-                  onSort={handleSort}
-                />
+                {!f.overrideFilter && (
+                  <SortControl
+                    f={f}
+                    activeSort={activeSort}
+                    onSort={handleSort}
+                  />
+                )}
               </Stack>
             </Paper>
           </Popper>

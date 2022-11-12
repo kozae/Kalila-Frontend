@@ -3,15 +3,21 @@ import { FacsimileRegion } from './page-transcription';
 export interface IEditionBookUnit {
   Id: string;
   Order: number[];
+  NumericOrder: number;
   Title: string;
   DepictingImages?: IEditionImage[];
+  FrameTags: string[];
+  Divider: boolean;
 }
 
 export interface IEditionUnit {
   Id: string;
   BuID: string;
+  Order: number;
+  Occ: number;
   Type: string;
   Tokens: string[];
+  Lemmas: string[];
   States: string[];
   Pages: number[];
   Lines: number[];
@@ -48,6 +54,7 @@ export interface IManuscriptEdition {
   Id: string;
   Siglum: string;
   Units: IEditionUnit[];
+  Lacunae: string[];
   Facsimiles: IEditionFacsimile[];
 }
 

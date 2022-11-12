@@ -32,50 +32,6 @@ const style: SxProps = {
   borderRadius: '10px',
 };
 
-const ChapterToFrame: Record<string, { Order: number[]; FrameTags: string[] }> =
-  {
-    EMPTY: {
-      Order: [0],
-      FrameTags: [''],
-    },
-    Im: {
-      Order: [0, 1],
-      FrameTags: ['', 'Im'],
-    },
-    Lv: {
-      Order: [0, 2],
-      FrameTags: ['', 'Lv'],
-    },
-    Bu: {
-      Order: [0, 3],
-      FrameTags: ['', 'Bu'],
-    },
-    Oc: {
-      Order: [1, 1],
-      FrameTags: ['', 'Oc'],
-    },
-    Mc: {
-      Order: [1, 2],
-      FrameTags: ['', 'Mc'],
-    },
-    Lj: {
-      Order: [1, 3],
-      FrameTags: ['', 'Lj'],
-    },
-    Kd: {
-      Order: [1, 4],
-      FrameTags: ['', 'Kd'],
-    },
-    Ag: {
-      Order: [1, 5],
-      FrameTags: ['', 'Ag'],
-    },
-    Km: {
-      Order: [1, 6],
-      FrameTags: ['', 'Km'],
-    },
-  };
-
 export const CreateBookUnitDialog = () => {
   const {
     chapter,
@@ -164,11 +120,11 @@ export const CreateBookUnitDialog = () => {
               initialValues={
                 new BookUnit(
                   ObjectID().toString(),
-                  ChapterToFrame[chapter?.abbr ?? 'EMPTY'].Order,
+                  [0],
                   false,
                   '',
                   undefined,
-                  ChapterToFrame[chapter?.abbr ?? 'EMPTY'].FrameTags
+                  []
                 )
               }
               validateOnBlur={true}
@@ -224,7 +180,8 @@ export const CreateBookUnitDialog = () => {
                                 <div key={index}>
                                   <Field
                                     type="number"
-                                    min="0"
+                                    min="1"
+                                    max="999"
                                     step="1"
                                     name={`Order.${index}`}
                                   />

@@ -3,17 +3,14 @@ import { CSSProperties } from 'react';
 import { MotionProps } from 'framer-motion/types/motion/types';
 import { MapPosition } from '@frontend/ui/editions';
 
-export const getMapContainerProps = (
-  state: MapPosition,
-  showNavbar: boolean
-): StackProps => {
+export const getMapContainerProps = (state: MapPosition): StackProps => {
   switch (state) {
     case 'left':
       return {
         width: '31%',
         direction: 'column',
         bgcolor: 'white',
-        height: showNavbar ? 'calc(100vh - 110px)' : 'calc(100vh - 50px)',
+        height: 'calc(100vh - 50px)',
         alignItems: 'flex-start',
       };
     case 'left-XL':
@@ -21,7 +18,7 @@ export const getMapContainerProps = (
         width: '31%',
         direction: 'column',
         bgcolor: 'white',
-        height: showNavbar ? 'calc(100vh - 110px)' : 'calc(100vh - 50px)',
+        height: 'calc(100vh - 50px)',
         alignItems: 'flex-start',
         sx: {
           overflowY: 'scroll',
@@ -41,28 +38,27 @@ export const getMapContainerProps = (
 };
 
 export const getEditionContainerStyle = (
-  state: MapPosition | null,
-  showNavbar: boolean
+  state: MapPosition | null
 ): CSSProperties => {
   switch (state) {
     case 'bottom':
       return {
         maxWidth: '100%',
-        height: showNavbar ? 'calc(69vh - 110px)' : 'calc(69vh - 50px)',
+        height: 'calc(69vh - 50px)',
         overflow: 'auto',
       };
     case 'left':
     case 'left-XL':
       return {
         maxWidth: '69%',
-        height: showNavbar ? 'calc(100vh - 110px)' : 'calc(100vh - 50px)',
+        height: 'calc(100vh - 50px)',
         overflow: 'auto',
       };
     case null:
     default:
       return {
         maxWidth: '100%',
-        height: showNavbar ? 'calc(100vh - 110px)' : 'calc(100vh - 50px)',
+        height: 'calc(100vh - 50px)',
         overflow: 'auto',
       };
   }

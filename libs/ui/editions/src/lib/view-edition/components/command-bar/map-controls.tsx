@@ -13,8 +13,9 @@ import {
 } from '../../contexts';
 import { useCallback } from 'react';
 import { MapPosition } from '@frontend/ui/editions';
+import { SxProps } from '@mui/system';
 
-export const MapControls = () => {
+export const MapControls = ({ sx }: { sx?: SxProps }) => {
   const { mapState } = useBehaviorOptions();
   const { setMapState } = useBehaviorOptionsMethods();
   const { canvas } = useLayoutData();
@@ -52,19 +53,20 @@ export const MapControls = () => {
     <Stack
       alignItems="center"
       direction="row"
-      border={mapState !== null ? 'white solid .5px' : 'none'}
+      border={mapState !== null ? '#666666 solid .5px' : 'none'}
       borderRadius="5px"
+      sx={sx}
     >
       <Button
         onClick={() => toggleMap()}
         startIcon={
           <ViewComfyIcon
-            sx={{ color: mapState !== null ? 'white' : '#CCCCCC' }}
+            sx={{ color: mapState !== null ? 'secondary.main' : '#666666' }}
           />
         }
       >
         <Typography
-          color={mapState !== null ? 'white' : '#CCCCCC'}
+          color={mapState !== null ? 'secondary.main' : '#666666'}
           fontSize=".8rem"
         >
           Map
@@ -72,7 +74,7 @@ export const MapControls = () => {
       </Button>
       {mapState !== null && (
         <IconButton size="small" onClick={() => exportMap()}>
-          <FileDownloadIcon fontSize="small" sx={{ color: 'white' }} />
+          <FileDownloadIcon fontSize="small" sx={{ color: 'secondary.main' }} />
         </IconButton>
       )}
       {mapState !== null && (
@@ -84,28 +86,13 @@ export const MapControls = () => {
           aria-label="structure viz toggle"
         >
           <ToggleButton value="left" aria-label="small">
-            <Typography
-              color={mapState === 'left' ? 'white' : '#CCCCCC'}
-              fontSize=".8rem"
-            >
-              left [fit]
-            </Typography>
+            <Typography fontSize=".8rem">left [fit]</Typography>
           </ToggleButton>
           <ToggleButton value="left-XL" aria-label="small">
-            <Typography
-              color={mapState === 'left-XL' ? 'white' : '#CCCCCC'}
-              fontSize=".8rem"
-            >
-              left
-            </Typography>
+            <Typography fontSize=".8rem">left</Typography>
           </ToggleButton>
           <ToggleButton value="bottom" aria-label="large">
-            <Typography
-              color={mapState === 'bottom' ? 'white' : '#CCCCCC'}
-              fontSize=".8rem"
-            >
-              bottom
-            </Typography>
+            <Typography fontSize=".8rem">bottom</Typography>
           </ToggleButton>
         </ToggleButtonGroup>
       )}

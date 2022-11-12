@@ -8,8 +8,10 @@ import { useMemo } from 'react';
 import {
   useAuxiliarySurfacesMethods,
   useData,
+  useLayoutData,
   useSearchData,
 } from '../../contexts';
+import { FONT_SIZES } from '../../constants';
 
 export interface IEditionUnitTitleProps {
   unitIdx: number;
@@ -23,6 +25,7 @@ export const UnitTitle = ({ unitIdx }: IEditionUnitTitleProps) => {
   const display = data.get_display();
   const hasImages = data.get_row_has_images();
   const { searchResults, currentSearchResult } = useSearchData();
+  const { size } = useLayoutData();
   const isSearchResult = useMemo(() => {
     return (
       searchResults &&
@@ -54,7 +57,7 @@ export const UnitTitle = ({ unitIdx }: IEditionUnitTitleProps) => {
           alignItems: 'center',
         }}
       >
-        <Typography mr="1rem" fontSize="1.3rem" textAlign="center">
+        <Typography mr="1rem" fontSize={FONT_SIZES[size]} textAlign="center">
           {display}
         </Typography>
 

@@ -1,4 +1,5 @@
 {
+  "name": "kalila",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/kalila",
   "projectType": "application",
@@ -47,7 +48,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/kalila"],
+      "outputs": ["{workspaceRoot}/coverage/apps/kalila"],
       "options": {
         "jestConfig": "apps/kalila/jest.config.ts",
         "passWithNoTests": true

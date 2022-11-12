@@ -10,6 +10,7 @@ use wasm_bindgen::JsValue;
 #[wasm_bindgen]
 impl EditionStore {
     pub fn load(data: JsValue) -> Result<EditionStore, String> {
+        console_error_panic_hook::set_once();
         match data.into_serde::<Edition>() {
             Ok(edition) => {
                 let mut images = HashMap::new();
@@ -80,10 +81,28 @@ impl EditionStore {
         self.edition.manuscripts[idx]
             .units
             .iter()
-            .map(|u| match u {
+            .enumerate()
+            .map(|(i, u)| match u {
                 Some(unit) => unit.order as i32,
-                None => -1,
+                None => {
+                    if self.edition.manuscripts[idx].lacunae.contains(&i) {
+                        -2
+                    } else {
+                        -1
+                    }
+                }
             })
+            .collect_vec()
+            .into_boxed_slice()
+    }
+
+    pub fn get_dividers(&self) -> Box<[usize]> {
+        self.edition
+            .book_units
+            .iter()
+            .enumerate()
+            .filter(|(_, u)| u.divider)
+            .map(|(i, _u)| i)
             .collect_vec()
             .into_boxed_slice()
     }
@@ -114,6 +133,27 @@ impl EditionStore {
         self.edition.book_units.len()
     }
 
+    pub fn unit_is_in_edition(&self, id: String) -> bool {
+        self.edition.book_units.iter().any(|bu| bu.id == id)
+    }
+
+    pub fn unit_is_in_range(&self, numeric_order: f64) -> bool {
+        match self
+            .edition
+            .book_units
+            .binary_search_by(|bu| bu.numeric_order.total_cmp(&numeric_order))
+        {
+            Ok(_) => true,
+            Err(i) => {
+                if i == 0 {
+                    false
+                } else {
+                    i < self.edition.book_units.len()
+                }
+            }
+        }
+    }
+
     pub fn get_manuscript_idx(&self, id: String) -> Option<usize> {
         self.edition.manuscripts.iter().position(|m| m.id == id)
     }
@@ -126,6 +166,12 @@ impl EditionStore {
             .flat_map(|u| u.clone().unwrap().pages)
             .collect();
         pages.contains(&page_number)
+    }
+
+    pub fn is_unit_lacuna(&self, manuscript_idx: usize, unit_idx: usize) -> bool {
+        self.edition.manuscripts[manuscript_idx]
+            .lacunae
+            .contains(&unit_idx)
     }
 
     pub fn get_url(&self, key: String) -> Option<String> {

@@ -9,6 +9,10 @@ import { Draggables } from '../drag-layer';
 import Box from '@mui/material/Box';
 import { bookUnitOrderDisplay } from '@frontend/util';
 import { IBookUnit } from '@frontend/domain';
+import {
+  selectTextEditingAccessMode,
+  useAppSelector,
+} from '@frontend/shared-ui';
 
 export interface IInsertableUnitProps {
   d: IBookUnit;
@@ -29,6 +33,7 @@ export const InsertableUnit = ({ d, onEdit }: IInsertableUnitProps) => {
   useEffect(() => {
     dragPreview(getEmptyImage(), { captureDraggingState: true });
   }, []);
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
   return (
     <Stack
       width="48%"
@@ -42,7 +47,7 @@ export const InsertableUnit = ({ d, onEdit }: IInsertableUnitProps) => {
       }}
       direction="column"
       alignItems="center"
-      ref={drag}
+      ref={accessMode !== 'view' ? drag : undefined}
       role="DraggableBox"
     >
       <Stack
@@ -52,9 +57,10 @@ export const InsertableUnit = ({ d, onEdit }: IInsertableUnitProps) => {
         direction="row"
       >
         <Typography fontSize="1rem" variant="body1">
-          {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)}
+          {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} [
+          {d.Order.map((i) => `${i}.`)}]
         </Typography>
-        {!collected.isDragging && (
+        {accessMode === 'admin' && !collected.isDragging && (
           <IconButton
             sx={{ position: 'absolute', top: 0, right: 0 }}
             onClick={onEdit}

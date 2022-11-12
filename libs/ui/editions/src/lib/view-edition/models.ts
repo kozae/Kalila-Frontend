@@ -1,9 +1,10 @@
-import { Dispatch, RefObject, SetStateAction } from 'react';
+import { Dispatch, ReactNode, RefObject, SetStateAction } from 'react';
 import { EditionCellData, EditionRowTitle, EditionStore } from '../store';
 import { IPageUnitsUpdate } from '@frontend/shared-ui';
-import { IEditionUnit } from '@frontend/domain';
+import { IBookUnit, IEditionBookUnit, IEditionUnit } from '@frontend/domain';
 import { fabric } from 'fabric';
 import { VirtualItem } from 'react-virtual';
+import { fetchEditionBookUnits } from '@frontend/kalila/components';
 
 export interface ILinePreviewData {
   manuscriptSiglum: string;
@@ -84,11 +85,9 @@ export type EditionFontFamily = 'n' | 'sh' | 'a' | 'm' | 'ns';
 
 export interface IEditionPageAppOptions {
   username: string | undefined;
-  showNavbar: boolean;
 }
 
 export interface IEditionPageAppOptionMutators {
-  setShowNavbar: (v: boolean) => void | Promise<void>;
   disableMaxWidth: () => void | Promise<void>;
   enableMaxWidth: () => void | Promise<void>;
 }
@@ -98,6 +97,7 @@ export interface ILayoutData {
   font: EditionFontFamily;
   canvas: fabric.Canvas | null;
 }
+
 export interface ILayoutOptionsMethods {
   setSize: Dispatch<SetStateAction<EditionFontSize>>;
   setFont: Dispatch<SetStateAction<EditionFontFamily>>;
@@ -126,12 +126,15 @@ export interface IRealTimeUpdateProps {
   fetchEditionUpdateByUnitList?: (
     editionId: string,
     updateInfo: IPageUnitsUpdate
-  ) => Promise<IEditionUnit[]>;
+  ) => Promise<{ Changes: IEditionUnit[]; Lacunae: number[] }>;
   fetchEditionUpdateByPage?: (
     editionId: string,
     manuscriptId: string,
     pageNumber: number
-  ) => Promise<IEditionUnit[]>;
+  ) => Promise<{ Changes: IEditionUnit[]; Lacunae: number[] }>;
+  fetchBookUnits?: (params: {
+    Id: string;
+  }) => Promise<{ Id: string; Units: IEditionBookUnit[] }>;
 }
 
 export type RowVirtualizer = {

@@ -6,7 +6,8 @@ export function addUnitNumbers(
   canvas: fabric.Canvas,
   position: MapPosition,
   unitLineThickness: number,
-  NoUnits: number
+  NoUnits: number,
+  isSmallScreen: boolean
 ) {
   const isLeft = position.startsWith('left');
   Array(NoUnits)
@@ -25,7 +26,7 @@ export function addUnitNumbers(
           left: left === 0 ? 2 : left - 6,
           top: top === 0 ? 2 : top - 6,
           fontFamily: "'Noto Sans Display', sans-serif",
-          fontSize: 12,
+          fontSize: isSmallScreen ? 6 : 12,
           fontWeight: 'bold',
           textAlign: 'center',
           fill: '#000000',

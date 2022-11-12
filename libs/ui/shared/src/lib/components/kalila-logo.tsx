@@ -2,12 +2,14 @@ import React from 'react';
 
 export interface IKalilaLogoProps {
   color?: string;
+  text?: string;
 }
 
-export const KalilaLogo: React.FC<IKalilaLogoProps> = ({ color }) => {
+export const KalilaLogo: React.FC<IKalilaLogoProps> = ({ color, text }) => {
   const defaultColor = '#003366';
+  const viewBox = text ? `0 0 ${350 * text.length} 720` : '0 0 720 720';
   return (
-    <svg height="100%" width="100%" x="0px" y="0px" viewBox="0 0 2100 720">
+    <svg height="100%" width="100%" x="0px" y="0px" viewBox={viewBox}>
       <svg x="0" y="0">
         <g>
           <path
@@ -26,16 +28,18 @@ export const KalilaLogo: React.FC<IKalilaLogoProps> = ({ color }) => {
 		c17.12,11.85,33,17.78,47.68,17.78h173.93c31.22,0,56.8,9.93,76.75,29.8c19.93,19.87,29.91,44.1,29.91,72.67V469.15z"
           />
         </g>
-        <text
-          transform="matrix(1 0 0 1 750 550)"
-          letterSpacing={20}
-          fontSize={500}
-          fontWeight={600}
-          fontFamily={'Noto Sans Display'}
-          fill={color ?? defaultColor}
-        >
-          Kalila
-        </text>
+        {text && (
+          <text
+            transform="matrix(1 0 0 1 750 550)"
+            letterSpacing={20}
+            fontSize={500}
+            fontWeight={600}
+            fontFamily={'Noto Sans Display'}
+            fill={color ?? defaultColor}
+          >
+            {text}
+          </text>
+        )}
       </svg>
     </svg>
   );

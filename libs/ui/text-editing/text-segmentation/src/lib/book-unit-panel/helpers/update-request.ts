@@ -8,7 +8,8 @@ export interface IStructureUpdate {
   OldOrder?: number[];
 }
 
-export interface ITagUpdate {
+export interface IFrameUpdate {
+  Order?: number[];
   FrameTags?: string[];
   Motifs?: string[];
   Topics?: string[];
@@ -29,18 +30,16 @@ export async function updateStructureRequest(
   });
 }
 
-export async function updateTagsRequest(
-  ids: string[],
-  update: ITagUpdate,
+export async function updateFrameRequest(
+  params: any,
+  update: IFrameUpdate,
   accessToken: string
 ) {
   return axios.patch(
-    `${process.env['NEXT_PUBLIC_API_URL']}BookUnit/Tags`,
+    `${process.env['NEXT_PUBLIC_API_URL']}BookUnit/Frame`,
     update,
     {
-      params: {
-        Ids: ids,
-      },
+      params,
       paramsSerializer,
       headers: {
         Authorization: `Bearer ${accessToken}`,

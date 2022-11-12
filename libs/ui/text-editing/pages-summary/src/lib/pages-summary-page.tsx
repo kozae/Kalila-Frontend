@@ -12,12 +12,12 @@ import {
   GenericCell,
   getSelectionColumn,
   Grid,
+  ImageCell,
   KeyValueCell,
   PrimaryGreenHeader,
   TablePaginator,
   WhiteHeader,
 } from '@frontend/ui/table';
-import { Column } from 'react-table';
 import React, { useMemo } from 'react';
 import Stack from '@mui/material/Stack';
 import { plainToInstance } from 'class-transformer';
@@ -73,8 +73,9 @@ export function PagesSummaryPage({ manuscript }: IPagesSummaryPage) {
           FieldNamePascalCase: 'FacsimileImageUrl',
           FieldDisplay: 'Facsimile',
           KalilaValueType: KalilaValueTypes.String,
+          overrideFilter: 'disable',
         },
-        Cell: GenericCell,
+        Cell: ImageCell,
       },
       {
         Header: WhiteHeader,
@@ -83,6 +84,7 @@ export function PagesSummaryPage({ manuscript }: IPagesSummaryPage) {
           FieldNamePascalCase: 'NumberOfTextElements',
           FieldDisplay: 'Text Elements',
           KalilaValueType: KalilaValueTypes.Int,
+          overrideFilter: 'disable',
         },
         Cell: GenericCell,
       },
@@ -93,6 +95,7 @@ export function PagesSummaryPage({ manuscript }: IPagesSummaryPage) {
           FieldNamePascalCase: 'NumberOfImageElements',
           FieldDisplay: 'Images',
           KalilaValueType: KalilaValueTypes.Int,
+          overrideFilter: 'disable',
         },
         Cell: GenericCell,
       },
@@ -101,8 +104,9 @@ export function PagesSummaryPage({ manuscript }: IPagesSummaryPage) {
         accessor: 'NumberOfTokens',
         f: {
           FieldNamePascalCase: 'NumberOfTokens',
-          FieldDisplay: 'Transcription',
+          FieldDisplay: 'Tokens',
           KalilaValueType: KalilaValueTypes.Int,
+          overrideFilter: 'disable',
         },
         Cell: GenericCell,
       },

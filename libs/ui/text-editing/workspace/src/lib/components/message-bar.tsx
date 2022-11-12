@@ -31,10 +31,11 @@ const Message = ({ text, _key }: { text: string; _key: string }) => (
     style={{
       position: 'fixed',
       left: 0,
-      top: 60,
+      top: 0,
       width: '100vw',
       height: '50px',
       backgroundColor: kalilaTheme.palette.info.main,
+      zIndex: 200,
     }}
     initial={{ opacity: 0, width: 0 }}
     animate={{ opacity: 1, width: '100vw' }}

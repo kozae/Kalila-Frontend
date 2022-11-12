@@ -8,7 +8,8 @@ export function addManuscripts(
   headerSigla: fabric.Text[],
   position: MapPosition,
   manuscriptThickness: number,
-  sigla: string[]
+  sigla: string[],
+  isSmallScreen: boolean
 ) {
   const isLeft = position.startsWith('left');
   sigla.forEach((siglum, index) => {
@@ -32,7 +33,7 @@ export function addManuscripts(
         left: isLeft ? points[0] - 6 : x1,
         top: isLeft ? y1 : points[1] - 12,
         fontFamily: "'Noto Sans Display', sans-serif",
-        fontSize: 18,
+        fontSize: isSmallScreen ? 9 : 18,
         fontWeight: 'bold',
         textAlign: 'center',
         charSpacing: 10,
@@ -46,7 +47,7 @@ export function addManuscripts(
       left: points[0] === 0 ? 30 : points[0] + 7,
       top: position === 'left-XL' ? 0 : points[1] === 0 ? 30 : points[1] - 7,
       fontFamily: "'Noto Sans Display', sans-serif",
-      fontSize: 14,
+      fontSize: isSmallScreen ? 7 : 14,
       fontWeight: 'bold',
       textAlign: 'right',
       charSpacing: 100,

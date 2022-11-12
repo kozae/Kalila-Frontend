@@ -1,9 +1,8 @@
 import {
-  selectAccessToken,
-  useAccessTokenValidation,
-  useAppSelector,
+  NavMessageBarContext,
   useLoginValidation,
   useNavbarMessage,
+  usePageControls,
   withTransition,
 } from '@frontend/shared-ui';
 import { GetServerSideProps } from 'next';
@@ -14,8 +13,11 @@ import {
   getImageSize,
 } from '@frontend/server-side-queries';
 import Head from 'next/head';
-import React from 'react';
-import { TextEditingWorkspaceWasm } from '@frontend/ui/text-editing/workspace';
+import { useContext, useEffect } from 'react';
+import {
+  ManuscriptPagesPaginator,
+  TextEditingWorkspaceWasm,
+} from '@frontend/ui/text-editing/workspace';
 
 function pageTitle(siglum: string): [string, string] {
   return ['Text Editing:', `Pages of ${siglum}`];
@@ -29,15 +31,27 @@ export function EditPage({
   imageSize,
 }) {
   useLoginValidation();
-
-  const accessToken = useAppSelector(selectAccessToken);
-  useAccessTokenValidation(accessToken);
-
   const messages = pageTitle(siglum ?? 'NotFetched');
-  useNavbarMessage(messages, undefined, {
-    name: 'manuscript-pages-paginator',
-    data: { allPages, manuscriptId, current: pageData.Number },
-  });
+  useNavbarMessage(messages, undefined);
+
+  const { setPageControls } = useContext(NavMessageBarContext);
+
+  useEffect(() => {
+    setPageControls(
+      <ManuscriptPagesPaginator
+        manuscriptId={manuscriptId}
+        allPages={allPages}
+        current={pageData.Number}
+      />
+    );
+  }, [pageData]);
+
+  useEffect(() => {
+    return () => {
+      setPageControls(null);
+    };
+  }, []);
+
   return (
     <>
       <Head>

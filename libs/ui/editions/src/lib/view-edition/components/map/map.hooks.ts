@@ -13,6 +13,7 @@ import { EditionStore } from '../../../store';
 export function useMapData(edition: EditionStore) {
   const sigla = useMemo(() => edition.get_ms_sigla().split(','), [edition]);
   const NoUnits = useMemo(() => edition.get_no_rows(), [edition]);
+  const dividers = useMemo(() => [...edition.get_dividers()], [edition]);
   const unitMatrix = useMemo(
     () =>
       range(sigla.length).map((i) => [
@@ -32,6 +33,7 @@ export function useMapData(edition: EditionStore) {
     NoUnits,
     unitMatrix,
     imageMatrix,
+    dividers,
   };
 }
 
@@ -43,7 +45,7 @@ export function useMarkerContainers() {
   };
 }
 
-export function useDimensions(mapState: MapPosition, showNavbar: boolean) {
+export function useDimensions(mapState: MapPosition) {
   const windowSize = useWindowSize();
   const width = useMemo(() => {
     const base = windowSize.width;
@@ -57,8 +59,8 @@ export function useDimensions(mapState: MapPosition, showNavbar: boolean) {
     if (mapState === 'bottom') {
       return Math.round((base * 30.8) / 100);
     }
-    return showNavbar ? base - 110 : base - 50;
-  }, [windowSize.height, showNavbar, mapState]);
+    return base - 50;
+  }, [windowSize.height, mapState]);
   return { width, height };
 }
 

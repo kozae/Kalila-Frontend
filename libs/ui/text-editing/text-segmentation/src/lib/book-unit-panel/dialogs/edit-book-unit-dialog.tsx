@@ -20,7 +20,7 @@ import { validate } from '../helpers/validation-request';
 import { isEqual } from 'lodash';
 import {
   updateStructureRequest,
-  updateTagsRequest,
+  updateFrameRequest,
 } from '../helpers/update-request';
 
 const style: SxProps = {
@@ -120,8 +120,8 @@ export const EditBookUnitDialog = () => {
             {
               Title: titleIsChanged ? value.Title : undefined,
               Variant: variantIsChanged ? value.Variant : undefined,
-              NewOrder: orderIsChanged ? value.Order : undefined,
-              OldOrder: orderIsChanged ? originalValue.Order : undefined,
+              NewOrder: orderIsChanged ? value.Order : [],
+              OldOrder: orderIsChanged ? originalValue.Order : [],
             },
             accessToken
           );
@@ -135,8 +135,8 @@ export const EditBookUnitDialog = () => {
         const motifsChanged = !isEqual(value.Motifs, originalValue.Motifs);
 
         if (frameTagsChanged || topicsChanged || motifsChanged) {
-          await updateTagsRequest(
-            [originalValue.Id as string],
+          await updateFrameRequest(
+            { Ids: [originalValue.Id as string] },
             {
               FrameTags: frameTagsChanged ? value.FrameTags : undefined,
               Topics: topicsChanged ? value.Topics : undefined,
@@ -220,7 +220,8 @@ export const EditBookUnitDialog = () => {
                                 <div key={index}>
                                   <Field
                                     type="number"
-                                    min="0"
+                                    min="1"
+                                    max="999"
                                     step="1"
                                     name={`Order.${index}`}
                                   />

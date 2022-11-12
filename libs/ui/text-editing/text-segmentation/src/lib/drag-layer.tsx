@@ -87,13 +87,9 @@ export const DragLayer = () => {
           </Box>
         )}
       {isDragging &&
-        [
-          Draggables.insertableEndTag,
-          Draggables.movableUnit,
-          Draggables.movableEndTag,
-        ].includes(itemType as any) && (
-          <DeleteDropContainer itemType={itemType as Draggables} />
-        )}
+        [Draggables.movableUnit, Draggables.movableEndTag].includes(
+          itemType as any
+        ) && <DeleteDropContainer itemType={itemType as Draggables} />}
       {isDragging && itemType === Draggables.insertableUnit && (
         <AssignAsLacunaContainer />
       )}

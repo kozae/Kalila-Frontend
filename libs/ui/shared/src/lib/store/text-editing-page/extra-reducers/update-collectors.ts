@@ -33,6 +33,7 @@ import {
   removeUnitEndTag,
   updateUnit,
 } from '../../page-transcription/units-summary';
+import { removeLacuna } from '../../page-transcription/book-units';
 
 export function addUpdateCollectors(
   builder: ActionReducerMapBuilder<ITextEditingPageState>
@@ -150,6 +151,12 @@ export function addUpdateCollectors(
   });
   builder.addCase(removeUnit, (state) => {
     state.textSegmentationTouched = true;
+  });
+  builder.addCase(removeLacuna, (state, action) => {
+    state.textSegmentationTouched = true;
+    if (action.payload.lacuna.length === 24) {
+      state.deleteLacunae.push(action.payload.lacuna);
+    }
   });
   builder.addCase(removeUnitEndTag.fulfilled, (state) => {
     state.textSegmentationTouched = true;

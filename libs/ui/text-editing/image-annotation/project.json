@@ -1,4 +1,5 @@
 {
+  "name": "ui-text-editing-image-annotation",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/text-editing/image-annotation/src",
   "projectType": "library",
@@ -15,7 +16,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/text-editing/image-annotation"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/ui/text-editing/image-annotation"
+      ],
       "options": {
         "jestConfig": "libs/ui/text-editing/image-annotation/jest.config.ts",
         "passWithNoTests": true

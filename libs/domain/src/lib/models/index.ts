@@ -10,3 +10,4 @@ export * from './page-transcription';
 export * from './page-transcription-summary';
 export * from './edition';
 export * from './page-description';
+export * from './LERA-document';

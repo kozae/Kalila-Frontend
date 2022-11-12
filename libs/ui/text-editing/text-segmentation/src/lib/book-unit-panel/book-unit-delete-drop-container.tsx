@@ -31,9 +31,9 @@ export const DeleteBookUnitDropContainer = ({
       sx={{
         position: 'fixed',
         bgcolor: 'warning.main',
-        height: '100px',
+        height: '90px',
         width: '30vw',
-        top: '10px',
+        top: 0,
         left: '10vw',
         borderRadius: '10px',
         zIndex: 20,

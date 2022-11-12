@@ -18,9 +18,8 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
-import axios from 'axios';
 
-export const SearchControls = () => {
+export const SearchControls = ({ onClose }: { onClose?: () => void }) => {
   const { setCurrentSearchResult, setFilter } = useSearchMethods();
   const { searchResults, currentSearchResult, filter } = useSearchData();
   const { isSearchActive } = useBehaviorOptions();
@@ -58,11 +57,11 @@ export const SearchControls = () => {
           placeholder="Search unit titles, numbers, or content"
           InputProps={{
             sx: {
-              color: 'white',
+              color: 'secondary.main',
             },
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon sx={{ color: 'white' }} />
+                <SearchIcon sx={{ color: 'secondary.main' }} />
               </InputAdornment>
             ),
           }}
@@ -75,19 +74,19 @@ export const SearchControls = () => {
             <ArrowDropUpIcon
               onClick={onPrevSearchResult}
               fontSize="small"
-              sx={{ color: 'white', cursor: 'pointer' }}
+              sx={{ color: 'secondary.main', cursor: 'pointer' }}
             />
             <ArrowDropDownIcon
               onClick={onNextSearchResult}
               fontSize="small"
-              sx={{ color: 'white', cursor: 'pointer' }}
+              sx={{ color: 'secondary.main', cursor: 'pointer' }}
             />
           </Stack>
           <Stack justifyContent="center" height="100%">
-            <Typography fontSize=".5rem" color="white">
+            <Typography fontSize=".5rem" color="secondary.main">
               {currentSearchResult + 1}
             </Typography>
-            <Typography fontSize=".5rem" color="white">
+            <Typography fontSize=".5rem" color="secondary.main">
               of: {searchResults.length}
             </Typography>
           </Stack>
@@ -98,23 +97,26 @@ export const SearchControls = () => {
           setShowSearchHints(true);
         }}
       >
-        <InfoIcon sx={{ color: 'white' }} />
+        <InfoIcon sx={{ color: 'secondary.main' }} />
       </IconButton>
       <IconButton
         onClick={() => {
           setFilter('');
           setIsSearchActive(false);
+          if (onClose) {
+            onClose();
+          }
         }}
       >
-        <CloseIcon sx={{ color: 'white' }} />
+        <CloseIcon sx={{ color: 'secondary.main' }} />
       </IconButton>
     </Stack>
   ) : (
     <Button
       onClick={() => setIsSearchActive(true)}
-      startIcon={<SearchIcon sx={{ color: '#CCCCCC' }} />}
+      startIcon={<SearchIcon sx={{ color: 'secondary.main' }} />}
     >
-      <Typography color="#CCCCCC" fontSize=".8rem">
+      <Typography color="secondary.main" fontSize=".8rem">
         Search...
       </Typography>
     </Button>

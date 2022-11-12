@@ -4,15 +4,16 @@ import { MotionProps } from 'framer-motion/types/motion/types';
 export function getVerticalFloaterStyle(
   { y }: { y: number },
   isXLScreen: boolean,
+  isSmallScreen: boolean,
   height: string = '200px',
   minY: number = 300
 ): CSSProperties {
   const common = {
     position: 'fixed',
-    right: '25%',
+    right: isSmallScreen ? 0 : '25%',
     zIndex: 90,
-    width: isXLScreen ? '800px' : '70%',
-    height: height,
+    width: isSmallScreen ? '100%' : isXLScreen ? '800px' : '70%',
+    height: isSmallScreen ? '100px' : height,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start',

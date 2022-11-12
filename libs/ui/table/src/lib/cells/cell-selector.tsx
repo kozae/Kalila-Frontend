@@ -2,6 +2,7 @@ import { InputModes, KalilaValueTypes } from '@frontend/util';
 import { GenericCell } from './generic-cell';
 import { BooleanCell } from './boolean-cell';
 import { CommentaryCell } from './commentary-cell';
+import { ImageCell } from './image-cell';
 
 const CellComponents: {
   [key: string | number]: {
@@ -13,7 +14,7 @@ const CellComponents: {
     [InputModes.SelectOne]: CommentaryCell,
     [InputModes.RichText]: CommentaryCell,
     [InputModes.FileField]: CommentaryCell,
-    [InputModes.ImageField]: CommentaryCell,
+    [InputModes.ImageField]: ImageCell,
   },
   [KalilaValueTypes.Int]: {
     [InputModes.InputOne]: GenericCell,

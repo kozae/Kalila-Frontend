@@ -50,5 +50,6 @@ export function addDiscardReducers(
   });
   builder.addCase(discardSegmentationChanges.fulfilled, (state) => {
     state.textSegmentationTouched = false;
+    state.deleteLacunae = [];
   });
 }

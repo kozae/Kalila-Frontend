@@ -14,6 +14,8 @@ import {
   updateNearestOpenUnit,
   useAppDispatch,
   useAppSelector,
+  discardThunk,
+  saveThunk,
 } from '@frontend/shared-ui';
 import { getBookUnits } from './get-book-units';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -21,7 +23,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { CreateBookUnitDialog, EditBookUnitDialog } from './dialogs';
 import { BookUnitPanelContext } from './book-unit-panel.context';
 import { BookUnitPanelDragLayer } from './book-unit-panel-drag-layer';
-import { Update } from '@reduxjs/toolkit';
+import { addListener, Update } from '@reduxjs/toolkit';
+import { EditFrameDialog } from './dialogs/edit-frame-dialog';
 
 export const BookUnitPanel = () => {
   const [chapter, setChapter] = useState<IChapter | null>(null);
@@ -29,6 +32,8 @@ export const BookUnitPanel = () => {
   const [createUnitDialogOpen, setCreateUnitDialogOpen] =
     useState<boolean>(false);
   const [editBookUnitDialogIsOpen, setEditBookUnitDialogIsOpen] =
+    useState<boolean>(false);
+  const [editFrameDialogIsOpen, setEditFrameDialogIsOpen] =
     useState<boolean>(false);
   const [selectedBookUnit, setSelectedBookUnit] = useState<BookUnit | null>(
     null
@@ -44,6 +49,30 @@ export const BookUnitPanel = () => {
     mutate: refetchUnits,
   } = getBookUnits(accessToken, chapter, manuscriptId);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const unsubscribe = dispatch(
+      addListener({
+        predicate: (action) =>
+          [
+            discardThunk.segmentationChanges + '/fulfilled',
+            saveThunk.segmentationChanges + '/fulfilled',
+          ].includes(action.type),
+        effect: async (action, store) => {
+          if (refetchUnits) {
+            const data = await refetchUnits();
+            if (data) {
+              store.dispatch(loadBookUnits(data.content));
+            }
+          }
+        },
+      })
+    );
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   useEffect(() => {
     if (data) {
       dispatch(loadBookUnits(data.content));
@@ -91,6 +120,8 @@ export const BookUnitPanel = () => {
       setCreateUnitDialogOpen,
       editBookUnitDialogIsOpen,
       setEditBookUnitDialogIsOpen,
+      editFrameDialogIsOpen,
+      setEditFrameDialogIsOpen,
       selectedBookUnit,
       setSelectedBookUnit,
       refetchUnits,
@@ -98,6 +129,7 @@ export const BookUnitPanel = () => {
     [
       chapter,
       filter,
+      editFrameDialogIsOpen,
       createUnitDialogOpen,
       editBookUnitDialogIsOpen,
       selectedBookUnit,
@@ -135,6 +167,7 @@ export const BookUnitPanel = () => {
           <EditBookUnitDialog />
           <CreateBookUnitDialog />
           <BookUnitPanelDragLayer />
+          <EditFrameDialog />
         </motion.div>
       </AnimatePresence>
     </BookUnitPanelContext.Provider>

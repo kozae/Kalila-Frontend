@@ -5,6 +5,7 @@ export interface IUnitSummary {
   Order: number[];
   FrameTags: string[];
   Type: string;
+  Lacuna?: boolean;
   Start: [number, number, number];
   End: [number, number, number];
 }

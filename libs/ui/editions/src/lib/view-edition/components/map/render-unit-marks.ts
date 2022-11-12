@@ -7,6 +7,22 @@ import {
 import { IEvent } from 'fabric/fabric-impl';
 import { MapPosition } from '@frontend/ui/editions';
 
+const lacunaGradient = (w: number, h: number) =>
+  new fabric.Gradient({
+    type: 'linear',
+    gradientUnits: 'pixels',
+    coords: { x1: 0, y1: 0, x2: w, y2: h },
+    colorStops: [
+      { offset: 0, color: 'rgba(74,110,21, 0.5)' },
+      { offset: 0.2, color: 'rgba(74,110,21, 0.5)' },
+      { offset: 0.4, color: 'white' },
+      { offset: 0.5, color: 'white' },
+      { offset: 0.6, color: 'white' },
+      { offset: 0.8, color: 'rgba(74,110,21, 0.5)' },
+      { offset: 1, color: 'rgba(74,110,21, 0.5)' },
+    ],
+  });
+
 export function addUnits(
   canvas: fabric.Canvas,
   position: MapPosition,
@@ -16,7 +32,8 @@ export function addUnits(
   imageMatrix: number[][],
   sigla: string[],
   onRowClicked: (row: number) => void | Promise<void>,
-  onRowHovered: (row: number, x: number, y: number) => void | Promise<void>
+  onRowHovered: (row: number, x: number, y: number) => void | Promise<void>,
+  isSmallScreen: boolean
 ) {
   const isLeft = position.startsWith('left');
   const msLineHighlighter = new fabric.Rect({
@@ -44,7 +61,7 @@ export function addUnits(
         ...commonObjectOptions,
         visible: false,
         fontFamily: "'Noto Sans Display', sans-serif",
-        fontSize: 14,
+        fontSize: isSmallScreen ? 7 : 14,
         fontWeight: 'bold',
         textAlign: 'right',
         charSpacing: 100,
@@ -80,7 +97,9 @@ export function addUnits(
           height: isLeft ? unitLineThickness : manuscriptThickness,
           width: isLeft ? manuscriptThickness : unitLineThickness,
           fill:
-            unitOrder !== unitIndex
+            unitOrder === -2
+              ? 'rgba(74,110,21, 0.25)'
+              : unitOrder !== unitIndex
               ? 'rgba(0,20,39, 0.5)'
               : 'rgba(74,110,21, 0.5)',
           top: isLeft ? distanceFromSiglum : distanceFromUnitNumber,

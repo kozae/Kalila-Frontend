@@ -1,4 +1,5 @@
 {
+  "name": "ui-editions",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/editions/src",
   "projectType": "library",
@@ -13,7 +14,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/editions"],
+      "outputs": ["{workspaceRoot}/coverage/libs/ui/editions"],
       "options": {
         "jestConfig": "libs/ui/editions/jest.config.ts",
         "passWithNoTests": true

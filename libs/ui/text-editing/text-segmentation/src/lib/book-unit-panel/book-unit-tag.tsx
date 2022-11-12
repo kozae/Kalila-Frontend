@@ -4,17 +4,26 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import { InsertableUnit } from '../draggables';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { bookUnitOrderDisplay, stringHasValue } from '@frontend/util';
 import { BookUnitPanelContext } from './book-unit-panel.context';
-
+import {
+  removeLacuna,
+  selectAccessToken,
+  selectTextEditingAccessMode,
+  useAppDispatch,
+  useAppSelector,
+} from '@frontend/shared-ui';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import axios from 'axios';
 export const BookUnitTag = ({
   d,
 }: {
   d: IBookUnit & { ManuscriptInfo: string | null };
 }) => {
-  const { setSelectedBookUnit, setEditBookUnitDialogIsOpen } =
+  const { setSelectedBookUnit, setEditBookUnitDialogIsOpen, refetchUnits } =
     useContext(BookUnitPanelContext);
+  const accessToken = useAppSelector(selectAccessToken);
   const handleEditBookUnit = (d: IBookUnit) => {
     setSelectedBookUnit(
       new BookUnit(
@@ -30,13 +39,48 @@ export const BookUnitTag = ({
     );
     setEditBookUnitDialogIsOpen(true);
   };
+  const dispatch = useAppDispatch();
+  const onDeleteLacunae = (id: string, msUnitId: string) => {
+    dispatch(removeLacuna({ id, lacuna: msUnitId }));
+  };
+
+  const onDeleteDivider = useCallback(
+    async (id: string) => {
+      await deleteBookUnit(id as string, accessToken as string);
+      if (refetchUnits) {
+        await refetchUnits();
+      }
+    },
+    [refetchUnits]
+  );
+
   if (stringHasValue(d.ManuscriptInfo)) {
+    if (d.ManuscriptInfo?.startsWith('lacuna')) {
+      return (
+        <AssignedUnitLacuna
+          onEdit={() => handleEditBookUnit(d)}
+          onDelete={() =>
+            onDeleteLacunae(
+              d.Id,
+              d.ManuscriptInfo?.replace('lacuna_', '') ?? ''
+            )
+          }
+          d={d}
+          key={d.Id}
+        />
+      );
+    }
     return (
       <AssignedUnit onEdit={() => handleEditBookUnit(d)} d={d} key={d.Id} />
     );
   } else if (d.Divider) {
     return (
-      <BoundaryUnit onEdit={() => handleEditBookUnit(d)} d={d} key={d.Id} />
+      <BoundaryUnit
+        onDelete={() => onDeleteDivider(d.Id)}
+        onEdit={() => handleEditBookUnit(d)}
+        d={d}
+        key={d.Id}
+      />
     );
   } else {
     return (
@@ -50,7 +94,76 @@ interface IBookUnitTagProps {
   onEdit: (d: IBookUnit) => void;
 }
 
+const AssignedUnitLacuna = ({
+  d,
+  onEdit,
+  onDelete,
+}: IBookUnitTagProps & { onDelete: () => void }) => {
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
+  return (
+    <Stack
+      width="48%"
+      bgcolor="#F1F1F1"
+      sx={{
+        borderRadius: '5px',
+        m: '3px',
+        p: '3px',
+        border: 'solid 1px',
+      }}
+      direction="column"
+      alignItems="center"
+    >
+      <Stack
+        position="relative"
+        width="100%"
+        justifyContent="center"
+        direction="row"
+        alignItems="baseline"
+      >
+        <Stack
+          sx={{ position: 'absolute', top: 0, left: 0 }}
+          justifyContent="flex-start"
+          alignItems="center"
+          direction="row"
+        >
+          <Typography
+            fontWeight="bold"
+            fontSize="0.8rem"
+            variant="body1"
+            pr="3px"
+            pl="3px"
+            borderRadius="5px"
+          >
+            lacuna
+          </Typography>
+          <IconButton size="small" onClick={onDelete} color="warning">
+            <RemoveCircleIcon sx={{ fontSize: '0.8rem' }} />
+          </IconButton>
+        </Stack>
+
+        <Typography fontSize="1rem" variant="body1">
+          {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} &nbsp; [
+          {d.Order.map((i) => `${i}.`)}]
+        </Typography>
+        {accessMode === 'admin' && (
+          <IconButton
+            sx={{ position: 'absolute', top: 0, right: 0 }}
+            size="small"
+            onClick={() => onEdit(d)}
+          >
+            <EditTwoToneIcon fontSize="small" color="primary" />
+          </IconButton>
+        )}
+      </Stack>
+      <Typography fontSize="1rem" variant="body1">
+        {d.Title}
+      </Typography>
+    </Stack>
+  );
+};
+
 const AssignedUnit = ({ d, onEdit }: IBookUnitTagProps) => {
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
   return (
     <Stack
       width="48%"
@@ -80,18 +193,21 @@ const AssignedUnit = ({ d, onEdit }: IBookUnitTagProps) => {
           pl="3px"
           borderRadius="5px"
         >
-          p.{d.ManuscriptInfo}
+          {'p.' + d.ManuscriptInfo}
         </Typography>
         <Typography fontSize="1rem" variant="body1">
-          {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} &nbsp;
+          {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} &nbsp; [
+          {d.Order.map((i) => `${i}.`)}]
         </Typography>
-        <IconButton
-          sx={{ position: 'absolute', top: 0, right: 0 }}
-          size="small"
-          onClick={() => onEdit(d)}
-        >
-          <EditTwoToneIcon fontSize="small" color="primary" />
-        </IconButton>
+        {accessMode === 'admin' && (
+          <IconButton
+            sx={{ position: 'absolute', top: 0, right: 0 }}
+            size="small"
+            onClick={() => onEdit(d)}
+          >
+            <EditTwoToneIcon fontSize="small" color="primary" />
+          </IconButton>
+        )}
       </Stack>
       <Typography fontSize="1rem" variant="body1">
         {d.Title}
@@ -100,7 +216,12 @@ const AssignedUnit = ({ d, onEdit }: IBookUnitTagProps) => {
   );
 };
 
-const BoundaryUnit = ({ d, onEdit }: IBookUnitTagProps) => {
+const BoundaryUnit = ({
+  d,
+  onEdit,
+  onDelete,
+}: IBookUnitTagProps & { onDelete: () => void }) => {
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
   return (
     <Stack
       width="96%"
@@ -121,16 +242,41 @@ const BoundaryUnit = ({ d, onEdit }: IBookUnitTagProps) => {
         direction="row"
         alignItems="baseline"
       >
+        {accessMode === 'admin' && (
+          <Stack
+            sx={{ position: 'absolute', top: 0, left: 0 }}
+            justifyContent="flex-start"
+            alignItems="center"
+            direction="row"
+          >
+            <Typography
+              fontWeight="bold"
+              fontSize="0.8rem"
+              variant="body1"
+              pr="3px"
+              pl="3px"
+              borderRadius="5px"
+            >
+              divider
+            </Typography>
+            <IconButton size="small" onClick={onDelete} color="warning">
+              <RemoveCircleIcon sx={{ fontSize: '0.8rem' }} />
+            </IconButton>
+          </Stack>
+        )}
         <Typography fontSize="1rem" variant="body1">
-          {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} &nbsp;
+          {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} &nbsp; [
+          {d.Order.map((i) => `${i}.`)}]
         </Typography>
-        <IconButton
-          sx={{ position: 'absolute', top: 0, right: 0 }}
-          size="small"
-          onClick={() => onEdit(d)}
-        >
-          <EditTwoToneIcon fontSize="small" color="primary" />
-        </IconButton>
+        {accessMode === 'admin' && (
+          <IconButton
+            sx={{ position: 'absolute', top: 0, right: 0 }}
+            size="small"
+            onClick={() => onEdit(d)}
+          >
+            <EditTwoToneIcon fontSize="small" color="primary" />
+          </IconButton>
+        )}
       </Stack>
       <Typography fontSize="1rem" variant="body1">
         {d.Title}
@@ -138,3 +284,14 @@ const BoundaryUnit = ({ d, onEdit }: IBookUnitTagProps) => {
     </Stack>
   );
 };
+
+async function deleteBookUnit(id: string, accessToken: string) {
+  await axios.delete(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit`, {
+    params: {
+      Id: id,
+    },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+}

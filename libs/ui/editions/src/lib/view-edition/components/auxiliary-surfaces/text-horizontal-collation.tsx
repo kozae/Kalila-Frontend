@@ -3,7 +3,7 @@ import { SxProps } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { DialogHeading } from '@frontend/shared-ui';
+import { DialogHeading, useSmallScreenMediaQuery } from '@frontend/shared-ui';
 import { EditionFontSize } from '@frontend/ui/editions';
 import { Cell } from '../collation/cell';
 import {
@@ -15,15 +15,16 @@ import {
 import Portal from '@mui/material/Portal';
 import Modal from '@mui/material/Modal';
 
-const horizontalCollationModalStyle: (showNavbar: boolean) => SxProps = (
-  showNavbar
+const horizontalCollationModalStyle: (isSmallScreen?: boolean) => SxProps = (
+  isSmallScreen
 ) => ({
   position: 'absolute' as 'absolute',
-  top: showNavbar ? '110px' : '50px',
-  right: '100px',
+  top: '50px',
+  right: isSmallScreen ? 0 : '100px',
   height: 'fit-content',
   maxHeight: '100vh',
-  width: 'calc(100vw - 200px)',
+  overflowY: 'scroll',
+  width: isSmallScreen ? '100vw' : 'calc(100vw - 200px)',
   boxShadow: 24,
   borderRadius: '10px',
 });
@@ -37,13 +38,14 @@ const HEIGHT: Record<EditionFontSize, string> = {
 };
 
 export const TextHorizontalCollationModal: FC = () => {
-  const { size, showNavbar } = useLayoutData();
+  const { size } = useLayoutData();
   const { visibleHorizontalTextCollation } = useAuxiliarySurfacesData();
   const { setVisibleHorizontalTextCollation } = useAuxiliarySurfacesMethods();
   const { edition, rows } = useData();
   const sigla = edition.get_ms_sigla().split(',');
   const onDismiss = () => setVisibleHorizontalTextCollation(null);
   const height = HEIGHT[size];
+  const isSmallScreen = useSmallScreenMediaQuery();
   return (
     <Portal>
       <Modal
@@ -53,7 +55,7 @@ export const TextHorizontalCollationModal: FC = () => {
         open={visibleHorizontalTextCollation != null}
         onClose={onDismiss}
       >
-        <Box sx={horizontalCollationModalStyle(showNavbar)}>
+        <Box sx={horizontalCollationModalStyle(isSmallScreen)}>
           <Stack width="100%" height="fit-content" maxHeight="100vh">
             <DialogHeading color="info.light" onDismiss={onDismiss}>
               <Typography fontSize="1.3rem" color="white">
@@ -62,7 +64,10 @@ export const TextHorizontalCollationModal: FC = () => {
               </Typography>
             </DialogHeading>
             <Stack direction="row-reverse" width="100%">
-              <Stack borderLeft="dotted black 2px" width="10%">
+              <Stack
+                borderLeft="dotted black 2px"
+                width={isSmallScreen ? '30%' : '10%'}
+              >
                 {sigla.map((siglum, index) => (
                   <Typography
                     key={siglum}
@@ -79,7 +84,10 @@ export const TextHorizontalCollationModal: FC = () => {
                   </Typography>
                 ))}
               </Stack>
-              <Box width="90%" sx={{ overflowX: 'scroll', direction: 'rtl' }}>
+              <Box
+                width={isSmallScreen ? '70%' : '90%'}
+                sx={{ overflowX: 'scroll', direction: 'rtl' }}
+              >
                 <Stack minWidth="100%" width="fit-content">
                   {visibleHorizontalTextCollation !== null &&
                     sigla.map((siglum, index) => (

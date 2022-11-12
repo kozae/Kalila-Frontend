@@ -32,3 +32,11 @@ export const selectUser = createSelector(selectSessionState, (state) => {
   }
   return { name: null, username: null, roles: null };
 });
+
+export const selectUserPictures = createSelector(
+  [selectSessionState, (state, username: string) => username],
+  (state, username) => {
+    const user = state.users.find((u) => u.username === username);
+    return user?.picture;
+  }
+);

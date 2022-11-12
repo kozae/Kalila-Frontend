@@ -2,6 +2,7 @@ import {
   createEntityAdapter,
   createSlice,
   EntityState,
+  PayloadAction,
 } from '@reduxjs/toolkit';
 import { IUnitSummary } from '@frontend/domain';
 import { closeUnit, moveUnit, removeUnitEndTag } from './thunks';
@@ -26,7 +27,12 @@ export const unitSummariesSlice = createSlice({
     insertUnit: unitSummariesAdapter.addOne,
     updateUnit: unitSummariesAdapter.updateOne,
     updateManyUnits: unitSummariesAdapter.updateMany,
-    removeUnit: unitSummariesAdapter.removeOne,
+    removeUnit: (
+      state,
+      action: PayloadAction<{ msUnitId: string; bookUnitId: string }>
+    ) => {
+      unitSummariesAdapter.removeOne(state, action.payload.msUnitId);
+    },
     clearUnitSummaries: unitSummariesAdapter.removeAll,
   },
   extraReducers: (builder) => {

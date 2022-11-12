@@ -8,13 +8,19 @@ export function getBookUnits(
   chapter: IChapter | null,
   manuscriptId: string
 ) {
+  const filter =
+    chapter && chapter.abbr === 'untagged'
+      ? { FrameTagsEmpty: true }
+      : chapter && chapter.abbr === 'all'
+      ? {}
+      : { FrameTagsCn: chapter?.abbr };
   return useSWRImmutable(
     accessToken && chapter
       ? [
           'BookUnit',
           accessToken,
           {
-            FrameTagsCn: chapter.abbr,
+            ...filter,
             PageSize: '-1',
             ManuscriptInfo: manuscriptId,
           },

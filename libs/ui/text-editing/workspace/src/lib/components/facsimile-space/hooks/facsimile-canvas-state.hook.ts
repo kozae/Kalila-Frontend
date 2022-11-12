@@ -115,7 +115,7 @@ export function useFacsimileCanvasState() {
 
   const windowSize = useWindowSize();
   const facsimileData = useAppSelector((state) =>
-    selectCurrentPageFacsimileData(state, windowSize, 110, 5, 45)
+    selectCurrentPageFacsimileData(state, windowSize, 50, 5, 45)
   );
   const activeWorkspace = useAppSelector(selectTextEditingActiveWorkspace);
   const regions = useAppSelector((state) =>

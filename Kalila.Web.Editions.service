@@ -11,6 +11,7 @@ KillSignal=SIGINT
 SyslogIdentifier=Kalila.Web.Editions
 User=root
 Environment=NEXT_PUBLIC_IMAGE_URL=/pages/
+Environment=NEXT_PUBLIC_API_URL=https://kalila-api.kozae.de/v1/
 Environment=NEXT_PUBLIC_PAGES_IMAGE_FOLDER=/root/Kalila/next/frontend/apps/kalila/public/pages/
 Environment=NEXT_PUBLIC_PAGES_IMAGE_SEVER=https://static.kozae.de/pages/
 

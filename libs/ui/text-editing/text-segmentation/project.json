@@ -1,4 +1,5 @@
 {
+  "name": "ui-text-editing-text-segmentation",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/text-editing/text-segmentation/src",
   "projectType": "library",
@@ -15,7 +16,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/text-editing/text-segmentation"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/ui/text-editing/text-segmentation"
+      ],
       "options": {
         "jestConfig": "libs/ui/text-editing/text-segmentation/jest.config.ts",
         "passWithNoTests": true

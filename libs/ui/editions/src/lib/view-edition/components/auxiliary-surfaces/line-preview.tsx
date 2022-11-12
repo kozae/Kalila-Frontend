@@ -100,19 +100,15 @@ export const LinePreview: FC<{
   const lineInfo = lineKey.split('_');
 
   return (
-    <Stack
-      bgcolor="primary.light"
-      boxShadow={kalilaTheme.shadows[4]}
-      width="100%"
-      height="100%"
-    >
+    <Stack alignItems="center" width="100%" height="100%">
       <Typography
-        variant="h3"
-        width="100%"
+        width="fit-content"
         textAlign="center"
         color="white"
         borderRadius="5px 5px 0 0"
-        p="5px"
+        p="3px"
+        bgcolor="primary.light"
+        fontSize="1rem"
       >
         Manuscript: {lineInfo[0]}, Page: {lineInfo[1]}, Line: {lineInfo[2]}
       </Typography>

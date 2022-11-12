@@ -40,6 +40,12 @@ impl EditionStore {
         }
     }
 
+    pub fn update_ms_lacunae(mut self, manuscript_idx: usize, lacunae: &[u32]) -> EditionStore {
+        self.edition.manuscripts[manuscript_idx].lacunae =
+            lacunae.iter().map(|n| *n as usize).collect();
+        self
+    }
+
     pub fn update_cells(mut self, update: JsValue, manuscript_idx: usize) -> EditionStore {
         if let Ok(updates) = update.into_serde::<Vec<Option<Unit>>>() {
             for (idx, unit) in updates.iter().enumerate() {

@@ -1,12 +1,13 @@
 import { withTransition } from '@frontend/shared-ui';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { edition, editions } from '@frontend/server-side-queries';
+import { edition, editions, postToLera } from '@frontend/server-side-queries';
 import React, { useContext, useEffect } from 'react';
 import { EditionsAppContext } from '../components';
 import Head from 'next/head';
 import Typography from '@mui/material/Typography';
 import { KalilaEditionContainer } from '@frontend/kalila/components';
 import { useSession } from 'next-auth/react';
+import { transformToLERADocuments } from '@frontend/util';
 
 export function Edition({ data }) {
   const { data: session, status } = useSession();
@@ -28,7 +29,9 @@ export function Edition({ data }) {
       <Head>
         <title>{data.Name}</title>
       </Head>
+
       <KalilaEditionContainer
+        key={data?.Name}
         {...{
           data,
           username: 'guest',
@@ -61,6 +64,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
   console.log(data.Name);
   console.log(data.BookUnits.length);
   console.log(data.Manuscripts.length);
+  try {
+    const leraDocs = transformToLERADocuments(data);
+    await postToLera(leraDocs);
+    console.log('posted to lera');
+  } catch (error) {
+    console.log('could not post to lera', { error });
+  }
   return {
     props: { data },
   };

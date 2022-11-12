@@ -19,10 +19,10 @@ export const RealtimeUpdatesControls = () => {
   return (
     <Stack marginLeft="10px" direction="row" alignItems="center">
       <CloudSyncIcon
-        sx={{ color: enableRealTimeUpdates ? 'white' : '#CCCCCC' }}
+        sx={{ color: enableRealTimeUpdates ? 'secondary.main' : '#666666' }}
       />
       <Typography
-        color={enableRealTimeUpdates ? 'white' : '#CCCCCC'}
+        color={enableRealTimeUpdates ? 'secondary.main' : '#666666'}
         fontSize=".8rem"
       >
         &nbsp;Updates

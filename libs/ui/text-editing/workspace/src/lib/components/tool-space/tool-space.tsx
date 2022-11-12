@@ -47,7 +47,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
       style={{
         width: '100%',
-        height: 'calc(100vh - 110px - 10px - 72px)',
+        height: 'calc(100vh - 50px - 10px - 72px)',
       }}
     >
       {value === index && (
@@ -152,7 +152,7 @@ export const ToolSpace = () => {
             key="facsimile-loading"
             style={{
               width: '100%',
-              height: 'calc(100vh - 110px - 10px - 72px)',
+              height: 'calc(100vh - 50px - 10px - 72px)',
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -177,7 +177,7 @@ export const ToolSpace = () => {
             key="tool-spaces"
             style={{
               width: '100%',
-              height: 'calc(100vh - 110px - 10px - 72px)',
+              height: 'calc(100vh - 50px - 10px - 72px)',
             }}
             initial={{ opacity: 0, x: 200 }}
             animate={{ opacity: 1, x: 0 }}

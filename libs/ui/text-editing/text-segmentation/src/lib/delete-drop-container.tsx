@@ -25,7 +25,12 @@ export const DeleteDropContainer = ({
     drop: (item: IItemData) => {
       switch (item.type) {
         case Draggables.movableUnit:
-          dispatch(removeUnit(item.data.Id));
+          dispatch(
+            removeUnit({
+              msUnitId: item.data.Id,
+              bookUnitId: item.data.BookUnitId,
+            })
+          );
           break;
         case Draggables.movableEndTag:
           dispatch(removeUnitEndTag({ id: item.data.Id }));
@@ -51,7 +56,7 @@ export const DeleteDropContainer = ({
         bgcolor: 'warning.main',
         height: '80px',
         width: '20vw',
-        top: '110px',
+        top: '50px',
         right: '15vw',
         borderRadius: '10px',
         zIndex: 10,

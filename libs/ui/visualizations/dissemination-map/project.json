@@ -1,4 +1,5 @@
 {
+  "name": "ui-visualizations-dissemination-map",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/visualizations/dissemination-map/src",
   "projectType": "library",
@@ -15,7 +16,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/visualizations/dissemination-map"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/ui/visualizations/dissemination-map"
+      ],
       "options": {
         "jestConfig": "libs/ui/visualizations/dissemination-map/jest.config.ts",
         "passWithNoTests": true

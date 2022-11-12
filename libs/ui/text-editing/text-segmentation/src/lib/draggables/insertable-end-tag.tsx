@@ -3,6 +3,12 @@ import { Draggables } from '../drag-layer';
 import React, { useEffect } from 'react';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import Box from '@mui/material/Box';
+import {
+  selectTextEditingAccessMode,
+  useAppSelector,
+} from '@frontend/shared-ui';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 export const InsertableEndTag = () => {
   const [collected, drag, dragPreview] = useDrag<any, any, any>(() => ({
@@ -15,20 +21,27 @@ export const InsertableEndTag = () => {
   useEffect(() => {
     dragPreview(getEmptyImage(), { captureDraggingState: true });
   }, []);
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
   return (
-    <Box
+    <Stack
+      width="48%"
       sx={{
-        p: '.5rem',
-        m: '.1rem',
         borderRadius: '5px',
         bgcolor: collected.isDragging ? 'primary.light' : 'primary.dark',
-        color: collected.isDragging ? 'black' : 'white',
         cursor: 'grab',
+        m: '3px',
+        p: '3px',
+        border: 'solid 1px',
       }}
-      ref={drag}
+      ref={accessMode !== 'view' ? drag : undefined}
+      role="DraggableBox"
+      alignItems="center"
+      justifyContent="center"
     >
-      (End)
-    </Box>
+      <Typography color="white" fontSize="1rem" variant="body1">
+        (End)
+      </Typography>
+    </Stack>
   );
 };
 
@@ -40,9 +53,10 @@ export const InsertableEndTagDragPreview = () => {
         m: '.1rem',
         borderRadius: '5px',
         bgcolor: 'primary.light',
-        color: 'black',
+        color: 'white',
         cursor: 'grab',
         opacity: '.7',
+        fontWeight: 'bold',
       }}
     >
       End

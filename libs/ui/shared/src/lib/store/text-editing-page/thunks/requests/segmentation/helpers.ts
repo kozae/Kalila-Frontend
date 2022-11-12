@@ -16,13 +16,15 @@ export function processUnits(
         ),
       ]
     : Object.values(state.unitSummaries.entities);
-  const orderedUnits = orderUnits(units as IUnitSummary[]);
+  const orderedUnits = orderUnits(
+    units.filter((u) => u && !u.Lacuna) as IUnitSummary[]
+  );
   return orderedUnits.slice().map((unit, index) => {
     if (index === orderedUnits.length - 1) {
       return unit;
     } else {
       const nextUnit: IUnitSummary | undefined = orderedUnits[index + 1];
-      if (nextUnit) {
+      if (nextUnit && !unitIsClosed(unit)) {
         return determineEndBasedOnNextUnit(unit, nextUnit, state);
       }
 
@@ -34,7 +36,7 @@ export function processUnits(
 export function identifyChanges(units: IUnitSummary[], state: RootState) {
   const newUnits: IUnitSummary[] = [];
   const updatedUnits: IUnitSummary[] = [];
-  const deletedUnits: string[] = [];
+  let deletedUnits: string[] = [];
 
   units.forEach((unit) => {
     if (unit.Id.length !== 24) {
@@ -69,10 +71,17 @@ export function identifyChanges(units: IUnitSummary[], state: RootState) {
     }
   });
 
+  if (state.textEditingPageState.deleteLacunae.length !== 0) {
+    deletedUnits = [
+      ...deletedUnits,
+      ...state.textEditingPageState.deleteLacunae,
+    ];
+  }
+
   return { newUnits, updatedUnits, deletedUnits };
 }
 
-function unitHasOpenEnd(unit: IUnitSummary) {
+function unitIsClosed(unit: IUnitSummary) {
   return (
     unit.End[0] !== undefined &&
     unit.End[0] !== -1 &&

@@ -2,7 +2,11 @@ import Portal from '@mui/material/Portal';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LinePreviewContainer } from './line-preview';
 import { useAuxiliarySurfacesData } from '../../contexts';
-import { useWindowSize, useXLargeScreenMediaQuery } from '@frontend/shared-ui';
+import {
+  useSmallScreenMediaQuery,
+  useWindowSize,
+  useXLargeScreenMediaQuery,
+} from '@frontend/shared-ui';
 import {
   getHorizontalFloaterMotionProps,
   getHorizontalFloaterStyle,
@@ -16,6 +20,7 @@ export const FacsimilePreview = () => {
   const { activeLinePreview, activeImagePreview, activePagePreview } =
     useAuxiliarySurfacesData();
   const isXLScreen = useXLargeScreenMediaQuery();
+  const isSmallScreen = useSmallScreenMediaQuery();
   const windowSize = useWindowSize();
   return (
     <Portal>
@@ -23,7 +28,11 @@ export const FacsimilePreview = () => {
         {activeLinePreview && (
           <motion.div
             key={`${activeLinePreview.manuscriptSiglum}_${activeLinePreview.page}_${activeLinePreview.line}`}
-            style={getVerticalFloaterStyle(activeLinePreview, isXLScreen)}
+            style={getVerticalFloaterStyle(
+              activeLinePreview,
+              isXLScreen,
+              isSmallScreen
+            )}
             {...getVerticalFloaterMotionProps(activeLinePreview)}
           >
             <LinePreviewContainer data={activeLinePreview} />

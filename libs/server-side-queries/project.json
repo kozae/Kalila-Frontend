@@ -1,4 +1,5 @@
 {
+  "name": "server-side-queries",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/server-side-queries/src",
   "projectType": "library",
@@ -12,7 +13,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/server-side-queries"],
+      "outputs": ["{workspaceRoot}/coverage/libs/server-side-queries"],
       "options": {
         "jestConfig": "libs/server-side-queries/jest.config.ts",
         "passWithNoTests": true

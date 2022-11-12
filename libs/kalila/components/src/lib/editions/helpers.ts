@@ -1,5 +1,5 @@
 import { IPageUnitsUpdate } from '@frontend/shared-ui';
-import { IEditionUnit } from '@frontend/domain';
+import { IEditionBookUnit, IEditionUnit } from '@frontend/domain';
 import axios from 'axios';
 import { paramsSerializer } from '@frontend/util';
 
@@ -7,27 +7,28 @@ export async function fetchEditionUpdateByUnitList(
   editionId: string,
   updateInfo: IPageUnitsUpdate,
   accessToken?: string | null
-): Promise<IEditionUnit[]> {
+): Promise<{ Changes: IEditionUnit[]; Lacunae: number[] }> {
   const updatedUnits = [
     ...updateInfo.Update.map((u) => u.Id),
     ...updateInfo.Create.map((u) => u.Id),
   ];
-  const { data } = await axios.get<{ Id: string; Changes: IEditionUnit[] }>(
-    `${process.env['NEXT_PUBLIC_API_URL']}Edition/Changes`,
-    {
-      params: {
-        Id: editionId,
-        UpdatedManuscriptId: updateInfo.ManuscriptId,
-        UpdatedUnitIds: updatedUnits,
-      },
-      paramsSerializer,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+  const { data } = await axios.get<{
+    Id: string;
+    Changes: IEditionUnit[];
+    Lacunae: number[];
+  }>(`${process.env['NEXT_PUBLIC_API_URL']}Edition/Changes`, {
+    params: {
+      Id: editionId,
+      UpdatedManuscriptId: updateInfo.ManuscriptId,
+      UpdatedUnitIds: updatedUnits,
+    },
+    paramsSerializer,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
-  return data.Changes;
+  return data;
 }
 
 export async function fetchEditionUpdateByPage(
@@ -35,20 +36,39 @@ export async function fetchEditionUpdateByPage(
   manuscriptId: string,
   pageNumber: number,
   accessToken?: string | null
-): Promise<IEditionUnit[]> {
-  const { data } = await axios.get<{ Id: string; Changes: IEditionUnit[] }>(
-    `${process.env['NEXT_PUBLIC_API_URL']}Edition/Changes`,
-    {
-      params: {
-        Id: editionId,
-        UpdatedManuscriptId: manuscriptId,
-        UpdatedPageNumber: pageNumber,
-      },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+): Promise<{ Changes: IEditionUnit[]; Lacunae: number[] }> {
+  const { data } = await axios.get<{
+    Id: string;
+    Changes: IEditionUnit[];
+    Lacunae: number[];
+  }>(`${process.env['NEXT_PUBLIC_API_URL']}Edition/Changes`, {
+    params: {
+      Id: editionId,
+      UpdatedManuscriptId: manuscriptId,
+      UpdatedPageNumber: pageNumber,
+    },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
-  return data.Changes;
+  return data;
 }
+
+export const fetchEditionBookUnits = (
+  params: { Id: string },
+  accessToken?: string | number
+) => {
+  return axios
+    .get<{ Id: string; Units: IEditionBookUnit[] }>(
+      `${process.env['NEXT_PUBLIC_API_URL']}Edition/BookUnits`,
+      {
+        params,
+        paramsSerializer,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((r) => r.data);
+};

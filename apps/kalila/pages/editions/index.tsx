@@ -13,7 +13,7 @@ import Head from 'next/head';
 import React from 'react';
 import Link from 'next/link';
 import { Box } from '@mui/material';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 import { editions } from '@frontend/server-side-queries';
 import { orderBy } from 'lodash';
 
@@ -90,7 +90,7 @@ export function Editions({ data }) {
 
 export default withTransition(Editions, {});
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const data = await editions();
   return {
     props: { data: orderBy(data, 'Name') },

@@ -22,7 +22,10 @@ const FilterComponents: {
   [KalilaValueTypes.EmbeddedEntityList]: StringFilter,
   [KalilaValueTypes.CategoricalAttributeList]: CategoricalAttributeFilter,
   [KalilaValueTypes.Date]: () => <></>,
+  ['disable']: () => <></>,
 };
 
 export const FilterControl = (props: IFilterProps & Partial<IHeaderProps>) =>
-  FilterComponents[props.f?.KalilaValueType as KalilaValueTypes](props);
+  FilterComponents[
+    props.overrideFilter ?? (props.f?.KalilaValueType as KalilaValueTypes)
+  ](props);

@@ -1,5 +1,5 @@
 import styles from './nav.module.scss';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import LoginIcon from '@mui/icons-material/Login';
@@ -10,14 +10,15 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import { useRouter } from 'next/router';
 import IconButton from '@mui/material/IconButton';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
-import { kalilaTheme } from '@frontend/shared-ui';
 import { useSession, signIn, signOut } from 'next-auth/react';
 
-const LogOutButton: React.FC<{ initials: string }> = ({ initials }) => {
+const LogOutButton: React.FC<{ initials: string; picture?: string }> = ({
+  initials,
+  picture,
+}) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
   const handleToggle = () => {
@@ -35,20 +36,23 @@ const LogOutButton: React.FC<{ initials: string }> = ({ initials }) => {
     setOpen(false);
   };
 
-  // todo determine initials
-
   return (
     <div className={styles['nav__control-bar__user-controls']}>
-      <Avatar sx={{ bgcolor: kalilaTheme.palette.primary.main }}>
-        {initials}
-      </Avatar>
+      {picture ? (
+        <Avatar alt={initials.toUpperCase()} src={picture} />
+      ) : (
+        <Avatar sx={{ bgcolor: 'secondary.main' }}>
+          {initials.toUpperCase()}
+        </Avatar>
+      )}
+
       <IconButton
         size="small"
         aria-controls={open ? 'split-button-menu' : undefined}
         aria-expanded={open ? 'true' : undefined}
         aria-label="select user action"
         aria-haspopup="menu"
-        color="primary"
+        color="secondary"
         ref={anchorRef}
         onClick={handleToggle}
       >
@@ -97,7 +101,9 @@ const LogOutButton: React.FC<{ initials: string }> = ({ initials }) => {
 
 export const NavUserControls: React.FC = () => {
   const { data: session, status } = useSession();
+
   if (status === 'loading') return <div>Loading...</div>;
+
   return (
     <>
       {session && (
@@ -105,14 +111,19 @@ export const NavUserControls: React.FC = () => {
           initials={
             session.user?.name && session.user?.name.includes('guest')
               ? 'GST'
-              : 'MK'
+              : //@ts-ignore
+                session.user.username
           }
+          //@ts-ignore
+          picture={session.user.picture}
         />
       )}
       {!session && (
         <div className={styles['nav__control-bar__user-controls']}>
           <Button
             onClick={() => signIn('keycloak')}
+            size="small"
+            color="secondary"
             variant="contained"
             disableElevation
             endIcon={<LoginIcon />}
