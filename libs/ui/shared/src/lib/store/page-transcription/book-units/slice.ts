@@ -5,7 +5,7 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import { IBookUnit } from '@frontend/domain';
-import { insertUnit, removeUnit } from '../units-summary';
+import { insertUnit, removeUnit, replaceUnit } from '../units-summary';
 
 export const bookUnitsAdapter = createEntityAdapter<
   IBookUnit & { ManuscriptInfo: string | null }
@@ -51,6 +51,16 @@ export const bookUnitsSlice = createSlice({
       bookUnitsAdapter.updateOne(state, {
         id: action.payload.bookUnitId,
         changes: { ManuscriptInfo: null },
+      });
+    });
+    builder.addCase(replaceUnit, (state, action) => {
+      bookUnitsAdapter.updateOne(state, {
+        id: action.payload.msUnit.BookUnitId,
+        changes: { ManuscriptInfo: null },
+      });
+      bookUnitsAdapter.updateOne(state, {
+        id: action.payload.bookUnit.Id,
+        changes: { ManuscriptInfo: `${action.payload.msUnit.Start[0]}` },
       });
     });
   },

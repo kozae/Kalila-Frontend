@@ -1,7 +1,7 @@
 import { IPageDescription, PageDescription } from '@frontend/domain';
 import { RootState } from '../../../../config';
 import { getParams, PageParams } from '../helpers';
-import axios from 'axios';
+import { ApiClient } from '../../../../../util';
 
 export async function patchDescription(
   data: PageDescription,
@@ -27,17 +27,14 @@ export async function patchDescription(
 
 async function patchDescriptionHTTP(
   data: Partial<IPageDescription>,
-  { accessToken, manuscriptId, pageId }: PageParams
+  { manuscriptId, pageId }: PageParams
 ) {
-  console.log({ data });
-  await axios.patch(
+  await ApiClient().patch(
     `${process.env['NEXT_PUBLIC_API_URL']}PageDescription/One`,
     data,
     {
       params: { Id: pageId, ManuscriptId: manuscriptId },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      headers: {},
     }
   );
 }

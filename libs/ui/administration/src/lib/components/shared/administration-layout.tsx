@@ -45,15 +45,15 @@ const AdminNav: React.FC<{ selectedKey: false | 0 | 1 | 2 }> = ({
       indicatorColor="secondary"
       aria-label="activitiesList"
     >
-      <LinkTab
-        label="Manuscript Description"
-        href="/administration/manuscript-description"
-      />
+      {/*<LinkTab*/}
+      {/*  label="Manuscript Description"*/}
+      {/*  href="/administration/manuscript-description"*/}
+      {/*/>*/}
       <LinkTab label="Pages" href="/administration/pages" />
-      <LinkTab
-        label="Categorical Attributes"
-        href="/administration/categorical-attributes"
-      />
+      {/*<LinkTab*/}
+      {/*  label="Categorical Attributes"*/}
+      {/*  href="/administration/categorical-attributes"*/}
+      {/*/>*/}
     </Tabs>
   );
   return selectedKey !== false ? (

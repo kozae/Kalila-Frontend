@@ -1,6 +1,5 @@
-import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ThunkApi } from '@frontend/shared-ui';
+import { ApiClient, ThunkApi } from '@frontend/shared-ui';
 import {
   cleanObject,
   IPagination,
@@ -93,16 +92,13 @@ export const createDocument = createAsyncThunk<
   'pagedDocuments/createDocument',
   async (doc, { getState, rejectWithValue }) => {
     const state = getState();
-    const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     try {
-      await axios.post(
+      await ApiClient().post(
         `${process.env['NEXT_PUBLIC_API_URL']}${activityName}`,
         { ...doc, Id: ObjectID().toString() },
         {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+          headers: {},
         }
       );
       return true;
@@ -120,17 +116,14 @@ export const updateDocuments = createAsyncThunk<
   'pagedDocuments/updateDocuments',
   async ({ update, params }, { getState, rejectWithValue }) => {
     const state = getState();
-    const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     try {
-      await axios.patch(
+      await ApiClient().patch(
         `${process.env['NEXT_PUBLIC_API_URL']}${activityName}`,
         update,
         {
           params,
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+          headers: {},
         }
       );
       return true;
@@ -148,17 +141,14 @@ export const updateOneDocument = createAsyncThunk<
   'pagedDocuments/updateOneDocument',
   async ({ update, params }, { getState, rejectWithValue }) => {
     const state = getState();
-    const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     try {
-      await axios.patch(
+      await ApiClient().patch(
         `${process.env['NEXT_PUBLIC_API_URL']}${activityName}/One`,
         update,
         {
           params,
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+          headers: {},
         }
       );
       return true;
@@ -176,18 +166,15 @@ export const adminUpdateDocuments = createAsyncThunk<
   'pagedDocuments/adminUpdateDocuments',
   async ({ update, params }, { getState, rejectWithValue }) => {
     const state = getState();
-    const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     try {
-      await axios.patch(
+      await ApiClient().patch(
         `${process.env['NEXT_PUBLIC_API_URL']}${activityName}/Admin`,
         update,
         {
           params,
           paramsSerializer,
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+          headers: {},
         }
       );
       return true;
@@ -205,17 +192,14 @@ export const deleteDocument = createAsyncThunk<
   'pagedDocuments/deleteDocument',
   async ({ id, additionalParams }, { getState, rejectWithValue }) => {
     const state = getState();
-    const accessToken = state.session.session?.AccessToken;
     const activityName = state.pagedDocuments.activityName;
     additionalParams = additionalParams ?? {};
     try {
-      await axios.delete(
+      await ApiClient().delete(
         `${process.env['NEXT_PUBLIC_API_URL']}${activityName}`,
         {
           params: { Id: id, ...additionalParams },
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+          headers: {},
         }
       );
       return true;

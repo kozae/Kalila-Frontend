@@ -14,6 +14,7 @@ pub struct EditionCellData {
     pub(crate) lines: Vec<u8>,
     pub(crate) breaks: Vec<usize>,
     pub(crate) located_image_at_token: Option<usize>,
+    pub(crate) page_range: Vec<u16>,
 }
 
 #[wasm_bindgen]

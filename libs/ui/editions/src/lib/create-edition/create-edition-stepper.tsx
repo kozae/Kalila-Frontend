@@ -12,9 +12,8 @@ import {
   SelectChapter,
 } from './create-unpdate-edition-operations';
 import { stringHasValue } from '@frontend/util';
-import { selectAccessToken, useAppSelector } from '@frontend/shared-ui';
 import ObjectID from 'bson-objectid';
-import axios from 'axios';
+import { ApiClient } from '@frontend/shared-ui';
 
 const steps = [
   'Select and order manuscripts',
@@ -29,7 +28,6 @@ export const CreateEditionStepper: FC<{ handleClose: () => void }> = ({
   const [skipped, setSkipped] = useState(new Set<number>());
   const [selectedManuscripts, setSelectedManuscripts] = useState<string[]>([]);
   const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
-  const accessToken = useAppSelector(selectAccessToken);
   const [editionName, setEditionName] = useState<string>('');
   const isStepSkipped = (step: number) => {
     return skipped.has(step);
@@ -68,15 +66,18 @@ export const CreateEditionStepper: FC<{ handleClose: () => void }> = ({
       })),
     };
     console.log({ editionDoc });
-    await axios.post(
-      `${process.env['NEXT_PUBLIC_API_URL']}Edition`,
-      editionDoc,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    try {
+      await ApiClient().post(
+        `${process.env['NEXT_PUBLIC_API_URL']}Edition`,
+        editionDoc,
+        {
+          headers: {},
+        }
+      );
+    } catch (e) {
+      throw e;
+    }
+
     handleClose();
   }, [selectedManuscripts, selectedChapter, editionName]);
 

@@ -17,6 +17,7 @@ export const BehaviorOptionsContext = createContext<IBehaviorOptions>({
   isSearchActive: false,
   enableRealTimeUpdates: false,
   mapState: null,
+  visibleUnitInfo: null,
 });
 
 export const BehaviorOptionMethodsContext =
@@ -24,7 +25,9 @@ export const BehaviorOptionMethodsContext =
     setEnableFacsimilePreview: (v: boolean | ((v: boolean) => boolean)) => {},
     setIsSearchActive: (v: boolean | ((v: boolean) => boolean)) => {},
     setEnableRealTimeUpdates: (v: boolean | ((v: boolean) => boolean)) => {},
-
+    setVisibleUnitInfo: (
+      v: (number | null) | ((v: number | null) => number | null)
+    ) => {},
     setMapState: (
       v: MapPosition | null | ((v: MapPosition | null) => MapPosition | null)
     ) => {},
@@ -44,14 +47,22 @@ export const BehaviorOptionsProvider: FC<{ children: ReactNode }> = ({
     useState<boolean>(true);
 
   const [mapState, setMapState] = useState<MapPosition | null>(null);
+  const [visibleUnitInfo, setVisibleUnitInfo] = useState<number | null>(null);
   const options = useMemo(
     () => ({
       enableFacsimilePreview,
       isSearchActive,
       enableRealTimeUpdates,
       mapState,
+      visibleUnitInfo,
     }),
-    [enableFacsimilePreview, isSearchActive, enableRealTimeUpdates, mapState]
+    [
+      enableFacsimilePreview,
+      isSearchActive,
+      enableRealTimeUpdates,
+      mapState,
+      visibleUnitInfo,
+    ]
   );
   return (
     <BehaviorOptionMethodsContext.Provider
@@ -60,6 +71,7 @@ export const BehaviorOptionsProvider: FC<{ children: ReactNode }> = ({
         setIsSearchActive,
         setEnableRealTimeUpdates,
         setMapState,
+        setVisibleUnitInfo,
       }}
     >
       <BehaviorOptionsContext.Provider value={options}>

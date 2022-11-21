@@ -3,7 +3,7 @@ import { paramsSerializer } from '@frontend/util';
 
 export async function pageTranscription(manuscriptId: string, pageId: string) {
   const { data } = await axios.get(
-    `http://localhost:6688/v1/PageTranscription/One`,
+    `${process.env['INTERNAL_API_URL']}PageTranscription/One`,
     {
       headers: {
         Accept: 'application/json',

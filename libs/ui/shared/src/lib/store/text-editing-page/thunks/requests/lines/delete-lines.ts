@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { RootState } from '../../../../config';
 import { getParams, PageParams } from '../helpers';
 import { groupBy } from 'lodash';
+import { ApiClient } from '../../../../../util';
 
 export async function deleteLines(state: RootState) {
   if (
@@ -54,15 +54,13 @@ async function deleteLinesHTTP(
     ElementId: string;
     Lines: string[];
   },
-  { accessToken, manuscriptId, pageId }: PageParams
+  { manuscriptId, pageId }: PageParams
 ) {
-  await axios.request({
+  await ApiClient().request({
     url: `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Lines`,
     method: 'DELETE',
     data,
     params: { Id: pageId, ManuscriptId: manuscriptId },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    headers: {},
   });
 }

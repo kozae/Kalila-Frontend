@@ -94,6 +94,7 @@ function unitIsClosed(unit: IUnitSummary) {
 
 function unitUnchanged(u1: IUnitSummary, u2: IUnitSummary | undefined) {
   return (
+    u1.BookUnitId === u2?.BookUnitId &&
     u1.Start[0] === u2?.Start[0] &&
     u1.Start[1] === u2?.Start[1] &&
     u1.Start[2] === u2?.Start[2] &&

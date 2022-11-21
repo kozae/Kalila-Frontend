@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import Portal from '@mui/material/Portal';
 import { CreateEditionModal } from '@frontend/ui/editions';
 import Head from 'next/head';
-import React from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { Box } from '@mui/material';
 import { GetServerSideProps, GetStaticProps } from 'next';
@@ -22,7 +22,11 @@ export function Editions({ data }) {
     createDialogIsOpen,
     { setTrue: openCreateDialog, setFalse: closeCreateDialog },
   ] = useBoolean(false);
-  useNavbarMessage(['Select Edition', undefined]);
+  const messages = useMemo(
+    () => ['Select Edition', undefined] as [string, string],
+    []
+  );
+  useNavbarMessage(messages);
   const user = useAppSelector(selectUser);
   return (
     <>

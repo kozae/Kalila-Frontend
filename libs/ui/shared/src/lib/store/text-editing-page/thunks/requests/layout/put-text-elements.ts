@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { ITextElement } from '@frontend/domain';
 import { RootState } from '../../../../config';
 import { getParams, PageParams } from '../helpers';
 import { cleanObject } from '@frontend/util';
+import { ApiClient } from '../../../../../util';
 
 export async function putTextElements(state: RootState) {
   const TextElements: Array<Omit<ITextElement, 'Lines'>> = [];
@@ -24,16 +24,14 @@ export async function putTextElements(state: RootState) {
 
 async function putTextElementsHTTP(
   data: Array<Omit<ITextElement, 'Lines'>>,
-  { accessToken, manuscriptId, pageId }: PageParams
+  { manuscriptId, pageId }: PageParams
 ) {
-  await axios.put(
+  await ApiClient().put(
     `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/TextElements`,
     data,
     {
       params: { Id: pageId, ManuscriptId: manuscriptId },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      headers: {},
     }
   );
 }

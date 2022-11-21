@@ -18,7 +18,6 @@ import {
   getSelectionColumn,
   EditorCell,
 } from '@frontend/ui/table';
-import { Column } from 'react-table';
 import Head from 'next/head';
 import { KeyValueCell } from '@frontend/ui/table';
 export function MSDAdministration() {

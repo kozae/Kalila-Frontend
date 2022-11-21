@@ -4,7 +4,7 @@ import {
   EntityState,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { IUnitSummary } from '@frontend/domain';
+import { IBookUnit, IUnitSummary } from '@frontend/domain';
 import { closeUnit, moveUnit, removeUnitEndTag } from './thunks';
 import {
   discardTokenChanges,
@@ -32,6 +32,39 @@ export const unitSummariesSlice = createSlice({
       action: PayloadAction<{ msUnitId: string; bookUnitId: string }>
     ) => {
       unitSummariesAdapter.removeOne(state, action.payload.msUnitId);
+    },
+    replaceUnit: (
+      state,
+      action: PayloadAction<{ msUnit: IUnitSummary; bookUnit: IBookUnit }>
+    ) => {
+      unitSummariesAdapter.updateOne(state, {
+        id: action.payload.msUnit.Id,
+        changes: {
+          BookUnitId: action.payload.bookUnit.Id,
+          BookUnit: action.payload.bookUnit.Title,
+          Order: action.payload.bookUnit.Order,
+          FrameTags: action.payload.bookUnit.FrameTags,
+        },
+      });
+    },
+    swapUnits: (
+      state,
+      action: PayloadAction<{ first: IUnitSummary; second: IUnitSummary }>
+    ) => {
+      unitSummariesAdapter.updateOne(state, {
+        id: action.payload.first.Id,
+        changes: {
+          Start: action.payload.second.Start,
+          End: action.payload.second.End,
+        },
+      });
+      unitSummariesAdapter.updateOne(state, {
+        id: action.payload.second.Id,
+        changes: {
+          Start: action.payload.first.Start,
+          End: action.payload.first.End,
+        },
+      });
     },
     clearUnitSummaries: unitSummariesAdapter.removeAll,
   },
@@ -114,4 +147,6 @@ export const {
   updateUnit,
   updateManyUnits,
   removeUnit,
+  replaceUnit,
+  swapUnits,
 } = unitSummariesSlice.actions;

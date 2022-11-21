@@ -3,7 +3,7 @@ import { ILine } from '@frontend/domain';
 import { cleanObject } from '@frontend/util';
 import { omit } from 'lodash';
 import { getParams, PageParams } from '../helpers';
-import axios from 'axios';
+import { ApiClient } from '../../../../../util';
 
 export async function putLines(state: RootState) {
   if (state.textEditingPageState.putLines.length === 0) {
@@ -40,16 +40,14 @@ async function putLinesHTTP(
     ElementId: string;
     Line: Omit<ILine, 'Tokens' | 'HighlightColor'>;
   }[],
-  { accessToken, manuscriptId, pageId }: PageParams
+  { manuscriptId, pageId }: PageParams
 ) {
-  await axios.put(
+  await ApiClient().put(
     `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Lines`,
     data,
     {
       params: { Id: pageId, ManuscriptId: manuscriptId },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      headers: {},
     }
   );
 }

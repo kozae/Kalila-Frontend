@@ -44,7 +44,7 @@ export function LayoutAnalysisTool() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: 'easeIn' }}
           >
-            {accessMode !== 'view' && (
+            {(accessMode.includes('edit') || accessMode.includes('admin')) && (
               <LayoutAnalysisCommandBar
                 numberOfImageElements={imageElements.length}
                 numberOfTextElements={textElements.length}

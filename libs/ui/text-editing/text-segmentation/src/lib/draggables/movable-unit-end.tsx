@@ -5,10 +5,7 @@ import { Draggables } from '../drag-layer';
 import { useEffect } from 'react';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import {
-  removeUnit,
-  removeUnitEndTag,
   selectTextEditingAccessMode,
-  useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
 import { bookUnitOrderDisplay } from '@frontend/util';
@@ -34,7 +31,11 @@ export const MovableUnitEnd = ({ d }: IUnitEndProps) => {
   const accessMode = useAppSelector(selectTextEditingAccessMode);
   return (
     <Typography
-      ref={accessMode !== 'view' ? drag : undefined}
+      ref={
+        accessMode.includes('edit') || accessMode.includes('admin')
+          ? drag
+          : undefined
+      }
       sx={{
         bgcolor: 'primary.dark',
         color: 'white',

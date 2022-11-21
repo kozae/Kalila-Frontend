@@ -7,10 +7,15 @@ import {
   useLoginValidation,
   useNavbarMessage,
 } from '@frontend/shared-ui';
+import { useMemo } from 'react';
 
 const Administration: NextPage = () => {
   useLoginValidation();
-  useNavbarMessage(['Administration:', 'Select Activity']);
+  const messages = useMemo(
+    () => ['Administration:', 'Select Activity'] as [string, string],
+    []
+  );
+  useNavbarMessage(messages);
   return (
     <>
       <UndrawChoiceSVG

@@ -8,14 +8,13 @@ import React, { useCallback, useContext } from 'react';
 import { bookUnitOrderDisplay, stringHasValue } from '@frontend/util';
 import { BookUnitPanelContext } from './book-unit-panel.context';
 import {
+  ApiClient,
   removeLacuna,
-  selectAccessToken,
   selectTextEditingAccessMode,
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import axios from 'axios';
 export const BookUnitTag = ({
   d,
 }: {
@@ -23,7 +22,6 @@ export const BookUnitTag = ({
 }) => {
   const { setSelectedBookUnit, setEditBookUnitDialogIsOpen, refetchUnits } =
     useContext(BookUnitPanelContext);
-  const accessToken = useAppSelector(selectAccessToken);
   const handleEditBookUnit = (d: IBookUnit) => {
     setSelectedBookUnit(
       new BookUnit(
@@ -46,7 +44,7 @@ export const BookUnitTag = ({
 
   const onDeleteDivider = useCallback(
     async (id: string) => {
-      await deleteBookUnit(id as string, accessToken as string);
+      await deleteBookUnit(id as string);
       if (refetchUnits) {
         await refetchUnits();
       }
@@ -145,7 +143,8 @@ const AssignedUnitLacuna = ({
           {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} &nbsp; [
           {d.Order.map((i) => `${i}.`)}]
         </Typography>
-        {accessMode === 'admin' && (
+        {(accessMode.includes('book_unit_admin') ||
+          accessMode.includes('admin')) && (
           <IconButton
             sx={{ position: 'absolute', top: 0, right: 0 }}
             size="small"
@@ -199,7 +198,8 @@ const AssignedUnit = ({ d, onEdit }: IBookUnitTagProps) => {
           {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} &nbsp; [
           {d.Order.map((i) => `${i}.`)}]
         </Typography>
-        {accessMode === 'admin' && (
+        {(accessMode.includes('book_unit_admin') ||
+          accessMode.includes('admin')) && (
           <IconButton
             sx={{ position: 'absolute', top: 0, right: 0 }}
             size="small"
@@ -242,7 +242,8 @@ const BoundaryUnit = ({
         direction="row"
         alignItems="baseline"
       >
-        {accessMode === 'admin' && (
+        {(accessMode.includes('book_unit_admin') ||
+          accessMode.includes('admin')) && (
           <Stack
             sx={{ position: 'absolute', top: 0, left: 0 }}
             justifyContent="flex-start"
@@ -268,7 +269,8 @@ const BoundaryUnit = ({
           {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} &nbsp; [
           {d.Order.map((i) => `${i}.`)}]
         </Typography>
-        {accessMode === 'admin' && (
+        {(accessMode.includes('book_unit_admin') ||
+          accessMode.includes('admin')) && (
           <IconButton
             sx={{ position: 'absolute', top: 0, right: 0 }}
             size="small"
@@ -285,13 +287,11 @@ const BoundaryUnit = ({
   );
 };
 
-async function deleteBookUnit(id: string, accessToken: string) {
-  await axios.delete(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit`, {
+async function deleteBookUnit(id: string) {
+  await ApiClient().delete(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit`, {
     params: {
       Id: id,
     },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    headers: {},
   });
 }

@@ -1,9 +1,5 @@
 import Modal from '@mui/material/Modal';
-import {
-  DialogHeading,
-  selectAccessToken,
-  useAppSelector,
-} from '@frontend/shared-ui';
+import { DialogHeading } from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import Portal from '@mui/material/Portal';
@@ -50,7 +46,6 @@ export const EditBookUnitDialog = () => {
     [selectedBookUnit]
   );
 
-  const accessToken = useAppSelector(selectAccessToken);
   const onClose = () => {
     setValue(null);
     setErrors(null);
@@ -109,22 +104,18 @@ export const EditBookUnitDialog = () => {
   );
 
   const onSave = useCallback(async () => {
-    if (value && accessToken && refetchUnits) {
+    if (value && refetchUnits) {
       try {
         const variantIsChanged = value.Variant !== originalValue.Variant;
         const titleIsChanged = value.Title !== originalValue.Title;
         const orderIsChanged = !isEqual(value.Order, originalValue.Order);
         if (variantIsChanged || titleIsChanged || orderIsChanged) {
-          await updateStructureRequest(
-            originalValue.Id as string,
-            {
-              Title: titleIsChanged ? value.Title : undefined,
-              Variant: variantIsChanged ? value.Variant : undefined,
-              NewOrder: orderIsChanged ? value.Order : [],
-              OldOrder: orderIsChanged ? originalValue.Order : [],
-            },
-            accessToken
-          );
+          await updateStructureRequest(originalValue.Id as string, {
+            Title: titleIsChanged ? value.Title : undefined,
+            Variant: variantIsChanged ? value.Variant : undefined,
+            NewOrder: orderIsChanged ? value.Order : [],
+            OldOrder: orderIsChanged ? originalValue.Order : [],
+          });
         }
 
         const frameTagsChanged = !isEqual(
@@ -141,8 +132,7 @@ export const EditBookUnitDialog = () => {
               FrameTags: frameTagsChanged ? value.FrameTags : undefined,
               Topics: topicsChanged ? value.Topics : undefined,
               Motifs: motifsChanged ? value.Motifs : undefined,
-            },
-            accessToken
+            }
           );
         }
 
@@ -152,7 +142,7 @@ export const EditBookUnitDialog = () => {
         console.log(err);
       }
     }
-  }, [value, accessToken, originalValue]);
+  }, [value, originalValue]);
 
   return (
     <Portal>

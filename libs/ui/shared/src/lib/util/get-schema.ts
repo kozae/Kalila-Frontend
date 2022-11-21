@@ -1,13 +1,8 @@
 import useSWRImmutable from 'swr/immutable';
-import {
-  ActivitySchema,
-  IDataEntrySchema,
-  fetcher,
-  InputModes,
-  IPagination,
-} from '@frontend/util';
+import { ActivitySchema, IDataEntrySchema, IPagination } from '@frontend/util';
 import { SWRResponse } from 'swr';
 import { useMemo } from 'react';
+import { fetcher } from './api-client';
 
 export function transformSchemaName(activityName: string) {
   switch (activityName) {
@@ -27,11 +22,7 @@ export function fetchSchema(
   any
 > {
   return useSWRImmutable(
-    [
-      `EntrySchema/${transformSchemaName(activityName)}`,
-      undefined, // no accessToken needed
-      schemaFilter,
-    ],
+    [`EntrySchema/${transformSchemaName(activityName)}`, schemaFilter],
     fetcher
   );
 }

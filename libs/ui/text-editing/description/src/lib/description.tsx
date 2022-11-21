@@ -61,7 +61,7 @@ export const DescriptionTool = () => {
               </Button>
             </Stack>
             <ViewDescription />
-            {accessMode === 'edit' && (
+            {(accessMode.includes('edit') || accessMode.includes('admin')) && (
               <Stack
                 mt="10px"
                 width="100%"

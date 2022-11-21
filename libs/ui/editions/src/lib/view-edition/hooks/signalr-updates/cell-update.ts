@@ -19,7 +19,6 @@ export function useCellUpdate(
     async (updateInfo: IPageUnitsUpdate) => {
       const manuscriptIdx = edition.get_manuscript_idx(updateInfo.ManuscriptId);
       const editionId = edition.get_edition_id();
-      // todo check if update is relevant to the edition
       if (
         fetchEditionUpdateByUnitList &&
         manuscriptIdx !== undefined &&
@@ -28,7 +27,6 @@ export function useCellUpdate(
           updateInfo.Delete.length !== 0)
       ) {
         const data = await fetchEditionUpdateByUnitList(editionId, updateInfo);
-        console.log(data);
         edition = edition.update_cells(data.Changes, manuscriptIdx);
         edition = edition.update_ms_lacunae(
           manuscriptIdx,

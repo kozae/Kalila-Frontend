@@ -68,7 +68,7 @@ export const MessageBar = () => {
   );
   const showClickToEdit =
     regionHoveredInFacsimileSpace &&
-    accessMode === 'edit' &&
+    (accessMode.includes('edit') || accessMode.includes('admin')) &&
     ['layout', 'lines'].includes(activeWorkspace);
   const showDragElements =
     activeWorkspace === 'layout' && toolMode === 'reorder';

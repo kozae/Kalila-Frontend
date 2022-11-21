@@ -1,15 +1,12 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { IChapter, IImageElement } from '@frontend/domain';
 import {
-  selectAccessToken,
-  selectCurrentPageManuscriptId,
+  ApiClient,
   updateImageElement,
   useAppDispatch,
-  useAppSelector,
   useBoolean,
 } from '@frontend/shared-ui';
 import useSWR from 'swr';
-import axios from 'axios';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { Portal, Typography } from '@mui/material';
@@ -23,32 +20,25 @@ export const ImageUnitAssignment: FC<{ el: IImageElement }> = ({ el }) => {
     { setTrue: openSelectChapterDialog, setFalse: dismissSelectChapterDialog },
   ] = useBoolean(false);
   const dispatch = useAppDispatch();
-  const accessToken = useAppSelector(selectAccessToken);
-  const { data: assignedUnitData } = useSWR(
-    accessToken && el.DepictsUnitId,
-    () =>
-      axios
-        .get(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit/One`, {
-          params: {
-            Id: el.DepictsUnitId,
-          },
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data)
+  const { data: assignedUnitData } = useSWR(el.DepictsUnitId, () =>
+    ApiClient()
+      .get(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit/One`, {
+        params: {
+          Id: el.DepictsUnitId,
+        },
+        headers: {},
+      })
+      .then((res) => res.data)
   );
 
-  const { data: chapterUnitData } = useSWR(accessToken && chapter, () =>
-    axios
+  const { data: chapterUnitData } = useSWR(chapter, () =>
+    ApiClient()
       .get(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit`, {
         params: {
           ChapterCn: chapter ? chapter.abbr : '',
           PageSize: -1,
         },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        headers: {},
       })
       .then((res) => res.data)
   );

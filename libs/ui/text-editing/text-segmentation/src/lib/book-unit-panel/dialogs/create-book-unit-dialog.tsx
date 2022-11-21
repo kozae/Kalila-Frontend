@@ -1,9 +1,5 @@
 import Modal from '@mui/material/Modal';
-import {
-  DialogHeading,
-  selectAccessToken,
-  useAppSelector,
-} from '@frontend/shared-ui';
+import { DialogHeading } from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
 import React, { useCallback, useContext, useState } from 'react';
 import Portal from '@mui/material/Portal';
@@ -42,7 +38,6 @@ export const CreateBookUnitDialog = () => {
 
   const [value, setValue] = useState<BookUnit | null>(null);
   const [errors, setErrors] = useState<string[] | null>(null);
-  const accessToken = useAppSelector(selectAccessToken);
   const onClose = () => {
     setValue(null);
     setErrors(null);
@@ -82,28 +77,25 @@ export const CreateBookUnitDialog = () => {
   };
 
   const onSave = useCallback(async () => {
-    if (value && accessToken && refetchUnits) {
+    if (value && refetchUnits) {
       try {
-        await createRequest(
-          {
-            Id: ObjectID().toString(),
-            Title: value.Title,
-            Order: value.Order,
-            Variant: stringHasValue(value.Variant) ? value.Variant : undefined,
-            Divider: value.Divider,
-            FrameTags: value.FrameTags,
-            Editor: 'mk',
-            EditionProgress: 'in work',
-          },
-          accessToken
-        );
+        await createRequest({
+          Id: ObjectID().toString(),
+          Title: value.Title,
+          Order: value.Order,
+          Variant: stringHasValue(value.Variant) ? value.Variant : undefined,
+          Divider: value.Divider,
+          FrameTags: value.FrameTags,
+          Editor: 'mk',
+          EditionProgress: 'in work',
+        });
         await refetchUnits();
         onClose();
       } catch (err) {
         console.log(err);
       }
     }
-  }, [value, accessToken]);
+  }, [value]);
 
   return (
     <Portal>

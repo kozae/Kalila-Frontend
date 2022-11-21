@@ -1,13 +1,10 @@
 import { IChapter } from '@frontend/domain';
 import useSWRImmutable from 'swr/immutable';
 
-import { fetcher, MediaTypes } from '@frontend/util';
+import { MediaTypes } from '@frontend/util';
+import { fetcher } from '@frontend/shared-ui';
 
-export function getBookUnits(
-  accessToken: string | null | undefined,
-  chapter: IChapter | null,
-  manuscriptId: string
-) {
+export function getBookUnits(chapter: IChapter | null, manuscriptId: string) {
   const filter =
     chapter && chapter.abbr === 'untagged'
       ? { FrameTagsEmpty: true }
@@ -15,10 +12,9 @@ export function getBookUnits(
       ? {}
       : { FrameTagsCn: chapter?.abbr };
   return useSWRImmutable(
-    accessToken && chapter
+    chapter
       ? [
           'BookUnit',
-          accessToken,
           {
             ...filter,
             PageSize: '-1',

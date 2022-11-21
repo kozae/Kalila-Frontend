@@ -31,6 +31,8 @@ import {
   moveUnit,
   removeUnit,
   removeUnitEndTag,
+  replaceUnit,
+  swapUnits,
   updateUnit,
 } from '../../page-transcription/units-summary';
 import { removeLacuna } from '../../page-transcription/book-units';
@@ -150,6 +152,12 @@ export function addUpdateCollectors(
     state.textSegmentationTouched = true;
   });
   builder.addCase(removeUnit, (state) => {
+    state.textSegmentationTouched = true;
+  });
+  builder.addCase(replaceUnit, (state) => {
+    state.textSegmentationTouched = true;
+  });
+  builder.addCase(swapUnits, (state) => {
     state.textSegmentationTouched = true;
   });
   builder.addCase(removeLacuna, (state, action) => {

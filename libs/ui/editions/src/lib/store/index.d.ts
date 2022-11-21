@@ -49,6 +49,10 @@ export class EditionCellData {
 */
   get_token(idx: number): string;
 /**
+* @returns {Uint16Array}
+*/
+  get_page_range(): Uint16Array;
+/**
 * @param {number} idx
 * @returns {boolean}
 */

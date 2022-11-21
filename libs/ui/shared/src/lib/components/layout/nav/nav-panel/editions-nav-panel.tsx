@@ -1,12 +1,11 @@
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Summary } from './summary';
 import Stack from '@mui/material/Stack';
 import { PanelLink } from './panel-link';
-import axios from 'axios';
 import { MediaTypes, paramsSerializer } from '@frontend/util';
-import { selectAccessToken, useAppSelector } from '@frontend/shared-ui';
+import { ApiClient } from '@frontend/shared-ui';
 import useSWRImmutable from 'swr/immutable';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -24,10 +23,7 @@ export const EditionsNavPanel = () => {
       <Summary text="Editions" />
       <AccordionDetails>
         <Stack>
-          <PanelLink
-            linkRef="editions"
-            text="Go to: Select or Create Edition"
-          />
+          <PanelLink linkRef="editions" text="Select or Create Edition" />
           <Divider sx={{ mt: '.5rem' }} />
           {expanded && <EditionSelection />}
         </Stack>
@@ -37,13 +33,11 @@ export const EditionsNavPanel = () => {
 };
 
 const EditionSelection = () => {
-  const accessToken = useAppSelector(selectAccessToken);
-  const { data, isValidating } = useSWRImmutable(
-    accessToken && 'EditionsPanelNav',
-    () => editionSummaryFetcher(accessToken)
+  const { data, isValidating } = useSWRImmutable('EditionsPanelNav', () =>
+    editionSummaryFetcher()
   );
 
-  return isValidating ? (
+  return isValidating || data === undefined ? (
     <Box p="0.5rem" width="100%">
       <LinearProgress />
     </Box>
@@ -61,17 +55,20 @@ const EditionSelection = () => {
   );
 };
 
-async function editionSummaryFetcher(accessToken: string | undefined) {
-  const { data } = await axios.get<any>(
-    `${process.env['NEXT_PUBLIC_API_URL']}Edition/Summaries`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: MediaTypes.JSON,
-      },
-      params: { PageSize: -1 },
-      paramsSerializer,
-    }
-  );
-  return data.map(({ Id, Name }: any) => ({ Id, Name }));
+async function editionSummaryFetcher() {
+  try {
+    const { data } = await ApiClient().get<any>(
+      `${process.env['NEXT_PUBLIC_API_URL']}Edition/Summaries`,
+      {
+        headers: {
+          Accept: MediaTypes.JSON,
+        },
+        params: { PageSize: -1 },
+        paramsSerializer,
+      }
+    );
+    return data.map(({ Id, Name }: any) => ({ Id, Name }));
+  } catch (e) {
+    throw e;
+  }
 }

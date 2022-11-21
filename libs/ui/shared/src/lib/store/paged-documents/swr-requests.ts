@@ -1,10 +1,9 @@
 import useSWR from 'swr';
-import { fetcher, MediaTypes } from '@frontend/util';
+import { MediaTypes } from '@frontend/util';
 import { KalilaDocument } from '@frontend/domain';
-import { ParsedUrlQuery } from 'querystring';
+import { fetcher } from '@frontend/shared-ui';
 
 export function getDocuments<T extends KalilaDocument>(
-  accessToken: string | undefined | null,
   activityName: string,
   query: any,
   mediaType: MediaTypes,
@@ -12,17 +11,14 @@ export function getDocuments<T extends KalilaDocument>(
   suffix: string = ''
 ) {
   return useSWR(
-    accessToken
-      ? [
-          // only fetch if access token is present
-          activityName,
-          accessToken,
-          query,
-          mediaType,
-          additionalParams,
-          suffix,
-        ]
-      : null,
+    [
+      // only fetch if access token is present
+      activityName,
+      query,
+      mediaType,
+      additionalParams,
+      suffix,
+    ],
     fetcher,
     {
       revalidateIfStale: false,

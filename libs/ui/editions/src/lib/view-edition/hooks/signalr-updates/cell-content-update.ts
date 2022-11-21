@@ -20,7 +20,7 @@ export function useCellContentUpdate(
       const manuscriptIdx = edition.get_manuscript_idx(updateInfo.ManuscriptId);
       if (
         fetchEditionUpdateByPage &&
-        manuscriptIdx &&
+        manuscriptIdx !== undefined &&
         edition.is_page_in_edition(manuscriptIdx, updateInfo.PageNumber)
       ) {
         const editionId = edition.get_edition_id();

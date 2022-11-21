@@ -132,7 +132,8 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
                   <DeleteIcon sx={{ fontSize: '1.2rem' }} />
                 </IconButton>
               )}
-              {accessMode !== 'view' && (
+              {(accessMode.includes('edit') ||
+                accessMode.includes('admin')) && (
                 <IconButton
                   color="secondary"
                   size="small"

@@ -10,6 +10,7 @@ import {
   NavMessageBarContextProvider,
   SignalrProvider,
   store,
+  useApiCallErrorHandler,
 } from '@frontend/shared-ui';
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from '@mui/material';
@@ -19,6 +20,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
 import { ErrorBoundary } from '@frontend/kalila/components';
+import { SWRConfig } from 'swr';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -49,13 +51,15 @@ function KalilaApp(appProps: KalilaAppProps) {
           <SessionProvider session={session}>
             <ThemeProvider theme={kalilaTheme}>
               <ReduxProvider store={store}>
-                <NavMessageBarContextProvider>
-                  <Layout>
-                    <AnimatePresence exitBeforeEnter>
-                      <Component {...pageProps} key={router.route} />
-                    </AnimatePresence>
-                  </Layout>
-                </NavMessageBarContextProvider>
+                <SWRConfig value={{ onError: useApiCallErrorHandler() }}>
+                  <NavMessageBarContextProvider>
+                    <Layout>
+                      <AnimatePresence exitBeforeEnter>
+                        <Component {...pageProps} key={router.route} />
+                      </AnimatePresence>
+                    </Layout>
+                  </NavMessageBarContextProvider>
+                </SWRConfig>
               </ReduxProvider>
             </ThemeProvider>
           </SessionProvider>

@@ -26,10 +26,14 @@ export type TextEditingToolMode =
   | 'generate'
   | 'automatic-detection';
 
-export type TextEditingAccessMode = 'view' | 'edit' | 'admin';
+export type TextEditingAccessMode =
+  | 'view'
+  | 'edit'
+  | 'admin'
+  | 'book_unit_admin';
 
 export interface ITextEditingPageState {
-  accessMode: TextEditingAccessMode;
+  accessMode: TextEditingAccessMode[];
   activeWorkspace: TextEditingActiveWorkspace;
   toolMode: TextEditingToolMode;
   regionHoveredInToolSpace: {

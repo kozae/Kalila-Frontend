@@ -17,9 +17,10 @@ import {
 import Stack from '@mui/material/Stack';
 import { Box, Typography } from '@mui/material';
 import React, { useEffect, useMemo } from 'react';
-import axios from 'axios';
+
 export function Index() {
-  useNavbarMessage(['Home', undefined]);
+  const messages = useMemo(() => ['Home', undefined] as [string, string], []);
+  useNavbarMessage(messages, undefined);
   const user = useAppSelector(selectUser);
   const links = useMemo(() => {
     if (user && user.name) {

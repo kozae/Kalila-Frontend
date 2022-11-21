@@ -3,7 +3,6 @@ import {
   enableMaxWidth as enableMaxWidthAction,
   IPageUnitsUpdate,
   NavMessageBarContext,
-  selectAccessToken,
   selectUser,
   transformGroupName,
   useAppDispatch,
@@ -14,8 +13,8 @@ import {
   useSignalrUpdate,
   withTransition,
 } from '@frontend/shared-ui';
-import { GetServerSideProps } from 'next';
-import { edition } from '@frontend/server-side-queries';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { edition, editions } from '@frontend/server-side-queries';
 
 import Head from 'next/head';
 import React, { useCallback, useEffect, useMemo } from 'react';
@@ -29,9 +28,12 @@ import { HubConnection } from '@microsoft/signalr';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export function Edition({ data }) {
-  useNavbarMessage([data ? data.Name : '', undefined]);
+  const messages = useMemo(
+    () => [data ? data.Name : '', undefined] as [string, string],
+    [data]
+  );
+  useNavbarMessage(messages);
   const { setPageControls } = React.useContext(NavMessageBarContext);
-  const accessToken = useAppSelector(selectAccessToken);
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const username = useMemo(() => user?.name, [user]);
@@ -64,23 +66,18 @@ export function Edition({ data }) {
   }, []);
   const fetchByUnit = useCallback(
     (editionId: string, updateInfo: IPageUnitsUpdate) =>
-      fetchEditionUpdateByUnitList(editionId, updateInfo, accessToken),
-    [accessToken]
+      fetchEditionUpdateByUnitList(editionId, updateInfo),
+    []
   );
   const fetchByPage = useCallback(
     (editionId: string, manuscriptId: string, pageNumber: number) =>
-      fetchEditionUpdateByPage(
-        editionId,
-        manuscriptId,
-        pageNumber,
-        accessToken
-      ),
-    [accessToken]
+      fetchEditionUpdateByPage(editionId, manuscriptId, pageNumber),
+    []
   );
 
   const fetchBookUnits = useCallback(
-    (params: { Id: string }) => fetchEditionBookUnits(params, accessToken),
-    [accessToken]
+    (params: { Id: string }) => fetchEditionBookUnits(params),
+    []
   );
 
   return data ? (
@@ -123,22 +120,23 @@ export function Edition({ data }) {
 
 export default withTransition(Edition, {});
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  try {
-    const data = await edition(context.params['edition'] as string);
-    console.log('building edition');
-    console.log(data.BookUnits.length);
-    console.log(data.Manuscripts.length);
-    return {
-      props: { data },
-    };
-  } catch (error) {
-    console.log({ error });
-    return {
-      props: {},
-      redirect: {
-        destination: '/500',
-      },
-    };
-  }
+export const getStaticPaths: GetStaticPaths = async () => {
+  const editionIds = await editions();
+  return {
+    paths: editionIds.map(({ Id }) => ({ params: { edition: Id } })),
+    fallback: true,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const data = await edition(context.params['edition'] as string);
+  console.log('building edition');
+  console.log(data.Name);
+  console.log(data.BookUnits.length);
+  console.log(data.Manuscripts.length);
+
+  return {
+    props: { data },
+    revalidate: 10,
+  };
 };

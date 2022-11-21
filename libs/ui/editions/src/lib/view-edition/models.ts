@@ -37,6 +37,7 @@ export interface IBehaviorOptions {
   isSearchActive: boolean;
   enableRealTimeUpdates: boolean;
   mapState: MapPosition | null;
+  visibleUnitInfo: number | null;
 }
 
 export interface IBehaviorOptionsMethods {
@@ -44,6 +45,7 @@ export interface IBehaviorOptionsMethods {
   setIsSearchActive: Dispatch<SetStateAction<boolean>>;
   setEnableRealTimeUpdates: Dispatch<SetStateAction<boolean>>;
   setMapState: Dispatch<SetStateAction<MapPosition | null>>;
+  setVisibleUnitInfo: Dispatch<SetStateAction<number | null>>;
 }
 
 export interface IAuxiliarySurfacesData {

@@ -89,7 +89,9 @@ export const LineList = () => {
         overflowY: 'scroll',
       }}
     >
-      {accessMode !== 'view' && <LineToolCommandBar />}
+      {(accessMode.includes('edit') || accessMode.includes('admin')) && (
+        <LineToolCommandBar />
+      )}
       <Stack
         sx={{
           flexGrow: 1,

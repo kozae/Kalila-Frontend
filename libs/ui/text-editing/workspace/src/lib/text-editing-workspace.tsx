@@ -2,7 +2,6 @@ import Stack from '@mui/material/Stack';
 import {
   FramerFadeInOut,
   FullPageLoadingIndicator,
-  selectTextEditingAccessMode,
   selectTextEditingActiveWorkspace,
   selectWorkspaceHasChanges,
   useAppSelector,

@@ -127,7 +127,7 @@ export const LineSummary = ({
           direction="row"
           alignItems="center"
         >
-          {accessMode !== 'view' && (
+          {(accessMode.includes('edit') || accessMode.includes('admin')) && (
             <IconButton
               onClick={() => handleSelection(line.Id, line.FacsimileRegion)}
               color="secondary"

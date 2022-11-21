@@ -48,7 +48,7 @@ export const CommandBar = ({}: ICommandBarProps) => {
       justifyContent="space-around"
       alignItems="center"
     >
-      {accessMode !== 'view' && (
+      {(accessMode.includes('edit') || accessMode.includes('admin')) && (
         <Stack
           sx={{ width: '100%' }}
           direction={'row'}

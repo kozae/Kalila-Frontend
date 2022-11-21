@@ -4,7 +4,7 @@ import { MediaTypes, paramsSerializer } from '@frontend/util';
 export async function editions() {
   try {
     const { data } = await axios.get(
-      `http://localhost:6688/v1/Edition/Summaries`,
+      `${process.env['INTERNAL_API_URL']}Edition/Summaries`,
       {
         headers: {
           Accept: MediaTypes.JSON,

@@ -13,7 +13,7 @@ import { siglum } from '@frontend/server-side-queries';
 import Head from 'next/head';
 import { PageDescriptionAdmin } from '@frontend/domain';
 import { checkNumberValueFactory, KalilaValueTypes } from '@frontend/util';
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   EditorCell,
   GenericCell,
@@ -28,7 +28,7 @@ function pageTitle(siglum: string): [string, string] {
 }
 
 export function PagesAdministration({ siglum, manuscriptId }) {
-  const messages = pageTitle(siglum);
+  const messages = useMemo(() => pageTitle(siglum), []);
   useNavbarMessage(messages);
   const editors = useAppSelector(selectEditors);
   const AdminPageContext = createAdminPageContext<PageDescriptionAdmin>();

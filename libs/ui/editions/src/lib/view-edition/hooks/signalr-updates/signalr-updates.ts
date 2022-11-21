@@ -1,12 +1,10 @@
 import {
-  getCells,
-  getRows,
   IEditionPageData,
   IEditionPageDataMutators,
   IRealTimeUpdateProps,
   RowVirtualizer,
 } from '@frontend/ui/editions';
-import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
 
 import { convertToNumericOrder } from '@frontend/util';
 import { useRowUpdate } from './row-update';
@@ -68,11 +66,10 @@ export function useSignalrEditionUpdates(
   const { unitIdIsInEdition, unitIsInEditionRange } =
     useUpdateRelevanceChecks(edition);
 
+  const editionId = useMemo(() => edition.get_edition_id(), [edition]);
+
   useEffect(() => {
     if (update && enableUpdates) {
-      const currentRowBeforeUpdate = rowVirtualizer.virtualItems[0].start;
-      console.log('updating');
-      console.log({ update });
       let process: Promise<any> | undefined = undefined;
       if (isBookUnitUpdate(update.Topic)) {
         const id = update.Data?.Params?.Id;
@@ -98,16 +95,22 @@ export function useSignalrEditionUpdates(
       }
 
       if (process) {
-        process.then(() => {
-          setTimeout(() => {
-            setUpdateTime(Date.now);
-          }, 100);
-          setTimeout(() => {
-            rowVirtualizer.scrollToOffset(currentRowBeforeUpdate, {
-              align: 'start',
-            });
-          }, 300);
-        });
+        const currentRowBeforeUpdate = rowVirtualizer.virtualItems[0].index;
+        process
+          .then((r) => {
+            setTimeout(() => {
+              setUpdateTime(Date.now);
+            }, 100);
+            setTimeout(() => {
+              rowVirtualizer.scrollToIndex(currentRowBeforeUpdate + 1, {
+                align: 'start',
+              });
+              fetch(`/api/revalidate-edition?id=${editionId}`).catch((e) =>
+                console.log(e)
+              );
+            }, 500);
+          })
+          .catch((e) => console.log({ e }));
       }
     } else {
       console.log('update disabled');

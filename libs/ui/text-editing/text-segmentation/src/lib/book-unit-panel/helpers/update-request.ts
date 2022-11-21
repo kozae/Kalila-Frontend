@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { paramsSerializer } from '@frontend/util';
+import { ApiClient } from '@frontend/shared-ui';
 
 export interface IStructureUpdate {
   Title?: string;
@@ -17,33 +17,28 @@ export interface IFrameUpdate {
 
 export async function updateStructureRequest(
   id: string,
-  update: IStructureUpdate,
-  accessToken: string
+  update: IStructureUpdate
 ) {
-  return axios.patch(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit`, update, {
-    params: {
-      Id: id,
-    },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  return ApiClient().patch(
+    `${process.env['NEXT_PUBLIC_API_URL']}BookUnit`,
+    update,
+    {
+      params: {
+        Id: id,
+      },
+      headers: {},
+    }
+  );
 }
 
-export async function updateFrameRequest(
-  params: any,
-  update: IFrameUpdate,
-  accessToken: string
-) {
-  return axios.patch(
+export async function updateFrameRequest(params: any, update: IFrameUpdate) {
+  return ApiClient().patch(
     `${process.env['NEXT_PUBLIC_API_URL']}BookUnit/Frame`,
     update,
     {
       params,
       paramsSerializer,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      headers: {},
     }
   );
 }

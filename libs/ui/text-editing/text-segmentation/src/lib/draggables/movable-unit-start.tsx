@@ -1,11 +1,18 @@
 import { IUnitSummary } from '@frontend/domain';
 import Typography from '@mui/material/Typography';
-import { DragSourceMonitor, useDrag } from 'react-dnd';
-import { Draggables } from '../drag-layer';
-import { useContext, useEffect } from 'react';
+import { DragSourceMonitor, useDrag, useDrop } from 'react-dnd';
+import { Draggables, IItemData } from '../drag-layer';
+import { useContext, useEffect, useRef } from 'react';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import {
+  closeUnit,
+  insertUnit,
+  moveUnit,
+  replaceUnit,
   selectTextEditingAccessMode,
+  swapUnits,
+  updateUnit,
+  useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
 import { TextSegmentationContext } from '../context';
@@ -16,6 +23,32 @@ export interface IMovableUnitStartProps {
 }
 
 export const MovableUnitStart = ({ d }: IMovableUnitStartProps) => {
+  const dispatch = useAppDispatch();
+  const ref = useRef<HTMLParagraphElement>(null);
+
+  const [{ isOver, canDrop }, drop] = useDrop(() => ({
+    accept: [Draggables.insertableUnit, Draggables.movableUnit],
+    canDrop: (item) => {
+      return [Draggables.insertableUnit, Draggables.movableUnit].includes(
+        item.type
+      );
+    },
+    drop: (item: IItemData) => {
+      switch (item.type) {
+        case Draggables.movableUnit:
+          dispatch(swapUnits({ first: item.data, second: d }));
+          break;
+        case Draggables.insertableUnit:
+          dispatch(replaceUnit({ msUnit: d, bookUnit: item.data }));
+          break;
+      }
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  }));
+
   const [{ isDragging }, drag, dragPreview] = useDrag<any, any, any>(
     () => ({
       type: Draggables.movableUnit,
@@ -31,11 +64,16 @@ export const MovableUnitStart = ({ d }: IMovableUnitStartProps) => {
   }, []);
   const accessMode = useAppSelector(selectTextEditingAccessMode);
   const { setHoveredUnit } = useContext(TextSegmentationContext);
+  drag(drop(ref));
   return (
     <Typography
-      ref={accessMode !== 'view' ? drag : undefined}
+      ref={
+        accessMode.includes('edit') || accessMode.includes('admin')
+          ? ref
+          : undefined
+      }
       sx={{
-        bgcolor: 'secondary.main',
+        bgcolor: canDrop && isOver ? 'primary.main' : 'secondary.main',
         color: 'white',
         p: '.4rem',
         ml: '.4rem',

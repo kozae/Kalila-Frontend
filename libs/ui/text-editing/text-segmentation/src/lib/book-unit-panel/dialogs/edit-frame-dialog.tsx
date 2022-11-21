@@ -1,9 +1,5 @@
 import Modal from '@mui/material/Modal';
-import {
-  DialogHeading,
-  selectAccessToken,
-  useAppSelector,
-} from '@frontend/shared-ui';
+import { DialogHeading } from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import Portal from '@mui/material/Portal';
@@ -43,8 +39,6 @@ export const EditFrameDialog = () => {
     TagContains?: string;
   } | null>(null);
   const [errors, setErrors] = useState<string[] | null>(null);
-
-  const accessToken = useAppSelector(selectAccessToken);
   const onClose = () => {
     setFilter(null);
     setErrors(null);
@@ -54,13 +48,10 @@ export const EditFrameDialog = () => {
   const onSubmitFilter = useCallback(
     async (values: { FrameMatches?: number[]; TagContains?: string }) => {
       setErrors(null);
-      const affected = await countBookUnits(
-        {
-          FrameMatches: values?.FrameMatches,
-          FrameTagsCn: values?.TagContains,
-        },
-        accessToken
-      );
+      const affected = await countBookUnits({
+        FrameMatches: values?.FrameMatches,
+        FrameTagsCn: values?.TagContains,
+      });
       console.log(affected);
       const formattedFilter = `[${values?.FrameMatches?.map(
         (i) => i + '.'
@@ -71,12 +62,12 @@ export const EditFrameDialog = () => {
       ]);
       setFilter(values);
     },
-    [filter, accessToken]
+    [filter]
   );
 
   const onSubmitUpdate = useCallback(
     async (value: BookUnit) => {
-      if (value && accessToken && refetchUnits) {
+      if (value && refetchUnits) {
         try {
           const orderChanged = value.Order && value.Order.length !== 0;
           const frameTagsChanged =
@@ -100,8 +91,7 @@ export const EditFrameDialog = () => {
                 FrameTags: frameTagsChanged ? value.FrameTags : undefined,
                 Topics: topicsChanged ? value.Topics : undefined,
                 Motifs: motifsChanged ? value.Motifs : undefined,
-              },
-              accessToken
+              }
             );
           }
 
@@ -112,7 +102,7 @@ export const EditFrameDialog = () => {
         }
       }
     },
-    [accessToken, filter]
+    [filter]
   );
 
   return (

@@ -3,11 +3,6 @@ import { SessionState } from './slice';
 
 const selectSessionState = (state: SessionState) => state.session;
 
-export const selectAccessToken = createSelector(
-  selectSessionState,
-  (state) => state.session?.AccessToken
-);
-
 export const selectSessionStatus = createSelector(
   selectSessionState,
   (state) => state.authenticated
@@ -21,6 +16,13 @@ export const selectMaxWidthIsEnabled = createSelector(
   selectSessionState,
   (state) => state.maxWidthEnabled
 );
+
+export const selectEditors = createSelector(selectSessionState, (state) => {
+  return state.users.map((u) => ({
+    username: u.username,
+    name: `${u.firstName} ${u.lastName}`,
+  }));
+});
 
 export const selectUser = createSelector(selectSessionState, (state) => {
   if (state.session) {

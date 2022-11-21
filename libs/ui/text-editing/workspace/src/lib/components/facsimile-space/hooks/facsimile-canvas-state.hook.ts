@@ -2,7 +2,6 @@ import { fabric } from 'fabric';
 import { useCallback, useMemo, useState } from 'react';
 import {
   createEditor,
-  createEditRegionRect,
   createHighlighter,
   createPolygons,
   createRegionHighlighter,
@@ -62,7 +61,7 @@ function usePolygonEventHandlers(canvas: fabric.Canvas | null) {
 
 export type PolygonEventHandlers = ReturnType<typeof usePolygonEventHandlers>;
 
-function createPolygonRenderer(accessMode: string) {
+function createPolygonRenderer(accessMode: string[]) {
   const dispatch = useAppDispatch();
   const setHighlightedRegionId = (
     region: { Region: FacsimileRegion; Id: string } | null
@@ -76,7 +75,9 @@ function createPolygonRenderer(accessMode: string) {
   }: {
     Id: string | null;
     Region: FacsimileRegion;
-  }) => accessMode !== 'view' && dispatch(onElementSelected({ Id, Region }));
+  }) =>
+    (accessMode.includes('edit') || accessMode.includes('admin')) &&
+    dispatch(onElementSelected({ Id, Region }));
 
   return (
     canvas: fabric.Canvas | null,

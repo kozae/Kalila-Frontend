@@ -12,7 +12,7 @@ async function refreshAccessToken(token: any) {
       scope: 'openid email profile kalila_api',
     });
     const { data: response, status } = await axios.post(
-      'https://id.kozae.de/realms/Kalila/protocol/openid-connect/token',
+      process.env['KEYCLOAK_TOKEN'],
       params.toString()
     );
 
@@ -25,7 +25,6 @@ async function refreshAccessToken(token: any) {
     return {
       ...token,
       access: refreshedTokens.access_token,
-      accessExpires: Date.now() + refreshedTokens.expires_at * 1000,
       refresh: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
     };
   } catch (error) {
@@ -46,18 +45,10 @@ export default NextAuth({
       if (account && user) {
         return {
           access: account.access_token,
-          accessExpires: Date.now() + account.expires_at * 1000,
           refresh: account.refresh_token,
           user,
         };
       }
-
-      if (Date.now() < token.accessExpires) {
-        console.log('reusing token...');
-        return { ...token };
-      }
-
-      console.log('refreshing token...');
 
       return refreshAccessToken(token);
     },
@@ -80,6 +71,7 @@ export default NextAuth({
       authorization: {
         params: {
           scope: 'openid email profile kalila_api',
+          grant_type: 'authorization_code',
         },
       },
       profile(profile) {

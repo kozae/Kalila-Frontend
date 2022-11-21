@@ -1,7 +1,7 @@
 import { IUnitSummary } from '@frontend/domain';
 import { RootState } from '../../../../config';
 import { getUnitParams } from '../helpers';
-import axios from 'axios';
+import { ApiClient } from '../../../../../util';
 
 export interface IUnitUpdate {
   Id: string;
@@ -30,33 +30,25 @@ export async function postPageUnits(
   state: RootState,
   lacunae?: IUnitSummary[]
 ) {
-  const { accessToken, manuscriptId } = getUnitParams(state);
-  await postPageUnitsHTTP(
-    {
-      Create: lacunae
-        ? [...changes.newUnits, ...lacunae].map((u) =>
-            prepareUpdate(u, manuscriptId)
-          )
-        : changes.newUnits.map((u) => prepareUpdate(u, manuscriptId)),
-      Update: changes.updatedUnits.map((u) => prepareUpdate(u, manuscriptId)),
-      Delete: changes.deletedUnits,
-      ManuscriptId: manuscriptId,
-    },
-    accessToken
-  );
+  const { manuscriptId } = getUnitParams(state);
+  await postPageUnitsHTTP({
+    Create: lacunae
+      ? [...changes.newUnits, ...lacunae].map((u) =>
+          prepareUpdate(u, manuscriptId)
+        )
+      : changes.newUnits.map((u) => prepareUpdate(u, manuscriptId)),
+    Update: changes.updatedUnits.map((u) => prepareUpdate(u, manuscriptId)),
+    Delete: changes.deletedUnits,
+    ManuscriptId: manuscriptId,
+  });
 }
 
-async function postPageUnitsHTTP(
-  update: IPageUnitsUpdate,
-  accessToken?: string | null
-) {
-  await axios.post(
+async function postPageUnitsHTTP(update: IPageUnitsUpdate) {
+  await ApiClient().post(
     `${process.env['NEXT_PUBLIC_API_URL']}ManuscriptUnit/PageUnits`,
     update,
     {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      headers: {},
     }
   );
 }

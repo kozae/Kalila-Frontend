@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { IImageElement, ILine, ITextElement } from '@frontend/domain';
 import { RootState } from '../../../../config';
 import { getParams, PageParams } from '../helpers';
 import { cleanObject } from '@frontend/util';
 import ObjectID from 'bson-objectid';
+import { ApiClient } from '../../../../../util';
 
 export async function postLayout(state: RootState) {
   const TextElements: Array<ITextElement> = [];
@@ -44,16 +44,14 @@ async function postLayoutHTTP(
     Images: Array<IImageElement>;
     TextElements: Array<ITextElement>;
   },
-  { accessToken, manuscriptId, pageId }: PageParams
+  { manuscriptId, pageId }: PageParams
 ) {
-  await axios.post(
+  await ApiClient().post(
     `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Layout`,
     data,
     {
       params: { Id: pageId, ManuscriptId: manuscriptId },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      headers: {},
     }
   );
 }

@@ -14,6 +14,7 @@ export function editioncelldata_get_state(a: number, b: number, c: number): void
 export function editioncelldata_get_page(a: number, b: number): number;
 export function editioncelldata_get_line(a: number, b: number): number;
 export function editioncelldata_get_token(a: number, b: number, c: number): void;
+export function editioncelldata_get_page_range(a: number, b: number): void;
 export function editioncelldata_is_first_token(a: number, b: number): number;
 export function editioncelldata_get_unit(a: number, b: number): void;
 export function __wbg_editioncelldata_free(a: number): void;

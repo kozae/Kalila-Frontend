@@ -41,7 +41,7 @@ const saveComplete = isFulfilled(
 );
 
 const initialState: ITextEditingPageState = {
-  accessMode: 'view',
+  accessMode: ['view'],
   activeWorkspace: 'description',
   toolMode: 'default',
   regionHoveredInToolSpace: null,
@@ -77,7 +77,7 @@ export const textEditingPageSlice = createSlice({
   reducers: {
     setTextEditingAccessMode: (
       state,
-      action: PayloadAction<TextEditingAccessMode>
+      action: PayloadAction<TextEditingAccessMode[]>
     ) => {
       state.accessMode = action.payload;
     },

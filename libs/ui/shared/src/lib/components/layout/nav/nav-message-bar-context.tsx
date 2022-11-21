@@ -91,7 +91,7 @@ export function useNavbarMessage(
   newColor?: string
 ) {
   const { changeMessage } = React.useContext(NavMessageBarContext);
-  useEffect(() => changeMessage(newMessages, newColor), [newMessages[0]]);
+  useEffect(() => changeMessage(newMessages, newColor), [newMessages]);
 }
 
 export function usePageControls(

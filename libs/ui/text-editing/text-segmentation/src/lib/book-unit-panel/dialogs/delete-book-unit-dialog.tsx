@@ -1,10 +1,5 @@
 import Modal from '@mui/material/Modal';
-import {
-  DialogHeading,
-  selectAccessToken,
-  useAppSelector,
-  useBoolean,
-} from '@frontend/shared-ui';
+import { ApiClient, DialogHeading, useBoolean } from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -13,7 +8,6 @@ import Stack from '@mui/material/Stack';
 import { SxProps } from '@mui/system/styleFunctionSx';
 import { BookUnit } from '@frontend/domain';
 import Button from '@mui/material/Button';
-import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { bookUnitOrderDisplay } from '@frontend/util';
@@ -43,7 +37,6 @@ export const DeleteBookUnitDialog = ({
   value,
 }: IDeleteBookUnitDialogProps) => {
   const { refetchUnits } = useContext(BookUnitPanelContext);
-  const accessToken = useAppSelector(selectAccessToken);
   const [title, setTitle] = useState('Delete Book Unit');
   const [message, setMessage] =
     useState(`Deletion will only be successful if the unit is not assigned in
@@ -55,7 +48,7 @@ export const DeleteBookUnitDialog = ({
   const handleDelete = useCallback(async () => {
     setDeletingStarted();
     try {
-      await deleteBookUnit(value.Id as string, accessToken as string);
+      await deleteBookUnit(value.Id as string);
       if (refetchUnits) {
         await refetchUnits();
       }
@@ -140,13 +133,11 @@ export const DeleteBookUnitDialog = ({
   );
 };
 
-async function deleteBookUnit(id: string, accessToken: string) {
-  await axios.delete(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit`, {
+async function deleteBookUnit(id: string) {
+  await ApiClient().delete(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit`, {
     params: {
       Id: id,
     },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    headers: {},
   });
 }

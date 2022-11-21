@@ -2,7 +2,6 @@ import {
   NavMessageBarContext,
   useLoginValidation,
   useNavbarMessage,
-  usePageControls,
   withTransition,
 } from '@frontend/shared-ui';
 import { GetServerSideProps } from 'next';
@@ -13,7 +12,7 @@ import {
   getImageSize,
 } from '@frontend/server-side-queries';
 import Head from 'next/head';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import {
   ManuscriptPagesPaginator,
   TextEditingWorkspaceWasm,
@@ -31,7 +30,8 @@ export function EditPage({
   imageSize,
 }) {
   useLoginValidation();
-  const messages = pageTitle(siglum ?? 'NotFetched');
+  const messages = useMemo(() => pageTitle(siglum ?? 'NotFetched'), [siglum]);
+
   useNavbarMessage(messages, undefined);
 
   const { setPageControls } = useContext(NavMessageBarContext);

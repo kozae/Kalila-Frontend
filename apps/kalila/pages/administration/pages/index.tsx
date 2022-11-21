@@ -6,11 +6,15 @@ import { sigla } from '@frontend/server-side-queries';
 import { GetServerSideProps } from 'next';
 import Alert from '@mui/material/Alert';
 import Head from 'next/head';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 export function MSSelection({ sigla }) {
   const { push } = useRouter();
-  useNavbarMessage(['Administration:', 'Pages']);
+  const messages = useMemo(
+    () => ['Administration:', 'Select Pages'] as [string, string],
+    []
+  );
+  useNavbarMessage(messages);
   return (
     <>
       <Head>

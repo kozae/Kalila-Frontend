@@ -47,7 +47,11 @@ export const InsertableUnit = ({ d, onEdit }: IInsertableUnitProps) => {
       }}
       direction="column"
       alignItems="center"
-      ref={accessMode !== 'view' ? drag : undefined}
+      ref={
+        accessMode.includes('edit') || accessMode.includes('admin')
+          ? drag
+          : undefined
+      }
       role="DraggableBox"
     >
       <Stack
@@ -60,16 +64,18 @@ export const InsertableUnit = ({ d, onEdit }: IInsertableUnitProps) => {
           {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} [
           {d.Order.map((i) => `${i}.`)}]
         </Typography>
-        {accessMode === 'admin' && !collected.isDragging && (
-          <IconButton
-            sx={{ position: 'absolute', top: 0, right: 0 }}
-            onClick={onEdit}
-            color="primary"
-            size="small"
-          >
-            <EditTwoToneIcon fontSize="small" />
-          </IconButton>
-        )}
+        {(accessMode.includes('book_unit_admin') ||
+          accessMode.includes('admin')) &&
+          !collected.isDragging && (
+            <IconButton
+              sx={{ position: 'absolute', top: 0, right: 0 }}
+              onClick={onEdit}
+              color="primary"
+              size="small"
+            >
+              <EditTwoToneIcon fontSize="small" />
+            </IconButton>
+          )}
       </Stack>
       <Typography fontSize="1rem" variant="body1">
         {d.Title}

@@ -13,12 +13,20 @@ export function useAccessModeSettings() {
   const loggedUser = useAppSelector(selectUser);
 
   useEffect(() => {
-    if (loggedUser.username === 'mk') {
-      dispatch(setTextEditingAccessMode('admin'));
+    if (loggedUser?.roles?.includes('admin')) {
+      dispatch(setTextEditingAccessMode(['admin']));
     } else if (editor === loggedUser.username) {
-      dispatch(setTextEditingAccessMode('edit'));
+      if (loggedUser?.roles?.includes('book_unit_admin')) {
+        dispatch(setTextEditingAccessMode(['edit', 'book_unit_admin']));
+      } else {
+        dispatch(setTextEditingAccessMode(['edit']));
+      }
     } else {
-      dispatch(setTextEditingAccessMode('view'));
+      if (loggedUser?.roles?.includes('book_unit_admin')) {
+        dispatch(setTextEditingAccessMode(['view', 'book_unit_admin']));
+      } else {
+        dispatch(setTextEditingAccessMode(['view']));
+      }
     }
   }, [editor, loggedUser.username]);
 }

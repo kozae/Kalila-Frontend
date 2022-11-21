@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { IImageElement } from '@frontend/domain';
 import { RootState } from '../../../../config';
 import { getParams, PageParams } from '../helpers';
 import { cleanObject } from '@frontend/util';
+import { ApiClient } from '../../../../../util';
 
 export async function putImages(state: RootState) {
   const Images: Array<IImageElement> = [];
@@ -24,16 +24,14 @@ export async function putImages(state: RootState) {
 
 async function putImagesHTTP(
   data: Array<IImageElement>,
-  { accessToken, manuscriptId, pageId }: PageParams
+  { manuscriptId, pageId }: PageParams
 ) {
-  await axios.put(
+  await ApiClient().put(
     `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Images`,
     data,
     {
       params: { Id: pageId, ManuscriptId: manuscriptId },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      headers: {},
     }
   );
 }

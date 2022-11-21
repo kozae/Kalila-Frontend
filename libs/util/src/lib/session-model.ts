@@ -4,5 +4,4 @@ export interface ISession {
   Picture: string;
   Email: string;
   Roles: string[];
-  AccessToken: string;
 }

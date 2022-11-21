@@ -6,7 +6,6 @@ import { CommandBar } from './command-bar';
 import {
   loadBookUnits,
   repopulateUnitSummariesBeforeChanges,
-  selectAccessToken,
   selectAllUnitSummaries,
   selectCurrentPageManuscriptId,
   selectNearestOpenUnit,
@@ -39,7 +38,6 @@ export const BookUnitPanel = () => {
     null
   );
 
-  const accessToken = useAppSelector(selectAccessToken);
   const manuscriptId = useAppSelector(selectCurrentPageManuscriptId);
   const unitsOnPage = useAppSelector(selectAllUnitSummaries);
   const openUnit = useAppSelector(selectNearestOpenUnit);
@@ -47,7 +45,7 @@ export const BookUnitPanel = () => {
     data,
     isValidating,
     mutate: refetchUnits,
-  } = getBookUnits(accessToken, chapter, manuscriptId);
+  } = getBookUnits(chapter, manuscriptId);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

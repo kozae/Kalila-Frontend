@@ -13,7 +13,7 @@ export const PanelLink = ({
 }) => {
   const isLargeScreen = useLargeScreenMediaQuery();
   return (
-    <Link href={'/' + linkRef}>
+    <Link href={'/' + linkRef} legacyBehavior passHref>
       <MuiLink
         sx={
           sx

@@ -1,13 +1,7 @@
 import Popper from '@mui/material/Popper';
 import { MediaTypes, paramsSerializer, stringHasValue } from '@frontend/util';
 import useSWR from 'swr';
-import axios from 'axios';
-import {
-  FramerRollDown,
-  kalilaTheme,
-  selectAccessToken,
-  useAppSelector,
-} from '@frontend/shared-ui';
+import { ApiClient, FramerRollDown, kalilaTheme } from '@frontend/shared-ui';
 import CircularProgress from '@mui/material/CircularProgress';
 import Stack from '@mui/material/Stack';
 import { IPageTranscriptionSummary } from '@frontend/domain';
@@ -30,10 +24,9 @@ export const PagePreviewPopper = ({
   anchor,
   manuscriptId,
 }: IPagePreviewProps) => {
-  const accessToken = useAppSelector(selectAccessToken);
   const { data: pageSummary, isValidating } = useSWR<IPageTranscriptionSummary>(
-    pageId && accessToken ? `${manuscriptId}${pageId}_summary` : null,
-    () => fetch(pageId as string, manuscriptId, accessToken)
+    pageId ? `${manuscriptId}${pageId}_summary` : null,
+    () => fetch(pageId as string, manuscriptId)
   );
 
   return (
@@ -153,16 +146,11 @@ export const PagePreviewPopper = ({
   );
 };
 
-async function fetch(
-  pageId: string,
-  manuscriptId: string,
-  accessToken: string | undefined
-) {
-  const { data } = await axios.get(
+async function fetch(pageId: string, manuscriptId: string) {
+  const { data } = await ApiClient().get(
     `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Summary`,
     {
       headers: {
-        Authorization: accessToken ? `Bearer ${accessToken}` : '',
         Accept: MediaTypes.FolioTranscriptionSummary,
       },
       params: {

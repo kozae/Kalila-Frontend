@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { getPagination, paramsSerializer } from '@frontend/util';
+import { ApiClient } from '@frontend/shared-ui';
 
 export const validate = (params: any) => {
-  return axios
+  return ApiClient()
     .get<boolean>(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit/Check`, {
       params,
       paramsSerializer,
@@ -10,11 +10,8 @@ export const validate = (params: any) => {
     .then((r) => !r.data);
 };
 
-export const countBookUnits = (
-  params: any,
-  accessToken: string | undefined
-) => {
-  return axios
+export const countBookUnits = (params: any) => {
+  return ApiClient()
     .get<number>(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit`, {
       params: {
         ...params,
@@ -22,9 +19,7 @@ export const countBookUnits = (
         PageNumber: 1,
       },
       paramsSerializer,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      headers: {},
     })
     .then((r) => getPagination(r.headers)?.totalItems);
 };

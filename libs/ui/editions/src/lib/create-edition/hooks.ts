@@ -1,16 +1,15 @@
 import useSWR from 'swr';
-import { fetcher, MediaTypes } from '@frontend/util';
+import { MediaTypes } from '@frontend/util';
+import { fetcher } from '@frontend/shared-ui';
 
-export function useSigla(accessToken?: string | null) {
+export function useSigla() {
   return useSWR(
-    accessToken
-      ? [
-          'ManuscriptDescription',
-          accessToken,
-          { SelectProps: ['Siglum'], PageSize: -1 },
-          MediaTypes.PartialDocument,
-        ]
-      : null,
+    [
+      'ManuscriptDescription',
+
+      { SelectProps: ['Siglum'], PageSize: -1 },
+      MediaTypes.PartialDocument,
+    ],
     fetcher,
     {
       revalidateIfStale: false,
@@ -20,15 +19,12 @@ export function useSigla(accessToken?: string | null) {
   );
 }
 
-export function useBookUnits(
-  chapter?: string | null,
-  accessToken?: string | null
-) {
+export function useBookUnits(chapter?: string | null) {
   return useSWR(
-    accessToken && chapter
+    chapter
       ? [
           'BookUnit',
-          accessToken,
+
           {
             SelectProps: ['Title', 'OrderInChapter'],
             PageSize: 0,

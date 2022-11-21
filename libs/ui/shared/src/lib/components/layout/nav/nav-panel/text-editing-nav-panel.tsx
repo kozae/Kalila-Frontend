@@ -4,15 +4,10 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Summary } from './summary';
 import Stack from '@mui/material/Stack';
 import { PanelLink } from './panel-link';
-import {
-  selectAccessToken,
-  useAppSelector,
-  useLargeScreenMediaQuery,
-} from '@frontend/shared-ui';
+import { ApiClient, useLargeScreenMediaQuery } from '@frontend/shared-ui';
 import useSWRImmutable from 'swr/immutable';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
-import axios from 'axios';
 import {
   BookId,
   MediaTypes,
@@ -52,17 +47,15 @@ const ManuscriptRow = ({ Siglum, Id }: { Siglum: string; Id: string }) => {
   const [page, setPage] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
-  const accessToken = useAppSelector(selectAccessToken);
   const { push } = useRouter();
   const onGoClicked = useCallback(async (selectedPage: string) => {
     const value = parseInt(selectedPage);
     setLoading(true);
     try {
-      const { data: pageData } = await axios.get(
+      const { data: pageData } = await ApiClient().get(
         `${process.env['NEXT_PUBLIC_API_URL']}Page`,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
             Accept: MediaTypes.AdminDocument,
           },
           params: { PageSize: -1, NumberEq: value, ManuscriptId: Id },
@@ -128,10 +121,9 @@ const ManuscriptRow = ({ Siglum, Id }: { Siglum: string; Id: string }) => {
 
 const ManuscriptSelection = () => {
   const isLargeScreen = useLargeScreenMediaQuery();
-  const accessToken = useAppSelector(selectAccessToken);
-  const { data, isValidating } = useSWRImmutable(
-    accessToken && 'TextEditingPanelNav',
-    () => siglaFetcher(accessToken)
+
+  const { data, isValidating } = useSWRImmutable('TextEditingPanelNav', () =>
+    siglaFetcher()
   );
 
   const [filter, setFilter] = useState('');
@@ -193,17 +185,20 @@ const ManuscriptSelection = () => {
   );
 };
 
-async function siglaFetcher(accessToken: string | undefined) {
-  const { data } = await axios.get<any>(
-    `${process.env['NEXT_PUBLIC_API_URL']}Manuscript`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: MediaTypes.PartialDocument,
-      },
-      params: { PageSize: -1, SelectProps: 'Siglum', BookId },
-      paramsSerializer,
-    }
-  );
-  return data.map(({ _id, Siglum }: any) => ({ Id: _id, Siglum }));
+async function siglaFetcher() {
+  try {
+    const { data } = await ApiClient().get<any>(
+      `${process.env['NEXT_PUBLIC_API_URL']}Manuscript`,
+      {
+        headers: {
+          Accept: MediaTypes.PartialDocument,
+        },
+        params: { PageSize: -1, SelectProps: 'Siglum', BookId },
+        paramsSerializer,
+      }
+    );
+    return data.map(({ _id, Siglum }: any) => ({ Id: _id, Siglum }));
+  } catch (e) {
+    throw e;
+  }
 }

@@ -16,4 +16,4 @@ COPY yarn.lock yarn.lock
 COPY . .
 RUN yarn --network-timeout 100000
 ENV NODE_OPTIONS='--max_old_space_size=8192'
-CMD ["yarn", "start"]
+CMD ["yarn", "start", "--port=6000"]

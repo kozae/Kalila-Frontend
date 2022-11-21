@@ -1,18 +1,16 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { ICategoricalAttribute, IImageElement } from '@frontend/domain';
 import Stack from '@mui/material/Stack';
 import { AnnotateImage } from './annotate-image';
 import useSWR from 'swr';
-import axios from 'axios';
-import { selectAccessToken, useAppSelector } from '@frontend/shared-ui';
 import { paramsSerializer } from '@frontend/util';
+import { ApiClient } from '@frontend/shared-ui';
 
 export const EditImages: FC<{ data: IImageElement[] }> = ({ data }) => {
-  const accessToken = useAppSelector(selectAccessToken);
   const { data: attributes } = useSWR(
-    accessToken && 'ImageElementsCategoricalAttributes',
+    'ImageElementsCategoricalAttributes',
     () =>
-      axios
+      ApiClient()
         .get<ICategoricalAttribute[]>(
           `${process.env['NEXT_PUBLIC_API_URL']}CategoricalAttribute`,
           {
@@ -21,9 +19,7 @@ export const EditImages: FC<{ data: IImageElement[] }> = ({ data }) => {
               EntityNameCn: 'ImageElement',
               PageSize: -1,
             },
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
+            headers: {},
           }
         )
         .then((res) =>

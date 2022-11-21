@@ -24,6 +24,12 @@ impl EditionStore {
                     },
                     None => None,
                 },
+                page_range: vec![
+                    unit.pages[0],
+                    unit.lines[0] as u16,
+                    unit.pages[unit.pages.len() - 1],
+                    unit.lines[unit.lines.len() - 1] as u16,
+                ],
             },
             None => EditionCellData {
                 unit_idx: Some(unit_idx),
@@ -36,6 +42,7 @@ impl EditionStore {
                 lines: vec![],
                 breaks: vec![],
                 located_image_at_token: None,
+                page_range: vec![],
             },
         }
     }
@@ -102,6 +109,9 @@ impl EditionCellData {
         format_token(token, &self.states[idx])
     }
 
+    pub fn get_page_range(&self) -> Box<[u16]> {
+        self.page_range.clone().into_boxed_slice()
+    }
     pub fn is_first_token(&self, idx: usize) -> bool {
         self.breaks.contains(&idx)
     }

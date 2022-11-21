@@ -4,7 +4,7 @@ import { cleanObject } from '@frontend/util';
 import { groupBy, omit } from 'lodash';
 import ObjectID from 'bson-objectid';
 import { getParams, PageParams } from '../helpers';
-import axios from 'axios';
+import { ApiClient } from '../../../../../util';
 
 export async function postLines(state: RootState) {
   if (
@@ -61,16 +61,14 @@ async function postLinesHTTP(
     ElementId: string;
     Lines: ILine[];
   },
-  { accessToken, manuscriptId, pageId }: PageParams
+  { manuscriptId, pageId }: PageParams
 ) {
-  await axios.post(
+  await ApiClient().post(
     `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Lines`,
     data,
     {
       params: { Id: pageId, ManuscriptId: manuscriptId },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      headers: {},
     }
   );
 }

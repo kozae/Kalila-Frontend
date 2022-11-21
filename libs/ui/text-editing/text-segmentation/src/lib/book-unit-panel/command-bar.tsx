@@ -123,7 +123,8 @@ export const CommandBar = () => {
         variant="standard"
       />
 
-      {accessMode === 'admin' && (
+      {(accessMode.includes('book_unit_admin') ||
+        accessMode.includes('admin')) && (
         <IconButton
           aria-label="more"
           id="long-button"

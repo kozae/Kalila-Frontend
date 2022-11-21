@@ -1,13 +1,12 @@
 import { IBookUnit } from '@frontend/domain';
-import axios from 'axios';
+import { ApiClient } from '@frontend/shared-ui';
 
-export async function createRequest(
-  unit: Partial<IBookUnit>,
-  accessToken: string
-) {
-  return axios.post(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit`, unit, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+export async function createRequest(unit: Partial<IBookUnit>) {
+  return ApiClient().post(
+    `${process.env['NEXT_PUBLIC_API_URL']}BookUnit`,
+    unit,
+    {
+      headers: {},
+    }
+  );
 }

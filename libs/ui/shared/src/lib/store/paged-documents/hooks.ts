@@ -12,7 +12,6 @@ import {
   queryChanged,
   removeFromSelection,
 } from './slice';
-import { selectAccessToken } from '../session';
 import {
   selectFilter,
   selectPagedDocs,
@@ -22,7 +21,6 @@ import {
   selectSort,
 } from './selectors';
 import { ClassConstructor } from 'class-transformer/types/interfaces';
-import { ParsedUrlQuery } from 'querystring';
 import {
   adminUpdateDocuments,
   changeFilter,
@@ -86,9 +84,7 @@ export function usePagedDocumentsStore(
   additionalParams = {},
   routeSuffix = ''
 ) {
-  const accessToken = useAppSelector(selectAccessToken);
   const { data, isValidating, mutate, error } = getDocuments(
-    accessToken,
     activityName,
     formatPaginatedQuery(query),
     mediaType,

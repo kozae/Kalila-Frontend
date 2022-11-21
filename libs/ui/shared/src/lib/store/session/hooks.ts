@@ -7,7 +7,7 @@ import {
 import { useEffect } from 'react';
 
 import { ISession, transformKeycloakUsers } from '@frontend/util';
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import axios from 'axios';
 import useSWRImmutable from 'swr/immutable';
 
@@ -46,6 +46,5 @@ function transform(session: any): ISession {
     Picture: session?.data?.user?.picture,
     Email: session?.data?.user?.email,
     Roles: session?.data?.user?.roles,
-    AccessToken: session?.data?.access,
   };
 }

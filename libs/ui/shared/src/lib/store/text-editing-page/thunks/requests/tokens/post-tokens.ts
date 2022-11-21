@@ -1,14 +1,12 @@
-import { RootState } from '@frontend/shared-ui';
+import { ApiClient, RootState } from '@frontend/shared-ui';
 import { getParams, PageParams } from '../helpers';
 import { IToken } from '@frontend/domain';
-import axios from 'axios';
 import { omit } from 'lodash';
 
 export async function postTokens(
   state: RootState,
   morphology: Record<string, string[]>
 ) {
-  console.log({ morphology });
   if (state.textEditingPageState.postTokens.length === 0) {
     return;
   }
@@ -43,16 +41,14 @@ async function postTokensHTTP(
     LineId: string;
     Tokens: Array<IToken>;
   }[],
-  { accessToken, manuscriptId, pageId }: PageParams
+  { manuscriptId, pageId }: PageParams
 ) {
-  await axios.post(
+  await ApiClient().post(
     `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Tokens`,
     data,
     {
       params: { Id: pageId, ManuscriptId: manuscriptId },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      headers: {},
     }
   );
 }

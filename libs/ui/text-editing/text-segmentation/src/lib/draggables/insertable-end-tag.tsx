@@ -33,7 +33,11 @@ export const InsertableEndTag = () => {
         p: '3px',
         border: 'solid 1px',
       }}
-      ref={accessMode !== 'view' ? drag : undefined}
+      ref={
+        accessMode.includes('edit') || accessMode.includes('admin')
+          ? drag
+          : undefined
+      }
       role="DraggableBox"
       alignItems="center"
       justifyContent="center"

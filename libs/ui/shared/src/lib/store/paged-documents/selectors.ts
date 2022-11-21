@@ -16,11 +16,6 @@ export const selectPagedDocsLoading = createSelector(
   (pagedDocsState) => pagedDocsState.loading
 );
 
-export const selectEditors = createSelector(
-  selectPagedDocsState,
-  (pagedDocsState) => pagedDocsState.editors
-);
-
 export const selectPagination = createSelector(
   selectPagedDocsState,
   (pagedDocsState) => pagedDocsState.pagination

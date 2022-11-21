@@ -1,9 +1,5 @@
 import { useSigla } from '../hooks';
-import {
-  selectAccessToken,
-  Sortable,
-  useAppSelector,
-} from '@frontend/shared-ui';
+import { Sortable } from '@frontend/shared-ui';
 import Stack from '@mui/material/Stack';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import Typography from '@mui/material/Typography';
@@ -73,8 +69,7 @@ export const SelectAndOrderManuscripts = ({
   selectedManuscripts,
   setSelectedManuscripts,
 }: ISelectAndOrderManuscriptsProps) => {
-  const accessToken = useAppSelector(selectAccessToken);
-  const { data: sigla } = useSigla(accessToken);
+  const { data: sigla } = useSigla();
   const [filter, setFilter] = useState<string>('');
   const handleAdd = (id: string) => {
     setSelectedManuscripts((prevState) => [...prevState, id]);

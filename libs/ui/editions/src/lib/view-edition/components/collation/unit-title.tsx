@@ -3,10 +3,12 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import CompareIcon from '@mui/icons-material/Compare';
+import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import Box from '@mui/material/Box';
 import { useMemo } from 'react';
 import {
   useAuxiliarySurfacesMethods,
+  useBehaviorOptionsMethods,
   useData,
   useLayoutData,
   useSearchData,
@@ -20,12 +22,14 @@ export interface IEditionUnitTitleProps {
 export const UnitTitle = ({ unitIdx }: IEditionUnitTitleProps) => {
   const { setVisibleHorizontalTextCollation, setVisibleImageCollation } =
     useAuxiliarySurfacesMethods();
+  const { setVisibleUnitInfo } = useBehaviorOptionsMethods();
   const { rows } = useData();
   const data = rows[unitIdx];
   const display = data.get_display();
   const hasImages = data.get_row_has_images();
   const { searchResults, currentSearchResult } = useSearchData();
   const { size } = useLayoutData();
+  const isDivider = rows[unitIdx].get_is_divider();
   const isSearchResult = useMemo(() => {
     return (
       searchResults &&
@@ -39,34 +43,35 @@ export const UnitTitle = ({ unitIdx }: IEditionUnitTitleProps) => {
         width: '100%',
         bgcolor: isSearchResult
           ? 'rgb(255,103,0)'
-          : rows[unitIdx].get_is_divider()
+          : isDivider
           ? 'info.dark'
           : 'info.light',
       }}
       direction="row"
-      alignItems="flex-start"
     >
-      <Box
+      <Stack
+        direction="row"
         sx={{
           p: '5px',
           color: 'white',
           borderRadius: '5px',
           position: 'sticky',
           left: '1%',
-          display: 'flex',
-          alignItems: 'center',
         }}
+        alignItems="center"
       >
         <Typography mr="1rem" fontSize={FONT_SIZES[size]} textAlign="center">
           {display}
         </Typography>
 
-        <IconButton
-          onClick={() => setVisibleHorizontalTextCollation(unitIdx)}
-          size="small"
-        >
-          <ViewListIcon fontSize="small" sx={{ color: 'white' }} />
-        </IconButton>
+        {!isDivider && (
+          <IconButton
+            onClick={() => setVisibleHorizontalTextCollation(unitIdx)}
+            size="small"
+          >
+            <ViewListIcon fontSize="small" sx={{ color: 'white' }} />
+          </IconButton>
+        )}
         {hasImages && (
           <IconButton
             onClick={() => setVisibleImageCollation(unitIdx)}
@@ -75,7 +80,15 @@ export const UnitTitle = ({ unitIdx }: IEditionUnitTitleProps) => {
             <CompareIcon fontSize="small" sx={{ color: 'white' }} />
           </IconButton>
         )}
-      </Box>
+
+        {!isDivider && (
+          <InfoTwoToneIcon
+            fontSize="small"
+            onMouseEnter={() => setVisibleUnitInfo(unitIdx)}
+            onMouseLeave={() => setVisibleUnitInfo(null)}
+          />
+        )}
+      </Stack>
     </Stack>
   );
 };
