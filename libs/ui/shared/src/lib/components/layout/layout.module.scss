@@ -1,4 +1,5 @@
 @import "sass/variables";
+@import "sass/mixins";
 
 .kalila {
   width: 100%;
@@ -13,7 +14,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: $siteMaxWidth;
-  padding: $sitePadding;
   height: fit-content;
+}
+
+.transition-container {
+  @include flex-column-centered-content
 }

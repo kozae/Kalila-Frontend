@@ -1,0 +1,171 @@
+$primary-color: #003366;
+$secondary-color: #6b9e1f;
+$marking-color-orange: #FF9900;
+$marking-color-red: #CC0000;
+.svg {
+  border: solid 1px gray !important;
+}
+
+.country {
+  fill: #d7ece0;
+  stroke: black;
+  stroke-width: .5;
+}
+
+.d3-highlight {
+  fill: $secondary-color;
+
+  &:hover {
+    fill: white;
+  }
+}
+
+.orthodome {
+  &-p2 {
+    fill: rgba(0, 0, 0, .3);
+    stroke: none;
+    stroke-width: 10;
+
+    &:hover {
+      stroke: rgba(0, 0, 0, 1);
+    }
+  }
+
+  &-p3 {
+    fill: none;
+    stroke: rgba($marking-color-orange, .3);
+    stroke-width: 4;
+
+    &:hover {
+      stroke: rgba(0, 0, 0, 1);
+    }
+  }
+
+  &-p4 {
+    fill: none;
+    stroke: rgba($primary-color, .3);
+    stroke-width: 3;
+
+    &:hover {
+      stroke: rgba(0, 0, 0, 1);
+    }
+  }
+
+  &-p5 {
+    fill: none;
+    stroke: rgba($secondary-color, .7);
+    stroke-width: 2;
+
+    &:hover {
+      stroke: rgba(0, 0, 0, 1);
+    }
+  }
+
+  &-p6 {
+    fill: none;
+    stroke: rgba($secondary-color, .7);
+    stroke-width: 2;
+
+    &:hover {
+      stroke: rgba(0, 0, 0, 1);
+    }
+  }
+}
+
+.arrow-head {
+  fill: rgba($marking-color-red, .5);
+
+  &:hover {
+    fill: black;
+  }
+}
+
+.map-svg-blue {
+  background-color: $primary-color;
+
+}
+
+#map-svg {
+  transition: background-color 3000ms linear;
+}
+
+.map-space {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+
+  &__notes {
+    min-width: 20%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+  }
+}
+
+.map-note {
+  &-0 {
+    padding: 5px;
+    color: black;
+  }
+
+  &-1 {
+    padding: 5px;
+    color: black;
+  }
+
+  &-2 {
+    padding: 5px;
+    color: $marking-color-orange;
+  }
+
+  &-3 {
+    padding: 5px;
+    color: $primary-color;
+  }
+
+  &-4 {
+    padding: 5px;
+    color: $secondary-color;
+  }
+
+  &-5 {
+    padding: 5px;
+    color: $secondary-color;
+  }
+
+  &-6 {
+    padding: 5px;
+  }
+
+}
+
+.headings {
+  color: $primary-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logos {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1vh;
+}
+
+
+
+
+.hide {
+  display: none;
+}
+
+.full-opacity {
+  opacity: 1 !important;
+}
+
+.null-opacity {
+  opacity: 0;
+}
+

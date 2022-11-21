@@ -1,9 +1,6 @@
-import {IKalilaSession} from "../hooks";
-
-
-export const verifyAdmin = (session: IKalilaSession | null): boolean => {
-  if (session && session.user && session.user.roles) {
-    return session.user.roles.has("admin");
+export const verifyAdmin = (user: any): boolean => {
+  if (user && user.roles) {
+    return user.roles.includes('admin');
   }
   return false;
-}
+};

@@ -1,40 +1,50 @@
 import styles from './nav.module.scss';
-import React from "react";
-import {NavControlBar} from "./nav-control-bar";
-import {NavMessageBar} from "./nav-message-bar";
-import {useBoolean} from "@fluentui/react-hooks";
-import {SidePanel} from "./side-panel";
-import {useNavSessionState, useRouteState} from "./hooks/nav.hooks";
-import {navbarInitialStore, NavbarStore} from "./store";
-
+import React, { useEffect } from 'react';
+import { NavMessageBar } from './nav-message-bar';
+import { useNavSessionState, useRouteState } from './hooks/nav.hooks';
+import { navbarInitialStore, NavbarStore } from './store';
+import { useBoolean } from '../../../hooks';
+import { NavPanel } from './nav-panel';
+import { useRouter } from 'next/router';
 
 export const Nav: React.FC = () => {
-  const [isPanelOpen, {setTrue: openPanel, setFalse: dismissPanel}] = useBoolean(navbarInitialStore.state.isPanelOpen);
-  const {activeLink, messages} = useRouteState(navbarInitialStore.state, [dismissPanel])
-  const {links, loggedUser, isAdmin} = useNavSessionState(navbarInitialStore.state)
+  const [
+    isPanelOpen,
+    { setTrue: openPanel, setFalse: dismissPanel, toggle: togglePanel },
+  ] = useBoolean(navbarInitialStore.data.isPanelOpen);
+  const { events } = useRouter();
 
+  useEffect(() => {
+    events.on('routeChangeStart', () => {
+      dismissPanel();
+    });
+  }, []);
+
+  const { activeLink } = useRouteState(navbarInitialStore.data, [dismissPanel]);
+  const { links, loggedUser, isAdmin } = useNavSessionState(
+    navbarInitialStore.data
+  );
   return (
-    <NavbarStore.Provider value={{
-      state: {
-        loggedUser,
-        isAdmin,
-        links,
-        activeLink,
-        messages,
-        isPanelOpen,
-      },
-      dispatchers: {
-        openPanel,
-        dismissPanel
-      }
-    }}>
+    <NavbarStore.Provider
+      value={{
+        data: {
+          loggedUser,
+          isAdmin,
+          links,
+          activeLink,
+          isPanelOpen,
+        },
+        methods: {
+          openPanel,
+          dismissPanel,
+          togglePanel,
+        },
+      }}
+    >
       <nav className={styles['nav']}>
-        <NavControlBar/>
-        <NavMessageBar/>
-        <SidePanel/>
+        <NavMessageBar />
+        <NavPanel />
       </nav>
     </NavbarStore.Provider>
   );
-}
-
-
+};

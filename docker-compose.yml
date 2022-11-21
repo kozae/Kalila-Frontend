@@ -1,17 +1,15 @@
 version: '3.7'
 
-# todo scale and use a load balancer
 services:
   kalila-frontend:
     restart: unless-stopped
     container_name: kalila-frontend
     image: docker.kozae.de/kalila-frontend:latest
     env_file:
-      - .env
+      - prod.env
     ports:
       - '6000:6000'
+    volumes:
+      - /root/Kalila/volumes/assets:/images
+    network_mode: host
 
-networks:
-  default:
-    external: true
-    name: kalila_kalilanet

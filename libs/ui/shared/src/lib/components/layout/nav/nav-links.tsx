@@ -1,25 +1,26 @@
-import styles from "./nav.module.scss";
-import React, {useContext, useEffect, useState} from "react";
-import Link from "next/link";
-import {NavbarStore} from "./store";
-
+import React, { useContext } from 'react';
+import Link from 'next/link';
+import { NavbarStore } from './store';
+import Stack from '@mui/material/Stack';
+import MuiLink from '@mui/material/Link';
 
 export const NavLinks: React.FC = () => {
-  const {links, activeLink} = useContext(NavbarStore).state;
-  const [classes, setClassesState] = useState<string[]>([])
+  const { links } = useContext(NavbarStore).data;
 
-  useEffect(() => setClassesState(
-    links.map(l => l.Ref === activeLink ? styles['nav__control-bar__links__active-item'] : styles['nav__control-bar__links__item'])
-  ), [activeLink, links])
-
-
-  return <div className={styles['nav__control-bar__links']}>
-    {
-      links.map((link, i) => (
+  return (
+    <Stack direction="row" height="100%" alignItems="center" spacing={5}>
+      {links.map((link, i) => (
         <Link href={'/' + link.Ref} key={i}>
-          <a className={classes[i]}> {link.Name} </a>
+          <MuiLink
+            sx={{ cursor: 'pointer' }}
+            fontSize="1.1rem"
+            color="secondary.main"
+            underline="hover"
+          >
+            {link.Name}
+          </MuiLink>
         </Link>
-      ))
-    }
-  </div>
-}
+      ))}
+    </Stack>
+  );
+};

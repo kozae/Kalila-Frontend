@@ -1,0 +1,28 @@
+{
+  "name": "ui-visualizations-dissemination-map",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ui/visualizations/dissemination-map/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui/visualizations/dissemination-map/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/ui/visualizations/dissemination-map"
+      ],
+      "options": {
+        "jestConfig": "libs/ui/visualizations/dissemination-map/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

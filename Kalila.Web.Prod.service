@@ -1,0 +1,24 @@
+[Unit]
+Description=Kalila Web Prod
+
+[Service]
+WorkingDirectory=/root/Kalila/next/frontend-prod
+ExecStart=/usr/bin/nx run kalila:serve:production --port=6666 --verbose
+Restart=always
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=Kalila.Web.Prod
+User=root
+EnvironmentFile=/root/Kalila/next/frontend-prod/prod.env
+
+[Install]
+WantedBy=multi-user.target
+
+# systemctl start Kalila.Web.Prod
+# journalctl -u Kalila.Web.Prod -f
+# journalctl -u Kalila.Web.Prod -b
+# systemctl start  Kalila.Web.Prod && journalctl -u Kalila.Web.Prod -f
+# systemctl restart  Kalila.Web.Prod && journalctl -u Kalila.Web.Prod -f
+# systemctl stop  Kalila.Web.Prod
+
+# guest pass: X#RrUXZ.S9C@BWS

@@ -14,14 +14,65 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "typeRoots" : ["src", "node_modules/@types"],
+    "typeRoots": ["src", "node_modules/@types"],
     "paths": {
       "@frontend/domain": ["libs/domain/src/index.ts"],
+      "@frontend/kalila/components": ["libs/kalila/components/src/index.ts"],
+      "@frontend/kalila/store": ["libs/kalila/store/src/index.ts"],
       "@frontend/server-side-queries": [
         "libs/server-side-queries/src/index.ts"
       ],
       "@frontend/shared-ui": ["libs/ui/shared/src/index.ts"],
       "@frontend/ui/administration": ["libs/ui/administration/src/index.ts"],
+      "@frontend/ui/documents-detailed-view": [
+        "libs/ui/documents-detailed-view/src/index.ts"
+      ],
+      "@frontend/ui/editions": ["libs/ui/editions/src/index.ts"],
+      "@frontend/ui/facsimile": ["libs/ui/facsimile/src/index.ts"],
+      "@frontend/ui/facsimile-cropper": [
+        "libs/ui/facsimile-cropper/src/index.ts"
+      ],
+      "@frontend/ui/facsimile-generator": [
+        "libs/ui/facsimile-generator/src/index.ts"
+      ],
+      "@frontend/ui/facsimile-highlighter": [
+        "libs/ui/facsimile-highlighter/src/index.ts"
+      ],
+      "@frontend/ui/facsimile-line-detector": [
+        "libs/ui/facsimile-line-detector/src/index.ts"
+      ],
+      "@frontend/ui/forms": ["libs/ui/forms/src/index.ts"],
+      "@frontend/ui/table": ["libs/ui/table/src/index.ts"],
+      "@frontend/ui/text-editing/description": [
+        "libs/ui/text-editing/description/src/index.ts"
+      ],
+      "@frontend/ui/text-editing/image-annotation": [
+        "libs/ui/text-editing/image-annotation/src/index.ts"
+      ],
+      "@frontend/ui/text-editing/layout-analysis": [
+        "libs/ui/text-editing/layout-analysis/src/index.ts"
+      ],
+      "@frontend/ui/text-editing/line-detection": [
+        "libs/ui/text-editing/line-detection/src/index.ts"
+      ],
+      "@frontend/ui/text-editing/pages-summary": [
+        "libs/ui/text-editing/pages-summary/src/index.ts"
+      ],
+      "@frontend/ui/text-editing/shared": [
+        "libs/ui/text-editing/shared/src/index.ts"
+      ],
+      "@frontend/ui/text-editing/text-segmentation": [
+        "libs/ui/text-editing/text-segmentation/src/index.ts"
+      ],
+      "@frontend/ui/text-editing/transcription": [
+        "libs/ui/text-editing/transcription/src/index.ts"
+      ],
+      "@frontend/ui/text-editing/workspace": [
+        "libs/ui/text-editing/workspace/src/index.ts"
+      ],
+      "@frontend/ui/visualizations/dissemination-map": [
+        "libs/ui/visualizations/dissemination-map/src/index.ts"
+      ],
       "@frontend/util": ["libs/util/src/index.ts"]
     }
   },

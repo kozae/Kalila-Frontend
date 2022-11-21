@@ -1,0 +1,6 @@
+@import "sass/variables";
+@import "sass/mixins";
+
+.transition-container {
+  @include flex-column-centered-content
+}

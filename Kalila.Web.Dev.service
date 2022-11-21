@@ -1,0 +1,54 @@
+[Unit]
+Description=Kalila Web Dev
+
+[Service]
+WorkingDirectory=/root/Kalila/next/frontend
+ExecStart=/usr/bin/nx run kalila:serve
+Restart=always
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=Kalila.Web.Dev
+User=root
+Environment=NEXT_PUBLIC_SIGNALR_URL=https://kalila-realtime.kozae.de/hub
+Environment=NEXT_PUBLIC_API_URL=https://kalila-api.kozae.de/v1/
+Environment=NEXT_PUBLIC_IMAGE_URL=/pages/
+Environment=NEXT_PUBLIC_PAGES_IMAGE_FOLDER=/root/Kalila/next/frontend/apps/kalila/public/pages/
+Environment=NEXT_PUBLIC_PAGES_IMAGE_SEVER=https://static.kozae.de/pages/
+
+Environment=NEXTAUTH_URL='https://kalila-dev.kozae.de/'
+Environment=KEYCLOAK_ID='kalila_web_dev'
+Environment=KEYCLOAK_SECRET='CJOMk27fo3VnsvZW8hBYILth07pbTqYd'
+Environment=KEYCLOAK_ISSUER='https://id.kozae.de/realms/Kalila'
+
+Environment=INTERNAL_API_URL='http://localhost:6688/v1/'
+
+Environment=KEYCLOAK_TOKEN='https://id.kozae.de/realms/Kalila/protocol/openid-connect/token'
+Environment=KEYCLOAK_ADMIN_TOKEN='https://id.kozae.de/admin/realms/master/protocol/openid-connect/token'
+Environment=KEYCLOAK_ADMIN_USERS='https://id.kozae.de/admin/realms/Kalila/users'
+Environment=KEYCLOAK_ADMIN='greenman'
+
+
+
+[Install]
+WantedBy=multi-user.target
+
+
+# in etc/systemd/system
+# after file chenage run: systemctl daemon-reload
+# journalctl -u Kalila.Web.Dev -f
+# journalctl -u Kalila.Web.Dev -b
+# systemctl start  Kalila.Web.Dev && journalctl -u Kalila.Web.Dev -f
+# systemctl restart  Kalila.Web.Dev && journalctl -u Kalila.Web.Dev -f
+# systemctl stop  Kalila.Web.Dev
+# aFFk8Fwj2N58F^?
+# mk vRd5UCNgkj6QkiY
+# guest: X#RrUXZ.S9C@BWS
+# ds: vRd5UCZgkj6QkiY
+# bg: x4vkVaSxcApgYKj
+# ha: 36PLmdpJkLv7bfn
+# kk: eteEjE69FfHUWQz
+# ma: qF9A4dTe67zbktY
+# ok: YZDswCaJdxups7M
+# rr: iR64YceKrdFah8v
+
+# 6368eae1f7373335b6394d73

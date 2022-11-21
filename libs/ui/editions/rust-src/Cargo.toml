@@ -1,0 +1,37 @@
+[package]
+name = "edition-page-store"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+default = ["console_error_panic_hook"]
+
+[dependencies.wasm-bindgen]
+version = "0.2.80"
+features = ["serde-serialize"]
+
+[dependencies.web-sys]
+version = "0.3.4"
+features = ["console"]
+
+
+[dependencies]
+serde = "^1.0.59"
+serde_derive = "^1.0.59"
+serde_json = "^1.0.79"
+itertools = "0.10.3"
+js-sys = "0.3.36"
+base64 = "0.13.0"
+imageproc = "0.23.0"
+image = "0.24.1"
+regex = "1.5.6"
+
+
+console_error_panic_hook = { version = "0.1.1", optional = true }
+
+wee_alloc = { version = "0.4.2", optional = true }

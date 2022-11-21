@@ -1,15 +1,8 @@
-FROM node:16-slim
+FROM git.imp.fu-berlin.de:5000/kalila/deployment:frontend-builder
 
-RUN apt-get update
-RUN mkdir /frontend
-RUN apt-get install yarn -y
-RUN npm install -g @nrwl/cli
+RUN yarn nx build kalila --verbose
+ENV NODE_OPTIONS='--max_old_space_size=8192'
+CMD ["yarn","nx", "run", "kalila:serve", "--prod" ,"--port=6000 "]
 
-WORKDIR /frontend
-COPY package.json package.json
-COPY yarn.lock yarn.lock
-
-RUN yarn --network-timeout 100000
-COPY . .
-RUN nx build kalila --verbose
-CMD ["nx", "run", "kalila:serve", "--prod" ,"--port=6000 "]
+# docker buildx build --push --tag git.imp.fu-berlin.de:5000/kalila/deployment:frontend -otype=image --platform=linux/arm64,linux/amd64  .
+# docker buildx build --push --tag git.imp.fu-berlin.de:5000/kalila/deployment:frontend -otype=image --platform=linux/amd64  .

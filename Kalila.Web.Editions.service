@@ -1,0 +1,33 @@
+[Unit]
+Description=Kalila Web Editions
+
+[Service]
+WorkingDirectory=/root/Kalila/next/frontend-editions
+ExecStart=/usr/bin/nx run editions-app:serve:production --port=6080 --verbose
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=Kalila.Web.Editions
+User=root
+Environment=NEXT_PUBLIC_IMAGE_URL=/pages/
+Environment=NEXT_PUBLIC_API_URL=https://kalila-api.kozae.de/v1/
+Environment=NEXT_PUBLIC_PAGES_IMAGE_FOLDER=/root/Kalila/next/frontend/apps/kalila/public/pages/
+Environment=NEXT_PUBLIC_PAGES_IMAGE_SEVER=https://static.kozae.de/pages/
+
+Environment=NEXTAUTH_URL='https://kalila-editions.kozae.de/'
+Environment=KEYCLOAK_ID='kalila_web_editions'
+Environment=KEYCLOAK_SECRET='lI7N14p4ziXic9c1s0mzidh0ImtCAZZo'
+Environment=KEYCLOAK_ISSUER='https://id.kozae.de/realms/Kalila'
+
+[Install]
+WantedBy=multi-user.target
+
+# systemctl start Kalila.Web.Editions
+# journalctl -u Kalila.Web.Editions -f
+# journalctl -u Kalila.Web.Editions -b
+# systemctl start  Kalila.Web.Editions && journalctl -u Kalila.Web.Editions -f
+# systemctl restart  Kalila.Web.Editions && journalctl -u Kalila.Web.Editions -f
+# systemctl stop  Kalila.Web.Editions
+
+# guest pass: X#RrUXZ.S9C@BWS

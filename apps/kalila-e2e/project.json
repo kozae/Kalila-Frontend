@@ -1,5 +1,6 @@
 {
-  "root": "apps/kalila-e2e",
+  "name": "kalila-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/kalila-e2e/src",
   "projectType": "application",
   "targets": {

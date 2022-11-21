@@ -1,29 +1,81 @@
-import {createTheme} from "@fluentui/react";
+import { createTheme } from '@mui/material';
+
+const themeColors = {
+  mainGreen: '#6b9e1f',
+  secondaryDarkBlue: '#001d39',
+  fontBlue: '#001d39',
+  infoBlue: '#164574',
+  warningRed: '#CC0000',
+};
 
 export const kalilaTheme = createTheme({
-  defaultFontStyle: { fontFamily: '\'Roboto\', sans-serif' , fontWeight: 'regular' },
   palette: {
-    themePrimary: '#6b9e1f',
-    themeLighterAlt: '#f8fbf3',
-    themeLighter: '#e3efd1',
-    themeLight: '#cce2ac',
-    themeTertiary: '#9fc566',
-    themeSecondary: '#7aaa32',
-    themeDarkAlt: '#618e1c',
-    themeDark: '#527818',
-    themeDarker: '#3c5912',
-    neutralLighterAlt: '#faf9f8',
-    neutralLighter: '#f3f2f1',
-    neutralLight: '#edebe9',
-    neutralQuaternaryAlt: '#e1dfdd',
-    neutralQuaternary: '#d0d0d0',
-    neutralTertiaryAlt: '#c8c6c4',
-    neutralTertiary: '#7c9dbb',
-    neutralSecondary: '#5b81a5',
-    neutralPrimaryAlt: '#3f6990',
-    neutralPrimary: '#001d39',
-    neutralDark: '#163e64',
-    black: '#092c4e',
-    white: '#ffffff',
-  }
+    primary: {
+      main: themeColors.mainGreen,
+    },
+    secondary: {
+      main: themeColors.secondaryDarkBlue,
+    },
+    info: {
+      main: themeColors.infoBlue,
+    },
+    warning: {
+      main: themeColors.warningRed,
+    },
+  },
+  typography: {
+    h1: {
+      fontSize: '2rem',
+      fontFamily: "'Noto Sans Display', sans-serif",
+      fontWeight: 700,
+      color: themeColors.fontBlue,
+    },
+    h2: {
+      fontFamily: "'Noto Sans Display', sans-serif",
+      fontSize: '1.5rem',
+      fontWeight: 500,
+      color: themeColors.fontBlue,
+    },
+    h3: {
+      fontFamily: "'Noto Sans Display', sans-serif",
+      fontSize: '1.2rem',
+      fontWeight: 500,
+    },
+    h4: {
+      fontFamily: "'Noto Sans Display', sans-serif",
+      fontWeight: 400,
+      fontSize: '1rem',
+      letterSpacing: '-1px',
+    },
+    h5: {
+      fontFamily: "'Noto Sans Display', sans-serif",
+      fontSize: '1.3rem',
+      fontWeight: 400,
+    },
+    body1: {
+      fontFamily: "'Noto Sans Display', sans-serif",
+      fontSize: '.85rem',
+    },
+    body2: {
+      fontFamily: "'Noto Naskh Arabic', serif",
+      fontSize: '1.5rem',
+    },
+    button: {
+      fontFamily: "'Noto Sans Display', sans-serif",
+      fontSize: '1rem',
+      fontWeight: 500,
+      textTransform: 'none',
+    },
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 480,
+      md: 660,
+      lg: 1200,
+      xl: 1420,
+      //@ts-ignore
+      xxl: 1600,
+    },
+  },
 });

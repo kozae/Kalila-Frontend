@@ -1,5 +1,6 @@
 {
-  "root": "libs/util",
+  "name": "util",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/util/src",
   "projectType": "library",
   "targets": {
@@ -12,9 +13,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/util"],
+      "outputs": ["{workspaceRoot}/coverage/libs/util"],
       "options": {
-        "jestConfig": "libs/util/jest.config.js",
+        "jestConfig": "libs/util/jest.config.ts",
         "passWithNoTests": true
       }
     }

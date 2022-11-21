@@ -1,19 +1,17 @@
-import React from "react";
-import {motion} from "framer-motion";
+import React from 'react';
+import { FramerSlideUpDown } from '../framer-animations';
 
-
-export const withTransition = (OriginalComponent: React.JSXElementConstructor<any>, props: any, className: string | undefined = undefined) => {
-  return () => {
+export const withTransition = (
+  OriginalComponent: React.JSXElementConstructor<any>,
+  extraProps: any,
+  className: string | undefined = undefined
+) => {
+  return (props: any) => {
+    const merge = { ...props, ...extraProps };
     return (
-      <motion.div
-        className={className}
-        initial={{opacity: 0, y: 100}}
-        animate={{opacity: 1, y: 0}}
-        exit={{opacity: 0, y: 100}}
-        transition={{duration: 0.5, ease: "easeIn"}}>
-        <OriginalComponent {...props}/>
-      </motion.div>
-
+      <FramerSlideUpDown className={className}>
+        <OriginalComponent {...merge} />
+      </FramerSlideUpDown>
     );
-  }
+  };
 };

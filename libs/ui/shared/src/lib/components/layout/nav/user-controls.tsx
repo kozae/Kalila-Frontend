@@ -1,90 +1,137 @@
-import styles from "./nav.module.scss";
-import {
-  DefaultButton,
-  HighContrastSelector,
-  IButtonStyles, IconButton,
-  IContextualMenuProps,
-  Persona,
-  PersonaInitialsColor, PersonaSize
-} from "@fluentui/react";
-import React, {useContext} from "react";
-import {stringHasValue} from "@frontend/util";
-import {MediaQueryWrapper} from "@frontend/shared-ui";
-import {useRouter} from "next/router";
-import {NavbarStore} from "./store";
-import {signIn, signOut} from "next-auth/react";
+import styles from './nav.module.scss';
+import React, { useEffect } from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import LoginIcon from '@mui/icons-material/Login';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Grow from '@mui/material/Grow';
+import Paper from '@mui/material/Paper';
+import Popper from '@mui/material/Popper';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import IconButton from '@mui/material/IconButton';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
-const customSplitButtonStyles: IButtonStyles = {
-  splitButtonMenuButton: {backgroundColor: 'white', width: 28, border: 'none'},
-  splitButtonMenuIcon: {fontSize: '10px'},
-  splitButtonDivider: {backgroundColor: '#c8c8c8', width: 2, right: 26, position: 'absolute', top: 4, bottom: 4},
-  splitButtonContainer: {
-    selectors: {
-      [HighContrastSelector]: {border: 'none'},
-    },
-  },
-};
+import { useSession, signIn, signOut } from 'next-auth/react';
 
+const LogOutButton: React.FC<{ initials: string; picture?: string }> = ({
+  initials,
+  picture,
+}) => {
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef<HTMLButtonElement>(null);
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
 
-const LogOutButton: React.FC<{ loggedUser: string }> = ({loggedUser}) => {
-  const {isNotXXLScreen} = useContext(MediaQueryWrapper);
+  const handleClose = (event: Event) => {
+    if (
+      anchorRef.current &&
+      anchorRef.current.contains(event.target as HTMLElement)
+    ) {
+      return;
+    }
 
-  const {push} = useRouter();
-
-  // todo determine initials and secondary text
-
-  const menuProps: IContextualMenuProps = {
-    items: [
-      {
-        key: 'signOut',
-        text: 'Sign Out',
-        iconProps: {iconName: 'UserRemove'},
-        onClick: () => {
-          signOut().catch()
-        }
-      },
-      {
-        key: 'accountSettings',
-        text: 'Account Settings',
-        iconProps: {iconName: 'Settings'},
-        onClick: () => {
-          push('/account').catch()
-        }
-      },
-    ],
+    setOpen(false);
   };
 
   return (
     <div className={styles['nav__control-bar__user-controls']}>
-      <Persona imageInitials={'MK'}
-               secondaryText={'Admin'}
-               initialsColor={PersonaInitialsColor.green}
-               text={loggedUser}
-               hidePersonaDetails={isNotXXLScreen}
-               size={PersonaSize.size40}/>
+      {picture ? (
+        <Avatar alt={initials.toUpperCase()} src={picture} />
+      ) : (
+        <Avatar sx={{ bgcolor: 'secondary.main' }}>
+          {initials.toUpperCase()}
+        </Avatar>
+      )}
+
       <IconButton
-        split
-        iconProps={{iconName: 'Settings'}}
-        splitButtonAriaLabel="See 2 options"
-        aria-roledescription="split button"
-        styles={customSplitButtonStyles}
-        menuProps={menuProps}
-        ariaLabel="New item"
-        onClick={() => push('/account')}
-      />
+        size="small"
+        aria-controls={open ? 'split-button-menu' : undefined}
+        aria-expanded={open ? 'true' : undefined}
+        aria-label="select user action"
+        aria-haspopup="menu"
+        color="secondary"
+        ref={anchorRef}
+        onClick={handleToggle}
+      >
+        <ArrowDropDownIcon />
+      </IconButton>
+      <Popper
+        open={open}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        transition
+        disablePortal
+      >
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+                placement === 'bottom' ? 'center top' : 'center bottom',
+            }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList id="split-button-menu">
+                  <MenuItem sx={{ fontSize: '1rem' }} onClick={() => signOut()}>
+                    <ExitToAppIcon color="warning" /> &nbsp; Sign out
+                  </MenuItem>
+                  {/*<MenuItem*/}
+                  {/*  sx={{ fontSize: '1rem' }}*/}
+                  {/*  onClick={() =>*/}
+                  {/*    push('/account')*/}
+                  {/*      .then(() => setOpen(false))*/}
+                  {/*      .catch()*/}
+                  {/*  }*/}
+                  {/*>*/}
+                  {/*  <SettingsIcon color="primary" /> &nbsp; Account Settings*/}
+                  {/*</MenuItem>*/}
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
     </div>
   );
-
-}
+};
 
 export const NavUserControls: React.FC = () => {
-  const {loggedUser} = useContext(NavbarStore).state;
-  const logInButton = () => (
-    <div className={styles['nav__control-bar__user-controls']}>
-      <DefaultButton onClick={() => signIn()} iconProps={{iconName: 'AddFriend'}} text="Sign In"/>
-    </div>
-  )
+  const { data: session, status } = useSession();
 
-  return stringHasValue(loggedUser) ? <LogOutButton loggedUser={loggedUser as string}/> : logInButton()
+  if (status === 'loading') return <div>Loading...</div>;
 
-}
+  return (
+    <>
+      {session && (
+        <LogOutButton
+          initials={
+            session.user?.name && session.user?.name.includes('guest')
+              ? 'GST'
+              : //@ts-ignore
+                session.user.username
+          }
+          //@ts-ignore
+          picture={session.user.picture}
+        />
+      )}
+      {!session && (
+        <div className={styles['nav__control-bar__user-controls']}>
+          <Button
+            onClick={() => signIn('keycloak')}
+            size="small"
+            color="secondary"
+            variant="contained"
+            disableElevation
+            endIcon={<LoginIcon />}
+          >
+            Sign In
+          </Button>
+        </div>
+      )}
+    </>
+  );
+};

@@ -1,0 +1,24 @@
+{
+  "name": "kalila-store",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/kalila/store/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/kalila/store/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/kalila/store"],
+      "options": {
+        "jestConfig": "libs/kalila/store/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

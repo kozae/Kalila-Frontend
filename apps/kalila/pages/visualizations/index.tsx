@@ -1,16 +1,15 @@
 import './index.module.scss';
-import {withTransition} from "@frontend/shared-ui";
+import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
+import dynamic from 'next/dynamic';
 
-/* eslint-disable-next-line */
-export interface VisualizationsProps {}
+const DisseminationMap = dynamic(
+  () => import('@frontend/ui/visualizations/dissemination-map'),
+  { ssr: false }
+);
 
-export function Visualizations(props: VisualizationsProps) {
-  return (
-    <div>
-      <h1>Welcome to Visualizations!</h1>
-    </div>
-  );
+export function Visualizations() {
+  useNavbarMessage(['Visualizations', undefined]);
+  return <DisseminationMap />;
 }
 
 export default withTransition(Visualizations, {});
-

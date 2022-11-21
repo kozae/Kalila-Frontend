@@ -1,0 +1,216 @@
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
+import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
+import ReorderSharpIcon from '@mui/icons-material/ReorderSharp';
+import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
+import ImageTwoToneIcon from '@mui/icons-material/ImageTwoTone';
+import React, { ReactNode, SyntheticEvent } from 'react';
+import TableRowsTwoToneIcon from '@mui/icons-material/TableRowsTwoTone';
+import Box from '@mui/material/Box';
+import SwipeableViews from 'react-swipeable-views';
+import { useTheme } from '@mui/material/styles';
+import { AnimatePresence, motion } from 'framer-motion';
+import CircularProgress from '@mui/material/CircularProgress';
+import { LayoutAnalysisTool } from '@frontend/ui/text-editing/layout-analysis';
+import { useTabDisabledState } from './hooks';
+import {
+  selectPageDataLoadingStatus,
+  selectTextEditingActiveWorkspace,
+  setTextEditingWorkspace,
+  TextEditingActiveWorkspace,
+  useAppDispatch,
+  useAppSelector,
+} from '@frontend/shared-ui';
+import { LineDetectionTool } from '@frontend/ui/text-editing/line-detection';
+import { TranscriptionTool } from '@frontend/ui/text-editing/transcription';
+import { TextSegmentationTool } from '@frontend/ui/text-editing/text-segmentation';
+import { DescriptionTool } from '@frontend/ui/text-editing/description';
+import { ImageAnnotationTool } from '@frontend/ui/text-editing/image-annotation';
+
+interface TabPanelProps {
+  children?: ReactNode;
+  dir?: string;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+      style={{
+        width: '100%',
+        height: 'calc(100vh - 50px - 10px - 72px)',
+      }}
+    >
+      {value === index && (
+        <Box
+          sx={{
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
+const TabIndexWorkspaceNameMap: Record<number, TextEditingActiveWorkspace> = {
+  0: 'description',
+  1: 'layout',
+  2: 'lines',
+  3: 'transcription',
+  4: 'segmentation',
+  5: 'image',
+};
+const WorkspaceNameTabIndexMap: Record<TextEditingActiveWorkspace, number> = {
+  description: 0,
+  layout: 1,
+  lines: 2,
+  transcription: 3,
+  segmentation: 4,
+  image: 5,
+};
+
+export const ToolSpace = () => {
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector(selectPageDataLoadingStatus);
+  const activeWorkspace = useAppSelector(selectTextEditingActiveWorkspace);
+  const tabIndex = WorkspaceNameTabIndexMap[activeWorkspace];
+  const theme = useTheme();
+  const isDisabled = useTabDisabledState();
+  const handleChange = (event: SyntheticEvent, index: number) => {
+    dispatch(setTextEditingWorkspace(TabIndexWorkspaceNameMap[index]));
+  };
+  const handleChangeIndex = (index: number) => {
+    dispatch(setTextEditingWorkspace(TabIndexWorkspaceNameMap[index]));
+  };
+
+  return (
+    <Box sx={{ width: '50%' }}>
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Tabs
+          value={tabIndex}
+          onChange={handleChange}
+          aria-label="text-editing-tools"
+          textColor="secondary"
+          indicatorColor="secondary"
+          variant="scrollable"
+          scrollButtons="auto"
+        >
+          <Tab
+            disabled={isDisabled.description}
+            icon={<InfoTwoToneIcon />}
+            label="General"
+          />
+          <Tab
+            disabled={isDisabled.layout}
+            icon={<DashboardTwoToneIcon />}
+            label="Layout"
+          />
+          <Tab
+            disabled={isDisabled.lines}
+            icon={<ReorderSharpIcon />}
+            label="Lines"
+          />
+          <Tab
+            disabled={isDisabled.transcription}
+            icon={<HistoryEduTwoToneIcon />}
+            label="Transcription"
+          />
+          <Tab
+            disabled={isDisabled.segmentation}
+            icon={<TableRowsTwoToneIcon />}
+            label="Segmentation"
+          />
+          <Tab
+            disabled={isDisabled.images}
+            icon={<ImageTwoToneIcon />}
+            label="Images"
+          />
+        </Tabs>
+      </Box>
+      <AnimatePresence exitBeforeEnter>
+        {loading ? (
+          <motion.div
+            key="facsimile-loading"
+            style={{
+              width: '100%',
+              height: 'calc(100vh - 50px - 10px - 72px)',
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: 'easeIn' }}
+          >
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: 'rgba(153, 153, 153, 0.3)',
+              }}
+            >
+              <CircularProgress size={160} />
+            </Box>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="tool-spaces"
+            style={{
+              width: '100%',
+              height: 'calc(100vh - 50px - 10px - 72px)',
+            }}
+            initial={{ opacity: 0, x: 200 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 200 }}
+            transition={{ duration: 1, ease: 'easeIn' }}
+          >
+            <SwipeableViews
+              axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+              index={tabIndex}
+              onChangeIndex={handleChangeIndex}
+            >
+              <TabPanel value={tabIndex} index={0} dir={theme.direction}>
+                <DescriptionTool />
+              </TabPanel>
+              <TabPanel value={tabIndex} index={1} dir={theme.direction}>
+                <LayoutAnalysisTool />
+              </TabPanel>
+              <TabPanel value={tabIndex} index={2} dir={theme.direction}>
+                <LineDetectionTool />
+              </TabPanel>
+              <TabPanel value={tabIndex} index={3} dir={theme.direction}>
+                <TranscriptionTool />
+              </TabPanel>
+              <TabPanel value={tabIndex} index={4} dir={theme.direction}>
+                <TextSegmentationTool />
+              </TabPanel>
+              <TabPanel value={tabIndex} index={5} dir={theme.direction}>
+                <ImageAnnotationTool />
+              </TabPanel>
+            </SwipeableViews>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Box>
+  );
+};

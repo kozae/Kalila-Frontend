@@ -1,32 +1,65 @@
-import './index.module.scss';
-import {SignalrStore, withTransition} from "@frontend/shared-ui";
-import {useContext, useEffect} from "react";
+import "./index.module.scss";
+import {
+  ManuscriptDescriptionGroupToggle,
+  useMediumScreenMediaQuery,
+  useNavbarMessage,
+  useSchemaStore,
+  withTransition
+} from "@frontend/shared-ui";
+import React from "react";
+import Head from "next/head";
+import {
+  createDocumentDetailedViewContext,
+  DocumentsDetailedViewPage,
+  useSchemaFilter
+} from "@frontend/ui/documents-detailed-view";
+import { ManuscriptDescription } from "@frontend/domain";
+import { GetServerSideProps } from "next";
+import { getSchema } from "@frontend/server-side-queries";
 
-/* eslint-disable-next-line */
-export interface ManuscriptDescriptionProps {
-}
+export function ManuscriptDescriptionPage({ schema }) {
+  useSchemaStore("ManuscriptDescription", schema);
+  useNavbarMessage(["Manuscript Description:", "View Documents"]);
+  const { schemaFilter, changeSchemaFilter } = useSchemaFilter();
+  const isMdScreen = useMediumScreenMediaQuery();
 
-export function ManuscriptDescription(props: ManuscriptDescriptionProps) {
-  const {state: {update, connection, isConnected}, dispatchers: {joinGroup}} = useContext(SignalrStore);
-
-  useEffect(() => {
-    console.log(update)
-  }, [update])
-
-
-  useEffect(() => {
-    if (connection && isConnected) {
-      joinGroup('ManuscriptDescription', connection)
-        .then(() => console.log('ManuscriptDescription group joined'))
-    }
-  }, [isConnected, connection])
-
+  const DocumentViewContext =
+    createDocumentDetailedViewContext<ManuscriptDescription>();
   return (
-    <div>
-      <h1>Welcome to ManuscriptDescription!</h1>
-    </div>
+    <>
+      <Head>
+        <title>Manuscript Description: View Documents</title>
+      </Head>
+      <DocumentViewContext.Provider
+        value={{
+          activityName: "ManuscriptDescription",
+          additionalParams: {},
+          cls: ManuscriptDescription
+        }}
+      >
+        <DocumentsDetailedViewPage
+          cls={ManuscriptDescription}
+          schemaFilter={schemaFilter}
+          groupToggle={
+            <ManuscriptDescriptionGroupToggle
+              schemaFilter={schemaFilter}
+              changeSchemaFilter={changeSchemaFilter}
+              view={isMdScreen ? "menu" : "toolbar"}
+            />
+          }
+        />
+      </DocumentViewContext.Provider>
+    </>
   );
 }
 
-export default withTransition(ManuscriptDescription, {});
+export default withTransition(ManuscriptDescriptionPage, {});
 
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const schema = await getSchema("ManuscriptDescription");
+  return {
+    props: {
+      schema
+    }
+  };
+};
