@@ -1,4 +1,4 @@
-import { Draggables, IItemData } from './drag-layer';
+import { IItemData } from './drag-layer';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
@@ -10,6 +10,7 @@ import {
   useAppDispatch,
 } from '@frontend/shared-ui';
 import { v4 } from 'uuid';
+import { Draggables } from '@frontend/util';
 
 export const AssignAsLacunaContainer = () => {
   const dispatch = useAppDispatch();

@@ -1,14 +1,18 @@
+import {
+  verifyAdmin,
+  verifyBookUnitTagger,
+} from './../../../../util/verify-admin';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import {
-  determinePathParameters,
-  INavbarLink,
-  NavbarLinksConfiguration,
+  selectSessionStatus,
+  selectUser,
   useAppSelector,
-  verifyAdmin,
-} from '@frontend/shared-ui';
+} from '../../../../store';
+import { determinePathParameters } from '../../../../util';
+
 import { INavbarState } from '../store';
-import { selectSessionStatus, selectUser } from '@frontend/shared-ui';
+import { INavbarLink, NavbarLinksConfiguration } from '../../../../constants';
 
 export function useRouteState(
   init: INavbarState,
@@ -46,6 +50,13 @@ export function useNavSessionState(init: INavbarState) {
         setLinks([
           ...NavbarLinksConfiguration.UserLinks,
           ...NavbarLinksConfiguration.AdminLinks,
+          ...NavbarLinksConfiguration.BookUnitTaggerLinks,
+        ]);
+      } else if (verifyBookUnitTagger(user)) {
+        setIsAdmin(true);
+        setLinks([
+          ...NavbarLinksConfiguration.BookUnitTaggerLinks,
+          ...NavbarLinksConfiguration.UserLinks,
         ]);
       } else {
         setIsAdmin(false);

@@ -4,3 +4,10 @@ export const verifyAdmin = (user: any): boolean => {
   }
   return false;
 };
+
+export const verifyBookUnitTagger = (user: any): boolean => {
+  if (user && user.roles) {
+    return user.roles.includes('book_unit_tagger');
+  }
+  return false;
+};

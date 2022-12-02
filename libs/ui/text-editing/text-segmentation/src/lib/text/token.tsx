@@ -1,7 +1,7 @@
 import { IToken } from '@frontend/domain';
 import Typography from '@mui/material/Typography';
 import { useDrop } from 'react-dnd';
-import { Draggables, IItemData } from '../drag-layer';
+import { IItemData } from '../drag-layer';
 import {
   insertUnit,
   useAppDispatch,
@@ -10,6 +10,7 @@ import {
   moveUnit,
 } from '@frontend/shared-ui';
 import { v4 } from 'uuid';
+import { Draggables } from '@frontend/util';
 
 export interface ITokenProps {
   d: IToken & {

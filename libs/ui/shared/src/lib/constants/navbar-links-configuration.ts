@@ -7,6 +7,7 @@ export interface INavbarLinksConfiguration {
   UserLinks: INavbarLink[];
   AdminLinks: INavbarLink[];
   GuestLinks: INavbarLink[];
+  BookUnitTaggerLinks: INavbarLink[];
 }
 
 export const NavbarLinksConfiguration: INavbarLinksConfiguration = {
@@ -23,10 +24,7 @@ export const NavbarLinksConfiguration: INavbarLinksConfiguration = {
       Name: 'Manuscript Description',
       Ref: 'manuscript-description',
     },
-    {
-      Name: 'Book Analysis',
-      Ref: 'book-analysis',
-    },
+
     {
       Name: 'Image Cycle Analysis',
       Ref: 'image-cycle-analysis',
@@ -34,6 +32,12 @@ export const NavbarLinksConfiguration: INavbarLinksConfiguration = {
     {
       Name: 'Visualizations',
       Ref: 'visualizations',
+    },
+  ],
+  BookUnitTaggerLinks: [
+    {
+      Name: 'Book Analysis',
+      Ref: 'book-analysis',
     },
   ],
   AdminLinks: [

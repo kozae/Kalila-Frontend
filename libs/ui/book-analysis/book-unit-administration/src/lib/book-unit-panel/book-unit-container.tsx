@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import { Alert } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { BookUnitTag } from './book-unit-tag';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { BookUnitPanelContext } from './book-unit-panel.context';
 import { InsertableEndTag } from '../draggables';
 

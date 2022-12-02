@@ -2,6 +2,7 @@ import Stack from '@mui/material/Stack';
 import {
   FramerFadeInOut,
   FullPageLoadingIndicator,
+  selectTextEditingAccessMode,
   selectTextEditingActiveWorkspace,
   selectWorkspaceHasChanges,
   useAppSelector,
@@ -23,8 +24,8 @@ import {
   loadFacsimileCropper,
   useFacsimileCropper,
 } from '@frontend/ui/facsimile-cropper';
-import React, { useEffect } from 'react';
-import { BookUnitPanel } from '../../../text-segmentation/src/lib/book-unit-panel';
+import { useEffect } from 'react';
+import { BookUnitPanel } from '@frontend/ui/book-analysis/book-unit-administration';
 import { FacsimileRegionPreview } from './components/facsimile-space/facsimile-region-preview';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
@@ -73,6 +74,7 @@ function TextEditingWorkspace({
   const workspaceHasChanges = useAppSelector(selectWorkspaceHasChanges);
   useNavigationAwayGuard(workspaceHasChanges);
   const tool = useAppSelector(selectTextEditingActiveWorkspace);
+  const accessMode = useAppSelector(selectTextEditingAccessMode);
   return (
     <TextEditingWorkspaceContext.Provider value={{ facsimileCropper }}>
       <Stack
@@ -85,7 +87,17 @@ function TextEditingWorkspace({
       >
         {tool === 'segmentation' ? (
           <DndProvider backend={HTML5Backend}>
-            <BookUnitPanel />
+            <BookUnitPanel
+              accessMode={
+                accessMode.includes('admin')
+                  ? 'admin'
+                  : accessMode.includes('book_unit_tagger')
+                  ? 'tag'
+                  : accessMode.includes('edit')
+                  ? 'edit'
+                  : undefined
+              }
+            />
             <ToolSpace />
           </DndProvider>
         ) : (

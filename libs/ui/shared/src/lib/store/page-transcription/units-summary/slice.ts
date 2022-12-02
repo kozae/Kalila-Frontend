@@ -5,7 +5,7 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import { IBookUnit, IUnitSummary } from '@frontend/domain';
-import { closeUnit, moveUnit, removeUnitEndTag } from './thunks';
+import { closeUnit, moveUnit, removeUnitEndTag, insertUnit } from './thunks';
 import {
   discardTokenChanges,
   saveSegmentation,
@@ -24,7 +24,6 @@ export const unitSummariesSlice = createSlice({
   initialState,
   reducers: {
     loadUnitSummaries: unitSummariesAdapter.setAll,
-    insertUnit: unitSummariesAdapter.addOne,
     updateUnit: unitSummariesAdapter.updateOne,
     updateManyUnits: unitSummariesAdapter.updateMany,
     removeUnit: (
@@ -121,6 +120,12 @@ export const unitSummariesSlice = createSlice({
         );
       }
     });
+    builder.addCase(insertUnit.fulfilled, (state, action) => {
+      unitSummariesAdapter.addOne(state, action.payload.insert);
+      if (action.payload.update.length !==0) {
+        unitSummariesAdapter.updateMany(state, action.payload.update)
+      }
+    });
     builder.addCase(moveUnit.fulfilled, (state, action) => {
       unitSummariesAdapter.upsertMany(state, action.payload.data);
     });
@@ -143,7 +148,6 @@ export type UnitSummariesState = {
 export const {
   loadUnitSummaries,
   clearUnitSummaries,
-  insertUnit,
   updateUnit,
   updateManyUnits,
   removeUnit,

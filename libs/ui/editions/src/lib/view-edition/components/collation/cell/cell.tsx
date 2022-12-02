@@ -2,14 +2,13 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { range } from 'lodash';
-import { Fragment, useEffect, useMemo } from 'react';
+import { Fragment } from 'react';
 import { SxProps, Theme, ResponsiveStyleValue } from '@mui/system';
 import { useBehaviorOptions, useData, useLayoutData } from '../../../contexts';
 import { FONT_SIZES } from '../../../constants';
 import { Token } from './token';
 import { LocatedImage } from './located-image';
 import { PageBreak } from './page-break';
-import { kalilaTheme } from '@frontend/shared-ui';
 
 export interface IEditionCellProps {
   unitIndex: number;
@@ -36,6 +35,7 @@ export const Cell = ({
   const imageLocation = data.get_located_image_location();
   const { size } = useLayoutData();
   const isLacuna = edition.is_unit_lacuna(msIndex, unitIndex);
+  const msId = edition.get_ms_id(msIndex);
   const unitRange = [...data.get_page_range()];
 
   if (count === 0) {
@@ -74,6 +74,9 @@ export const Cell = ({
         sx={{
           flexWrap,
         }}
+        onDoubleClick={() =>
+          window.open(`/text-editing/${msId}/find/${unitRange[0]}`, '_blank')
+        }
       >
         {manuscript_unit_order !== unitIndex && (
           <Typography

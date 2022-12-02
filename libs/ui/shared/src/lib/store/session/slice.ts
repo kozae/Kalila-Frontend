@@ -1,14 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ISession } from '@frontend/util';
+import { ISession, IUser } from '@frontend/util';
 
-export interface IUser {
-  firstName: string;
-  lastName: string;
-  username: string;
-  roles: string[];
-  email: string;
-  picture?: string;
-}
 
 export interface ISessionState {
   session: ISession | null;

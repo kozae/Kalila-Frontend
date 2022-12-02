@@ -1,10 +1,9 @@
-import { CSSProperties, FC } from 'react';
+import { FC } from 'react';
 import useSWR from 'swr';
 import { loadImageAsDataUrl } from '@frontend/ui/facsimile-cropper';
 import { kalilaTheme } from '@frontend/shared-ui';
 import Stack from '@mui/material/Stack';
 import { useData } from '../../contexts';
-import { MotionProps } from 'framer-motion/types/motion/types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';

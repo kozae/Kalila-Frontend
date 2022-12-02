@@ -1,12 +1,12 @@
+import { MotionProps } from 'framer-motion';
 import { CSSProperties } from 'react';
-import { MotionProps } from 'framer-motion/types/motion/types';
 
 export function getVerticalFloaterStyle(
   { y }: { y: number },
   isXLScreen: boolean,
   isSmallScreen: boolean,
-  height: string = '200px',
-  minY: number = 300
+  height = '200px',
+  minY = 300
 ): CSSProperties {
   const common = {
     position: 'fixed',
@@ -29,7 +29,7 @@ export const getVerticalFloaterMotionProps = (
   }: {
     y: number;
   },
-  minY: number = 300
+  minY = 300
 ): MotionProps => {
   if (y <= minY) {
     return {
@@ -50,7 +50,7 @@ export const getVerticalFloaterMotionProps = (
 
 export function getHorizontalFloaterStyle(
   { x }: { x: number },
-  minX: number = 300
+  minX = 300
 ): CSSProperties {
   const common = {
     position: 'fixed',
@@ -74,7 +74,7 @@ export const getHorizontalFloaterMotionProps = (
   }: {
     x: number;
   },
-  minX: number = 300
+  minX = 300
 ): MotionProps => {
   if (x <= minX) {
     return {

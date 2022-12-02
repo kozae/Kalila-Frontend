@@ -1,18 +1,15 @@
 import { useDragLayer, XYCoord } from 'react-dnd';
 import Box from '@mui/material/Box';
 import Portal from '@mui/material/Portal';
-import { InsertableEndTagDragPreview } from './draggables';
 import { MovableUnitStartDragPreview } from './draggables/movable-unit-start';
 import { MovableUnitEndDragPreview } from './draggables/movable-unit-end';
 import { DeleteDropContainer } from './delete-drop-container';
 import { AssignAsLacunaContainer } from './assign-as-lacuna-container';
-
-export enum Draggables {
-  insertableUnit = 'insertableUnit',
-  movableUnit = 'movableUnit',
-  insertableEndTag = 'insertableEndTag',
-  movableEndTag = 'movableEndTag',
-}
+import { Draggables } from '@frontend/util';
+import {
+  InsertableEndTagDragPreview,
+  InsertableUnitDragPreview,
+} from '@frontend/ui/book-analysis/book-unit-administration';
 
 export interface IItemData {
   data: any;
@@ -28,7 +25,7 @@ function getItemStyles(
       display: 'none',
     };
   }
-  let { x, y } = currentOffset;
+  const { x, y } = currentOffset;
 
   const transform = `translate(${x - 5}px, ${y - 5}px)`;
   return {
@@ -50,6 +47,8 @@ export const DragLayer = () => {
 
   const renderItem = () => {
     switch (itemType) {
+      case Draggables.insertableUnit:
+        return <InsertableUnitDragPreview d={item.data} />;
       case Draggables.insertableEndTag:
         return <InsertableEndTagDragPreview />;
       case Draggables.movableUnit:

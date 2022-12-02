@@ -25,7 +25,17 @@ import { BookUnitPanelDragLayer } from './book-unit-panel-drag-layer';
 import { addListener, Update } from '@reduxjs/toolkit';
 import { EditFrameDialog } from './dialogs/edit-frame-dialog';
 
-export const BookUnitPanel = () => {
+export interface IBookUnitPanelProps {
+  accessMode?: 'edit' | 'tag' | 'admin';
+  verticalAnimate?: boolean;
+  data: BookUnit[];
+  refetch: () => void | Promise<void>;
+}
+
+export const BookUnitPanel = ({
+  accessMode,
+  verticalAnimate,
+}: Partial<IBookUnitPanelProps>) => {
   const [chapter, setChapter] = useState<IChapter | null>(null);
   const [filter, setFilter] = useState<string>('');
   const [createUnitDialogOpen, setCreateUnitDialogOpen] =
@@ -111,6 +121,7 @@ export const BookUnitPanel = () => {
   const contextValue = useMemo(
     () => ({
       chapter,
+      accessMode,
       setChapter,
       filter,
       setFilter,
@@ -125,6 +136,7 @@ export const BookUnitPanel = () => {
       refetchUnits,
     }),
     [
+      accessMode,
       chapter,
       filter,
       editFrameDialogIsOpen,
@@ -147,9 +159,17 @@ export const BookUnitPanel = () => {
             flexDirection: 'column',
             overflowY: 'scroll',
           }}
-          initial={{ opacity: 0, x: -200 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -200 }}
+          initial={{
+            opacity: 0,
+            x: !verticalAnimate ? -200 : 0,
+            y: verticalAnimate ? 200 : 0,
+          }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          exit={{
+            opacity: 0,
+            x: !verticalAnimate ? -200 : 0,
+            y: verticalAnimate ? 200 : 0,
+          }}
           transition={{ duration: 1, ease: 'easeIn' }}
         >
           {chapter !== null && <CommandBar />}

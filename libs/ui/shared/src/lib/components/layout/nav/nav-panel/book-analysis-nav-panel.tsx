@@ -7,11 +7,13 @@ import { PanelLink } from './panel-link';
 
 export const BookAnalysisNavPanel = () => {
   return (
-    <Accordion disabled sx={{ width: '100%' }}>
-      <Summary text="Book Analysis (Soon!)" />
+    <Accordion sx={{ width: '100%' }}>
+      <Summary text="Book Analysis" />
       <AccordionDetails>
         <Stack>
           <PanelLink linkRef="book-analysis" text="Select Tool" />
+          <br/>
+          <PanelLink linkRef="book-analysis/unit-administration" text="Unit Administration" />
         </Stack>
       </AccordionDetails>
     </Accordion>

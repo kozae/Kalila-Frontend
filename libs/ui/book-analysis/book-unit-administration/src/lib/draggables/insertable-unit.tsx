@@ -2,17 +2,13 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import React, { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { DragSourceMonitor, useDrag } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
-import { Draggables } from '../drag-layer';
 import Box from '@mui/material/Box';
-import { bookUnitOrderDisplay } from '@frontend/util';
+import { bookUnitOrderDisplay, Draggables } from '@frontend/util';
 import { IBookUnit } from '@frontend/domain';
-import {
-  selectTextEditingAccessMode,
-  useAppSelector,
-} from '@frontend/shared-ui';
+import { BookUnitPanelContext } from '../book-unit-panel/book-unit-panel.context';
 
 export interface IInsertableUnitProps {
   d: IBookUnit;
@@ -33,7 +29,7 @@ export const InsertableUnit = ({ d, onEdit }: IInsertableUnitProps) => {
   useEffect(() => {
     dragPreview(getEmptyImage(), { captureDraggingState: true });
   }, []);
-  const accessMode = useAppSelector(selectTextEditingAccessMode);
+  const { accessMode } = useContext(BookUnitPanelContext);
   return (
     <Stack
       width="48%"
@@ -47,11 +43,7 @@ export const InsertableUnit = ({ d, onEdit }: IInsertableUnitProps) => {
       }}
       direction="column"
       alignItems="center"
-      ref={
-        accessMode.includes('edit') || accessMode.includes('admin')
-          ? drag
-          : undefined
-      }
+      ref={accessMode ? drag : undefined}
       role="DraggableBox"
     >
       <Stack
@@ -64,8 +56,7 @@ export const InsertableUnit = ({ d, onEdit }: IInsertableUnitProps) => {
           {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} [
           {d.Order.map((i) => `${i}.`)}]
         </Typography>
-        {(accessMode.includes('book_unit_admin') ||
-          accessMode.includes('admin')) &&
+        {(accessMode === 'admin' || accessMode === 'tag') &&
           !collected.isDragging && (
             <IconButton
               sx={{ position: 'absolute', top: 0, right: 0 }}

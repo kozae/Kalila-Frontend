@@ -11,12 +11,13 @@ import {
   useAppSelector,
   useNavbarMessage,
   verifyAdmin,
+  verifyBookUnitTagger,
   VisualizationsNavPanel,
   withTransition,
 } from '@frontend/shared-ui';
 import Stack from '@mui/material/Stack';
 import { Box, Typography } from '@mui/material';
-import React, { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 export function Index() {
   const messages = useMemo(() => ['Home', undefined] as [string, string], []);
@@ -27,6 +28,13 @@ export function Index() {
       if (verifyAdmin(user)) {
         return [
           ...NavbarLinksConfiguration.AdminLinks,
+          ...NavbarLinksConfiguration.BookUnitTaggerLinks,
+          ...NavbarLinksConfiguration.UserLinks,
+        ];
+      }
+      if (verifyBookUnitTagger(user)) {
+        return [
+          ...NavbarLinksConfiguration.BookUnitTaggerLinks,
           ...NavbarLinksConfiguration.UserLinks,
         ];
       }

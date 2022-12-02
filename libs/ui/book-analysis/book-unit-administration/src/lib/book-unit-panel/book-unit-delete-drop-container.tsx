@@ -10,6 +10,7 @@ export interface IDeleteDropContainerProps {
 export const DeleteBookUnitDropContainer = ({
   onDeleteBookUnit,
 }: IDeleteDropContainerProps) => {
+  // eslint-disable-next-line no-empty-pattern
   const [{}, drop] = useDrop(() => ({
     accept: ['insertableUnit'],
     canDrop: (item, monitor) => {

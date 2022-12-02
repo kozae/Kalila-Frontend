@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+target/
 
 # dependencies
 /node_modules
@@ -38,6 +39,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-
+`
 # Next.js
 .next

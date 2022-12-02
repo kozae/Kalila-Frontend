@@ -2,11 +2,7 @@ import Stack from '@mui/material/Stack';
 import { useContext, useState, MouseEvent } from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import {
-  kalilaTheme,
-  selectTextEditingAccessMode,
-  useAppSelector,
-} from '@frontend/shared-ui';
+import { kalilaTheme } from '@frontend/shared-ui';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import TextField from '@mui/material/TextField';
@@ -69,7 +65,7 @@ export const CommandBar = () => {
     setCreateUnitDialogOpen,
     setEditFrameDialogIsOpen,
   } = useContext(BookUnitPanelContext);
-  const accessMode = useAppSelector(selectTextEditingAccessMode);
+  const { accessMode } = useContext(BookUnitPanelContext);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLElement>) => {
@@ -123,8 +119,7 @@ export const CommandBar = () => {
         variant="standard"
       />
 
-      {(accessMode.includes('book_unit_admin') ||
-        accessMode.includes('admin')) && (
+      {accessMode === 'admin' && (
         <IconButton
           aria-label="more"
           id="long-button"

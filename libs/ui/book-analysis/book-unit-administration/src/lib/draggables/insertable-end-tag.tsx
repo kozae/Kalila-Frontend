@@ -1,14 +1,11 @@
 import { DragSourceMonitor, useDrag } from 'react-dnd';
-import { Draggables } from '../drag-layer';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import Box from '@mui/material/Box';
-import {
-  selectTextEditingAccessMode,
-  useAppSelector,
-} from '@frontend/shared-ui';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { Draggables } from '@frontend/util';
+import { BookUnitPanelContext } from '../book-unit-panel/book-unit-panel.context';
 
 export const InsertableEndTag = () => {
   const [collected, drag, dragPreview] = useDrag<any, any, any>(() => ({
@@ -21,7 +18,7 @@ export const InsertableEndTag = () => {
   useEffect(() => {
     dragPreview(getEmptyImage(), { captureDraggingState: true });
   }, []);
-  const accessMode = useAppSelector(selectTextEditingAccessMode);
+  const { accessMode } = useContext(BookUnitPanelContext);
   return (
     <Stack
       width="48%"
@@ -33,11 +30,7 @@ export const InsertableEndTag = () => {
         p: '3px',
         border: 'solid 1px',
       }}
-      ref={
-        accessMode.includes('edit') || accessMode.includes('admin')
-          ? drag
-          : undefined
-      }
+      ref={accessMode ? drag : undefined}
       role="DraggableBox"
       alignItems="center"
       justifyContent="center"

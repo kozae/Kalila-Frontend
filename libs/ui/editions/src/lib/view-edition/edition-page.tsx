@@ -33,7 +33,9 @@ export const EditionPage = () => {
   };
 
   useEffect(() => {
-    setOpen(true);
+    if (updateTime !== -1) {
+      setOpen(true);
+    }
   }, [updateTime]);
 
   return (

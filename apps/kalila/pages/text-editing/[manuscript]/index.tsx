@@ -2,7 +2,7 @@ import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
 import { GetServerSideProps } from 'next';
 import { siglum } from '@frontend/server-side-queries';
 import Head from 'next/head';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { PagesSummaryPage } from '@frontend/ui/text-editing/pages-summary';
 
 function pageTitle(siglum: string): [string, string] {
@@ -10,7 +10,7 @@ function pageTitle(siglum: string): [string, string] {
 }
 
 export function ManuscriptPages({ siglum, manuscriptId }) {
-  const messages = pageTitle(siglum);
+  const messages = useMemo(() => pageTitle(siglum), [siglum]);
   useNavbarMessage(messages);
   return (
     <>

@@ -1,7 +1,8 @@
 import { StackProps } from '@mui/material/Stack/Stack';
 import { CSSProperties } from 'react';
-import { MotionProps } from 'framer-motion/types/motion/types';
-import { MapPosition } from '@frontend/ui/editions';
+import { MotionProps } from 'framer-motion';
+import { MapPosition } from '../../models';
+
 
 export const getMapContainerProps = (state: MapPosition): StackProps => {
   switch (state) {

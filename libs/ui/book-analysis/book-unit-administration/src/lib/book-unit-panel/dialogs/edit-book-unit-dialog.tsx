@@ -20,7 +20,7 @@ import {
 } from '../helpers/update-request';
 
 const style: SxProps = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute' as const,
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -33,6 +33,7 @@ const style: SxProps = {
 
 export const EditBookUnitDialog = () => {
   const {
+    accessMode,
     editBookUnitDialogIsOpen,
     setEditBookUnitDialogIsOpen,
     selectedBookUnit,
@@ -200,104 +201,113 @@ export const EditBookUnitDialog = () => {
                           </div>
                         )}
                       </Field>
-                      <Typography variant="body1">Order:</Typography>
-                      <FieldArray
-                        name="Order"
-                        render={(arrayHelpers) => (
-                          <div>
-                            {values.Order && values.Order.length > 0 ? (
-                              values.Order.map((frame, index) => (
-                                <div key={index}>
-                                  <Field
-                                    type="number"
-                                    min="1"
-                                    max="999"
-                                    step="1"
-                                    name={`Order.${index}`}
-                                  />
+                      {accessMode === 'admin' && (
+                        <>
+                          <Typography variant="body1">Order:</Typography>
+                          <FieldArray
+                            name="Order"
+                            render={(arrayHelpers) => (
+                              <div>
+                                {values.Order && values.Order.length > 0 ? (
+                                  values.Order.map((frame, index) => (
+                                    <div key={index}>
+                                      <Field
+                                        type="number"
+                                        min="1"
+                                        max="999"
+                                        step="1"
+                                        name={`Order.${index}`}
+                                      />
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          arrayHelpers.remove(index)
+                                        } // remove a friend from the list
+                                      >
+                                        -
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          arrayHelpers.insert(index + 1, '')
+                                        } // insert an empty string at a position
+                                      >
+                                        +
+                                      </button>
+                                    </div>
+                                  ))
+                                ) : (
                                   <button
                                     type="button"
-                                    onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                                    onClick={() => arrayHelpers.push('')}
                                   >
-                                    -
+                                    Add a frame
                                   </button>
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      arrayHelpers.insert(index + 1, '')
-                                    } // insert an empty string at a position
-                                  >
-                                    +
-                                  </button>
-                                </div>
-                              ))
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => arrayHelpers.push('')}
-                              >
-                                Add a frame
-                              </button>
+                                )}
+                              </div>
                             )}
-                          </div>
-                        )}
-                      />
-                      <Typography variant="body1">Frame Tags:</Typography>
-                      <FieldArray
-                        name="FrameTags"
-                        render={(arrayHelpers) => (
-                          <div>
-                            {values.FrameTags && values.FrameTags.length > 0 ? (
-                              values.FrameTags.map((frame, index) => (
-                                <div key={index}>
-                                  <Field name={`FrameTags.${index}`} />
+                          />
+                          <Typography variant="body1">Frame Tags:</Typography>
+                          <FieldArray
+                            name="FrameTags"
+                            render={(arrayHelpers) => (
+                              <div>
+                                {values.FrameTags &&
+                                values.FrameTags.length > 0 ? (
+                                  values.FrameTags.map((frame, index) => (
+                                    <div key={index}>
+                                      <Field name={`FrameTags.${index}`} />
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          arrayHelpers.remove(index)
+                                        } // remove a friend from the list
+                                      >
+                                        -
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          arrayHelpers.insert(index + 1, '')
+                                        } // insert an empty string at a position
+                                      >
+                                        +
+                                      </button>
+                                    </div>
+                                  ))
+                                ) : (
                                   <button
                                     type="button"
-                                    onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                                    onClick={() => arrayHelpers.push('')}
                                   >
-                                    -
+                                    Add a frame
                                   </button>
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      arrayHelpers.insert(index + 1, '')
-                                    } // insert an empty string at a position
-                                  >
-                                    +
-                                  </button>
-                                </div>
-                              ))
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => arrayHelpers.push('')}
-                              >
-                                Add a frame
-                              </button>
+                                )}
+                              </div>
                             )}
-                          </div>
-                        )}
-                      />
-                      <Typography variant="body1">Variant:</Typography>
-                      <Field name="Variant">
-                        {({
-                          field, // { name, value, onChange, onBlur }
-                          form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-                          meta,
-                        }: any) => (
-                          <div>
-                            <input type="text" {...field} />
-                            {meta.touched && meta.error && (
-                              <div className="error">{meta.error}</div>
+                          />
+                          <Typography variant="body1">Variant:</Typography>
+                          <Field name="Variant">
+                            {({
+                              field, // { name, value, onChange, onBlur }
+                              form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                              meta,
+                            }: any) => (
+                              <div>
+                                <input type="text" {...field} />
+                                {meta.touched && meta.error && (
+                                  <div className="error">{meta.error}</div>
+                                )}
+                              </div>
                             )}
-                          </div>
-                        )}
-                      </Field>
-                      <Stack direction="row">
-                        <Field type="checkbox" name="Divider" />
-                        &nbsp;
-                        <Typography variant="body1">Divider</Typography>
-                      </Stack>
+                          </Field>
+                          <Stack direction="row">
+                            <Field type="checkbox" name="Divider" />
+                            &nbsp;
+                            <Typography variant="body1">Divider</Typography>
+                          </Stack>
+                        </>
+                      )}
                       <Typography variant="body1">Topics:</Typography>
                       <FieldArray
                         name="Topics"
@@ -390,7 +400,7 @@ export const EditBookUnitDialog = () => {
           {errors != null && (
             <Stack p="10px" spacing={0.5}>
               {errors.map((err, i) => (
-                <Alert key={i} severity={value != null ? 'warning' : 'error'}>
+                <Alert key={i} severity={value != null ? 'info' : 'error'}>
                   <Typography color="warning" variant="body1">
                     {err}
                   </Typography>

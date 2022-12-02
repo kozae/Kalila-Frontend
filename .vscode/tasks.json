@@ -20,6 +20,34 @@
             "command": "systemctl start  Kalila.Web.Dev",
             "isBackground": true,
             "problemMatcher": []
+        },
+        {
+            "label": "Restart: Dev Server",
+            "type": "shell",
+            "command": "systemctl restart  Kalila.Web.Dev",
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "Stop: Dev Server",
+            "type": "shell",
+            "command": "systemctl stop  Kalila.Web.Dev",
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "Build: Kalila",
+            "type": "shell",
+            "command": "/root/Kalila/next/frontend/Kalila.Web.Prod.service.setup.sh",
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "Build: Editions",
+            "type": "shell",
+            "command": "/root/Kalila/next/frontend/Kalila.Web.Editions.service.setup.sh",
+            "isBackground": true,
+            "problemMatcher": []
         }
     ]
 }

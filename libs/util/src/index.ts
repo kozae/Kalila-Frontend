@@ -1,3 +1,4 @@
+export * from './lib/draggables';
 export * from './lib/book-unit-order-display';
 export * from './lib/check-value-factory';
 export * from './lib/clean-object';

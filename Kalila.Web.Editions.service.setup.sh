@@ -3,6 +3,7 @@ echo "stopping service"
 systemctl stop Kalila.Web.Editions
 echo "copying code"
 cd /root/Kalila/next/frontend && python3 Kalila.Web.Editions.service.setup.py
+cp -fr /root/Kalila/next/frontend/edition.env /root/Kalila/next/frontend-editions/apps/editions-app/.env
 echo "installing packages"
 cd /root/Kalila/next/frontend-editions && yarn --network-timeout 100000
 cd /root/Kalila/next/frontend-editions && yarn

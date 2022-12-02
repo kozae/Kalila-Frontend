@@ -4,16 +4,10 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import { InsertableUnit } from '../draggables';
-import React, { useCallback, useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { bookUnitOrderDisplay, stringHasValue } from '@frontend/util';
 import { BookUnitPanelContext } from './book-unit-panel.context';
-import {
-  ApiClient,
-  removeLacuna,
-  selectTextEditingAccessMode,
-  useAppDispatch,
-  useAppSelector,
-} from '@frontend/shared-ui';
+import { ApiClient, removeLacuna, useAppDispatch } from '@frontend/shared-ui';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 export const BookUnitTag = ({
   d,
@@ -97,7 +91,7 @@ const AssignedUnitLacuna = ({
   onEdit,
   onDelete,
 }: IBookUnitTagProps & { onDelete: () => void }) => {
-  const accessMode = useAppSelector(selectTextEditingAccessMode);
+  const { accessMode } = useContext(BookUnitPanelContext);
   return (
     <Stack
       width="48%"
@@ -143,8 +137,7 @@ const AssignedUnitLacuna = ({
           {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} &nbsp; [
           {d.Order.map((i) => `${i}.`)}]
         </Typography>
-        {(accessMode.includes('book_unit_admin') ||
-          accessMode.includes('admin')) && (
+        {(accessMode === 'tag' || accessMode === 'admin') && (
           <IconButton
             sx={{ position: 'absolute', top: 0, right: 0 }}
             size="small"
@@ -162,7 +155,7 @@ const AssignedUnitLacuna = ({
 };
 
 const AssignedUnit = ({ d, onEdit }: IBookUnitTagProps) => {
-  const accessMode = useAppSelector(selectTextEditingAccessMode);
+  const { accessMode } = useContext(BookUnitPanelContext);
   return (
     <Stack
       width="48%"
@@ -198,8 +191,7 @@ const AssignedUnit = ({ d, onEdit }: IBookUnitTagProps) => {
           {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} &nbsp; [
           {d.Order.map((i) => `${i}.`)}]
         </Typography>
-        {(accessMode.includes('book_unit_admin') ||
-          accessMode.includes('admin')) && (
+        {(accessMode === 'tag' || accessMode === 'admin') && (
           <IconButton
             sx={{ position: 'absolute', top: 0, right: 0 }}
             size="small"
@@ -221,7 +213,7 @@ const BoundaryUnit = ({
   onEdit,
   onDelete,
 }: IBookUnitTagProps & { onDelete: () => void }) => {
-  const accessMode = useAppSelector(selectTextEditingAccessMode);
+  const { accessMode } = useContext(BookUnitPanelContext);
   return (
     <Stack
       width="96%"
@@ -242,8 +234,7 @@ const BoundaryUnit = ({
         direction="row"
         alignItems="baseline"
       >
-        {(accessMode.includes('book_unit_admin') ||
-          accessMode.includes('admin')) && (
+        {(accessMode === 'tag' || accessMode === 'admin') && (
           <Stack
             sx={{ position: 'absolute', top: 0, left: 0 }}
             justifyContent="flex-start"
@@ -260,17 +251,18 @@ const BoundaryUnit = ({
             >
               divider
             </Typography>
-            <IconButton size="small" onClick={onDelete} color="warning">
-              <RemoveCircleIcon sx={{ fontSize: '0.8rem' }} />
-            </IconButton>
+            {accessMode === 'admin' && (
+              <IconButton size="small" onClick={onDelete} color="warning">
+                <RemoveCircleIcon sx={{ fontSize: '0.8rem' }} />
+              </IconButton>
+            )}
           </Stack>
         )}
         <Typography fontSize="1rem" variant="body1">
           {bookUnitOrderDisplay(d.Order, d.FrameTags, d.Variant)} &nbsp; [
           {d.Order.map((i) => `${i}.`)}]
         </Typography>
-        {(accessMode.includes('book_unit_admin') ||
-          accessMode.includes('admin')) && (
+        {(accessMode === 'tag' || accessMode === 'admin') && (
           <IconButton
             sx={{ position: 'absolute', top: 0, right: 0 }}
             size="small"

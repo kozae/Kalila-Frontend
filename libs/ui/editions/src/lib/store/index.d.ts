@@ -96,6 +96,31 @@ export class EditionRowTitle {
 export class EditionStore {
   free(): void;
 /**
+* @param {number} index
+* @returns {EditionRowTitle}
+*/
+  build_row(index: number): EditionRowTitle;
+/**
+* @param {string} id
+* @returns {number | undefined}
+*/
+  get_row_index(id: string): number | undefined;
+/**
+* @param {number} idx
+* @returns {EditionStore}
+*/
+  delete_row(idx: number): EditionStore;
+/**
+* @param {any} update
+* @returns {EditionStore}
+*/
+  insert_row(update: any): EditionStore;
+/**
+* @param {any} update
+* @returns {EditionStore}
+*/
+  replace_rows(update: any): EditionStore;
+/**
 * @param {number} unit_idx
 * @param {number} manuscript_idx
 * @returns {EditionCellData}
@@ -139,6 +164,11 @@ export class EditionStore {
 * @returns {string}
 */
   get_ms_siglum(idx: number): string;
+/**
+* @param {number} idx
+* @returns {string}
+*/
+  get_ms_id(idx: number): string;
 /**
 * @param {number} idx
 * @returns {Int32Array}
@@ -277,29 +307,4 @@ export class EditionStore {
 * @returns {Uint32Array | undefined}
 */
   find_words(filter: string): Uint32Array | undefined;
-/**
-* @param {number} index
-* @returns {EditionRowTitle}
-*/
-  build_row(index: number): EditionRowTitle;
-/**
-* @param {string} id
-* @returns {number | undefined}
-*/
-  get_row_index(id: string): number | undefined;
-/**
-* @param {number} idx
-* @returns {EditionStore}
-*/
-  delete_row(idx: number): EditionStore;
-/**
-* @param {any} update
-* @returns {EditionStore}
-*/
-  insert_row(update: any): EditionStore;
-/**
-* @param {any} update
-* @returns {EditionStore}
-*/
-  replace_rows(update: any): EditionStore;
 }

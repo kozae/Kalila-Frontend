@@ -5,6 +5,7 @@ import { IPagination } from '@frontend/util';
 
 export interface IBookUnitPanelContextValue {
   chapter: IChapter | null;
+  accessMode?: 'edit' | 'tag' | 'admin';
   filter: string;
   createUnitDialogOpen: boolean;
   editBookUnitDialogIsOpen: boolean;

@@ -1,5 +1,4 @@
 import Accordion from '@mui/material/Accordion';
-import React from 'react';
 import { Summary } from './summary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Stack from '@mui/material/Stack';
@@ -12,6 +11,8 @@ export const AdministrationNavPanel = () => {
       <AccordionDetails>
         <Stack>
           <PanelLink linkRef="administration" text="Select Activity" />
+          <br />
+          <PanelLink linkRef="administration/pages" text="Pages" />
         </Stack>
       </AccordionDetails>
     </Accordion>

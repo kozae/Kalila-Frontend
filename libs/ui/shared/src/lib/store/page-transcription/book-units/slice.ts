@@ -34,16 +34,16 @@ export const bookUnitsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(insertUnit, (state, action) => {
-      if (action.payload.Lacuna) {
+    builder.addCase(insertUnit.fulfilled, (state, action) => {
+      if (action.payload.insert.Lacuna) {
         bookUnitsAdapter.updateOne(state, {
-          id: action.payload.BookUnitId,
-          changes: { ManuscriptInfo: `lacuna_${action.payload.Id}` },
+          id: action.payload.insert.BookUnitId,
+          changes: { ManuscriptInfo: `lacuna_${action.payload.insert.Id}` },
         });
       } else {
         bookUnitsAdapter.updateOne(state, {
-          id: action.payload.BookUnitId,
-          changes: { ManuscriptInfo: `${action.payload.Start[0]}` },
+          id: action.payload.insert.BookUnitId,
+          changes: { ManuscriptInfo: `${action.payload.insert.Start[0]}` },
         });
       }
     });

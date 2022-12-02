@@ -1,4 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, Update } from '@reduxjs/toolkit';
 import { IUnitSummary } from '@frontend/domain';
 import { ThunkApi } from '../../config';
 import {
@@ -81,7 +81,6 @@ export const moveUnit = createAsyncThunk<
       (unit) => unit !== undefined
     ) as IUnitSummary[]
   );
-  console.log({ orderedUnits });
   const current = orderedUnits.findIndex((u) => u.Id === unit.Id);
   if (current < orderedUnits.length - 1) {
     const nextUnit = orderedUnits[current + 1];
@@ -106,4 +105,41 @@ export const moveUnit = createAsyncThunk<
   }
 
   return { data: [{ ...unit, Start: newLocation }] };
+});
+
+export const insertUnit = createAsyncThunk<
+  { insert: IUnitSummary; update: Update<IUnitSummary>[] },
+  IUnitSummary,
+  ThunkApi
+>('unitSummaries/insertUnit', async (unit, { getState }) => {
+  // find the unit before
+  const state = getState();
+  if (unit.Lacuna) {
+    return { insert: unit, update: [] };
+  }
+  const units = orderUnits(
+    Object.values(state.unitSummaries.entities).filter(
+      (u) =>
+        u &&
+        (u.Start[0] < unit.Start[0] ||
+          (u.Start[0] === unit.Start[0] && u.Start[1] < unit.Start[1]) ||
+          (u.Start[0] === unit.Start[0] &&
+            u.Start[1] === unit.Start[1] &&
+            u.Start[2] < unit.Start[2]))
+    ) as IUnitSummary[]
+  );
+
+  const update: Update<IUnitSummary>[] =
+    units.length !== 0
+      ? [
+          {
+            id: last(units)!.Id,
+            changes: {
+              End: [-1, -1, -1],
+            },
+          },
+        ]
+      : [];
+
+  return { insert: unit, update };
 });
