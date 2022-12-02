@@ -3,7 +3,6 @@
   "projects": {
     "domain": "libs/domain",
     "editions-app": "apps/editions-app",
-    "editions-app-e2e": "apps/editions-app-e2e",
     "kalila": "apps/kalila",
     "kalila-components": "libs/kalila/components",
     "kalila-e2e": "apps/kalila-e2e",
@@ -11,6 +10,7 @@
     "server-side-queries": "libs/server-side-queries",
     "shared-ui": "libs/ui/shared",
     "ui-administration": "libs/ui/administration",
+    "ui-book-analysis-book-unit-administration": "libs/ui/book-analysis/book-unit-administration",
     "ui-documents-detailed-view": "libs/ui/documents-detailed-view",
     "ui-editions": "libs/ui/editions",
     "ui-facsimile": "libs/ui/facsimile",
