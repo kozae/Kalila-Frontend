@@ -5,7 +5,6 @@ import {
   selectAllTextElements,
   selectAllTokens,
   selectTextEditingToolMode,
-  useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
 import { ILine, IToken } from '@frontend/domain';
@@ -35,6 +34,16 @@ export const TranscriptionTool = () => {
     return acc;
   }, {});
   const allLines = useAppSelector(selectAllLines);
+  const initialMap = textElements.reduce(
+    (
+      acc: Record<string, (Omit<ILine, 'Tokens'> & { ElementId: string })[]>,
+      el
+    ) => {
+      acc[el.Id] = [];
+      return acc;
+    },
+    {}
+  );
   const linesToElementMap = allLines.reduce(
     (
       acc: Record<string, (Omit<ILine, 'Tokens'> & { ElementId: string })[]>,
@@ -47,7 +56,7 @@ export const TranscriptionTool = () => {
       }
       return acc;
     },
-    {}
+    { ...initialMap }
   );
   const getLines = useCallback(() => {
     const lines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
@@ -55,7 +64,7 @@ export const TranscriptionTool = () => {
       mainBodyElements.forEach((el) => {
         lines.push(...linesToElementMap[el.Id]);
       });
-    } else if (mode == 'secondary-text') {
+    } else if (mode === 'secondary-text') {
       otherElements.forEach((el) => {
         lines.push(...linesToElementMap[el.Id]);
       });

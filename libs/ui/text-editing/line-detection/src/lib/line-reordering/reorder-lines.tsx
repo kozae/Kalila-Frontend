@@ -83,7 +83,7 @@ export const ReorderLines = () => {
     'Order'
   );
 
-  const elementIds = elementSummaries.map((el) => el.Id);
+  const elementIds: string[] = elementSummaries.map((el) => el.Id);
 
   const mainBodyElements = elementSummaries
     .filter((el) => el.Position.startsWith('main'))
@@ -95,9 +95,16 @@ export const ReorderLines = () => {
     .filter((el) => !el.Position.startsWith('main'))
     .map((el, i) => ({ ...el, Order: i + 1 }));
 
+  const initialMap = elementIds.reduce(
+    (acc: Record<string, ISortableLineProps[]>, id) => {
+      acc[id] = [];
+      return acc;
+    },
+    {}
+  );
   const lineToContainerMap = orderBy(Object.values(lines), 'LineOrder').reduce(
     toLineContainerIdMap(),
-    {}
+    { ...initialMap }
   );
 
   const gridContents = useCallback(() => {
