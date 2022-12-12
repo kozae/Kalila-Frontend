@@ -1,31 +1,26 @@
-import {
-  disableMaxWidth as disableMaxWidthAction,
-  enableMaxWidth as enableMaxWidthAction,
-  IPageUnitsUpdate,
-  NavMessageBarContext,
-  selectUser,
-  transformGroupName,
-  useAppDispatch,
-  useAppSelector,
-  useNavbarMessage,
-  useSignalrConnection,
-  useSignalrMethods,
-  useSignalrUpdate,
-  withTransition,
-} from '@frontend/shared-ui';
+import { IPageUnitsUpdate } from '@frontend/shared-ui';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { edition, editions } from '@frontend/server-side-queries';
 
 import Head from 'next/head';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo } from 'react';
 import {
   KalilaEditionContainer,
   fetchEditionUpdateByUnitList,
   fetchEditionUpdateByPage,
   fetchEditionBookUnits,
+  useNavbarMessage,
+  NavTopBarContext,
+  useKalilaSession,
+  useSignalrUpdate,
+  useSignalrConnection,
+  useSignalrMethods,
+  withTransition,
+  transformGroupName,
 } from '@frontend/kalila/components';
 import { HubConnection } from '@microsoft/signalr';
 import { AnimatePresence, motion } from 'framer-motion';
+import { usePageOptionsMethods } from '@frontend/ui/layout';
 
 export function Edition({ data }) {
   const messages = useMemo(
@@ -33,16 +28,11 @@ export function Edition({ data }) {
     [data]
   );
   useNavbarMessage(messages);
-  const { setPageControls } = React.useContext(NavMessageBarContext);
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(selectUser);
-  const username = useMemo(() => user?.name, [user]);
-  const disableMaxWidth = () => {
-    dispatch(disableMaxWidthAction());
-  };
-  const enableMaxWidth = () => {
-    dispatch(enableMaxWidthAction());
-  };
+  const { setPageControls } = useContext(NavTopBarContext);
+  const { session: user } = useKalilaSession();
+  const username = useMemo(() => user?.Username, [user]);
+  const { disableMaxWidth, enableMaxWidth } = usePageOptionsMethods();
+
   const { update } = useSignalrUpdate();
   const { isConnected, connection } = useSignalrConnection();
   const { joinGroup, leaveGroup } = useSignalrMethods();

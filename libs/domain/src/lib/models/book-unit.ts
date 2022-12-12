@@ -48,3 +48,17 @@ export class BookUnit extends KalilaDocument {
     validators: Record<any, validationFn | validationWithParentFn>
   ) {}
 }
+
+export interface IStructureUpdate {
+  Title?: string;
+  Variant?: string;
+  NewOrder?: number[];
+  OldOrder?: number[];
+}
+
+export interface IFrameUpdate {
+  Order?: number[];
+  FrameTags?: string[];
+  Motifs?: string[];
+  Topics?: string[];
+}

@@ -1,38 +1,39 @@
 import {
-  AdministrationNavPanel,
-  BookAnalysisNavPanel,
-  EditionsNavPanel,
-  ImageCycleAnalysisNavPanel,
   KalilaLogo,
-  ManuscriptDescriptionNavPanel,
-  NavbarLinksConfiguration,
-  selectUser,
-  TextEditingNavPanel,
-  useAppSelector,
-  useNavbarMessage,
   verifyAdmin,
   verifyBookUnitTagger,
-  VisualizationsNavPanel,
-  withTransition,
 } from '@frontend/shared-ui';
 import Stack from '@mui/material/Stack';
 import { Box, Typography } from '@mui/material';
 import { useMemo } from 'react';
+import {
+  AdministrationNavPanel,
+  BookAnalysisNavPanel,
+  EditionsNavPanel,
+  ImageCycleAnalysisNavPanel,
+  ManuscriptDescriptionNavPanel,
+  NavbarLinksConfiguration,
+  TextEditingNavPanel,
+  useKalilaSession,
+  useNavbarMessage,
+  VisualizationsNavPanel,
+  withTransition,
+} from '@frontend/kalila/components';
 
 export function Index() {
   const messages = useMemo(() => ['Home', undefined] as [string, string], []);
   useNavbarMessage(messages, undefined);
-  const user = useAppSelector(selectUser);
+  const { session } = useKalilaSession();
   const links = useMemo(() => {
-    if (user && user.name) {
-      if (verifyAdmin(user)) {
+    if (session && session.Username) {
+      if (verifyAdmin(session)) {
         return [
           ...NavbarLinksConfiguration.AdminLinks,
           ...NavbarLinksConfiguration.BookUnitTaggerLinks,
           ...NavbarLinksConfiguration.UserLinks,
         ];
       }
-      if (verifyBookUnitTagger(user)) {
+      if (verifyBookUnitTagger(session)) {
         return [
           ...NavbarLinksConfiguration.BookUnitTaggerLinks,
           ...NavbarLinksConfiguration.UserLinks,
@@ -42,7 +43,7 @@ export function Index() {
     } else {
       return [];
     }
-  }, [user]);
+  }, [session]);
 
   return (
     <Stack
@@ -55,14 +56,14 @@ export function Index() {
         m="10px"
         spacing={1}
         alignItems="center"
-        sx={{ width: user && user.name ? '45%' : '100%' }}
+        sx={{ width: session && session.Username ? '45%' : '100%' }}
       >
         <Box maxWidth="100%" height="150px">
           <KalilaLogo text="Kalila 2.0" />
         </Box>
         <Typography variant="h2">Platform for Textual Scholarship</Typography>
       </Stack>
-      {user && user.name && (
+      {session && session.Username && (
         <Stack height="100%" mt="10px" width="40%" sx={{ overflowY: 'scroll' }}>
           {links.map((link, i) => {
             if (link.Name === 'Editions') {

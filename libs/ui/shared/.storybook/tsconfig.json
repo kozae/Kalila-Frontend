@@ -16,5 +16,10 @@
     "../**/*.spec.jsx",
     "jest.config.ts"
   ],
-  "include": ["../src/**/*", "*.js"]
+  "include": [
+    "../src/**/*",
+    "*.js",
+    "../../../kalila/components/src/lib/helpers/api-client.ts",
+    "../../../kalila/components/src/lib/hooks/subscribe-to-signalr-updates.hook.ts"
+  ]
 }

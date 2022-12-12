@@ -1,41 +1,25 @@
-import {
-  selectUser,
-  useAppSelector,
-  useBoolean,
-  useNavbarMessage,
-  withTransition,
-} from '@frontend/shared-ui';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Portal from '@mui/material/Portal';
-import { CreateEditionModal } from '@frontend/ui/editions';
 import Head from 'next/head';
-import React, { useMemo } from 'react';
-import Link from 'next/link';
-import { Box } from '@mui/material';
-import { GetServerSideProps, GetStaticProps } from 'next';
+import { useMemo } from 'react';
+import { GetServerSideProps } from 'next';
 import { editions } from '@frontend/server-side-queries';
 import { orderBy } from 'lodash';
+import { useNavbarMessage, withTransition } from '@frontend/kalila/components';
 
 export function Editions({ data }) {
-  const [
-    createDialogIsOpen,
-    { setTrue: openCreateDialog, setFalse: closeCreateDialog },
-  ] = useBoolean(false);
   const messages = useMemo(
     () => ['Select Edition', undefined] as [string, string],
     []
   );
   useNavbarMessage(messages);
-  const user = useAppSelector(selectUser);
   return (
     <>
       <Head>
         <title>Kalila Editions</title>
       </Head>
 
-      <Stack>
-        {user && user.name && !user.name.includes('guest') && (
+      {/* TODO Move to kalila-components */}
+      {/* <Stack>
+        {user && user.Username && !user.Username.includes('guest') && (
           <Stack direction="row" spacing={0.5} sx={{ m: '10px' }}>
             <Button
               onClick={openCreateDialog}
@@ -87,7 +71,7 @@ export function Editions({ data }) {
               </Box>
             ))}
         </Stack>
-      </Stack>
+      </Stack> */}
     </>
   );
 }

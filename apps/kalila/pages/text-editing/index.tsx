@@ -1,16 +1,11 @@
-import {
-  SiglumSelection,
-  useNavbarMessage,
-  withTransition,
-  useLoginValidation,
-} from '@frontend/shared-ui';
+import { SiglumSelection, useLoginValidation } from '@frontend/shared-ui';
 import { GetServerSideProps } from 'next';
 import { sigla } from '@frontend/server-side-queries';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Alert from '@mui/material/Alert';
 import styles from './index.module.scss';
-import React from 'react';
+import { useNavbarMessage, withTransition } from '@frontend/kalila/components';
 
 export function TextEditing({ sigla }) {
   const { push } = useRouter();

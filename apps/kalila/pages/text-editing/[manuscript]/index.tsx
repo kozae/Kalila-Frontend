@@ -1,4 +1,4 @@
-import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
+import { useNavbarMessage, withTransition } from '@frontend/kalila/components';
 import { GetServerSideProps } from 'next';
 import { siglum } from '@frontend/server-side-queries';
 import Head from 'next/head';

@@ -25,7 +25,6 @@ import {
   useFacsimileCropper,
 } from '@frontend/ui/facsimile-cropper';
 import { useEffect } from 'react';
-import { BookUnitPanel } from '@frontend/ui/book-analysis/book-unit-administration';
 import { FacsimileRegionPreview } from './components/facsimile-space/facsimile-region-preview';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
@@ -87,7 +86,7 @@ function TextEditingWorkspace({
       >
         {tool === 'segmentation' ? (
           <DndProvider backend={HTML5Backend}>
-            <BookUnitPanel
+            {/* <BookUnitPanel
               accessMode={
                 accessMode.includes('admin')
                   ? 'admin'
@@ -97,7 +96,7 @@ function TextEditingWorkspace({
                   ? 'edit'
                   : undefined
               }
-            />
+            /> */}
             <ToolSpace />
           </DndProvider>
         ) : (

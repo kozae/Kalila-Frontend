@@ -1,25 +1,24 @@
-import "./index.module.scss";
+import './index.module.scss';
 import {
   ManuscriptDescriptionGroupToggle,
   useMediumScreenMediaQuery,
-  useNavbarMessage,
   useSchemaStore,
-  withTransition
-} from "@frontend/shared-ui";
-import React from "react";
-import Head from "next/head";
+} from '@frontend/shared-ui';
+import React from 'react';
+import Head from 'next/head';
 import {
   createDocumentDetailedViewContext,
   DocumentsDetailedViewPage,
-  useSchemaFilter
-} from "@frontend/ui/documents-detailed-view";
-import { ManuscriptDescription } from "@frontend/domain";
-import { GetServerSideProps } from "next";
-import { getSchema } from "@frontend/server-side-queries";
+  useSchemaFilter,
+} from '@frontend/ui/documents-detailed-view';
+import { ManuscriptDescription } from '@frontend/domain';
+import { GetServerSideProps } from 'next';
+import { getSchema } from '@frontend/server-side-queries';
+import { useNavbarMessage, withTransition } from '@frontend/kalila/components';
 
 export function ManuscriptDescriptionPage({ schema }) {
-  useSchemaStore("ManuscriptDescription", schema);
-  useNavbarMessage(["Manuscript Description:", "View Documents"]);
+  useSchemaStore('ManuscriptDescription', schema);
+  useNavbarMessage(['Manuscript Description:', 'View Documents']);
   const { schemaFilter, changeSchemaFilter } = useSchemaFilter();
   const isMdScreen = useMediumScreenMediaQuery();
 
@@ -32,9 +31,9 @@ export function ManuscriptDescriptionPage({ schema }) {
       </Head>
       <DocumentViewContext.Provider
         value={{
-          activityName: "ManuscriptDescription",
+          activityName: 'ManuscriptDescription',
           additionalParams: {},
-          cls: ManuscriptDescription
+          cls: ManuscriptDescription,
         }}
       >
         <DocumentsDetailedViewPage
@@ -44,7 +43,7 @@ export function ManuscriptDescriptionPage({ schema }) {
             <ManuscriptDescriptionGroupToggle
               schemaFilter={schemaFilter}
               changeSchemaFilter={changeSchemaFilter}
-              view={isMdScreen ? "menu" : "toolbar"}
+              view={isMdScreen ? 'menu' : 'toolbar'}
             />
           }
         />
@@ -56,10 +55,10 @@ export function ManuscriptDescriptionPage({ schema }) {
 export default withTransition(ManuscriptDescriptionPage, {});
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const schema = await getSchema("ManuscriptDescription");
+  const schema = await getSchema('ManuscriptDescription');
   return {
     props: {
-      schema
-    }
+      schema,
+    },
   };
 };

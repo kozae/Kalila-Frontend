@@ -7,11 +7,6 @@ import React from 'react';
 import { ManuscriptDescriptionAdmin } from '@frontend/domain';
 import { checkStringValueFactory, KalilaValueTypes } from '@frontend/util';
 import {
-  selectEditors,
-  useAppSelector,
-  useNavbarMessage,
-} from '@frontend/shared-ui';
-import {
   GenericCell,
   PrimaryGreenHeader,
   WhiteHeader,
@@ -20,9 +15,13 @@ import {
 } from '@frontend/ui/table';
 import Head from 'next/head';
 import { KeyValueCell } from '@frontend/ui/table';
+import {
+  useKalilaSession,
+  useNavbarMessage,
+} from '@frontend/kalila/components';
 export function MSDAdministration() {
   useNavbarMessage(['Administration:', 'Manuscript Description']);
-  const editors = useAppSelector(selectEditors);
+  const { users: editors } = useKalilaSession();
   const AdminPageContext = createAdminPageContext<ManuscriptDescriptionAdmin>();
   const initialValues = new ManuscriptDescriptionAdmin();
   const columns: ReadonlyArray<any> = React.useMemo(
