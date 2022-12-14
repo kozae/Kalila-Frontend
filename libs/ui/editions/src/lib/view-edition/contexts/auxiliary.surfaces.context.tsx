@@ -9,10 +9,10 @@ import {
 import {
   IAuxiliarySurfacesData,
   IAuxiliarySurfacesMethods,
-  IImagePreviewData,
-  ILinePreviewData,
   IPagePreviewData,
-} from '@frontend/ui/editions';
+  ILinePreviewData,
+  IImagePreviewData,
+} from '../models';
 
 export const AuxiliarySurfacesDataContext =
   createContext<IAuxiliarySurfacesData>({

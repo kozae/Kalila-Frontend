@@ -1,6 +1,8 @@
-import { ApiClient, IPageUnitsUpdate } from '@frontend/shared-ui';
+/* eslint-disable no-useless-catch */
+import { IPageUnitsUpdate } from '@frontend/shared-ui';
 import { IEditionBookUnit, IEditionUnit } from '@frontend/domain';
 import { paramsSerializer } from '@frontend/util';
+import { ApiClient } from '@frontend/kalila/rest';
 
 export async function fetchEditionUpdateByUnitList(
   editionId: string,

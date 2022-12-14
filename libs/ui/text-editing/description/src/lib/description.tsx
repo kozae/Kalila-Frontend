@@ -69,22 +69,24 @@ export const DescriptionTool = () => {
                 direction="row"
               >
                 <Button
+                  disabled
                   variant="contained"
                   disableElevation
                   color="secondary"
                   onClick={() => changeMode('edit-description')}
                 >
-                  Edit Description
+                  Edit Description (Soon!)
                 </Button>
                 <Button
+                  disabled
                   variant="contained"
                   disableElevation
                   color="secondary"
                   onClick={() => changeMode('edit-facsimile')}
                 >
                   {stringHasValue(url)
-                    ? 'Replace Page Facsimile'
-                    : 'Add Page Facsimile'}
+                    ? 'Replace Page Facsimile (Soon!)'
+                    : 'Add Page Facsimile (Soon!)'}
                 </Button>
               </Stack>
             )}

@@ -1,9 +1,4 @@
-import {
-  NavMessageBarContext,
-  useLoginValidation,
-  useNavbarMessage,
-  withTransition,
-} from '@frontend/shared-ui';
+import { useLoginValidation } from '@frontend/shared-ui';
 import { GetServerSideProps } from 'next';
 import {
   siglum,
@@ -17,6 +12,11 @@ import {
   ManuscriptPagesPaginator,
   TextEditingWorkspaceWasm,
 } from '@frontend/ui/text-editing/workspace';
+import {
+  useNavbarMessage,
+  withTransition,
+  NavTopBarContext,
+} from '@frontend/kalila/components';
 
 function pageTitle(siglum: string): [string, string] {
   return ['Text Editing:', `Pages of ${siglum}`];
@@ -34,7 +34,7 @@ export function EditPage({
 
   useNavbarMessage(messages, undefined);
 
-  const { setPageControls } = useContext(NavMessageBarContext);
+  const { setPageControls } = useContext(NavTopBarContext);
 
   useEffect(() => {
     setPageControls(

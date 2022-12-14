@@ -5,9 +5,9 @@ import {
   kalilaTheme,
   UndrawChoiceSVG,
   useLoginValidation,
-  useNavbarMessage,
 } from '@frontend/shared-ui';
 import { useMemo } from 'react';
+import { useNavbarMessage } from '@frontend/kalila/components';
 
 const Administration: NextPage = () => {
   useLoginValidation();

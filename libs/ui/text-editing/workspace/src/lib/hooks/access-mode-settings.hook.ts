@@ -16,14 +16,14 @@ export function useAccessModeSettings() {
     if (loggedUser?.roles?.includes('admin')) {
       dispatch(setTextEditingAccessMode(['admin']));
     } else if (editor === loggedUser.username) {
-      if (loggedUser?.roles?.includes('book_unit_admin')) {
-        dispatch(setTextEditingAccessMode(['edit', 'book_unit_admin']));
+      if (loggedUser?.roles?.includes('book_unit_tagger')) {
+        dispatch(setTextEditingAccessMode(['edit', 'book_unit_tagger']));
       } else {
         dispatch(setTextEditingAccessMode(['edit']));
       }
     } else {
-      if (loggedUser?.roles?.includes('book_unit_admin')) {
-        dispatch(setTextEditingAccessMode(['view', 'book_unit_admin']));
+      if (loggedUser?.roles?.includes('book_unit_tagger')) {
+        dispatch(setTextEditingAccessMode(['view', 'book_unit_tagger']));
       } else {
         dispatch(setTextEditingAccessMode(['view']));
       }

@@ -28,8 +28,6 @@ async function refreshAccessToken(token: any) {
       refresh: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
     };
   } catch (error) {
-    console.log(error);
-
     return {
       ...token,
       error: 'RefreshAccessTokenError',

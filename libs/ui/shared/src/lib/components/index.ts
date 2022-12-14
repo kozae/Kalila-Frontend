@@ -3,7 +3,6 @@ export * from './draggable';
 export * from './drop-container';
 export * from './kalila-logo';
 export * from './notification-bar';
-export * from './layout';
 export * from './manuscript-description';
 export * from './siglum-selection';
 export * from './undraw';

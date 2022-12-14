@@ -1,6 +1,5 @@
 import { configureStore, createListenerMiddleware } from '@reduxjs/toolkit';
 import { pagedDocsSlice } from './paged-documents';
-import { sessionSlice } from './session';
 import { pageDataSlice } from './page-transcription/page-data';
 import { imageElementsSlice } from './page-transcription/image-elements';
 import { linesSlice } from './page-transcription/lines';
@@ -16,7 +15,6 @@ const listenerMiddleware = createListenerMiddleware();
 
 export const store = configureStore({
   reducer: {
-    [sessionSlice.name]: sessionSlice.reducer,
     [fieldsSlice.name]: fieldsSlice.reducer,
     [attributesSlice.name]: attributesSlice.reducer,
     [pagedDocsSlice.name]: pagedDocsSlice.reducer,

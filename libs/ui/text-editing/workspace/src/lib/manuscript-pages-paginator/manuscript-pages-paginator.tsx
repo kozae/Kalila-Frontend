@@ -2,7 +2,7 @@ import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   selectWorkspaceHasChanges,
   useAppSelector,
@@ -47,8 +47,13 @@ export const ManuscriptPagesPaginator = ({
   );
   const count = isSmallScreen ? 0 : isMDScreen ? 3 : 5;
 
+  const diff = useMemo(() => {
+    const all = new Set(allPages.map((p) => p.Number));
+    return all.has(0) ? 0 : 1;
+  }, [allPages]);
+
   const showPagePreview = (pageNumber: number) => {
-    setPagePreviewId(allPages[pageNumber - 1].Id);
+    setPagePreviewId(allPages[pageNumber - diff].Id);
     paginationRef &&
       paginationRef.current &&
       setPagePreviewAnchorEl(paginationRef.current);
@@ -66,7 +71,7 @@ export const ManuscriptPagesPaginator = ({
 
   const handleChange = async (e: any, v: number) => {
     dismissGotoModal();
-    await router.push(`/text-editing/${manuscriptId}/${allPages[v - 1].Id}`);
+    await router.push(`/text-editing/${manuscriptId}/${allPages[v - diff].Id}`);
     setPage(v);
   };
   const handleSummaryClicked = async () => {

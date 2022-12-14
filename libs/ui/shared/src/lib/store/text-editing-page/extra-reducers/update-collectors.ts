@@ -145,7 +145,7 @@ export function addUpdateCollectors(
       }
     }
   });
-  builder.addCase(insertUnit, (state) => {
+  builder.addCase(insertUnit.fulfilled, (state) => {
     state.textSegmentationTouched = true;
   });
   builder.addCase(updateUnit, (state) => {

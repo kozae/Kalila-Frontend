@@ -2,12 +2,11 @@ import {
   createAdminPageContext,
   withAdminLayout,
 } from '@frontend/ui/administration';
-import { useNavbarMessage } from '@frontend/shared-ui';
-import React from 'react';
 import { CategoricalAttribute } from '@frontend/domain';
 import { AdministrationPageCategoricalAttributes } from '@frontend/ui/administration';
 import { checkOptionDuplication } from '@frontend/util';
 import Head from 'next/head';
+import { useNavbarMessage } from '@frontend/kalila/components';
 
 export function CategoricalAttributesAdministration() {
   useNavbarMessage(['Administration:', 'Categorical Attributes']);

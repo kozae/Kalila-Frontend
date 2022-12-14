@@ -2,7 +2,77 @@ import { KalilaDocument, validationWithParentFn } from './kalila-document';
 import { AnySchema } from 'yup/lib/schema';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { ActivitySchema, InputModes } from '@frontend/util';
+
+export enum KalilaRelationType {
+  LookupId,
+  LookupEmbeddedId,
+  LookupKeyValue,
+}
+
+export enum KalilaValueTypes {
+  String,
+  Int,
+  Float,
+  Boolean,
+  StringList,
+  IntList,
+  FloatList,
+  Entity,
+  EntityNumericalRelation,
+  CategoricalAttribute,
+  EntityList,
+  EmbeddedEntityList,
+  CategoricalAttributeList,
+  Date, // Only used for versioning
+}
+
+interface IDataEntrySchema {
+  DocumentName: string;
+  FieldGroup?: string;
+  FieldCategory?: string;
+  FieldName: string;
+  FieldDisplay: string;
+  FieldNamePascalCase: string;
+  FieldDescription?: string;
+  Readonly?: boolean;
+  Hidden?: boolean;
+  Unique?: boolean;
+  KeyField?: boolean;
+  TopField?: boolean;
+  Searchable?: boolean;
+  EditableInBulk?: boolean;
+  KalilaValueType: KalilaValueTypes;
+  RelationType?: KalilaRelationType;
+  ValueProperties?: string[];
+  ConnectsToEntity?: string;
+  ConnectsToField?: string;
+  InputMode: InputModes;
+  CategoricalAttributeType?: string;
+}
+
+interface ActivitySchema {
+  Fields: IDataEntrySchema[];
+  CategoricalAttributes: Record<string, any[]>;
+}
+
+enum InputModes {
+  InputOne,
+  InputMultiple,
+  Boolean,
+  SelectOne,
+  SelectOrCreateOne,
+  SelectMultiple,
+  SelectOrCreateMultiple,
+  ImageField,
+  FileField,
+  RichText,
+  Table,
+  Date,
+  AudioField,
+  VideoField,
+  ExternalCreation,
+  Administrative,
+}
 
 export interface ICategoricalAttribute {
   Id: string;

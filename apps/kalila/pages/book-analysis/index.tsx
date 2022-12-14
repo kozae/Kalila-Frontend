@@ -1,11 +1,16 @@
 import './index.module.scss';
-import { useNavbarMessage, withTransition } from '@frontend/shared-ui';
+import { useNavbarMessage, withTransition } from '@frontend/kalila/components';
+import { useMemo } from 'react';
 
 /* eslint-disable-next-line */
 export interface BookAnalysisProps {}
 
 export function BookAnalysis(props: BookAnalysisProps) {
-  useNavbarMessage(['Book Analysis:', 'Select Tool']);
+  const messages = useMemo(
+    () => ['Book Analysis:', 'Select Tool'] as [string, string],
+    []
+  );
+  useNavbarMessage(messages);
   return (
     <div>
       <h1>Welcome to BookAnalysis!</h1>

@@ -23,9 +23,10 @@ Environment=KEYCLOAK_ISSUER='https://id.kozae.de/realms/Kalila'
 Environment=INTERNAL_API_URL='http://localhost:6688/v1/'
 
 Environment=KEYCLOAK_TOKEN='https://id.kozae.de/realms/Kalila/protocol/openid-connect/token'
-Environment=KEYCLOAK_ADMIN_TOKEN='https://id.kozae.de/admin/realms/master/protocol/openid-connect/token'
+Environment=KEYCLOAK_ADMIN_TOKEN='https://id.kozae.de/realms/master/protocol/openid-connect/token'
 Environment=KEYCLOAK_ADMIN_USERS='https://id.kozae.de/admin/realms/Kalila/users'
 Environment=KEYCLOAK_ADMIN='greenman'
+Environment=KEYCLOAK_ADMIN_PASS='AFRO8qj3n32gGSdpBWHDxlfIb7wc65Xi'
 
 
 
@@ -40,7 +41,7 @@ WantedBy=multi-user.target
 # systemctl start  Kalila.Web.Dev && journalctl -u Kalila.Web.Dev -f
 # systemctl restart  Kalila.Web.Dev && journalctl -u Kalila.Web.Dev -f
 # systemctl stop  Kalila.Web.Dev
-# aFFk8Fwj2N58F^?
+# aFFk8Fwj2N58F^? Portal Credentials
 # mk vRd5UCNgkj6QkiY
 # guest: X#RrUXZ.S9C@BWS
 # ds: vRd5UCZgkj6QkiY

@@ -1,7 +1,7 @@
 import { IUnitSummary } from '@frontend/domain';
 import Typography from '@mui/material/Typography';
 import { DragSourceMonitor, useDrag } from 'react-dnd';
-import { Draggables } from '../drag-layer';
+import { Draggables } from '@frontend/util';
 import { useEffect } from 'react';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import {

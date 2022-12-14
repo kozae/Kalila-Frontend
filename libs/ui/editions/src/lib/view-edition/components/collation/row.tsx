@@ -12,11 +12,12 @@ export interface IEditionRowProps {
 export const Row = ({ unitIdx }: IEditionRowProps) => {
   const { size } = useLayoutData();
   const { edition, rows } = useData();
+
+  const manuscripts = edition.get_no_manuscripts();
+  const width = useMemo(() => `${WIDTH_OPTIONS[size]}px`, [size]);
   if (rows[unitIdx].get_is_divider()) {
     return <Divider />;
   }
-  const manuscripts = edition.get_no_manuscripts();
-  const width = useMemo(() => `${WIDTH_OPTIONS[size]}px`, [size]);
   return (
     <>
       {range(manuscripts).map((manuscriptIndex) => (

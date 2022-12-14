@@ -3,24 +3,11 @@ import 'es6-shim';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.scss';
-import React from 'react';
-import {
-  kalilaTheme,
-  Layout,
-  NavMessageBarContextProvider,
-  SignalrProvider,
-  store,
-  useApiCallErrorHandler,
-} from '@frontend/shared-ui';
-import { AnimatePresence } from 'framer-motion';
-import { ThemeProvider } from '@mui/material';
 import { createEmotionCache } from './_document';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import { Provider as ReduxProvider } from 'react-redux';
 import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
-import { ErrorBoundary } from '@frontend/kalila/components';
-import { SWRConfig } from 'swr';
+import { KalilaAppWrapper } from '@frontend/kalila/components';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -41,30 +28,16 @@ function KalilaApp(appProps: KalilaAppProps) {
 
   return (
     <CacheProvider value={emotionCache}>
-      <SignalrProvider>
-        <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-          <link rel="shortcut icon" href={'/favicon.ico'} />
-          <title>Kalila</title>
-        </Head>
-        <ErrorBoundary>
-          <SessionProvider session={session}>
-            <ThemeProvider theme={kalilaTheme}>
-              <ReduxProvider store={store}>
-                <SWRConfig value={{ onError: useApiCallErrorHandler() }}>
-                  <NavMessageBarContextProvider>
-                    <Layout>
-                      <AnimatePresence exitBeforeEnter>
-                        <Component {...pageProps} key={router.route} />
-                      </AnimatePresence>
-                    </Layout>
-                  </NavMessageBarContextProvider>
-                </SWRConfig>
-              </ReduxProvider>
-            </ThemeProvider>
-          </SessionProvider>
-        </ErrorBoundary>
-      </SignalrProvider>
+      <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <link rel="shortcut icon" href={'/favicon.ico'} />
+        <title>Kalila</title>
+      </Head>
+      <SessionProvider session={session}>
+        <KalilaAppWrapper>
+          <Component {...pageProps} key={router.route} />
+        </KalilaAppWrapper>
+      </SessionProvider>
     </CacheProvider>
   );
 }
@@ -72,4 +45,4 @@ function KalilaApp(appProps: KalilaAppProps) {
 export default KalilaApp;
 
 // nx g page book-analysis --project=kalila --withTests=true --style=scss
-// nx g @nrwl/next:lib image-annotation  --directory=ui/text-editing --style=scss
+// nx g @nrwl/next:lib layout  --directory=kalila --style=scss

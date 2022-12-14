@@ -3,11 +3,6 @@ import {
   createAdminPageContext,
   withAdminLayout,
 } from '@frontend/ui/administration';
-import {
-  selectEditors,
-  useAppSelector,
-  useNavbarMessage,
-} from '@frontend/shared-ui';
 import { GetServerSideProps } from 'next';
 import { siglum } from '@frontend/server-side-queries';
 import Head from 'next/head';
@@ -22,6 +17,10 @@ import {
   PrimaryGreenHeader,
   WhiteHeader,
 } from '@frontend/ui/table';
+import {
+  useKalilaSession,
+  useNavbarMessage,
+} from '@frontend/kalila/components';
 
 function pageTitle(siglum: string): [string, string] {
   return ['Administration:', `Pages of ${siglum}`];
@@ -30,7 +29,7 @@ function pageTitle(siglum: string): [string, string] {
 export function PagesAdministration({ siglum, manuscriptId }) {
   const messages = useMemo(() => pageTitle(siglum), []);
   useNavbarMessage(messages);
-  const editors = useAppSelector(selectEditors);
+  const { users: editors } = useKalilaSession();
   const AdminPageContext = createAdminPageContext<PageDescriptionAdmin>();
   const initialValues = new PageDescriptionAdmin();
   const columns: ReadonlyArray<any> = React.useMemo(

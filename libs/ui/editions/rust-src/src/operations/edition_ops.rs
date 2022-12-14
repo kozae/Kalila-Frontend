@@ -11,7 +11,8 @@ use wasm_bindgen::JsValue;
 impl EditionStore {
     pub fn load(data: JsValue) -> Result<EditionStore, String> {
         console_error_panic_hook::set_once();
-        match data.into_serde::<Edition>() {
+
+        match serde_wasm_bindgen::from_value::<Edition>(data) {
             Ok(edition) => {
                 let mut images = HashMap::new();
                 let mut line_regions = HashMap::new();
@@ -75,6 +76,10 @@ impl EditionStore {
 
     pub fn get_ms_siglum(&self, idx: usize) -> String {
         self.edition.manuscripts[idx].siglum.clone()
+    }
+
+    pub fn get_ms_id(&self, idx: usize) -> String {
+        self.edition.manuscripts[idx].id.clone()
     }
 
     pub fn get_ms_unit_presence_array(&self, idx: usize) -> Box<[i32]> {

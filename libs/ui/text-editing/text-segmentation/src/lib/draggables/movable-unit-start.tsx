@@ -1,22 +1,18 @@
 import { IUnitSummary } from '@frontend/domain';
 import Typography from '@mui/material/Typography';
 import { DragSourceMonitor, useDrag, useDrop } from 'react-dnd';
-import { Draggables, IItemData } from '../drag-layer';
+import { IItemData } from '../drag-layer';
 import { useContext, useEffect, useRef } from 'react';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import {
-  closeUnit,
-  insertUnit,
-  moveUnit,
   replaceUnit,
   selectTextEditingAccessMode,
   swapUnits,
-  updateUnit,
   useAppDispatch,
   useAppSelector,
 } from '@frontend/shared-ui';
 import { TextSegmentationContext } from '../context';
-import { bookUnitOrderDisplay } from '@frontend/util';
+import { Draggables, bookUnitOrderDisplay } from '@frontend/util';
 
 export interface IMovableUnitStartProps {
   d: IUnitSummary;

@@ -30,7 +30,7 @@ export type TextEditingAccessMode =
   | 'view'
   | 'edit'
   | 'admin'
-  | 'book_unit_admin';
+  | 'book_unit_tagger';
 
 export interface ITextEditingPageState {
   accessMode: TextEditingAccessMode[];

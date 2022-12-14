@@ -1,4 +1,11 @@
-import { IUser } from '@frontend/shared-ui';
+export interface IUser {
+  firstName: string;
+  lastName: string;
+  username: string;
+  roles: string[];
+  email: string;
+  picture?: string;
+}
 
 export function transformKeycloakUsers(data: any[]): IUser[] {
   return data.map((u) => ({

@@ -1,4 +1,4 @@
-import { Draggables, IItemData } from './drag-layer';
+import { IItemData } from './drag-layer';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
@@ -9,6 +9,7 @@ import {
   removeUnitEndTag,
   useAppDispatch,
 } from '@frontend/shared-ui';
+import { Draggables } from '@frontend/util';
 export interface IDeleteDropContainerProps {
   itemType: Draggables;
 }

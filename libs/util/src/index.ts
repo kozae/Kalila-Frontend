@@ -1,3 +1,4 @@
+export * from './lib/draggables';
 export * from './lib/book-unit-order-display';
 export * from './lib/check-value-factory';
 export * from './lib/clean-object';
@@ -24,5 +25,6 @@ export * from './lib/region-to-points';
 export * from './lib/letter-map';
 export * from './lib/transform-keycloak-users';
 export * from './lib/transform-to-LERA-Document';
+export * from './lib/use-boolean';
 
 export const BookId = '635f86c07700a2ee94a5811e';

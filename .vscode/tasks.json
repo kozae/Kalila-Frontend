@@ -1,0 +1,59 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "grunt.autoDetect": "off",
+    "gulp.autoDetect": "off",
+    "jake.autoDetect": "off",
+    "npm.autoDetect": "off",
+    "typescript.tsc.autoDetect": "off",
+    "tasks": [
+        {
+            "label": "Logs: Dev Server",
+            "type": "shell",
+            "command": "journalctl -u Kalila.Web.Dev -f",
+            "problemMatcher": []
+        },
+        {
+            "label": "Logs: Prod Server",
+            "type": "shell",
+            "command": "journalctl -u Kalila.Web.Prod -f",
+            "problemMatcher": []
+        },
+        {
+            "label": "Start: Dev Server",
+            "type": "shell",
+            "command": "systemctl start  Kalila.Web.Dev",
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "Restart: Dev Server",
+            "type": "shell",
+            "command": "systemctl restart  Kalila.Web.Dev",
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "Stop: Dev Server",
+            "type": "shell",
+            "command": "systemctl stop  Kalila.Web.Dev",
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "Build: Kalila",
+            "type": "shell",
+            "command": "/root/Kalila/next/frontend/Kalila.Web.Prod.service.setup.sh",
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "Build: Editions",
+            "type": "shell",
+            "command": "/root/Kalila/next/frontend/Kalila.Web.Editions.service.setup.sh",
+            "isBackground": true,
+            "problemMatcher": []
+        }
+    ]
+}

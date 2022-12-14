@@ -25,6 +25,7 @@
     "**/*.js",
     "**/*.jsx",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "../../ui/shared/src/lib/components/layout/page-options.context.tsx"
   ]
 }

@@ -5,6 +5,8 @@ import { kalilaTheme, withTransition } from '@frontend/shared-ui';
 import { motion } from 'framer-motion';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 interface LinkTabProps {
   label: string;
@@ -39,22 +41,29 @@ const AdminNav: React.FC<{ selectedKey: false | 0 | 1 | 2 }> = ({
   };
 
   const tabs = (
-    <Tabs
-      value={value}
-      onChange={handleChange}
-      indicatorColor="secondary"
-      aria-label="activitiesList"
-    >
-      {/*<LinkTab*/}
-      {/*  label="Manuscript Description"*/}
-      {/*  href="/administration/manuscript-description"*/}
-      {/*/>*/}
-      <LinkTab label="Pages" href="/administration/pages" />
-      {/*<LinkTab*/}
-      {/*  label="Categorical Attributes"*/}
-      {/*  href="/administration/categorical-attributes"*/}
-      {/*/>*/}
-    </Tabs>
+    // <Tabs
+    //   value={value}
+    //   onChange={handleChange}
+    //   indicatorColor="secondary"
+    //   aria-label="activitiesList"
+    // >
+    //   {/*<LinkTab*/}
+    //   {/*  label="Manuscript Description"*/}
+    //   {/*  href="/administration/manuscript-description"*/}
+    //   {/*/>*/}
+    //   <LinkTab label="Pages" href="/administration/pages" />
+    //   {/*<LinkTab*/}
+    //   {/*  label="Categorical Attributes"*/}
+    //   {/*  href="/administration/categorical-attributes"*/}
+    //   {/*/>*/}
+    // </Tabs>
+    <Box>
+      <Link style={{ textDecoration: 'none' }} href="/administration/pages">
+        <Typography p="1rem" variant="h3">
+          Pages
+        </Typography>
+      </Link>
+    </Box>
   );
   return selectedKey !== false ? (
     <div className={styles['nav']}>{tabs}</div>

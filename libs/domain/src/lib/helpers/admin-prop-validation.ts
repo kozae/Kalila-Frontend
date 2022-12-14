@@ -1,5 +1,10 @@
 import * as Yup from 'yup';
-import { editionProgressOptions } from '@frontend/util';
+const editionProgressOptions = [
+  'not started',
+  'in work',
+  'needs revision',
+  'finished'
+]
 
 export function adminPropValidation(editors: string[]) {
   return {

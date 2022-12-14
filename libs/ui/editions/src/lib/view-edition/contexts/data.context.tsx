@@ -73,7 +73,7 @@ export const DataProvider: FC<
   setRows,
   realTime,
 }) => {
-  const [updateTime, setUpdateTime] = useState(Date.now());
+  const [updateTime, setUpdateTime] = useState(-1);
   const [previewCache, setPreviewCache] = useState<Record<string, string>>({});
   const collationParentRef = useRef<HTMLDivElement>(null);
   const rowVirtualizer = useVirtual({
