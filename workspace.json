@@ -8,6 +8,7 @@
     "kalila-e2e": "apps/kalila-e2e",
     "kalila-rest": "libs/kalila/rest",
     "kalila-store": "libs/kalila/store",
+    "muhaqiq-web-realm": "apps/muhaqiq-web-realm",
     "server-side-queries": "libs/server-side-queries",
     "shared-ui": "libs/ui/shared",
     "ui-administration": "libs/ui/administration",

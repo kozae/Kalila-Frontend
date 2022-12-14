@@ -15,6 +15,12 @@
             "problemMatcher": []
         },
         {
+            "label": "Logs: Prod Server",
+            "type": "shell",
+            "command": "journalctl -u Kalila.Web.Prod -f",
+            "problemMatcher": []
+        },
+        {
             "label": "Start: Dev Server",
             "type": "shell",
             "command": "systemctl start  Kalila.Web.Dev",
