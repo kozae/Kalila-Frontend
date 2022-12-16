@@ -4,7 +4,7 @@ import { AlertColor } from '@mui/material/Alert/Alert';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import React, { useState } from 'react';
-import { useBoolean } from '@frontend/shared-ui';
+import { useBoolean } from '@frontend/util';
 
 export interface INotificationBarProps {
   isMessageVisible: boolean;

@@ -1,5 +1,5 @@
 import Modal from '@mui/material/Modal';
-import { DialogHeading, useBoolean } from '@frontend/shared-ui';
+import { DialogHeading } from '@frontend/shared-ui';
 import Typography from '@mui/material/Typography';
 
 import { useCallback, useEffect, useState } from 'react';
@@ -10,7 +10,7 @@ import { BookUnit } from '@frontend/domain';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import { bookUnitOrderDisplay } from '@frontend/util';
+import { bookUnitOrderDisplay, useBoolean } from '@frontend/util';
 import { useDataMethods } from '../../contexts/data.context';
 
 const style: SxProps = {

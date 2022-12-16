@@ -1,4 +1,4 @@
-import { useBoolean } from '@frontend/shared-ui';
+import { useBoolean } from '@frontend/util';
 import { useEffect } from 'react';
 
 export function useMountedIndicator() {

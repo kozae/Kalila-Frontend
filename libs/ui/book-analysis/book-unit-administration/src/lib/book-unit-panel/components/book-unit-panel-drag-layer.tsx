@@ -1,13 +1,13 @@
 import { useDragLayer, XYCoord } from 'react-dnd';
 import Box from '@mui/material/Box';
 import Portal from '@mui/material/Portal';
-import { useBoolean } from '@frontend/shared-ui';
 import { useState } from 'react';
 import { BookUnit, IBookUnit } from '@frontend/domain';
 import { DeleteBookUnitDialog } from './dialogs';
 import { DeleteBookUnitDropContainer } from './book-unit-delete-drop-container';
 import { InsertableUnitDragPreview } from './draggables';
 import { useUIOptions } from '../contexts/ui-options.context';
+import { useBoolean } from '@frontend/util';
 
 function getItemStyles(
   initialOffset: XYCoord | null,

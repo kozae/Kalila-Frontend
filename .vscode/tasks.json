@@ -54,6 +54,12 @@
             "command": "/root/Kalila/next/frontend/Kalila.Web.Editions.service.setup.sh",
             "isBackground": true,
             "problemMatcher": []
+        },
+        {
+            "label": "Preview Build: Muhaqiq-Realm",
+            "type": "shell",
+            "command": " nx build muhaqiq-web-realm --prod",
+            "problemMatcher": []
         }
     ]
 }

@@ -1,6 +1,4 @@
-export * from './lib/book-unit-administration';
 export * from './lib/contexts';
-export * from './lib/editions';
 export * from './lib/error-boundary';
 export * from './lib/kalila-app-wrapper';
 export * from './lib/layout/nav';
