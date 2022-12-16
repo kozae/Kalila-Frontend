@@ -44,8 +44,6 @@ export function useNavSessionState(
   );
   const [isAdmin, setIsAdmin] = useState<boolean>(init.isAdmin);
   useEffect(() => {
-    console.log(session);
-    console.log(authenticated);
     if (authenticated && session) {
       setLoggedUser(session.Username);
       if (verifyAdmin(session)) {

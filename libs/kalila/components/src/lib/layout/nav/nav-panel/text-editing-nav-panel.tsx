@@ -23,7 +23,6 @@ import { useRouter } from 'next/router';
 import Typography from '@mui/material/Typography';
 import { Snackbar } from '@mui/material';
 import Alert from '@mui/material/Alert';
-import { ApiClient } from '@frontend/kalila/rest';
 
 export const TextEditingNavPanel = () => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
@@ -53,25 +52,25 @@ const ManuscriptRow = ({ Siglum, Id }: { Siglum: string; Id: string }) => {
   const onGoClicked = useCallback(async (selectedPage: string) => {
     const value = parseInt(selectedPage);
     setLoading(true);
-    try {
-      const { data: pageData } = await ApiClient().get(
-        `${process.env['NEXT_PUBLIC_API_URL']}Page`,
-        {
-          headers: {
-            Accept: MediaTypes.AdminDocument,
-          },
-          params: { PageSize: -1, NumberEq: value, ManuscriptId: Id },
-          paramsSerializer,
-        }
-      );
-      if (pageData.length === 0) {
-        throw new Error('page does not exist');
-      }
-      await push(`/text-editing/${Id}/${pageData[0].Id}`);
-    } catch (e) {
-      setLoading(false);
-      setError(true);
-    }
+    // try {
+    //   const { data: pageData } = await ApiClient().get(
+    //     `${process.env['NEXT_PUBLIC_API_URL']}Page`,
+    //     {
+    //       headers: {
+    //         Accept: MediaTypes.AdminDocument,
+    //       },
+    //       params: { PageSize: -1, NumberEq: value, ManuscriptId: Id },
+    //       paramsSerializer,
+    //     }
+    //   );
+    //   if (pageData.length === 0) {
+    //     throw new Error('page does not exist');
+    //   }
+    //   await push(`/text-editing/${Id}/${pageData[0].Id}`);
+    // } catch (e) {
+    //   setLoading(false);
+    //   setError(true);
+    // }
   }, []);
   return (
     <Stack direction="row" width="100%" justifyContent="space-between">
@@ -188,19 +187,21 @@ const ManuscriptSelection = () => {
 };
 
 async function siglaFetcher() {
-  try {
-    const { data } = await ApiClient().get<any>(
-      `${process.env['NEXT_PUBLIC_API_URL']}Manuscript`,
-      {
-        headers: {
-          Accept: MediaTypes.PartialDocument,
-        },
-        params: { PageSize: -1, SelectProps: 'Siglum', BookId },
-        paramsSerializer,
-      }
-    );
-    return data.map(({ _id, Siglum }: any) => ({ Id: _id, Siglum }));
-  } catch (e) {
-    throw e;
-  }
+  // try {
+  //   const { data } = await ApiClient().get<any>(
+  //     `${process.env['NEXT_PUBLIC_API_URL']}Manuscript`,
+  //     {
+  //       headers: {
+  //         Accept: MediaTypes.PartialDocument,
+  //       },
+  //       params: { PageSize: -1, SelectProps: 'Siglum', BookId },
+  //       paramsSerializer,
+  //     }
+  //   );
+  //   return data.map(({ _id, Siglum }: any) => ({ Id: _id, Siglum }));
+  // } catch (e) {
+  //   throw e;
+  // }
+
+  return [];
 }

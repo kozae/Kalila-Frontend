@@ -14,6 +14,7 @@ Environment=NEXT_PUBLIC_API_URL=https://kalila-api.kozae.de/v1/
 Environment=NEXT_PUBLIC_IMAGE_URL=/pages/
 Environment=NEXT_PUBLIC_PAGES_IMAGE_FOLDER=/root/Kalila/next/frontend/apps/kalila/public/pages/
 Environment=NEXT_PUBLIC_PAGES_IMAGE_SEVER=https://static.kozae.de/pages/
+Environment=NEXT_PUBLIC_APP_ID=muhaqiqapi-bvlro
 
 Environment=NEXTAUTH_URL='https://kalila-dev.kozae.de/'
 Environment=KEYCLOAK_ID='kalila_web_dev'
@@ -41,7 +42,7 @@ WantedBy=multi-user.target
 # systemctl start  Kalila.Web.Dev && journalctl -u Kalila.Web.Dev -f
 # systemctl restart  Kalila.Web.Dev && journalctl -u Kalila.Web.Dev -f
 # systemctl stop  Kalila.Web.Dev
-# aFFk8Fwj2N58F^? Portal Credentials
+# aFFk8Fwj2N58F^?
 # mk vRd5UCNgkj6QkiY
 # guest: X#RrUXZ.S9C@BWS
 # ds: vRd5UCZgkj6QkiY
@@ -53,3 +54,5 @@ WantedBy=multi-user.target
 # rr: iR64YceKrdFah8v
 
 # 6368eae1f7373335b6394d73
+
+# realm: BFEFkdM7cdWBQJZ

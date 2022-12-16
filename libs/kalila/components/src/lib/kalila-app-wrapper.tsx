@@ -3,18 +3,17 @@ import { ThemeProvider } from '@mui/material';
 import { AnimatePresence } from 'framer-motion';
 import { FC, ReactNode } from 'react';
 import { SWRConfig } from 'swr';
-import { SignalrProvider } from './contexts/signalr.wrapper';
 import { ErrorBoundary } from './error-boundary';
-import { useApiCallErrorHandler } from '@frontend/kalila/rest';
 import { KalilaSessionProvider } from './contexts/kalila-session.context';
 import { LayoutWrapper } from './layout/layout-wrapper';
+import { RealmAppProvider } from '@frontend/kalila/real-app';
 
 export const KalilaAppWrapper: FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <SignalrProvider>
+    <RealmAppProvider>
       <ErrorBoundary>
         <ThemeProvider theme={kalilaTheme}>
-          <SWRConfig value={{ onError: useApiCallErrorHandler() }}>
+          <SWRConfig value={{ onError: (e) => console.log(e) }}>
             <KalilaSessionProvider>
               <LayoutWrapper>
                 <AnimatePresence exitBeforeEnter>{children}</AnimatePresence>
@@ -23,6 +22,6 @@ export const KalilaAppWrapper: FC<{ children: ReactNode }> = ({ children }) => {
           </SWRConfig>
         </ThemeProvider>
       </ErrorBoundary>
-    </SignalrProvider>
+    </RealmAppProvider>
   );
 };

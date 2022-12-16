@@ -10,7 +10,6 @@ import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import Divider from '@mui/material/Divider';
 import { useState } from 'react';
-import { ApiClient } from '@frontend/kalila/rest';
 
 export const EditionsNavPanel = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -57,19 +56,20 @@ const EditionSelection = () => {
 };
 
 async function editionSummaryFetcher() {
-  try {
-    const { data } = await ApiClient().get<any>(
-      `${process.env['NEXT_PUBLIC_API_URL']}Edition/Summaries`,
-      {
-        headers: {
-          Accept: MediaTypes.JSON,
-        },
-        params: { PageSize: -1 },
-        paramsSerializer,
-      }
-    );
-    return data.map(({ Id, Name }: any) => ({ Id, Name }));
-  } catch (e) {
-    throw e;
-  }
+  // try {
+  //   const { data } = await ApiClient().get<any>(
+  //     `${process.env['NEXT_PUBLIC_API_URL']}Edition/Summaries`,
+  //     {
+  //       headers: {
+  //         Accept: MediaTypes.JSON,
+  //       },
+  //       params: { PageSize: -1 },
+  //       paramsSerializer,
+  //     }
+  //   );
+  //   return data.map(({ Id, Name }: any) => ({ Id, Name }));
+  // } catch (e) {
+  //   throw e;
+  // }
+  return [];
 }

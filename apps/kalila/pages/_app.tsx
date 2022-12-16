@@ -45,4 +45,4 @@ function KalilaApp(appProps: KalilaAppProps) {
 export default KalilaApp;
 
 // nx g page book-analysis --project=kalila --withTests=true --style=scss
-// nx g @nrwl/next:lib layout  --directory=kalila --style=scss
+// nx g @nrwl/next:lib real-app  --directory=kalila --style=scss

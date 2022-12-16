@@ -11,14 +11,24 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import IconButton from '@mui/material/IconButton';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { FC, useCallback, useRef, useState } from 'react';
+import { useRealmApp } from '@frontend/kalila/real-app';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import {
+  transformRealUser,
+  useKalilaSession,
+  useKalilaSessionMethods,
+} from '../../contexts';
+import * as Realm from 'realm-web';
 
-import { useSession, signIn, signOut } from 'next-auth/react';
-import { FC, useRef, useState } from 'react';
-
-const LogOutButton: FC<{ initials: string; picture?: string }> = ({
-  initials,
-  picture,
-}) => {
+const LogOutButton: FC<{
+  initials: string;
+  picture?: string;
+  onSignOut: () => Promise<void>;
+}> = ({ initials, picture, onSignOut }) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
   const handleToggle = () => {
@@ -76,7 +86,7 @@ const LogOutButton: FC<{ initials: string; picture?: string }> = ({
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu">
-                  <MenuItem sx={{ fontSize: '1rem' }} onClick={() => signOut()}>
+                  <MenuItem sx={{ fontSize: '1rem' }} onClick={onSignOut}>
                     <ExitToAppIcon color="warning" /> &nbsp; Sign out
                   </MenuItem>
                   {/*<MenuItem*/}
@@ -100,28 +110,48 @@ const LogOutButton: FC<{ initials: string; picture?: string }> = ({
 };
 
 export const NavUserControls: React.FC = () => {
-  const { data: session, status } = useSession();
+  const { app } = useRealmApp();
+  const [signInModalOpen, setSignInModalOpen] = useState(false);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passRef = useRef<HTMLInputElement>(null);
+  const { session } = useKalilaSession();
+  const { loadSession, clearSession } = useKalilaSessionMethods();
+  const onSignIn = useCallback(
+    async (email: string | undefined, pass: string | undefined) => {
+      if (app && email && pass) {
+        const credentials = Realm.Credentials.emailPassword(email, pass);
+        setSignInModalOpen(false);
+        const user = await app!.logIn(credentials);
+        loadSession(transformRealUser(user));
+      }
+    },
+    [app]
+  );
 
-  if (status === 'loading') return <div>Loading...</div>;
+  const onSignOut = useCallback(async () => {
+    if (app) {
+      await app!.currentUser?.logOut();
+      clearSession();
+    }
+  }, [app?.currentUser]);
 
   return (
     <>
       {session && (
         <LogOutButton
           initials={
-            session.user?.name && session.user?.name.includes('guest')
+            session.Username && session.Username.includes('guest')
               ? 'GST'
-              : //@ts-ignore
-                session.user.username
+              : session.Username
           }
-          //@ts-ignore
-          picture={session.user.picture}
+          picture={session.Picture}
+          onSignOut={onSignOut}
         />
       )}
-      {!session && (
+      {!app?.currentUser && (
         <div className={styles['nav__control-bar__user-controls']}>
           <Button
-            onClick={() => signIn('keycloak')}
+            onClick={() => setSignInModalOpen(true)}
             size="small"
             color="secondary"
             variant="contained"
@@ -132,6 +162,39 @@ export const NavUserControls: React.FC = () => {
           </Button>
         </div>
       )}
+      <Dialog open={signInModalOpen} onClose={() => setSignInModalOpen(false)}>
+        <DialogContent>
+          <TextField
+            inputRef={emailRef}
+            autoFocus
+            margin="dense"
+            id="email"
+            label="Email Address"
+            type="email"
+            fullWidth
+            variant="standard"
+          />
+          <TextField
+            inputRef={passRef}
+            margin="dense"
+            id="password"
+            label="Password"
+            type="password"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSignInModalOpen(false)}>Cancel</Button>
+          <Button
+            onClick={() =>
+              onSignIn(emailRef?.current?.value, passRef?.current?.value)
+            }
+          >
+            Sign in
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

@@ -24,7 +24,9 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "muhaqiq-web-realm:build",
-        "dev": true
+        "dev": true,
+        "port": 6000,
+        "hostname": "0.0.0.0"
       },
       "configurations": {
         "development": {

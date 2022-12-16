@@ -18,7 +18,7 @@
     "paths": {
       "@frontend/domain": ["libs/domain/src/index.ts"],
       "@frontend/kalila/components": ["libs/kalila/components/src/index.ts"],
-      "@frontend/kalila/rest": ["libs/kalila/rest/src/index.ts"],
+      "@frontend/kalila/real-app": ["libs/kalila/real-app/src/index.ts"],
       "@frontend/kalila/store": ["libs/kalila/store/src/index.ts"],
       "@frontend/server-side-queries": [
         "libs/server-side-queries/src/index.ts"

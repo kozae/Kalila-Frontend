@@ -6,7 +6,7 @@
     "kalila": "apps/kalila",
     "kalila-components": "libs/kalila/components",
     "kalila-e2e": "apps/kalila-e2e",
-    "kalila-rest": "libs/kalila/rest",
+    "kalila-real-app": "libs/kalila/real-app",
     "kalila-store": "libs/kalila/store",
     "muhaqiq-web-realm": "apps/muhaqiq-web-realm",
     "server-side-queries": "libs/server-side-queries",
