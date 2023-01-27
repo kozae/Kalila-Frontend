@@ -6,25 +6,7 @@ heap.push(undefined, null, true, false);
 
 function getObject(idx) { return heap[idx]; }
 
-let heap_next = heap.length;
-
-function dropObject(idx) {
-    if (idx < 36) return;
-    heap[idx] = heap_next;
-    heap_next = idx;
-}
-
-function takeObject(idx) {
-    const ret = getObject(idx);
-    dropObject(idx);
-    return ret;
-}
-
-const lTextDecoder = typeof TextDecoder === 'undefined' ? (0, module.require)('util').TextDecoder : TextDecoder;
-
-let cachedTextDecoder = new lTextDecoder('utf-8', { ignoreBOM: true, fatal: true });
-
-cachedTextDecoder.decode();
+let WASM_VECTOR_LEN = 0;
 
 let cachedUint8Memory0 = new Uint8Array();
 
@@ -34,21 +16,6 @@ function getUint8Memory0() {
     }
     return cachedUint8Memory0;
 }
-
-function getStringFromWasm0(ptr, len) {
-    return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
-}
-
-function addHeapObject(obj) {
-    if (heap_next === heap.length) heap.push(heap.length + 1);
-    const idx = heap_next;
-    heap_next = heap[idx];
-
-    heap[idx] = obj;
-    return idx;
-}
-
-let WASM_VECTOR_LEN = 0;
 
 const lTextEncoder = typeof TextEncoder === 'undefined' ? (0, module.require)('util').TextEncoder : TextEncoder;
 
@@ -105,10 +72,6 @@ function passStringToWasm0(arg, malloc, realloc) {
     return ptr;
 }
 
-function isLikeNone(x) {
-    return x === undefined || x === null;
-}
-
 let cachedInt32Memory0 = new Int32Array();
 
 function getInt32Memory0() {
@@ -116,6 +79,43 @@ function getInt32Memory0() {
         cachedInt32Memory0 = new Int32Array(wasm.memory.buffer);
     }
     return cachedInt32Memory0;
+}
+
+let heap_next = heap.length;
+
+function dropObject(idx) {
+    if (idx < 36) return;
+    heap[idx] = heap_next;
+    heap_next = idx;
+}
+
+function takeObject(idx) {
+    const ret = getObject(idx);
+    dropObject(idx);
+    return ret;
+}
+
+function isLikeNone(x) {
+    return x === undefined || x === null;
+}
+
+const lTextDecoder = typeof TextDecoder === 'undefined' ? (0, module.require)('util').TextDecoder : TextDecoder;
+
+let cachedTextDecoder = new lTextDecoder('utf-8', { ignoreBOM: true, fatal: true });
+
+cachedTextDecoder.decode();
+
+function getStringFromWasm0(ptr, len) {
+    return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
+}
+
+function addHeapObject(obj) {
+    if (heap_next === heap.length) heap.push(heap.length + 1);
+    const idx = heap_next;
+    heap_next = heap[idx];
+
+    heap[idx] = obj;
+    return idx;
 }
 
 let cachedFloat64Memory0 = new Float64Array();
@@ -201,6 +201,36 @@ function debugString(val) {
     return className;
 }
 
+let cachedUint32Memory0 = new Uint32Array();
+
+function getUint32Memory0() {
+    if (cachedUint32Memory0.byteLength === 0) {
+        cachedUint32Memory0 = new Uint32Array(wasm.memory.buffer);
+    }
+    return cachedUint32Memory0;
+}
+
+function passArray32ToWasm0(arg, malloc) {
+    const ptr = malloc(arg.length * 4);
+    getUint32Memory0().set(arg, ptr / 4);
+    WASM_VECTOR_LEN = arg.length;
+    return ptr;
+}
+
+function getArrayU32FromWasm0(ptr, len) {
+    return getUint32Memory0().subarray(ptr / 4, ptr / 4 + len);
+}
+
+function getArrayJsValueFromWasm0(ptr, len) {
+    const mem = getUint32Memory0();
+    const slice = mem.subarray(ptr / 4, ptr / 4 + len);
+    const result = [];
+    for (let i = 0; i < slice.length; i++) {
+        result.push(takeObject(slice[i]));
+    }
+    return result;
+}
+
 let cachedUint16Memory0 = new Uint16Array();
 
 function getUint16Memory0() {
@@ -221,28 +251,8 @@ function passArray16ToWasm0(arg, malloc) {
     return ptr;
 }
 
-let cachedUint32Memory0 = new Uint32Array();
-
-function getUint32Memory0() {
-    if (cachedUint32Memory0.byteLength === 0) {
-        cachedUint32Memory0 = new Uint32Array(wasm.memory.buffer);
-    }
-    return cachedUint32Memory0;
-}
-
-function passArray32ToWasm0(arg, malloc) {
-    const ptr = malloc(arg.length * 4);
-    getUint32Memory0().set(arg, ptr / 4);
-    WASM_VECTOR_LEN = arg.length;
-    return ptr;
-}
-
 function getArrayI32FromWasm0(ptr, len) {
     return getInt32Memory0().subarray(ptr / 4, ptr / 4 + len);
-}
-
-function getArrayU32FromWasm0(ptr, len) {
-    return getUint32Memory0().subarray(ptr / 4, ptr / 4 + len);
 }
 
 function getArrayU8FromWasm0(ptr, len) {
@@ -277,13 +287,6 @@ export class EditionCellData {
     free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_editioncelldata_free(ptr);
-    }
-    /**
-    * @returns {number}
-    */
-    get_token_count() {
-        const ret = wasm.editioncelldata_get_token_count(this.ptr);
-        return ret >>> 0;
     }
     /**
     * @returns {number | undefined}
@@ -344,22 +347,6 @@ export class EditionCellData {
     }
     /**
     * @param {number} idx
-    * @returns {string}
-    */
-    get_state(idx) {
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.editioncelldata_get_state(retptr, this.ptr, idx);
-            var r0 = getInt32Memory0()[retptr / 4 + 0];
-            var r1 = getInt32Memory0()[retptr / 4 + 1];
-            return getStringFromWasm0(r0, r1);
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-            wasm.__wbindgen_free(r0, r1);
-        }
-    }
-    /**
-    * @param {number} idx
     * @returns {number}
     */
     get_page(idx) {
@@ -370,24 +357,58 @@ export class EditionCellData {
     * @param {number} idx
     * @returns {number}
     */
-    get_line(idx) {
-        const ret = wasm.editioncelldata_get_line(this.ptr, idx);
+    get_line_number(idx) {
+        const ret = wasm.editioncelldata_get_line_number(this.ptr, idx);
         return ret;
     }
     /**
-    * @param {number} idx
-    * @returns {string}
+    * @returns {Uint32Array}
     */
-    get_token(idx) {
+    get_lines() {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.editioncelldata_get_token(retptr, this.ptr, idx);
+            wasm.editioncelldata_get_lines(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
-            return getStringFromWasm0(r0, r1);
+            var v0 = getArrayU32FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_free(r0, r1 * 4);
+            return v0;
         } finally {
             wasm.__wbindgen_add_to_stack_pointer(16);
-            wasm.__wbindgen_free(r0, r1);
+        }
+    }
+    /**
+    * @param {number} line_idx
+    * @returns {any[]}
+    */
+    get_tokens(line_idx) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.editioncelldata_get_tokens(retptr, this.ptr, line_idx);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            var v0 = getArrayJsValueFromWasm0(r0, r1).slice();
+            wasm.__wbindgen_free(r0, r1 * 4);
+            return v0;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+    * @param {number} line_idx
+    * @returns {Uint32Array}
+    */
+    get_tokens_indexes(line_idx) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.editioncelldata_get_tokens_indexes(retptr, this.ptr, line_idx);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            var v0 = getArrayU32FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_free(r0, r1 * 4);
+            return v0;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
         }
     }
     /**
@@ -407,11 +428,11 @@ export class EditionCellData {
         }
     }
     /**
-    * @param {number} idx
+    * @param {number} line_idx
     * @returns {boolean}
     */
-    is_first_token(idx) {
-        const ret = wasm.editioncelldata_is_first_token(this.ptr, idx);
+    is_first_token(line_idx) {
+        const ret = wasm.editioncelldata_is_first_token(this.ptr, line_idx);
         return ret !== 0;
     }
     /**
@@ -545,6 +566,37 @@ export class EditionStore {
         wasm.__wbg_editionstore_free(ptr);
     }
     /**
+    * @param {number} unit_idx
+    * @param {number} manuscript_idx
+    * @returns {EditionCellData}
+    */
+    build_cell(unit_idx, manuscript_idx) {
+        const ret = wasm.editionstore_build_cell(this.ptr, unit_idx, manuscript_idx);
+        return EditionCellData.__wrap(ret);
+    }
+    /**
+    * @param {number} manuscript_idx
+    * @param {Uint32Array} lacunae
+    * @returns {EditionStore}
+    */
+    update_ms_lacunae(manuscript_idx, lacunae) {
+        const ptr = this.__destroy_into_raw();
+        const ptr0 = passArray32ToWasm0(lacunae, wasm.__wbindgen_malloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.editionstore_update_ms_lacunae(ptr, manuscript_idx, ptr0, len0);
+        return EditionStore.__wrap(ret);
+    }
+    /**
+    * @param {any} update
+    * @param {number} manuscript_idx
+    * @returns {EditionStore}
+    */
+    update_cells(update, manuscript_idx) {
+        const ptr = this.__destroy_into_raw();
+        const ret = wasm.editionstore_update_cells(ptr, addHeapObject(update), manuscript_idx);
+        return EditionStore.__wrap(ret);
+    }
+    /**
     * @param {number} index
     * @returns {EditionRowTitle}
     */
@@ -594,37 +646,6 @@ export class EditionStore {
     replace_rows(update) {
         const ptr = this.__destroy_into_raw();
         const ret = wasm.editionstore_replace_rows(ptr, addHeapObject(update));
-        return EditionStore.__wrap(ret);
-    }
-    /**
-    * @param {number} unit_idx
-    * @param {number} manuscript_idx
-    * @returns {EditionCellData}
-    */
-    build_cell(unit_idx, manuscript_idx) {
-        const ret = wasm.editionstore_build_cell(this.ptr, unit_idx, manuscript_idx);
-        return EditionCellData.__wrap(ret);
-    }
-    /**
-    * @param {number} manuscript_idx
-    * @param {Uint32Array} lacunae
-    * @returns {EditionStore}
-    */
-    update_ms_lacunae(manuscript_idx, lacunae) {
-        const ptr = this.__destroy_into_raw();
-        const ptr0 = passArray32ToWasm0(lacunae, wasm.__wbindgen_malloc);
-        const len0 = WASM_VECTOR_LEN;
-        const ret = wasm.editionstore_update_ms_lacunae(ptr, manuscript_idx, ptr0, len0);
-        return EditionStore.__wrap(ret);
-    }
-    /**
-    * @param {any} update
-    * @param {number} manuscript_idx
-    * @returns {EditionStore}
-    */
-    update_cells(update, manuscript_idx) {
-        const ptr = this.__destroy_into_raw();
-        const ret = wasm.editionstore_update_cells(ptr, addHeapObject(update), manuscript_idx);
         return EditionStore.__wrap(ret);
     }
     /**
@@ -1146,13 +1167,17 @@ export class EditionStore {
     }
 }
 
-export function __wbindgen_object_drop_ref(arg0) {
-    takeObject(arg0);
+export function __wbindgen_json_serialize(arg0, arg1) {
+    const obj = getObject(arg1);
+    const ret = JSON.stringify(obj === undefined ? null : obj);
+    const ptr0 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    getInt32Memory0()[arg0 / 4 + 1] = len0;
+    getInt32Memory0()[arg0 / 4 + 0] = ptr0;
 };
 
-export function __wbindgen_string_new(arg0, arg1) {
-    const ret = getStringFromWasm0(arg0, arg1);
-    return addHeapObject(ret);
+export function __wbindgen_object_drop_ref(arg0) {
+    takeObject(arg0);
 };
 
 export function __wbindgen_string_get(arg0, arg1) {
@@ -1164,8 +1189,18 @@ export function __wbindgen_string_get(arg0, arg1) {
     getInt32Memory0()[arg0 / 4 + 0] = ptr0;
 };
 
+export function __wbindgen_string_new(arg0, arg1) {
+    const ret = getStringFromWasm0(arg0, arg1);
+    return addHeapObject(ret);
+};
+
 export function __wbindgen_error_new(arg0, arg1) {
     const ret = new Error(getStringFromWasm0(arg0, arg1));
+    return addHeapObject(ret);
+};
+
+export function __wbindgen_object_clone_ref(arg0) {
+    const ret = getObject(arg0);
     return addHeapObject(ret);
 };
 
@@ -1213,15 +1248,6 @@ export function __wbindgen_number_get(arg0, arg1) {
     getInt32Memory0()[arg0 / 4 + 0] = !isLikeNone(ret);
 };
 
-export function __wbindgen_json_serialize(arg0, arg1) {
-    const obj = getObject(arg1);
-    const ret = JSON.stringify(obj === undefined ? null : obj);
-    const ptr0 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    const len0 = WASM_VECTOR_LEN;
-    getInt32Memory0()[arg0 / 4 + 1] = len0;
-    getInt32Memory0()[arg0 / 4 + 0] = ptr0;
-};
-
 export function __wbindgen_jsval_loose_eq(arg0, arg1) {
     const ret = getObject(arg0) == getObject(arg1);
     return ret;
@@ -1233,11 +1259,6 @@ export function __wbg_String_91fba7ded13ba54c(arg0, arg1) {
     const len0 = WASM_VECTOR_LEN;
     getInt32Memory0()[arg0 / 4 + 1] = len0;
     getInt32Memory0()[arg0 / 4 + 0] = ptr0;
-};
-
-export function __wbindgen_object_clone_ref(arg0) {
-    const ret = getObject(arg0);
-    return addHeapObject(ret);
 };
 
 export function __wbg_getwithrefkey_15c62c2b8546208d(arg0, arg1) {

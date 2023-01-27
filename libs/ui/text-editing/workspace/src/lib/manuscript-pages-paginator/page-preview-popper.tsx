@@ -157,7 +157,7 @@ async function fetch(pageId: string, manuscriptId: string) {
         ManuscriptId: manuscriptId,
         Ids: [pageId],
       },
-      paramsSerializer,
+      paramsSerializer: { serialize: paramsSerializer },
     }
   );
   return data[0];

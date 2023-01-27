@@ -14,7 +14,7 @@ export const EditImages: FC<{ data: IImageElement[] }> = ({ data }) => {
         .get<ICategoricalAttribute[]>(
           `${process.env['NEXT_PUBLIC_API_URL']}CategoricalAttribute`,
           {
-            paramsSerializer,
+            paramsSerializer: { serialize: paramsSerializer },
             params: {
               EntityNameCn: 'ImageElement',
               PageSize: -1,

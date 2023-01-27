@@ -8,13 +8,17 @@ pub struct EditionCellData {
     pub(crate) manuscript_idx: usize,
     pub(crate) manuscript_siglum: String,
     pub(crate) unit_order: u16,
-    pub(crate) tokens: Vec<String>,
-    pub(crate) states: Vec<String>,
-    pub(crate) pages: Vec<u16>,
-    pub(crate) lines: Vec<u8>,
-    pub(crate) breaks: Vec<usize>,
+    pub(crate) lines: Vec<Line>,
     pub(crate) located_image_at_token: Option<usize>,
     pub(crate) page_range: Vec<u16>,
+}
+
+pub(crate) struct Line {
+    pub(crate) number: u8,
+    pub(crate) page: u16,
+    pub(crate) token_indexes: Vec<usize>,
+    pub(crate) tokens: Vec<JsValue>,
+    pub(crate) is_first_line: bool,
 }
 
 #[wasm_bindgen]

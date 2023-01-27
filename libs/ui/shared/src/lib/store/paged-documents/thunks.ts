@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiClient, ThunkApi } from '@frontend/shared-ui';
 import {
   cleanObject,
   IPagination,
@@ -8,6 +7,8 @@ import {
 } from '@frontend/util';
 import { NextRouter } from 'next/router';
 import ObjectID from 'bson-objectid';
+import { ThunkApi } from '../config';
+import { ApiClient } from '../../util';
 
 export const changePagination = createAsyncThunk<
   void,
@@ -173,7 +174,7 @@ export const adminUpdateDocuments = createAsyncThunk<
         update,
         {
           params,
-          paramsSerializer,
+          paramsSerializer: { serialize: paramsSerializer },
           headers: {},
         }
       );

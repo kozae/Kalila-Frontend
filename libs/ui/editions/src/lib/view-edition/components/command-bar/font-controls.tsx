@@ -3,9 +3,8 @@ import ToggleButton from '@mui/material/ToggleButton';
 import Typography from '@mui/material/Typography';
 import { FONT_FAMILIES } from '../../constants';
 import { useLayoutData, useLayoutDataMethods } from '../../contexts';
-import { EditionFontFamily, EditionFontSize } from '@frontend/ui/editions';
-import { useEffect } from 'react';
 import { SxProps } from '@mui/system';
+import { EditionFontFamily, EditionFontSize } from '../../models';
 
 export const FontControls = ({ sx }: { sx?: SxProps }) => {
   const { size, font } = useLayoutData();
@@ -18,8 +17,6 @@ export const FontControls = ({ sx }: { sx?: SxProps }) => {
   const handleFontChange = (event: any, newFont: EditionFontFamily | null) => {
     setFont(newFont ?? 'n');
   };
-
-  useEffect(() => console.log({ size }), [size]);
 
   return (
     <>

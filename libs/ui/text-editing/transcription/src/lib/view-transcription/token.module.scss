@@ -1,8 +1,8 @@
-@import "sass/variables";
+@import 'sass/variables';
 
 @mixin symbol-format {
   font-weight: bolder;
-  color: $themePrimaryDark
+  color: $themePrimaryDark;
 }
 
 @mixin end-symbol {
@@ -31,6 +31,13 @@
   }
 }
 
+.lexical-error {
+  &::after {
+    content: '!';
+    @include symbol-format;
+  }
+}
+
 .dittography {
   &::before {
     content: '[';
@@ -51,7 +58,6 @@
   }
 }
 
-
 .dittography_end {
   &::before {
     content: '[';
@@ -59,7 +65,6 @@
     @include end-symbol;
   }
 }
-
 
 .cross-out {
   &::before {
@@ -91,7 +96,7 @@
 
 .suppletion {
   &::before {
-    content:'{' ;
+    content: '{';
     @include symbol-format;
     @include end-symbol;
   }
@@ -104,7 +109,7 @@
 
 .suppletion_begin {
   &::after {
-    content:  '}';
+    content: '}';
     @include symbol-format;
   }
 }
@@ -132,14 +137,42 @@
 
 .added_begin {
   &::after {
-    content:  '>';
+    content: '>';
     @include symbol-format;
   }
 }
 
 .added_end {
   &::before {
-    content:'<';
+    content: '<';
+    @include symbol-format;
+    @include end-symbol;
+  }
+}
+
+.title {
+  &::before {
+    content: '(';
+    @include symbol-format;
+    @include end-symbol;
+  }
+
+  &::after {
+    content: ')';
+    @include symbol-format;
+  }
+}
+
+.title_begin {
+  &::after {
+    content: ')';
+    @include symbol-format;
+  }
+}
+
+.title_end {
+  &::before {
+    content: '(';
     @include symbol-format;
     @include end-symbol;
   }

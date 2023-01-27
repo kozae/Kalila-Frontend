@@ -1,4 +1,4 @@
-import { BaseEditor, NodeEntry, Text, Transforms, Editor } from 'slate';
+import { BaseEditor, NodeEntry, Text, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { IPagination, MediaTypes } from '@frontend/util';
 import { getDocuments } from './swr-requests';
 import { KalilaDocument } from '@frontend/domain';

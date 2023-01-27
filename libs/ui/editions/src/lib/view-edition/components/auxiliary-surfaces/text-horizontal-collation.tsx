@@ -4,7 +4,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { DialogHeading, useSmallScreenMediaQuery } from '@frontend/shared-ui';
-import { EditionFontSize } from '@frontend/ui/editions';
 import { Cell } from '../collation/cell';
 import {
   useAuxiliarySurfacesData,
@@ -14,11 +13,12 @@ import {
 } from '../../contexts';
 import Portal from '@mui/material/Portal';
 import Modal from '@mui/material/Modal';
+import { EditionFontSize } from '../../models';
 
 const horizontalCollationModalStyle: (isSmallScreen?: boolean) => SxProps = (
   isSmallScreen
 ) => ({
-  position: 'absolute' as 'absolute',
+  position: 'absolute' as const,
   top: '50px',
   right: isSmallScreen ? 0 : '100px',
   height: 'fit-content',
@@ -96,13 +96,16 @@ export const TextHorizontalCollationModal: FC = () => {
                         style={{
                           height,
                           bgcolor: index % 2 === 0 ? 'white' : '#F1F1F1',
+                          minWidth: '100%',
                           display: 'flex',
                           alignItems: 'center',
+                          '& p': { minWidth: '100%', whiteSpace: 'nowrap' },
                         }}
                         msIndex={index}
                         unitIndex={visibleHorizontalTextCollation}
                         flexWrap="nowrap"
                         direction="row"
+                        alignItems="center"
                       />
                     ))}
                 </Stack>

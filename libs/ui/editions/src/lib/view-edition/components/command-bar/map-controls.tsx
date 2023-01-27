@@ -12,8 +12,8 @@ import {
   useLayoutData,
 } from '../../contexts';
 import { useCallback } from 'react';
-import { MapPosition } from '@frontend/ui/editions';
 import { SxProps } from '@mui/system';
+import { MapPosition } from '../../models';
 
 export const MapControls = ({ sx }: { sx?: SxProps }) => {
   const { mapState } = useBehaviorOptions();

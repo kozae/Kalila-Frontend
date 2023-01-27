@@ -25,9 +25,7 @@
       "options": {
         "uiFramework": "@storybook/react",
         "port": 4400,
-        "config": {
-          "configFolder": "libs/ui/forms/.storybook"
-        }
+        "configDir": "libs/ui/forms/.storybook"
       },
       "configurations": {
         "ci": {
@@ -37,13 +35,11 @@
     },
     "build-storybook": {
       "executor": "@nrwl/storybook:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": ["{options.outputDir}"],
       "options": {
         "uiFramework": "@storybook/react",
-        "outputPath": "dist/storybook/ui-forms",
-        "config": {
-          "configFolder": "libs/ui/forms/.storybook"
-        }
+        "configDir": "libs/ui/forms/.storybook",
+        "outputDir": "dist/storybook/ui-forms"
       },
       "configurations": {
         "ci": {

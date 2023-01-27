@@ -1,7 +1,7 @@
 import { withTransition } from '@frontend/shared-ui';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { edition, editions, postToLera } from '@frontend/server-side-queries';
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { EditionsAppContext } from '../components';
 import Head from 'next/head';
 import Typography from '@mui/material/Typography';

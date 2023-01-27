@@ -54,7 +54,7 @@ function KalilaApp(appProps: KalilaAppProps) {
                 <SWRConfig value={{ onError: useApiCallErrorHandler() }}>
                   <NavMessageBarContextProvider>
                     <Layout>
-                      <AnimatePresence exitBeforeEnter>
+                      <AnimatePresence mode="wait">
                         <Component {...pageProps} key={router.route} />
                       </AnimatePresence>
                     </Layout>

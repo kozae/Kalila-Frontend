@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import CloseIcon from '@mui/icons-material/Close';
-import { Drawer } from '@mui/material';
+import { DownloadControls } from '../command-bar/download-controls';
 import { useEffect, useState } from 'react';
 import { useBehaviorOptionsMethods, useLayoutData } from '../../contexts';
 import { FontControls } from '../command-bar/font-controls';
@@ -29,7 +29,6 @@ export const CommandPanel = () => {
   };
   useEffect(() => {
     import('react-device-detect').then((rdd) => {
-      console.log({ rdd });
       setIsMobile(rdd.isMobile);
     });
   }, []);
@@ -99,6 +98,7 @@ export const CommandPanel = () => {
           }}
           spacing={0.5}
         >
+          <DownloadControls />
           <FontControls sx={{ m: '5px' }} />
           {!isMobile && <MapControls sx={{ m: '5px' }} />}
           <PreviewControls />

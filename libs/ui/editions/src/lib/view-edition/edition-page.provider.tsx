@@ -31,6 +31,7 @@ export const EditionPageProvider: FC<
     setEdition,
     setCells,
     realTime,
+    editOnDoubleClick,
     ...layoutOptions
   } = props;
   const dataProps = {
@@ -44,7 +45,7 @@ export const EditionPageProvider: FC<
   };
   return (
     <AuxiliarySurfacesProvider>
-      <BehaviorOptionsProvider>
+      <BehaviorOptionsProvider editOnDoubleClick={editOnDoubleClick}>
         <DataProvider {...dataProps}>
           <LayoutDataProvider {...layoutOptions}>
             <SearchProvider>{children}</SearchProvider>

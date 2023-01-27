@@ -85,7 +85,7 @@ export function Edition({ data }) {
       <Head>
         <title>{data.Name}</title>
       </Head>
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait">
         <motion.div
           style={{ width: '100vw' }}
           key={data.Name}
@@ -102,6 +102,7 @@ export function Edition({ data }) {
               disableMaxWidth,
               enableMaxWidth,
               setPageControls,
+              editOnDoubleClick: true,
               realTime: {
                 update,
                 fetchEditionUpdateByUnitList: fetchByUnit,

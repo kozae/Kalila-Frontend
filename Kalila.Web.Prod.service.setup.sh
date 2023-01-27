@@ -11,4 +11,4 @@ echo "building application"
 # cd /root/Kalila/next/frontend-prod && yarn nx reset
 cd /root/Kalila/next/frontend-prod && yarn nx build kalila --verbose
 echo "starting service"
-systemctl start Kalila.Web.Prod && journalctl -u Kalila.Web.Prod -f
+systemctl start Kalila.Web.Prod && journalctl -u Kalila.Web.Prod

@@ -45,7 +45,8 @@ export const ManuscriptPagesPaginator = ({
   const [pagePreviewId, setPagePreviewId] = useState<string | undefined>(
     undefined
   );
-  const count = isSmallScreen ? 0 : isMDScreen ? 3 : 5;
+  const boundaryCount = 1;
+  const siblingCount = isSmallScreen ? 1 : isMDScreen ? 3 : 4;
 
   const diff = useMemo(() => {
     const all = new Set(allPages.map((p) => p.Number));
@@ -96,8 +97,8 @@ export const ManuscriptPagesPaginator = ({
           <Pagination
             onChange={handleChange}
             ref={paginationRef}
-            boundaryCount={count}
-            siblingCount={Math.floor(count / 2)}
+            boundaryCount={boundaryCount}
+            siblingCount={siblingCount}
             page={page}
             count={allPages.length}
             color="secondary"

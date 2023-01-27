@@ -5,10 +5,6 @@
 export class EditionCellData {
   free(): void;
 /**
-* @returns {number}
-*/
-  get_token_count(): number;
-/**
 * @returns {number | undefined}
 */
   get_located_image_location(): number | undefined;
@@ -30,11 +26,6 @@ export class EditionCellData {
   get_unit_order(): number;
 /**
 * @param {number} idx
-* @returns {string}
-*/
-  get_state(idx: number): string;
-/**
-* @param {number} idx
 * @returns {number}
 */
   get_page(idx: number): number;
@@ -42,21 +33,30 @@ export class EditionCellData {
 * @param {number} idx
 * @returns {number}
 */
-  get_line(idx: number): number;
+  get_line_number(idx: number): number;
 /**
-* @param {number} idx
-* @returns {string}
+* @returns {Uint32Array}
 */
-  get_token(idx: number): string;
+  get_lines(): Uint32Array;
+/**
+* @param {number} line_idx
+* @returns {any[]}
+*/
+  get_tokens(line_idx: number): any[];
+/**
+* @param {number} line_idx
+* @returns {Uint32Array}
+*/
+  get_tokens_indexes(line_idx: number): Uint32Array;
 /**
 * @returns {Uint16Array}
 */
   get_page_range(): Uint16Array;
 /**
-* @param {number} idx
+* @param {number} line_idx
 * @returns {boolean}
 */
-  is_first_token(idx: number): boolean;
+  is_first_token(line_idx: number): boolean;
 /**
 * @param {any} update
 * @returns {string}
@@ -96,6 +96,24 @@ export class EditionRowTitle {
 export class EditionStore {
   free(): void;
 /**
+* @param {number} unit_idx
+* @param {number} manuscript_idx
+* @returns {EditionCellData}
+*/
+  build_cell(unit_idx: number, manuscript_idx: number): EditionCellData;
+/**
+* @param {number} manuscript_idx
+* @param {Uint32Array} lacunae
+* @returns {EditionStore}
+*/
+  update_ms_lacunae(manuscript_idx: number, lacunae: Uint32Array): EditionStore;
+/**
+* @param {any} update
+* @param {number} manuscript_idx
+* @returns {EditionStore}
+*/
+  update_cells(update: any, manuscript_idx: number): EditionStore;
+/**
 * @param {number} index
 * @returns {EditionRowTitle}
 */
@@ -120,24 +138,6 @@ export class EditionStore {
 * @returns {EditionStore}
 */
   replace_rows(update: any): EditionStore;
-/**
-* @param {number} unit_idx
-* @param {number} manuscript_idx
-* @returns {EditionCellData}
-*/
-  build_cell(unit_idx: number, manuscript_idx: number): EditionCellData;
-/**
-* @param {number} manuscript_idx
-* @param {Uint32Array} lacunae
-* @returns {EditionStore}
-*/
-  update_ms_lacunae(manuscript_idx: number, lacunae: Uint32Array): EditionStore;
-/**
-* @param {any} update
-* @param {number} manuscript_idx
-* @returns {EditionStore}
-*/
-  update_cells(update: any, manuscript_idx: number): EditionStore;
 /**
 * @param {any} data
 * @returns {EditionStore}

@@ -25,9 +25,7 @@
       "options": {
         "uiFramework": "@storybook/react",
         "port": 4400,
-        "config": {
-          "configFolder": "libs/ui/facsimile-generator/.storybook"
-        }
+        "configDir": "libs/ui/facsimile-generator/.storybook"
       },
       "configurations": {
         "ci": {
@@ -37,13 +35,11 @@
     },
     "build-storybook": {
       "executor": "@nrwl/storybook:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": ["{options.outputDir}"],
       "options": {
         "uiFramework": "@storybook/react",
-        "outputPath": "dist/storybook/ui-facsimile-generator",
-        "config": {
-          "configFolder": "libs/ui/facsimile-generator/.storybook"
-        }
+        "configDir": "libs/ui/facsimile-generator/.storybook",
+        "outputDir": "dist/storybook/ui-facsimile-generator"
       },
       "configurations": {
         "ci": {

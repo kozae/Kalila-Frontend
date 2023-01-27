@@ -9,7 +9,7 @@ export async function pageTranscription(manuscriptId: string, pageId: string) {
         Accept: 'application/json',
       },
       params: { ManuscriptId: manuscriptId, Id: pageId },
-      paramsSerializer,
+      paramsSerializer: { serialize: paramsSerializer },
     }
   );
   return data;

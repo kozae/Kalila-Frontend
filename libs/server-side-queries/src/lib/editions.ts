@@ -8,9 +8,10 @@ export async function editions() {
       {
         headers: {
           Accept: MediaTypes.JSON,
+          "Accept-Encoding": MediaTypes.JSON,
         },
         params: { PageSize: -1 },
-        paramsSerializer,
+        paramsSerializer: { serialize: paramsSerializer },
       }
     );
     return data.map(({ Id, Name }) => ({ Id, Name }));

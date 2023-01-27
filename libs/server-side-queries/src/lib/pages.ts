@@ -13,7 +13,7 @@ export async function pages(manuscriptId: string): Promise<any[]> {
         SelectProps: ['Number'],
         PageSize: -1,
       },
-      paramsSerializer,
+      paramsSerializer: { serialize: paramsSerializer },
     }
   );
   return data.map(({ Id, Number }) => ({ Id, Number }));
@@ -35,7 +35,7 @@ export async function pageId(
         SelectProps: ['Number'],
         PageSize: -1,
       },
-      paramsSerializer,
+      paramsSerializer: { serialize: paramsSerializer },
     }
   );
   return data.map(({ Id, Number }) => ({ Id, Number }))[0];

@@ -1,25 +1,19 @@
 import useSWR from 'swr';
 import { MediaTypes } from '@frontend/util';
 import { KalilaDocument } from '@frontend/domain';
-import { fetcher } from '@frontend/shared-ui';
+import { fetcher } from '../../util';
 
 export function getDocuments<T extends KalilaDocument>(
   activityName: string,
   query: any,
   mediaType: MediaTypes,
   additionalParams = {},
-  suffix: string = ''
+  suffix = ''
 ) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useSWR(
-    [
-      // only fetch if access token is present
-      activityName,
-      query,
-      mediaType,
-      additionalParams,
-      suffix,
-    ],
-    fetcher,
+    [activityName, query, mediaType, additionalParams, suffix],
+    (args) => fetcher(...args),
     {
       revalidateIfStale: false,
       revalidateOnFocus: false,

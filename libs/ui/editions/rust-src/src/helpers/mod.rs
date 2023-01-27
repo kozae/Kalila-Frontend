@@ -3,11 +3,12 @@ use itertools::Itertools;
 use regex::Regex;
 use std::collections::HashMap;
 
-pub fn format_token(token: String, state: &String) -> String {
+pub fn format_token_rev(token: String, state: &String) -> String {
     match state.as_ref() {
         "corrupt" => format!("{}†", token),
         "emended" => format!("{}*", token),
         "unintelligible" => format!("{}?", token),
+        "lexical-error" => format!("{}!", token),
         "dittography" => format!("[{}]", token),
         "dittography_end" => format!("[{}", token),
         "dittography_begin" => format!("{}]", token),
@@ -20,6 +21,34 @@ pub fn format_token(token: String, state: &String) -> String {
         "added" => format!("<{}>", token),
         "added_end" => format!("<{}", token),
         "added_begin" => format!("{}>", token),
+        "title" => format!("({})", token),
+        "title_end" => format!("({}", token),
+        "title_begin" => format!("{})", token),
+        _ => token,
+    }
+}
+
+pub fn format_token(token: String, state: &String) -> String {
+    match state.as_ref() {
+        "corrupt" => format!("†{}", token),
+        "emended" => format!("*{}", token),
+        "unintelligible" => format!("?{}", token),
+        "lexical-error" => format!("!{}", token),
+        "dittography" => format!("[{}]", token),
+        "dittography_end" => format!("{}]", token),
+        "dittography_begin" => format!("[{}", token),
+        "cross-out" => format!("[[{}]]", token),
+        "cross-out_end" => format!("{}]]", token),
+        "cross-out_begin" => format!("[[{}", token),
+        "suppletion" => format!("{{{}}}", token),
+        "suppletion_end" => format!("{}}}", token),
+        "suppletion_begin" => format!("{{{}", token),
+        "added" => format!("<{}>", token),
+        "added_end" => format!("{}>", token),
+        "added_begin" => format!("<{}", token),
+        "title" => format!("({})", token),
+        "title_end" => format!("{})", token),
+        "title_begin" => format!("({}", token),
         _ => token,
     }
 }

@@ -1,10 +1,10 @@
+/* eslint-disable no-useless-catch */
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Summary } from './summary';
 import Stack from '@mui/material/Stack';
 import { PanelLink } from './panel-link';
-import { ApiClient, useLargeScreenMediaQuery } from '@frontend/shared-ui';
 import useSWRImmutable from 'swr/immutable';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -22,6 +22,8 @@ import { useRouter } from 'next/router';
 import Typography from '@mui/material/Typography';
 import { Snackbar } from '@mui/material';
 import Alert from '@mui/material/Alert';
+import { ApiClient } from '../../../../util';
+import { useLargeScreenMediaQuery } from '../../../../hooks';
 
 export const TextEditingNavPanel = () => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
@@ -59,7 +61,7 @@ const ManuscriptRow = ({ Siglum, Id }: { Siglum: string; Id: string }) => {
             Accept: MediaTypes.AdminDocument,
           },
           params: { PageSize: -1, NumberEq: value, ManuscriptId: Id },
-          paramsSerializer,
+          paramsSerializer: { serialize: paramsSerializer },
         }
       );
       if (pageData.length === 0) {
@@ -194,7 +196,7 @@ async function siglaFetcher() {
           Accept: MediaTypes.PartialDocument,
         },
         params: { PageSize: -1, SelectProps: 'Siglum', BookId },
-        paramsSerializer,
+        paramsSerializer: { serialize: paramsSerializer },
       }
     );
     return data.map(({ _id, Siglum }: any) => ({ Id: _id, Siglum }));

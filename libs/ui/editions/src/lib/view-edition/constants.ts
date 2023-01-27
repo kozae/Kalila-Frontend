@@ -15,6 +15,14 @@ export const FONT_SIZES: { [key in EditionFontSize]: string } = {
   l: '1.8rem',
   xl: '2rem',
 };
+
+export const LINE_HEIGHTS: { [key in EditionFontSize]: string } = {
+  xs: '1.6rem',
+  s: '2.6rem',
+  m: '3rem',
+  l: '3.2rem',
+  xl: '4rem',
+};
 export const FONT_FAMILIES: { [key in EditionFontFamily]: string } = {
   n: "'Noto Naskh Arabic', serif",
   sh: "'Scheherazade New', serif",

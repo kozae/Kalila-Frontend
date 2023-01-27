@@ -14,6 +14,7 @@ import {
 import Tooltip from '@mui/material/Tooltip';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import PreviewTwoToneIcon from '@mui/icons-material/PreviewTwoTone';
+import ContentPasteTwoToneIcon from '@mui/icons-material/ContentPasteTwoTone';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
@@ -33,13 +34,11 @@ const isSingleWordSelected = (
   if (fragment.length !== 1) {
     return false;
   }
-  for (let descendant of fragment) {
-    //@ts-ignore
+  for (const descendant of fragment) {
     if (descendant.children.length !== 1) {
       return false;
     }
-    //@ts-ignore
-    for (let child of descendant.children) {
+    for (const child of descendant.children) {
       const text = child.text.trim();
       const tokens = text.split(/\s+/).filter((t: string) => t.length !== 0);
       if (tokens.length !== 1) {
@@ -148,6 +147,15 @@ export const CommandBar = ({ editor }: ICommandBarProps) => {
                 size="small"
               >
                 &nbsp;?&nbsp;
+              </Button>
+            </Tooltip>
+            <Tooltip title="Lexical Error, ctrl+shift+4" arrow>
+              <Button
+                onClick={() => changeState('lexical-error')}
+                sx={tokenStateButtonStyles}
+                size="small"
+              >
+                &nbsp;!&nbsp;
               </Button>
             </Tooltip>
             <Tooltip
@@ -322,11 +330,59 @@ export const CommandBar = ({ editor }: ICommandBarProps) => {
                 suppleted&nbsp;<b>{'range}'}</b>&nbsp;end
               </MenuItem>
             </Menu>
+            <Tooltip
+              title="Title, single: ctrl+9, first: ctrl+shift+9, last: alt+ctrl+9"
+              arrow
+            >
+              <Button
+                endIcon={<ArrowDropDownIcon />}
+                sx={tokenStateButtonStyles}
+                size="small"
+                onClick={(e) => handleMenuButtonClick(e, 'title')}
+              >
+                (&nbsp;)
+              </Button>
+            </Tooltip>
+            <Menu
+              anchorEl={anchorEl}
+              open={open && menu === 'title'}
+              onClose={handleMenuClose}
+            >
+              <MenuItem
+                onClick={() => {
+                  changeState('title');
+                  handleMenuClose();
+                }}
+              >
+                single title&nbsp;<b> (word)</b>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  changeState('title_begin');
+                  handleMenuClose();
+                }}
+              >
+                title&nbsp;<b>(range</b>&nbsp;start
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  changeState('title_end');
+                  handleMenuClose();
+                }}
+              >
+                title&nbsp;<b>{'range)'}</b>&nbsp;end
+              </MenuItem>
+            </Menu>
           </ButtonGroup>
         </Stack>
 
-        <Button color="secondary" endIcon={<ArrowDropDownIcon />} size="small">
-          Insert
+        <Button
+          color="secondary"
+          startIcon={<ContentPasteTwoToneIcon />}
+          size="small"
+          disabled
+        >
+          Past lines... (soon!)
         </Button>
       </Stack>
       <Stack

@@ -21,7 +21,7 @@ export const FacsimileRegionPreview = () => {
 
   return (
     <Portal>
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait">
         {regionHoveredInFacsimileSpace && regionPreview ? (
           <motion.div
             key={regionHoveredInFacsimileSpace.Id}

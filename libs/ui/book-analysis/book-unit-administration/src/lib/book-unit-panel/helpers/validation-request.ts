@@ -5,7 +5,7 @@ export const validate = (params: any) => {
   return ApiClient()
     .get<boolean>(`${process.env['NEXT_PUBLIC_API_URL']}BookUnit/Check`, {
       params,
-      paramsSerializer,
+      paramsSerializer: { serialize: paramsSerializer },
     })
     .then((r) => !r.data);
 };
@@ -18,7 +18,7 @@ export const countBookUnits = (params: any) => {
         PageSize: 1,
         PageNumber: 1,
       },
-      paramsSerializer,
+      paramsSerializer: { serialize: paramsSerializer },
       headers: {},
     })
     .then((r) => getPagination(r.headers)?.totalItems);

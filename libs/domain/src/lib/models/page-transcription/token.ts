@@ -14,7 +14,11 @@ export type TokenState =
   | 'suppletion_end'
   | 'added'
   | 'added_begin'
-  | 'added_end';
+  | 'added_end'
+  | 'lexical-error'
+  | 'title'
+  | 'title_begin'
+  | 'title_end';
 
 export interface IToken {
   Id: string;

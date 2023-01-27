@@ -30,7 +30,6 @@ export interface IPagesSummaryPage {
 
 export function PagesSummaryPage({ manuscript }: IPagesSummaryPage) {
   const router = useRouter();
-  const isSmallScreen = useSmallScreenMediaQuery();
 
   const mutator = usePagedDocumentsStore(
     'PageTranscription',
@@ -39,8 +38,9 @@ export function PagesSummaryPage({ manuscript }: IPagesSummaryPage) {
     { ManuscriptId: manuscript },
     '/Summary'
   );
-  const { loading, documents, pagination, selection, filter } =
-    usePagedDocumentsState(PageTranscriptionSummary);
+  const { loading, documents, pagination, selection } = usePagedDocumentsState(
+    PageTranscriptionSummary
+  );
   const dispatchers = usePagedDocumentsDispatch();
 
   const columns: ReadonlyArray<any> = useMemo(

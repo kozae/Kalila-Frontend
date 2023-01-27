@@ -14,7 +14,7 @@ export const UnitTitlePreview = () => {
   const { rows } = useData();
   return (
     <Portal>
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait">
         {mapState && activeUnitPreview && (
           <motion.div
             key={`${activeUnitPreview[0]}_${activeUnitPreview[1]}_${activeUnitPreview[2]}`}

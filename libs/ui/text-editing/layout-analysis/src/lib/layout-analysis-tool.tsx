@@ -27,7 +27,7 @@ export function LayoutAnalysisTool() {
         height: '100%',
       }}
     >
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait">
         {selectedElement.Id === null ? (
           <motion.div
             key="layout-analysis-tool-preview-mode"

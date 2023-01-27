@@ -26,7 +26,7 @@ export const LinePreview = ({ id }: { id?: string }) => {
   });
   return (
     <Portal>
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait">
         {id && url ? (
           <motion.div
             key={id}

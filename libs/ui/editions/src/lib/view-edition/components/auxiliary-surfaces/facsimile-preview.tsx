@@ -22,9 +22,10 @@ export const FacsimilePreview = () => {
   const isXLScreen = useXLargeScreenMediaQuery();
   const isSmallScreen = useSmallScreenMediaQuery();
   const windowSize = useWindowSize();
+
   return (
     <Portal>
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait">
         {activeLinePreview && (
           <motion.div
             key={`${activeLinePreview.manuscriptSiglum}_${activeLinePreview.page}_${activeLinePreview.line}`}

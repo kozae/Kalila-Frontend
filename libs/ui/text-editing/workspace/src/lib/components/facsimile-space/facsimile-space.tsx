@@ -35,7 +35,7 @@ export const FacsimileSpace = () => {
   return loading ? (
     <FacsimileSpaceLoading />
   ) : (
-    <AnimatePresence exitBeforeEnter>
+    <AnimatePresence mode="wait">
       <motion.div
         key="facsimile-loaded"
         layout

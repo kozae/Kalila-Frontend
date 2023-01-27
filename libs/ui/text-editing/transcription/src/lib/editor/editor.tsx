@@ -24,6 +24,7 @@ import { LinePreview } from '../line-preview';
 export type EditorTokenModel = {
   state?: TokenState;
   text: string;
+  children?: any;
 };
 export type EditorLineModel = {
   id: string;
@@ -145,19 +146,23 @@ export const KalilaEditor = ({
             textAlign: 'right',
             direction: 'rtl',
           }}
+          onPaste={(e) => {
+            const text = e.clipboardData.getData('Text');
+            if (text.includes('\n') || /[^\u0621-\u0652\s]/.exec(text)) {
+              e.preventDefault();
+            }
+          }}
           spellCheck={false}
           autoComplete="off"
           autoCorrect="off"
           onBlur={clearPreviews}
           onKeyDown={(event) => {
-            if (event.ctrlKey || event.metaKey) {
-            } else if (
-              /[\u0621-\u0652-]/.exec(event.key) === null &&
+            if (
+              !(event.ctrlKey && ['v', 'c', 'x'].includes(event.key)) &&
+              /[\u0621-\u0652.*]/.exec(event.key) === null &&
               !allowedKeys.includes(event.key)
             ) {
               event.preventDefault();
-              console.log('preventing');
-              console.log(event.key);
             } else if (event.key === 'Enter') {
               event.preventDefault();
               const focusedLine = editor.selection?.anchor.path;

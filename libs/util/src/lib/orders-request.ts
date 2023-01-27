@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { paramsSerializer } from '@frontend/util';
 import { IBookUnit } from '@frontend/domain';
+import { paramsSerializer } from './params-serializer';
 
 export const getOrders = (
   params: { OrderGt: number[]; OrderLt: number[] },
@@ -14,7 +14,7 @@ export const getOrders = (
           ...params,
           PageSize: -1,
         },
-        paramsSerializer,
+        paramsSerializer: { serialize: paramsSerializer },
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

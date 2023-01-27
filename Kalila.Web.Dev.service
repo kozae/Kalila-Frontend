@@ -13,7 +13,7 @@ Environment=NEXT_PUBLIC_SIGNALR_URL=https://kalila-realtime.kozae.de/hub
 Environment=NEXT_PUBLIC_API_URL=https://kalila-api.kozae.de/v1/
 Environment=NEXT_PUBLIC_IMAGE_URL=/pages/
 Environment=NEXT_PUBLIC_PAGES_IMAGE_FOLDER=/root/Kalila/next/frontend/apps/kalila/public/pages/
-Environment=NEXT_PUBLIC_PAGES_IMAGE_SEVER=https://static.kozae.de/pages/
+Environment=NEXT_PUBLIC_PAGES_IMAGE_SEVER=https://kalila-pages.s3.eu-central-1.amazonaws.com/
 
 Environment=NEXTAUTH_URL='https://kalila-dev.kozae.de/'
 Environment=KEYCLOAK_ID='kalila_web_dev'

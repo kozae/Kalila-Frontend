@@ -36,7 +36,7 @@ export const DescriptionTool = () => {
     transition: { duration: 0.3, ease: 'linear' },
   };
   return (
-    <AnimatePresence exitBeforeEnter>
+    <AnimatePresence mode="wait">
       {toolMode === 'edit-description' && (
         <motion.div {...motionProps} key="edit-description">
           <EditDescription />

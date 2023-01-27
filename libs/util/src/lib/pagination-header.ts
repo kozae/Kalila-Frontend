@@ -1,4 +1,4 @@
-import { AxiosResponseHeaders } from 'axios';
+import { AxiosResponseHeaders, RawAxiosResponseHeaders } from 'axios';
 
 export interface IPagination {
   currentPage: number;
@@ -14,7 +14,9 @@ export const defaultPagination: IPagination = {
   totalPages: 0,
 };
 
-export function getPagination(headers: AxiosResponseHeaders) {
+export function getPagination(
+  headers: RawAxiosResponseHeaders | AxiosResponseHeaders
+) {
   if (headers['pagination']) {
     return JSON.parse(headers['pagination']) as IPagination;
   }

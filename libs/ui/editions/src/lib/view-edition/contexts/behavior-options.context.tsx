@@ -13,6 +13,7 @@ import {
 } from '../models';
 
 export const BehaviorOptionsContext = createContext<IBehaviorOptions>({
+  editOnDoubleClick: false,
   enableFacsimilePreview: false,
   isSearchActive: false,
   enableRealTimeUpdates: false,
@@ -37,9 +38,10 @@ export const useBehaviorOptions = () => useContext(BehaviorOptionsContext);
 export const useBehaviorOptionsMethods = () =>
   useContext(BehaviorOptionMethodsContext);
 
-export const BehaviorOptionsProvider: FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const BehaviorOptionsProvider: FC<{
+  children: ReactNode;
+  editOnDoubleClick?: boolean;
+}> = ({ children, editOnDoubleClick }) => {
   const [enableFacsimilePreview, setEnableFacsimilePreview] =
     useState<boolean>(false);
   const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
@@ -55,6 +57,7 @@ export const BehaviorOptionsProvider: FC<{ children: ReactNode }> = ({
       enableRealTimeUpdates,
       mapState,
       visibleUnitInfo,
+      editOnDoubleClick: editOnDoubleClick ?? false,
     }),
     [
       enableFacsimilePreview,
@@ -62,6 +65,7 @@ export const BehaviorOptionsProvider: FC<{ children: ReactNode }> = ({
       enableRealTimeUpdates,
       mapState,
       visibleUnitInfo,
+      editOnDoubleClick,
     ]
   );
   return (

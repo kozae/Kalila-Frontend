@@ -27,9 +27,7 @@
       "options": {
         "uiFramework": "@storybook/react",
         "port": 4400,
-        "config": {
-          "configFolder": "libs/ui/facsimile-highlighter/.storybook"
-        }
+        "configDir": "libs/ui/facsimile-highlighter/.storybook"
       },
       "configurations": {
         "ci": {
@@ -39,13 +37,11 @@
     },
     "build-storybook": {
       "executor": "@nrwl/storybook:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": ["{options.outputDir}"],
       "options": {
         "uiFramework": "@storybook/react",
-        "outputPath": "dist/storybook/ui-facsimile-highlighter",
-        "config": {
-          "configFolder": "libs/ui/facsimile-highlighter/.storybook"
-        }
+        "configDir": "libs/ui/facsimile-highlighter/.storybook",
+        "outputDir": "dist/storybook/ui-facsimile-highlighter"
       },
       "configurations": {
         "ci": {

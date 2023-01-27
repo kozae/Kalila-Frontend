@@ -1,15 +1,15 @@
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Summary } from './summary';
 import Stack from '@mui/material/Stack';
 import { PanelLink } from './panel-link';
 import { MediaTypes, paramsSerializer } from '@frontend/util';
-import { ApiClient } from '@frontend/shared-ui';
 import useSWRImmutable from 'swr/immutable';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import Divider from '@mui/material/Divider';
+import { ApiClient } from '../../../../util';
 
 export const EditionsNavPanel = () => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
@@ -56,6 +56,7 @@ const EditionSelection = () => {
 };
 
 async function editionSummaryFetcher() {
+  // eslint-disable-next-line no-useless-catch
   try {
     const { data } = await ApiClient().get<any>(
       `${process.env['NEXT_PUBLIC_API_URL']}Edition/Summaries`,
@@ -64,7 +65,7 @@ async function editionSummaryFetcher() {
           Accept: MediaTypes.JSON,
         },
         params: { PageSize: -1 },
-        paramsSerializer,
+        paramsSerializer: { serialize: paramsSerializer },
       }
     );
     return data.map(({ Id, Name }: any) => ({ Id, Name }));

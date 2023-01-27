@@ -7,6 +7,7 @@ import { MapControls } from './map-controls';
 import { FontControls } from './font-controls';
 import { PreviewControls } from './preview-controls';
 import { RealtimeUpdatesControls } from './realtime-updates-controls';
+import { DownloadControls } from './download-controls';
 
 export const CommandBar: FC = () => {
   const { isSearchActive } = useBehaviorOptions();
@@ -35,6 +36,7 @@ export const CommandBar: FC = () => {
           spacing={3}
           direction="row"
         >
+          <DownloadControls />
           <FontControls />
           <MapControls />
           {!isSearchActive && <PreviewControls />}

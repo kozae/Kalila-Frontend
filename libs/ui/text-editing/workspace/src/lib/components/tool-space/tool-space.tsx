@@ -146,7 +146,7 @@ export const ToolSpace = () => {
           />
         </Tabs>
       </Box>
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait">
         {loading ? (
           <motion.div
             key="facsimile-loading"

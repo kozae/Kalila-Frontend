@@ -149,7 +149,7 @@ export const BookUnitPanel = ({
 
   return (
     <BookUnitPanelContext.Provider value={contextValue}>
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait">
         <motion.div
           key={chapter ? chapter.abbr : 'select-chapter'}
           style={{

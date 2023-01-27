@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import { ApiClient, IPageUnitsUpdate } from '@frontend/shared-ui';
 import { IEditionBookUnit, IEditionUnit } from '@frontend/domain';
 import { paramsSerializer } from '@frontend/util';
@@ -21,7 +22,7 @@ export async function fetchEditionUpdateByUnitList(
         UpdatedManuscriptId: updateInfo.ManuscriptId,
         UpdatedUnitIds: updatedUnits,
       },
-      paramsSerializer,
+      paramsSerializer: { serialize: paramsSerializer },
       headers: {},
     });
 
@@ -62,7 +63,7 @@ export const fetchEditionBookUnits = (params: { Id: string }) => {
       `${process.env['NEXT_PUBLIC_API_URL']}Edition/BookUnits`,
       {
         params,
-        paramsSerializer,
+        paramsSerializer: { serialize: paramsSerializer },
         headers: {},
       }
     )

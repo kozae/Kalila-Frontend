@@ -5,13 +5,10 @@ import { getPagination, MediaTypes, paramsSerializer } from '@frontend/util';
 export const ApiClient = () => {
   const instance = axios.create();
   instance.interceptors.request.use(async (request) => {
-    const session = await getSession();
+    const session: any = await getSession();
 
     if (session && session['access']) {
-      request.headers = {
-        ...request.headers,
-        Authorization: `Bearer ${session['access']}`,
-      };
+      request.headers.set('Authorization', `Bearer ${session['access']}`);
     }
     return request;
   });
@@ -33,7 +30,7 @@ export async function fetcher(
   query: Record<string, any> = {},
   accept: string | MediaTypes = 'application/json',
   additionalParams = {},
-  suffix: string = ''
+  suffix = ''
 ) {
   const { data, headers } = await ApiClient().get(
     `${process.env['NEXT_PUBLIC_API_URL']}${controller}${suffix}`,
@@ -42,7 +39,7 @@ export async function fetcher(
         accept: accept,
       },
       params: { ...query, ...additionalParams },
-      paramsSerializer,
+      paramsSerializer: { serialize: paramsSerializer },
     }
   );
   return { content: data, pagination: getPagination(headers) };

@@ -1,10 +1,9 @@
-import { Dispatch, ReactNode, RefObject, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { EditionCellData, EditionRowTitle, EditionStore } from '../store';
 import { IPageUnitsUpdate } from '@frontend/shared-ui';
-import { IBookUnit, IEditionBookUnit, IEditionUnit } from '@frontend/domain';
+import { IEditionBookUnit, IEditionUnit } from '@frontend/domain';
 import { fabric } from 'fabric';
 import { VirtualItem } from 'react-virtual';
-import { fetchEditionBookUnits } from '@frontend/kalila/components';
 
 export interface ILinePreviewData {
   manuscriptSiglum: string;
@@ -33,6 +32,7 @@ export interface IPagePreviewData {
 }
 
 export interface IBehaviorOptions {
+  editOnDoubleClick: boolean;
   enableFacsimilePreview: boolean;
   isSearchActive: boolean;
   enableRealTimeUpdates: boolean;
@@ -87,6 +87,7 @@ export type EditionFontFamily = 'n' | 'sh' | 'a' | 'm' | 'ns';
 
 export interface IEditionPageAppOptions {
   username: string | undefined;
+  editOnDoubleClick?: boolean;
 }
 
 export interface IEditionPageAppOptionMutators {

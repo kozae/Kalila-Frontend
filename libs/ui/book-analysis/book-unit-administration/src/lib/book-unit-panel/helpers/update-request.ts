@@ -37,7 +37,7 @@ export async function updateFrameRequest(params: any, update: IFrameUpdate) {
     update,
     {
       params,
-      paramsSerializer,
+      paramsSerializer: { serialize: paramsSerializer },
       headers: {},
     }
   );
