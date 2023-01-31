@@ -1,4 +1,4 @@
-use image::GrayImage;
+use image::{GrayImage, Luma};
 
 pub fn get_distance((x1, y1): (u32, u32), (x2, y2): (u32, u32)) -> u32 {
     let sum_of_powers = (u32::pow(x2 - x1, 2) + u32::pow(y2 - y1, 2)) as f64;
@@ -55,9 +55,9 @@ pub fn detect_rows(img: &GrayImage, density: u8) -> Vec<(u32, u32)> {
     ranges
 }
 
-pub fn detect_lines(img: &GrayImage, density: u8) -> Vec<u32> {
+pub fn detect_lines(img: GrayImage, density: u8) -> Vec<u32> {
     let mut result = vec![];
-    let rows = detect_rows(img, density);
+    let rows = detect_rows(&img, density);
     for row_limits in rows {
         let width = img.width();
         let height = row_limits.1.abs_diff(row_limits.0);

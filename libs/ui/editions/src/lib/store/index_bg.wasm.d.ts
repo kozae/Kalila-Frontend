@@ -1,6 +1,16 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
+export function editionstore_build_row(a: number, b: number): number;
+export function editionstore_get_row_index(a: number, b: number, c: number, d: number): void;
+export function editionstore_delete_row(a: number, b: number): number;
+export function editionstore_insert_row(a: number, b: number): number;
+export function editionstore_replace_rows(a: number, b: number): number;
+export function editionrowtitle_get_display(a: number, b: number): void;
+export function editionrowtitle_get_row_has_images(a: number): number;
+export function editionrowtitle_get_order(a: number, b: number): void;
+export function editionrowtitle_get_is_divider(a: number): number;
+export function editionrowtitle_update_row(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function editionstore_build_cell(a: number, b: number, c: number): number;
 export function editionstore_update_ms_lacunae(a: number, b: number, c: number, d: number): number;
 export function editionstore_update_cells(a: number, b: number, c: number): number;
@@ -17,16 +27,6 @@ export function editioncelldata_get_tokens_indexes(a: number, b: number, c: numb
 export function editioncelldata_get_page_range(a: number, b: number): void;
 export function editioncelldata_is_first_token(a: number, b: number): number;
 export function editioncelldata_get_unit(a: number, b: number): void;
-export function editionstore_build_row(a: number, b: number): number;
-export function editionstore_get_row_index(a: number, b: number, c: number, d: number): void;
-export function editionstore_delete_row(a: number, b: number): number;
-export function editionstore_insert_row(a: number, b: number): number;
-export function editionstore_replace_rows(a: number, b: number): number;
-export function editionrowtitle_get_display(a: number, b: number): void;
-export function editionrowtitle_get_row_has_images(a: number): number;
-export function editionrowtitle_get_order(a: number, b: number): void;
-export function editionrowtitle_get_is_divider(a: number): number;
-export function editionrowtitle_update_row(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function __wbg_editioncelldata_free(a: number): void;
 export function __wbg_editionrowtitle_free(a: number): void;
 export function __wbg_editionstore_free(a: number): void;

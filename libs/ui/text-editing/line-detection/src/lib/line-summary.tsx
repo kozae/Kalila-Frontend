@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import { FacsimileRegion, ILine } from '@frontend/domain';
 import { hexToRgba } from '@frontend/util';
-import React from 'react';
+import React, { useCallback } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import {
@@ -18,6 +18,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useRegionUrl } from '@frontend/ui/text-editing/shared';
+import DownloadIcon from '@mui/icons-material/Download';
 
 export interface ILineSummaryProps {
   maxHeight?: string;
@@ -59,6 +60,17 @@ export const LineSummary = ({
       dispatch(deleteLine(id));
     }
   };
+
+  const handleDownload = useCallback(() => {
+    if (url && document) {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'line.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }, [url, document]);
 
   const canDelete = !lineHasTokens;
   return (
@@ -127,6 +139,9 @@ export const LineSummary = ({
           direction="row"
           alignItems="center"
         >
+          <IconButton color="secondary" size="small" onClick={handleDownload}>
+            <DownloadIcon sx={{ fontSize: '1.2rem' }} />
+          </IconButton>
           {(accessMode.includes('edit') || accessMode.includes('admin')) && (
             <IconButton
               onClick={() => handleSelection(line.Id, line.FacsimileRegion)}

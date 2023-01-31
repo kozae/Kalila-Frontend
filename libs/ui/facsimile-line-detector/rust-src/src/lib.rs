@@ -30,8 +30,7 @@ impl LineDetector {
         console_error_panic_hook::set_once();
         let cropped = self.crop_region(&region[0..=7], region[8] as f32);
         let binarized = binarize(&cropped, thresh);
-        let lines = detect_lines(&binarized, density);
-        lines.into_boxed_slice()
+        detect_lines(binarized, density).into_boxed_slice()
     }
 
     fn get_padded_image(&self) -> RgbImage {

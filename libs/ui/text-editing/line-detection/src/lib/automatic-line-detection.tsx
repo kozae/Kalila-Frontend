@@ -23,10 +23,13 @@ import { detectLines } from './hooks';
 
 export const AutomaticLineDetection = () => {
   const [detector, setDetector] = useState<any>(null);
+
   const textElements = useAppSelector(selectAllTextElements);
   const url = useAppSelector(selectPageFacsimileUrl);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useLineDetector(url as string).then((detector) => {
       setDetector(detector);
     });

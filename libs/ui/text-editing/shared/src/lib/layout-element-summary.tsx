@@ -1,5 +1,5 @@
 import { FacsimileRegion, IImageElement, ITextElement } from '@frontend/domain';
-import React from 'react';
+import React, { useCallback } from 'react';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -10,6 +10,7 @@ import { hexToRgba } from '@frontend/util';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DownloadIcon from '@mui/icons-material/Download';
 import {
   cancelCreateImageElement,
   cancelCreateTextElement,
@@ -24,6 +25,15 @@ import {
   useAppSelector,
 } from '@frontend/shared-ui';
 import { useRegionUrl } from './region-url-hook';
+
+function saveBase64Image(base64Image: string, fileName: string) {
+  const link = document.createElement('a');
+  link.href = base64Image;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 
 export type ILayoutElementSummaryProps = (
   | IImageElement
@@ -59,6 +69,17 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
         }
       : undefined
   );
+
+  const handleDownload = useCallback(() => {
+    if (url && document) {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = title ? `${title}.png` : 'layout-element.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }, [url, document, title]);
 
   const handleHover = (
     region: { Region: FacsimileRegion; Id: string } | null
@@ -147,6 +168,13 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
                   <EditIcon sx={{ fontSize: '1.2rem' }} />
                 </IconButton>
               )}
+              <IconButton
+                color="secondary"
+                size="small"
+                onClick={handleDownload}
+              >
+                <DownloadIcon sx={{ fontSize: '1.2rem' }} />
+              </IconButton>
             </Stack>
           )}
         </Stack>

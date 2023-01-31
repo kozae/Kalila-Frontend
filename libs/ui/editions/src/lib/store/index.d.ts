@@ -96,24 +96,6 @@ export class EditionRowTitle {
 export class EditionStore {
   free(): void;
 /**
-* @param {number} unit_idx
-* @param {number} manuscript_idx
-* @returns {EditionCellData}
-*/
-  build_cell(unit_idx: number, manuscript_idx: number): EditionCellData;
-/**
-* @param {number} manuscript_idx
-* @param {Uint32Array} lacunae
-* @returns {EditionStore}
-*/
-  update_ms_lacunae(manuscript_idx: number, lacunae: Uint32Array): EditionStore;
-/**
-* @param {any} update
-* @param {number} manuscript_idx
-* @returns {EditionStore}
-*/
-  update_cells(update: any, manuscript_idx: number): EditionStore;
-/**
 * @param {number} index
 * @returns {EditionRowTitle}
 */
@@ -138,6 +120,24 @@ export class EditionStore {
 * @returns {EditionStore}
 */
   replace_rows(update: any): EditionStore;
+/**
+* @param {number} unit_idx
+* @param {number} manuscript_idx
+* @returns {EditionCellData}
+*/
+  build_cell(unit_idx: number, manuscript_idx: number): EditionCellData;
+/**
+* @param {number} manuscript_idx
+* @param {Uint32Array} lacunae
+* @returns {EditionStore}
+*/
+  update_ms_lacunae(manuscript_idx: number, lacunae: Uint32Array): EditionStore;
+/**
+* @param {any} update
+* @param {number} manuscript_idx
+* @returns {EditionStore}
+*/
+  update_cells(update: any, manuscript_idx: number): EditionStore;
 /**
 * @param {any} data
 * @returns {EditionStore}
