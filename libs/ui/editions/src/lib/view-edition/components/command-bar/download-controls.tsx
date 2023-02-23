@@ -21,6 +21,7 @@ export const DownloadControls = () => {
 
   const onDownloadUnitTable = useCallback(() => {
     const table = getUnitsTable(edition, rows);
+
     const csvFile = createCsvString(table);
     saveCsvFile(csvFile, `${edition.get_name()}.tsv`);
   }, [edition, rows]);
@@ -37,11 +38,22 @@ function getUnitsTable(edition: EditionStore, rows: EditionRowTitle[]) {
 
   const presenceMap = sigla.reduce(
     (acc: Record<string, number[]>, siglum, msIndex) => {
-      acc[siglum] = [...edition.get_ms_unit_presence_array(msIndex)];
+      const presence = [...edition.get_ms_unit_presence_array(msIndex)];
+      acc[siglum] = [];
+      let counter = 1;
+      for (const unit of presence) {
+        if (unit === -1) {
+          acc[siglum].push(-1);
+        } else {
+          acc[siglum].push(counter);
+          counter++;
+        }
+      }
       return acc;
     },
     {}
   );
+  console.log({ presenceMap });
   const regex = new RegExp(/^.*\)\s/gm);
   const units = range(edition.get_no_rows()).map((idx) =>
     rows[idx].get_display().replace(regex, '')
