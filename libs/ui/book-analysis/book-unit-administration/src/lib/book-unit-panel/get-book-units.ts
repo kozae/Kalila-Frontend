@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { IChapter } from '@frontend/domain';
 import useSWRImmutable from 'swr/immutable';
 
@@ -24,6 +25,6 @@ export function getBookUnits(chapter: IChapter | null, manuscriptId: string) {
           {},
         ]
       : null,
-    fetcher
+    (args) => fetcher(...args)
   );
 }
