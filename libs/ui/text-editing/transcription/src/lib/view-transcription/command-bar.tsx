@@ -19,9 +19,7 @@ import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import { useContext } from 'react';
 
-export interface ICommandBarProps {}
-
-export const CommandBar = ({}: ICommandBarProps) => {
+export const CommandBar = () => {
   const { annotation, setAnnotation } = useContext(ViewTranscriptionContext);
   const handleAnnotationChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -35,6 +33,7 @@ export const CommandBar = ({}: ICommandBarProps) => {
   const showEditor = () => {
     dispatch(setTextEditingToolMode('main-body'));
   };
+
   return (
     <Stack
       sx={{

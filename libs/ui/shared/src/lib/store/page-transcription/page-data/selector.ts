@@ -55,6 +55,12 @@ export const selectCurrentPageManuscriptId = createSelector(
   (state) => state.pageInfo.ManuscriptId
 );
 
+
+export const selectCurrentPageManuscriptSiglum= createSelector(
+  selectPageDataState,
+  (state) => state.pageInfo.ManuscriptSiglum
+);
+
 export const selectCurrentPageNumber = createSelector(
   selectPageDataState,
   (state) => state.pageInfo.Number

@@ -80,6 +80,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         siglum: query.siglum,
         pageData: {
           ...query.pageData,
+          ManuscriptSiglum: query.siglum,
           FacsimileImageUrl: `${process.env['NEXT_PUBLIC_IMAGE_URL']}${query.pageData.FacsimileImageUrl}`,
         },
         allPages: query.allPages,

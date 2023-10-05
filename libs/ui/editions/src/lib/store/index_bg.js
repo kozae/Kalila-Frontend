@@ -221,6 +221,10 @@ function passArray16ToWasm0(arg, malloc) {
     return ptr;
 }
 
+function getArrayI32FromWasm0(ptr, len) {
+    return getInt32Memory0().subarray(ptr / 4, ptr / 4 + len);
+}
+
 let cachedUint32Memory0 = new Uint32Array();
 
 function getUint32Memory0() {
@@ -230,15 +234,19 @@ function getUint32Memory0() {
     return cachedUint32Memory0;
 }
 
+function getArrayU32FromWasm0(ptr, len) {
+    return getUint32Memory0().subarray(ptr / 4, ptr / 4 + len);
+}
+
+function getArrayU8FromWasm0(ptr, len) {
+    return getUint8Memory0().subarray(ptr / 1, ptr / 1 + len);
+}
+
 function passArray32ToWasm0(arg, malloc) {
     const ptr = malloc(arg.length * 4);
     getUint32Memory0().set(arg, ptr / 4);
     WASM_VECTOR_LEN = arg.length;
     return ptr;
-}
-
-function getArrayU32FromWasm0(ptr, len) {
-    return getUint32Memory0().subarray(ptr / 4, ptr / 4 + len);
 }
 
 function getArrayJsValueFromWasm0(ptr, len) {
@@ -249,14 +257,6 @@ function getArrayJsValueFromWasm0(ptr, len) {
         result.push(takeObject(slice[i]));
     }
     return result;
-}
-
-function getArrayI32FromWasm0(ptr, len) {
-    return getInt32Memory0().subarray(ptr / 4, ptr / 4 + len);
-}
-
-function getArrayU8FromWasm0(ptr, len) {
-    return getUint8Memory0().subarray(ptr / 1, ptr / 1 + len);
 }
 
 function handleError(f, args) {
@@ -615,37 +615,6 @@ export class EditionStore {
     replace_rows(update) {
         const ptr = this.__destroy_into_raw();
         const ret = wasm.editionstore_replace_rows(ptr, addHeapObject(update));
-        return EditionStore.__wrap(ret);
-    }
-    /**
-    * @param {number} unit_idx
-    * @param {number} manuscript_idx
-    * @returns {EditionCellData}
-    */
-    build_cell(unit_idx, manuscript_idx) {
-        const ret = wasm.editionstore_build_cell(this.ptr, unit_idx, manuscript_idx);
-        return EditionCellData.__wrap(ret);
-    }
-    /**
-    * @param {number} manuscript_idx
-    * @param {Uint32Array} lacunae
-    * @returns {EditionStore}
-    */
-    update_ms_lacunae(manuscript_idx, lacunae) {
-        const ptr = this.__destroy_into_raw();
-        const ptr0 = passArray32ToWasm0(lacunae, wasm.__wbindgen_malloc);
-        const len0 = WASM_VECTOR_LEN;
-        const ret = wasm.editionstore_update_ms_lacunae(ptr, manuscript_idx, ptr0, len0);
-        return EditionStore.__wrap(ret);
-    }
-    /**
-    * @param {any} update
-    * @param {number} manuscript_idx
-    * @returns {EditionStore}
-    */
-    update_cells(update, manuscript_idx) {
-        const ptr = this.__destroy_into_raw();
-        const ret = wasm.editionstore_update_cells(ptr, addHeapObject(update), manuscript_idx);
         return EditionStore.__wrap(ret);
     }
     /**
@@ -1130,6 +1099,22 @@ export class EditionStore {
     /**
     * @returns {Uint32Array}
     */
+    get_symbols() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.editionstore_get_symbols(retptr, this.ptr);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            var v0 = getArrayU32FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_free(r0, r1 * 4);
+            return v0;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+    * @returns {Uint32Array}
+    */
     get_located_images() {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
@@ -1165,6 +1150,37 @@ export class EditionStore {
             wasm.__wbindgen_add_to_stack_pointer(16);
         }
     }
+    /**
+    * @param {number} unit_idx
+    * @param {number} manuscript_idx
+    * @returns {EditionCellData}
+    */
+    build_cell(unit_idx, manuscript_idx) {
+        const ret = wasm.editionstore_build_cell(this.ptr, unit_idx, manuscript_idx);
+        return EditionCellData.__wrap(ret);
+    }
+    /**
+    * @param {number} manuscript_idx
+    * @param {Uint32Array} lacunae
+    * @returns {EditionStore}
+    */
+    update_ms_lacunae(manuscript_idx, lacunae) {
+        const ptr = this.__destroy_into_raw();
+        const ptr0 = passArray32ToWasm0(lacunae, wasm.__wbindgen_malloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.editionstore_update_ms_lacunae(ptr, manuscript_idx, ptr0, len0);
+        return EditionStore.__wrap(ret);
+    }
+    /**
+    * @param {any} update
+    * @param {number} manuscript_idx
+    * @returns {EditionStore}
+    */
+    update_cells(update, manuscript_idx) {
+        const ptr = this.__destroy_into_raw();
+        const ret = wasm.editionstore_update_cells(ptr, addHeapObject(update), manuscript_idx);
+        return EditionStore.__wrap(ret);
+    }
 }
 
 export function __wbindgen_json_serialize(arg0, arg1) {
@@ -1191,11 +1207,6 @@ export function __wbindgen_object_drop_ref(arg0) {
 
 export function __wbindgen_error_new(arg0, arg1) {
     const ret = new Error(getStringFromWasm0(arg0, arg1));
-    return addHeapObject(ret);
-};
-
-export function __wbindgen_string_new(arg0, arg1) {
-    const ret = getStringFromWasm0(arg0, arg1);
     return addHeapObject(ret);
 };
 
@@ -1246,6 +1257,11 @@ export function __wbindgen_number_get(arg0, arg1) {
     const ret = typeof(obj) === 'number' ? obj : undefined;
     getFloat64Memory0()[arg0 / 8 + 1] = isLikeNone(ret) ? 0 : ret;
     getInt32Memory0()[arg0 / 4 + 0] = !isLikeNone(ret);
+};
+
+export function __wbindgen_string_new(arg0, arg1) {
+    const ret = getStringFromWasm0(arg0, arg1);
+    return addHeapObject(ret);
 };
 
 export function __wbindgen_jsval_loose_eq(arg0, arg1) {

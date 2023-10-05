@@ -19,6 +19,7 @@ import {
   onRegionHoveredInToolSpace,
   removeImageElement,
   removeTextElement,
+  selectCurrentPageManuscriptSiglum,
   selectTextEditingAccessMode,
   selectTextElementHasLines,
   useAppDispatch,
@@ -59,13 +60,16 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const accessMode = useAppSelector(selectTextEditingAccessMode);
+  const siglum = useAppSelector(selectCurrentPageManuscriptSiglum);
   const url = useRegionUrl(
     el.Id,
     el.FacsimileRegion
       ? {
           Id: el.Id,
           Region: el.FacsimileRegion,
-          HighlightColor: el.HighlightColor,
+          // HighlightColor: el.HighlightColor,
+          // HighlightColor: '#6b9e1f',
+          HighlightColor: '#003366',
         }
       : undefined
   );
@@ -74,12 +78,13 @@ export const LayoutElementSummary: React.FC<ILayoutElementSummaryProps> = ({
     if (url && document) {
       const link = document.createElement('a');
       link.href = url;
-      link.download = title ? `${title}.png` : 'layout-element.png';
+      link.download =
+        title && siglum ? `${siglum}_${title}.png` : 'layout-element.png';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
-  }, [url, document, title]);
+  }, [url, document, title, siglum]);
 
   const handleHover = (
     region: { Region: FacsimileRegion; Id: string } | null

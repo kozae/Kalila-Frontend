@@ -1,9 +1,14 @@
 import Stack from '@mui/material/Stack';
 import {
+  ApiClient,
   addLine,
   kalilaTheme,
   onElementSelected,
+  selectAllLines,
   selectAllTextElements,
+  selectCurrentPageId,
+  selectCurrentPageManuscriptId,
+  selectCurrentPageNumber,
   selectNumberOfLinesInElements,
   selectPageHasTranscription,
   selectTextEditingToolMode,
@@ -18,16 +23,21 @@ import DeleteSweepTwoToneIcon from '@mui/icons-material/DeleteSweepTwoTone';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import React from 'react';
-import { orderBy } from 'lodash';
+import React, { useCallback } from 'react';
+import { flattenDeep, orderBy } from 'lodash';
 import Divider from '@mui/material/Divider';
 import { useSingleLineGenerationHandler } from './hooks';
 import * as uuid from 'uuid';
-import { ITextElement } from '@frontend/domain';
+import { ITextElement, IToken } from '@frontend/domain';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 export const LineToolCommandBar = () => {
   const toolMode = useAppSelector(selectTextEditingToolMode);
+  const pageNumber = useAppSelector(selectCurrentPageNumber);
+  const manuscriptId = useAppSelector(selectCurrentPageManuscriptId);
+  const pageId = useAppSelector(selectCurrentPageId);
   const pageHasTranscription = useAppSelector(selectPageHasTranscription);
   const textElements = orderBy(useAppSelector(selectAllTextElements), 'Order');
 
@@ -75,6 +85,32 @@ export const LineToolCommandBar = () => {
     handleAddLineMenuClose();
     dispatch(onElementSelected({ Id: id, Region: line.FacsimileRegion }));
   };
+
+  const lines = useAppSelector(selectAllLines).map(
+    ({ ElementId, Id, LineOrder }) => ({ ElementId, Id, LineOrder })
+  );
+
+  const postImportedTokens = useCallback(
+    async (jsonData: any) => {
+      const morphology = await getMorphology(jsonData);
+      await postTokens(jsonData, morphology, { manuscriptId, pageId });
+    },
+    [manuscriptId, pageId]
+  );
+
+  const router = useRouter();
+
+  const importTranscription = useCallback(
+    async (data: any) => {
+      const response = await axios.post(
+        `/api/import-transcription/fol.${pageNumber}`,
+        data
+      );
+      await postImportedTokens(response.data);
+      router.reload();
+    },
+    [pageNumber]
+  );
 
   const canDeleteAll = !pageHasTranscription;
   return (
@@ -147,6 +183,14 @@ export const LineToolCommandBar = () => {
           >
             Reorder lines
           </Button>
+          <Button
+            onClick={() => importTranscription(lines)}
+            size="small"
+            variant="text"
+            color="secondary"
+          >
+            Import
+          </Button>
         </>
       )}
       {toolMode === 'reorder' && (
@@ -164,3 +208,60 @@ export const LineToolCommandBar = () => {
     </Stack>
   );
 };
+
+async function getMorphology(tokens: any): Promise<Record<string, string[]>> {
+  const rawTokens = tokens.map(({ Tokens }: any) =>
+    Tokens.map(({ RawToken }: any) => RawToken)
+  );
+  const distinctTokens = new Array(...new Set(flattenDeep(rawTokens)));
+  const sentence = distinctTokens.join(' ');
+  const { data } = await axios.post<Record<string, string[]>>(
+    `${process.env['NEXT_PUBLIC_API_URL']}Morphology`,
+    {
+      Sentence: sentence,
+    }
+  );
+  return data;
+}
+
+async function postTokens(
+  upladed: any,
+  morphology: Record<string, string[]>,
+  params: { manuscriptId: string; pageId: string }
+) {
+  const data: {
+    ElementId: string;
+    LineId: string;
+    Tokens: Array<IToken>;
+  }[] = [];
+
+  upladed.forEach((item: any) => {
+    data.push({
+      ...item,
+      Tokens: item.Tokens.map((t: any) => ({
+        ...t,
+        Morphology: morphology[t.RawToken] ?? [],
+      })),
+    });
+  });
+
+  await postTokensHTTP(data, params);
+}
+
+async function postTokensHTTP(
+  data: {
+    ElementId: string;
+    LineId: string;
+    Tokens: Array<IToken>;
+  }[],
+  { manuscriptId, pageId }: { manuscriptId: string; pageId: string }
+) {
+  await ApiClient().post(
+    `${process.env['NEXT_PUBLIC_API_URL']}PageTranscription/Tokens`,
+    data,
+    {
+      params: { Id: pageId, ManuscriptId: manuscriptId },
+      headers: {},
+    }
+  );
+}

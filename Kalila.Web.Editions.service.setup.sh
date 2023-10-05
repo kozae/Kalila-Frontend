@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "stopping service"
+node --version
 systemctl stop Kalila.Web.Editions
 echo "copying code"
 cd /root/Kalila/next/frontend && python3 Kalila.Web.Editions.service.setup.py

@@ -1,4 +1,4 @@
-export * from './lib//image-size';
+export * from './lib/image-size';
 export * from './lib/schema';
 export * from './lib/page-transcription';
 export * from './lib/pages';
@@ -8,3 +8,4 @@ export * from './lib/edition';
 export * from './lib/editions';
 export * from './lib/upload-handler';
 export * from './lib/post-to-lera';
+export * from './lib/book-units';

@@ -1,5 +1,5 @@
 import Stack from '@mui/material/Stack';
-import { useContext, useState, MouseEvent } from 'react';
+import { useContext, useState, MouseEvent, ChangeEvent } from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { kalilaTheme } from '@frontend/shared-ui';
@@ -15,6 +15,12 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { alpha, styled } from '@mui/material';
 import FilterFramesTwoToneIcon from '@mui/icons-material/FilterFramesTwoTone';
+
+import { updateStructureRequest } from './helpers/update-request';
+
+function sleep(ms: any) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -74,6 +80,43 @@ export const CommandBar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const onSave = async (value: any) => {
+    try {
+      await updateStructureRequest(value.Id as string, {
+        Title: value.Title,
+        NewOrder: [],
+        OldOrder: [],
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = async (e) => {
+      try {
+        const parsedData = JSON.parse(e!.target!.result as string);
+
+        for (const value of parsedData) {
+          await onSave(value);
+          console.log(value.Id);
+          console.log(value.Title);
+          await sleep(500);
+        }
+      } catch (error) {
+        console.error('Error parsing JSON', error);
+      }
+    };
+
+    reader.readAsText(file);
+  };
   return (
     <Stack
       width="100%"
@@ -94,6 +137,20 @@ export const CommandBar = () => {
       >
         Change chapter
       </Button>
+      <Stack>
+        <input
+          accept="application/json"
+          style={{ display: 'none' }}
+          id="raised-button-file"
+          type="file"
+          onChange={handleFileChange}
+        />
+        <label htmlFor="raised-button-file">
+          <Button component="span" size="small">
+            Upload JSON
+          </Button>
+        </label>
+      </Stack>
       <Typography
         m="5px"
         bgcolor="primary.dark"

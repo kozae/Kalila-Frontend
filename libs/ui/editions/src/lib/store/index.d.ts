@@ -121,24 +121,6 @@ export class EditionStore {
 */
   replace_rows(update: any): EditionStore;
 /**
-* @param {number} unit_idx
-* @param {number} manuscript_idx
-* @returns {EditionCellData}
-*/
-  build_cell(unit_idx: number, manuscript_idx: number): EditionCellData;
-/**
-* @param {number} manuscript_idx
-* @param {Uint32Array} lacunae
-* @returns {EditionStore}
-*/
-  update_ms_lacunae(manuscript_idx: number, lacunae: Uint32Array): EditionStore;
-/**
-* @param {any} update
-* @param {number} manuscript_idx
-* @returns {EditionStore}
-*/
-  update_cells(update: any, manuscript_idx: number): EditionStore;
-/**
 * @param {any} data
 * @returns {EditionStore}
 */
@@ -301,10 +283,32 @@ export class EditionStore {
 /**
 * @returns {Uint32Array}
 */
+  get_symbols(): Uint32Array;
+/**
+* @returns {Uint32Array}
+*/
   get_located_images(): Uint32Array;
 /**
 * @param {string} filter
 * @returns {Uint32Array | undefined}
 */
   find_words(filter: string): Uint32Array | undefined;
+/**
+* @param {number} unit_idx
+* @param {number} manuscript_idx
+* @returns {EditionCellData}
+*/
+  build_cell(unit_idx: number, manuscript_idx: number): EditionCellData;
+/**
+* @param {number} manuscript_idx
+* @param {Uint32Array} lacunae
+* @returns {EditionStore}
+*/
+  update_ms_lacunae(manuscript_idx: number, lacunae: Uint32Array): EditionStore;
+/**
+* @param {any} update
+* @param {number} manuscript_idx
+* @returns {EditionStore}
+*/
+  update_cells(update: any, manuscript_idx: number): EditionStore;
 }

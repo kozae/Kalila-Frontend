@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import useSWRImmutable from 'swr/immutable';
 import { ActivitySchema, IDataEntrySchema, IPagination } from '@frontend/util';
 import { SWRResponse } from 'swr';
@@ -23,7 +24,7 @@ export function fetchSchema(
 > {
   return useSWRImmutable(
     [`EntrySchema/${transformSchemaName(activityName)}`, schemaFilter],
-    fetcher
+    (args) => fetcher(...args)
   );
 }
 
@@ -34,10 +35,10 @@ export function getSchemaWithClientSideFilter(
   const schema = useSWRImmutable(
     [
       `EntrySchema/${transformSchemaName(activityName)}`,
-      undefined, // no accessToken needed
-      {},
+      schemaFilter,
+      'application/json',
     ],
-    fetcher
+    (args) => fetcher(...args)
   );
   return useMemo(() => {
     if (schema.data?.content) {

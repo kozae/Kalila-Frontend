@@ -78,7 +78,7 @@ export const DescriptionTool = () => {
                   Edit Description (Soon!)
                 </Button>
                 <Button
-                  // disabled
+                  disabled
                   variant="contained"
                   disableElevation
                   color="secondary"

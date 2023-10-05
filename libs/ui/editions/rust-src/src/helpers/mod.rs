@@ -76,6 +76,7 @@ pub fn build_indexes(
     Vec<Vec<Vec<String>>>,
     Box<[usize]>,
     Box<[usize]>,
+    Box<[usize]>,
 ) {
     let re =
         Regex::new("[\u{064b}\u{064c}\u{064d}\u{064e}\u{064f}\u{0650}\u{0651}\u{0652}]+").unwrap();
@@ -83,6 +84,7 @@ pub fn build_indexes(
     let mut inverted_index: HashMap<String, Vec<Box<[usize]>>> = HashMap::new();
     let mut index: Vec<Vec<Vec<String>>> = vec![];
     let mut page_breaks: Vec<Box<[usize]>> = vec![];
+    let mut symbols: Vec<Box<[usize]>> = vec![];
     let mut located_images: Vec<Box<[usize]>> = vec![];
     for (manuscript_index, manuscript) in data.iter().enumerate() {
         let mut manuscript_map: Vec<Vec<String>> = vec![];
@@ -122,6 +124,18 @@ pub fn build_indexes(
                             token_index,
                         ]))
                     }
+
+                    // symbols
+                    if let Some(state) = unit_data.states.get(token_index) {
+                        if state != "sound" {
+                            symbols.push(Box::new([
+                                unit_index,
+                                manuscript_index,
+                                token_index,
+                                token_index,
+                            ]))
+                        }
+                    }
                 }
             }
             manuscript_map.push(unit_map);
@@ -132,6 +146,11 @@ pub fn build_indexes(
         inverted_index,
         index,
         page_breaks
+            .iter()
+            .flat_map(|v| v.clone().into_vec())
+            .collect_vec()
+            .into_boxed_slice(),
+        symbols
             .iter()
             .flat_map(|v| v.clone().into_vec())
             .collect_vec()

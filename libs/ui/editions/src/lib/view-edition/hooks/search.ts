@@ -5,17 +5,12 @@ import {
   useEffect,
   useMemo,
 } from 'react';
-import {
-  intRegEx,
-  latinLettersRegex,
-  numberSearchRegex,
-  stringHasValue,
-} from '@frontend/util';
+import { intRegEx, latinLettersRegex, stringHasValue } from '@frontend/util';
 import { chunk, debounce, orderBy } from 'lodash';
 import { EditionStore } from '../../store';
-import { SearchResults } from '@frontend/ui/editions';
 import { useData } from '../contexts';
 import axios from 'axios';
+import { SearchResults } from '../models';
 
 export function useSearch(
   filter: string,
@@ -31,6 +26,8 @@ export function useSearch(
           results = async () => doPageBreakSearch(edition);
         } else if (filter === ':i' || filter === ':I') {
           results = async () => doLocatedImageSearch(edition);
+        } else if (filter === ':s' || filter === ':S') {
+          results = async () => doSymbolSearch(edition);
         } else if (intRegEx.test(filter)) {
           results = async () => doUnitNumberSearch(filter, edition);
         } else if (latinLettersRegex.test(filter) && filter.length > 2) {
@@ -62,6 +59,18 @@ export function useSearch(
 
 function doPageBreakSearch(edition: EditionStore) {
   let results = chunk(edition.get_page_breaks(), 4) as [
+    number,
+    number,
+    number,
+    number
+  ][];
+  results = orderBy(results, (r) => r[2]);
+  results = orderBy(results, (r) => r[1], ['desc']);
+  return orderBy(results, (r) => r[0]);
+}
+
+function doSymbolSearch(edition: EditionStore) {
+  let results = chunk(edition.get_symbols(), 4) as [
     number,
     number,
     number,
@@ -115,7 +124,7 @@ function doTokenSearch(filter: string, edition: EditionStore) {
       .filter((w) => w.length > 2);
   }
   const results: SearchResults = [] as [number, number, number, number][];
-  for (let phrase of phrases) {
+  for (const phrase of phrases) {
     let phraseResults = chunk(edition.find_words(phrase), 4) as [
       number,
       number,

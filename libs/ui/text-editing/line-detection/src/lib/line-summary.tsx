@@ -9,6 +9,8 @@ import {
   deleteLine,
   onElementSelected,
   onRegionHoveredInToolSpace,
+  selectCurrentPageManuscriptSiglum,
+  selectCurrentPageNumber,
   selectLineHasTokens,
   selectTextEditingAccessMode,
   useAppDispatch,
@@ -38,7 +40,8 @@ export const LineSummary = ({
       ? {
           Id: line.Id,
           Region: line.FacsimileRegion,
-          HighlightColor: line.HighlightColor,
+          // HighlightColor: el.HighlightColor,
+          HighlightColor: '#6b9e1f',
         }
       : undefined
   );
@@ -48,6 +51,8 @@ export const LineSummary = ({
   const handleSelection = (id: string | null, region: FacsimileRegion) =>
     dispatch(onElementSelected({ Id: id, Region: region }));
   const accessMode = useAppSelector(selectTextEditingAccessMode);
+  const siglum = useAppSelector(selectCurrentPageManuscriptSiglum);
+  const pageNumber = useAppSelector(selectCurrentPageNumber);
 
   const lineHasTokens = useAppSelector((state) =>
     selectLineHasTokens(state, line.Id)
@@ -65,12 +70,12 @@ export const LineSummary = ({
     if (url && document) {
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'line.png';
+      link.download = `${siglum}_p${pageNumber}_l${line.LineOrder}.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
-  }, [url, document]);
+  }, [url, document, siglum, pageNumber]);
 
   const canDelete = !lineHasTokens;
   return (

@@ -43,4 +43,5 @@ pub struct EditionStore {
     pub(crate) word_list: Vec<String>,
     pub(crate) page_breaks: Box<[usize]>,
     pub(crate) located_images: Box<[usize]>,
+    pub(crate) symbols: Box<[usize]>,
 }

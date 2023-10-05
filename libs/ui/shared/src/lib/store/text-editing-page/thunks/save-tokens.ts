@@ -1,14 +1,15 @@
+/* eslint-disable no-empty-pattern */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IToken, IUnitSummary } from '@frontend/domain';
-import { RootState, ThunkApi } from '@frontend/shared-ui';
+import { ApiClient, RootState, ThunkApi } from '@frontend/shared-ui';
 import { saveThunk } from './save';
-import { postTokens } from './requests/tokens';
 import {
   identifyChanges,
   nearestOpenUnitClosed,
   openedUnitFromPreviousPage,
   postPageUnits,
   processUnits,
+  postTokens,
 } from './requests';
 import { flattenDeep } from 'lodash';
 import axios from 'axios';

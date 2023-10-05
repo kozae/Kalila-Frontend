@@ -35,7 +35,7 @@ impl EditionStore {
                         }
                     }
                 }
-                let (token_inverted_index, token_index, page_breaks, located_images) =
+                let (token_inverted_index, token_index, page_breaks, symbols, located_images) =
                     build_indexes(&edition.manuscripts);
                 let word_list = token_inverted_index
                     .keys()
@@ -50,6 +50,7 @@ impl EditionStore {
                     token_index,
                     word_list,
                     page_breaks,
+                    symbols,
                     located_images,
                 };
                 Ok(store)
@@ -333,6 +334,10 @@ impl EditionStore {
 
     pub fn get_page_breaks(&self) -> Box<[usize]> {
         self.page_breaks.clone()
+    }
+
+    pub fn get_symbols(&self) -> Box<[usize]> {
+        self.symbols.clone()
     }
 
     pub fn get_located_images(&self) -> Box<[usize]> {

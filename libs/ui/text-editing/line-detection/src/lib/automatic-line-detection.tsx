@@ -13,18 +13,26 @@ import { useFormik } from 'formik';
 import {
   ILayoutElementSummaryProps,
   LayoutElementSummary,
+  useManyRegionsUrl,
 } from '@frontend/ui/text-editing/shared';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 import { ILine } from '@frontend/domain';
-import { detectLines } from './hooks';
+import { detectLines, transformKrakenLines } from './hooks';
+import axios from 'axios';
 
 export const AutomaticLineDetection = () => {
   const [detector, setDetector] = useState<any>(null);
 
   const textElements = useAppSelector(selectAllTextElements);
+  const regions = textElements.map((el) => ({
+    Id: el.Id,
+    Region: el.FacsimileRegion,
+    HighlightColor: '#003366',
+  }));
+  const dataUrls = useManyRegionsUrl(regions);
   const url = useAppSelector(selectPageFacsimileUrl);
   const dispatch = useAppDispatch();
 
@@ -43,7 +51,7 @@ export const AutomaticLineDetection = () => {
 
   const formik = useFormik({
     initialValues: textElements.reduce((acc: Record<string, number>, el) => {
-      acc[`${el.Id}_threshold`] = 125;
+      acc[`${el.Id}_threshold`] = 150;
       acc[`${el.Id}_density`] = 65;
       return acc;
     }, {}),
@@ -60,33 +68,64 @@ export const AutomaticLineDetection = () => {
     })
   );
 
-  const lineDetector = useCallback(
-    (values: any) => {
-      const mainLines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
-      const glossLines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
-      textElements.forEach((el) => {
-        const lines = detectLines(
-          el.Id,
-          el.FacsimileRegion,
-          detector,
-          values[`${el.Id}_threshold`],
-          values[`${el.Id}_density`]
-        );
-        if (el.Position.startsWith('main')) {
-          lines.forEach((line) =>
-            mainLines.push({ ...line, LineOrder: mainLines.length })
-          );
-        } else {
-          lines.forEach((line) =>
-            glossLines.push({ ...line, LineOrder: glossLines.length })
-          );
-        }
+  // const lineDetector = useCallback(
+  //   (values: any) => {
+  //     const mainLines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
+  //     const glossLines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
+  //     textElements.forEach((el) => {
+  //       const lines = detectLines(
+  //         el.Id,
+  //         el.FacsimileRegion,
+  //         detector,
+  //         values[`${el.Id}_threshold`],
+  //         values[`${el.Id}_density`]
+  //       );
+  //       if (el.Position.startsWith('main')) {
+  //         lines.forEach((line) =>
+  //           mainLines.push({ ...line, LineOrder: mainLines.length })
+  //         );
+  //       } else {
+  //         lines.forEach((line) =>
+  //           glossLines.push({ ...line, LineOrder: glossLines.length })
+  //         );
+  //       }
+  //     });
+  //     dispatch(loadGeneratedLines([...mainLines, ...glossLines]));
+  //     dispatch(setTextEditingToolMode('default'));
+  //   },
+  //   [detector]
+  // );
+
+  const lineDetector = async (values: any) => {
+    const mainLines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
+    const glossLines: (Omit<ILine, 'Tokens'> & { ElementId: string })[] = [];
+    for (const [id, data] of Object.entries(dataUrls)) {
+      const response = await axios.post('https://kraken.kozae.de/detect', {
+        image: data,
+        threshold: parseInt(values[`${id}_threshold`]),
+        segmentation: { text_direction: 'horizontal-lr', pad: 15 },
       });
-      dispatch(loadGeneratedLines([...mainLines, ...glossLines]));
-      dispatch(setTextEditingToolMode('default'));
-    },
-    [detector]
-  );
+      const el = textElements.find((el) => el.Id === id)!;
+      const elementLines = transformKrakenLines(
+        id,
+        el.FacsimileRegion,
+        response.data.lines.boxes as number[][]
+      );
+
+      if (el.Position.startsWith('main')) {
+        elementLines.forEach((line) =>
+          mainLines.push({ ...line, LineOrder: mainLines.length })
+        );
+      } else {
+        elementLines.forEach((line) =>
+          glossLines.push({ ...line, LineOrder: glossLines.length })
+        );
+      }
+    }
+
+    dispatch(loadGeneratedLines([...mainLines, ...glossLines]));
+    dispatch(setTextEditingToolMode('default'));
+  };
 
   return (
     <Stack
